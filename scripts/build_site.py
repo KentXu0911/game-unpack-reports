@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render one current topic reader and compatibility entries using stdlib only."""
+"""Render the overview, current report pages and player-experience algorithm pages."""
 
 from html import escape
 import json
@@ -12,12 +12,46 @@ from topics import GROUPS, TOPICS  # noqa: E402
 
 SOURCES = json.loads((ROOT / "content/sources.json").read_text())
 TABLES = json.loads((ROOT / "content/reference-tables.json").read_text())
-LEGACY = json.loads((ROOT / "content/legacy-anchors.json").read_text())
 STATUS = {
     "available": "具体内容可恢复",
     "framework": "需当期外部输入",
     "unavailable": "样本内无原件",
 }
+
+
+# Link content items to the relevant full report chapter. New algorithm notes
+# have their own pages; the earlier reports remain the detailed reading surface.
+DESTINATIONS = {
+    'level-config': 'reports/07-rea-recovery.html#level-config',
+    'refill': 'reports/03-mechanism-difficulty.html#seed-lifecycle',
+    'fall-rules': 'reports/07-rea-recovery.html#fall-rules',
+    'obstacle-rules': 'reports/04-gate-resolution.html#gate-matrix',
+    'win-settlement': 'reports/03-mechanism-difficulty.html#adaptation',
+    'level-pressure': 'reports/03-mechanism-difficulty.html#curve',
+    'production-tools': 'reports/07-rea-recovery.html#production-tools',
+    'area-tasks': 'reports/07-rea-recovery.html#area-tasks',
+    'activity-defaults': 'reports/02-activity-config.html#s2',
+    'schedule-boundaries': 'reports/01-activity-schedule.html#activity-7',
+    'team-flow': 'reports/07-rea-recovery.html#team-flow',
+    'distributed-assets': 'reports/07-rea-recovery.html#distributed-assets',
+    'social-backend': 'reports/07-rea-recovery.html#server-boundary',
+    'source-projects': 'reports/07-rea-recovery.html#source-projects',
+    'failure-product': 'reports/06-commercialization-audit.html#failure-product',
+    'user-tiers': 'reports/06-commercialization-audit.html#user-tiers',
+    'shop-rules': 'reports/06-commercialization-audit.html#product-activities',
+    'passes': 'reports/02-activity-config.html#s2',
+    'account-offers': 'reports/06-commercialization-audit.html#dynamic',
+    'payment': 'reports/06-commercialization-audit.html#payment',
+    'live-price-ads': 'reports/06-commercialization-audit.html#boundaries',
+    'experiments': 'reports/06-commercialization-audit.html#experiments',
+    'commerce-backend': 'reports/06-commercialization-audit.html#gaps',
+}
+ALGORITHM_KEYS = ['propeller-targeting', 'smart-rocket', 'special-creation', 'hit-spread-timing']
+DESTINATIONS.update({key: f'topics/{key}.html' for key in ALGORITHM_KEYS})
+
+
+def topic_url(key):
+    return DESTINATIONS[key]
 
 
 def e(value):
@@ -50,7 +84,7 @@ def profiles():
     ]
     output = ['<details class="references"><summary>展开11类活动与商品的具体档案</summary>']
     for name, text, asset in items:
-        picture = (f'<img loading="lazy" src="assets/commercialization/{asset}" alt="{e(name)}包内分发素材示例">'
+        picture = (f'<img loading="lazy" src="../assets/commercialization/{asset}" alt="{e(name)}包内分发素材示例">'
                    '<p class="caption">包内分发素材示例；用于识别商品主题，不是当期实机页面或实价证明。</p>') if asset else ''
         output.append(f'<details class="activity-profile"><summary>{e(name)}</summary><p>{e(text)}</p>{picture}</details>')
     return ''.join(output) + '</details>'
@@ -60,9 +94,9 @@ def extras(topic):
     key = topic['key']
     if key == 'propeller-targeting':
         return ('<div class="flow" aria-label="已定位的飞机目标处理链">'
-                '<span>查找候选目标</span><b>→</b><span>目标合法性／状态</span><b>→</b>'
-                '<span>引导道具执行</span><b>→</b><span>到达后引爆／组合策略</span></div>'
-                '<p class="flow-note">流程用于解释已定位的职责关系；完整评分、重选与飞行路径算法尚未闭合。</p>')
+                '<span>寻找候选目标</span><b>→</b><span>检查目标能否命中</span><b>→</b>'
+                '<span>飞往所选目标</span><b>→</b><span>引爆或接上组合攻击</span></div>'
+                '<p class="flow-note">完整的目标分值、重选规则与飞行曲线仍待确认。</p>')
     if key == 'smart-rocket':
         return ('<div class="rocket-demo"><h5>方向规则演示</h5>'
                 '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
@@ -90,7 +124,7 @@ REFERENCE_TITLES = {
 
 
 def detail(topic):
-    paragraphs = ''.join(f'<h5>{e(title)}</h5><p>{e(text)}</p>' for title, text in topic['sections'])
+    paragraphs = ''.join(f'<h3>{e(title)}</h3><p>{e(text)}</p>' for title, text in topic['sections'])
     refs = []
     for name in topic['refs']:
         if name not in TABLES:
@@ -104,13 +138,55 @@ def detail(topic):
         evidence.append(f'<div class="evidence-entry"><h6>{e(source["title"])}</h6>'
                         f'<p>{e(source["basis"])}。{e(source["detail"])}</p>'
                         f'<p>取证位置：<code>{e(source["locator"])}</code></p></div>')
-    return (f'<tr class="detail-row"><td colspan="4"><section id="{e(topic["key"])}" '
-            f'class="topic-detail" tabindex="-1" aria-labelledby="title-{e(topic["key"])}">'
-            f'<div class="detail-heading"><h4 id="title-{e(topic["key"])}">{e(topic["title"])}</h4>'
-            '<button class="close-detail" type="button">收起解读</button></div>'
+    return (f'<section id="{e(topic["key"])}" class="topic-detail" '
+            f'aria-labelledby="title-{e(topic["key"])}">'
+            f'<h2 id="title-{e(topic["key"])}">{e(topic["title"])}</h2>'
             f'<div class="topic-body">{paragraphs}{extras(topic)}{"".join(refs)}'
-            f'<details class="evidence"><summary>查看证据依据与验证范围</summary>{"".join(evidence)}</details>'
-            '</div></section></td></tr>')
+            f'<details class="evidence"><summary>证据依据与验证范围</summary>{"".join(evidence)}</details>'
+            '</div></section>')
+
+
+def render_topic_page(topic):
+    group = next(group for group in GROUPS if group[0] == topic['group'])
+    related = ''.join(f'<a href="../{e(topic_url(key))}">{e(next(t["title"] for t in TOPICS if t["key"] == key))}</a>'
+                      for key in ALGORITHM_KEYS if key != topic['key'])
+    comparisons = ''.join(f'<p>{e(text)}</p>' for text in topic['comparison'])
+    return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(topic['title'])} · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / PLAYER EXPERIENCE</p>
+<p><a class="header-back" href="../index.html#row-{e(topic['key'])}">← 返回内容总览</a> / {e(group[1])}</p>
+<h1>{e(topic['title'])}</h1><p>{e(topic['summary'])}</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability {e(topic['status'])}">{e(STATUS[topic['status']])}</span>
+<span>研究样本：build 38174</span></div>{detail(topic)}
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2>{comparisons}</section>
+<nav class="related-topics" aria-label="相关算法解读"><h2>相关内容</h2>{related}
+<a href="../reports/03-mechanism-difficulty.html#refill">补棋、Seed与难度完整报告</a>
+<a href="../reports/04-gate-resolution.html#gate-matrix">障碍门控矩阵完整报告</a></nav>
+<footer><a href="../index.html#row-{e(topic['key'])}">← 返回内容总览</a> · 结论限于已取得的build 38174样本。</footer></main>
+</body></html>'''
+
+
+def render_recovery_report():
+    keys = ['level-config', 'fall-rules', 'obstacle-rules', 'area-tasks', 'distributed-assets',
+            'team-flow', 'production-tools', 'social-backend', 'source-projects']
+    topics = [next(t for t in TOPICS if t['key'] == key) for key in keys]
+    nav = ''.join(f'<a href="#{e(t["key"])}">{e(t["title"])}</a>' for t in topics)
+    return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>客户端内容与复刻边界 · Royal Match</title><link rel="stylesheet" href="../assets/site.css">
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / CLIENT CONTENT</p>
+<p><a class="header-back" href="../index.html#replication-overview">← 返回内容总览</a></p>
+<h1>客户端内容与复刻边界</h1><p>玩法规则、区域任务、分发资源、团队流程与原制作工程的可得性。研究样本：build 38174。</p></div></header>
+<main class="article-wrap"><nav class="overview-nav" aria-label="报告章节">{nav}</nav>
+{''.join(('<span id="server-boundary"></span>' if t['key'] == 'social-backend' else '') + detail(t) for t in topics)}
+<section class="related-topics"><h2>道具与玩家体验算法</h2>
+{''.join(f'<a href="../{topic_url(key)}">{e(next(t["title"] for t in TOPICS if t["key"] == key))}</a>' for key in ALGORITHM_KEYS)}</section>
+<section id="evidence"><h2>研究方法与范围</h2><p>资源和原生代码说明指定样本的结构与行为。可恢复不等于已经完成规则移植、完整回放或原版对照。</p>
+<a href="05-unpack-methodology.html">解包工具链与可复用方法论完整报告</a></section>
+<footer><a href="../index.html#replication-overview">← 返回内容总览</a></footer></main></body></html>'''
+
 
 
 def render_site():
@@ -122,11 +198,10 @@ def render_site():
             key = e(topic['key'])
             comparison = ''.join(f'<p>{e(p)}</p>' for p in topic['comparison'])
             rows.append(f'<tr class="overview-item"><th scope="row" id="row-{key}">'
-                        f'<a class="topic-link" href="#{key}" aria-controls="{key}" aria-expanded="true">'
-                        f'{e(topic["title"])}<span class="action">展开解读 +</span></a></th>'
+                        f'<a class="topic-link" href="{e(topic_url(topic["key"]))}">'
+                        f'{e(topic["title"])}<span class="action">查看详情 →</span></a></th>'
                         f'<td>{e(topic["summary"])}</td><td><span class="availability {e(topic["status"])}">'
                         f'{e(STATUS[topic["status"]])}</span></td><td class="comparison">{comparison}</td></tr>')
-            rows.append(detail(topic))
         groups.append(f'<section class="group" id="{group_id}"><div class="group-head">'
                       f'<h3>{title}</h3><p>{desc}</p></div><div class="overview-scroll">'
                       f'<table class="overview-table" aria-label="{title}具体内容与研究方式比较">'
@@ -138,10 +213,10 @@ def render_site():
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Royal Match客户端规则与玩家体验解读：棋盘、飞机目标、智能火箭、补棋、活动与商业化，逐项说明证据和研究效率变化。">
 <title>Royal Match · 玩法、体验算法与研发可得性</title>
-<link rel="stylesheet" href="assets/site.css"><script defer src="assets/topic-reader.js"></script>
+<link rel="stylesheet" href="assets/site.css"><script defer src="assets/overview-links.js"></script>
 </head><body>
 <header><div class="header-inner"><div><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
-<h1>从具体内容，读懂游戏规则</h1><p>三消玩法、外围 Meta 与商业化的统一结论。点击内容名称，在原位展开机制、体验影响、数据与证据。</p></div>
+<h1>从具体内容，读懂游戏规则</h1><p>三消玩法、外围 Meta 与商业化的统一结论。点击内容名称，进入独立报告页，阅读机制、体验影响、数据与证据。</p></div>
 <div class="edition"><b>{len(TOPICS)} 个内容项</b><span>研究样本：build 38174</span><span>内容核对：2026-10-14</span></div></div></header>
 <main class="wrap" id="replication-overview"><div class="intro"><div><h2>能拿到什么，能解释到哪里</h2>
 <p>“具体内容可恢复”表示客户端中存在数据或实现，实际取得与验证进度写在每项中；不表示完整复刻已完成。</p>
@@ -150,83 +225,49 @@ def render_site():
 <p><span class="availability framework">需当期外部输入</span> 缺实际账号／平台响应</p>
 <p><span class="availability unavailable">样本内无原件</span> 原工具、后台或制作工程</p></div></div>
 <nav class="overview-nav" aria-label="内容分类"><a href="#replication-core">三消玩法</a><a href="#replication-meta">外围 Meta</a>
-<a href="#replication-money">商业化</a><a href="#propeller-targeting">重点：飞机目标选择</a><a href="#smart-rocket">智能火箭方向</a></nav>
+<a href="#replication-money">商业化</a><a href="topics/propeller-targeting.html">重点：飞机目标选择</a><a href="topics/smart-rocket.html">智能火箭方向</a></nav>
 <details class="research-method" id="research-method"><summary>阅读口径：代码能解释原因，实机与测评验证实际发生了什么</summary>
 <p>包内配置证明样本包含的内容；原生代码证明指定分支的计算与状态转移；受控实机记录证明该测试条件下的结果。
 本页将设计解读和教学示意明确标出，未验证的分支保持未验证。实机视频和测评继续用于核对画面、节奏、输入感受与自然玩家体验。</p>
 <p>研究效率变化为方法比较：批量读取减少逐项抄录，调用链定位减少盲试；没有成对的人时、样本量、验证标准记录，不能量化净提速。
 自动导出量、函数入口数、局部反编译成功数也不等于语义恢复或可执行复刻完成。</p>
-<p>样本与来源绑定到文件和函数位置；元数据名称不代替行为，资源主题不代替排期，有限响应不代替后台决策公式。</p></details>
-<p class="mobile-hint">表格可左右滑动。点击第一列展开内容；详解与数据就放在对应条目里。</p>
+<p>样本与来源绑定到文件和函数位置；元数据名称不代替行为，资源主题不代替排期，有限响应不代替后台决策公式。</p>
+<p><a href="reports/05-unpack-methodology.html">阅读完整解包方法论：工具链、SOP、常见陷阱与证据分级 →</a></p></details>
+<p class="mobile-hint">表格可左右滑动。点击第一列进入对应报告章节或算法详情页。</p>
 {"".join(groups)}
 <footer>研究范围为已取得的 Royal Match build 38174 样本；不代表线上最新游戏版本或当前账号配置。
-<a href="https://github.com/KentXu0911/game-unpack-reports">站点仓库</a> · 各条目可展开查看证据范围。</footer>
+<a href="https://github.com/KentXu0911/game-unpack-reports">站点仓库</a> · 各条目链接到对应报告与证据范围。</footer>
 </main></body></html>'''
-
-
-def legacy_target(filename, anchor):
-    number = filename[:2]
-    if number == '01':
-        return 'schedule-boundaries'
-    if number == '02':
-        return {'s1': 'activity-defaults', 's2': 'activity-defaults', 's3': 'passes',
-                's4': 'shop-rules', 's5': 'research-method', 's6': 'activity-defaults'}.get(anchor, 'activity-defaults')
-    if number == '03':
-        if anchor in ('curve', 'colleague'):
-            return 'level-pressure'
-        if anchor == 'adaptation':
-            return 'win-settlement'
-        if anchor == 'appendix':
-            return 'research-method'
-        return 'refill'
-    if number == '04':
-        return 'gate-matrix'
-    if number == '05':
-        return 'research-method'
-    if number == '06':
-        return {'user-tiers': 'user-tiers', 'segments': 'user-tiers', 'adaptive': 'user-tiers',
-                'adaptive-product': 'user-tiers', 'failure-product': 'failure-product',
-                'rescue': 'failure-product', 'experiments': 'experiments', 'payment': 'payment',
-                'boundaries': 'commerce-backend', 'gaps': 'commerce-backend', 'evidence': 'research-method',
-                'source-reconciliation': 'research-method'}.get(anchor, 'shop-rules')
-    return {'server-boundary': 'social-backend', 'evidence': 'research-method'}.get(anchor, anchor or 'level-config')
-
-
-def render_legacy(filename, anchors):
-    mapping = {anchor: legacy_target(filename, anchor) for anchor in anchors}
-    mapping[''] = legacy_target(filename, '')
-    safe_json = json.dumps(mapping, ensure_ascii=True).replace('<', '\\u003c')
-    script = f'''(() => {{
-  const targets = {safe_json};
-  let id = '';
-  try {{ id = decodeURIComponent(location.hash.slice(1)); }} catch {{ id = ''; }}
-  const target = Object.prototype.hasOwnProperty.call(targets, id) ? targets[id] : targets[''];
-  location.replace('../index.html#' + target);
-}})();\n'''
-    script_name = f'legacy-{filename[:2]}.js'
-    (ROOT / 'site/assets' / script_name).write_text(script)
-    fallback = ''.join(f'<a id="{e(anchor)}" href="../index.html#{e(target)}">查看对应内容</a>'
-                       for anchor, target in mapping.items() if anchor)
-    return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>打开对应具体内容</title>
-<link rel="canonical" href="https://kentxu0911.github.io/game-unpack-reports/index.html#{e(mapping[''])}">
-<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/{script_name}"></script>
-</head><body><main class="legacy"><h1>内容已按主题整合</h1><p><a href="../index.html#{e(mapping[''])}">打开对应具体内容与当前结论</a></p>
-<noscript><p>浏览器未启用JavaScript，可通过下面链接打开对应内容。</p></noscript>{fallback}</main></body></html>'''
 
 
 def main():
     keys = [topic['key'] for topic in TOPICS]
     assert len(keys) == len(set(keys)), 'Duplicate topic key'
+    assert set(keys) == set(DESTINATIONS), 'Every content item needs a detail page'
     used_refs = [ref for topic in TOPICS for ref in topic['refs'] if ref in TABLES]
     assert len(used_refs) == len(set(used_refs)), 'Reference table ids must be unique'
     for topic in TOPICS:
         assert topic['status'] in STATUS and len(topic['comparison']) == 2
         assert all(key in SOURCES for key in topic['sources'])
     (ROOT / 'site/index.html').write_text(render_site())
-    for filename, anchors in LEGACY.items():
-        (ROOT / 'site/reports' / filename).write_text(render_legacy(filename, anchors))
-    print(f'Built {len(TOPICS)} embedded topics, {len(LEGACY)} compatible report entries')
+    for source in (ROOT / 'content/report-pages').glob('*.html'):
+        (ROOT / 'site/reports' / source.name).write_text(source.read_text())
+    (ROOT / 'site/reports/07-rea-recovery.html').write_text(render_recovery_report())
+    (ROOT / 'site/topics').mkdir(exist_ok=True)
+    for key in ALGORITHM_KEYS:
+        topic = next(t for t in TOPICS if t['key'] == key)
+        (ROOT / f'site/topics/{key}.html').write_text(render_topic_page(topic))
+    redirects = dict(DESTINATIONS, **{'gate-matrix': 'reports/04-gate-resolution.html#gate-matrix'})
+    for topic in TOPICS:
+        for name in topic['refs']:
+            if name in TABLES and name != 'gate-matrix':
+                redirects[f'data-{name}'] = topic_url(topic['key'])
+    (ROOT / 'site/assets/overview-links.js').write_text(
+        '(() => {\n  const targets = ' + json.dumps(redirects, ensure_ascii=True) + ';\n'
+        "  function navigate() {\n    let key;\n    try { key = decodeURIComponent(location.hash.slice(1)); } catch { return; }\n"
+        "    if (Object.prototype.hasOwnProperty.call(targets, key)) location.replace(targets[key]);\n"
+        "  }\n  window.addEventListener('hashchange', navigate);\n  navigate();\n})();\n")
+    print(f'Built {len(TOPICS)} overview links, 7 full reports and {len(ALGORITHM_KEYS)} algorithm pages')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta charset="utf-8"/>
+<title>Royal Match 门控矩阵 —— 30 目标 × 19 门控</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f7f9;color:#1c1e21;font:14px/1.5 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1560px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:24px;margin:0 0 6px}
+h2{font-size:17px;margin:34px 0 10px;padding-left:10px;border-left:4px solid #3b7dd8}
+.sub{color:#5a6270;font-size:13px;margin-bottom:18px}
+.kpi{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.kpi div{background:#fff;border:1px solid #e3e6ea;border-radius:10px;padding:12px 18px;min-width:118px}
+.kpi b{display:block;font-size:22px;line-height:1.15}
+.kpi span{font-size:12px;color:#5a6270}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 8px;font-size:12.5px}
+.lg{display:flex;align-items:center;gap:6px}
+.lg i{width:14px;height:14px;border-radius:3px;border:1px solid #ccd2d9;display:inline-block}
+.scroll{overflow:auto;background:#fff;border:1px solid #e3e6ea;border-radius:10px}
+table.m{border-collapse:separate;border-spacing:2px;font-size:11.5px}
+table.m th{background:#eef1f5;font-weight:600;padding:6px 5px;text-align:center;position:sticky;top:0;z-index:2}
+table.m th.rh{position:sticky;left:0;z-index:3;text-align:left;padding-left:10px;min-width:172px;white-space:nowrap;background:#eef1f5}
+.vt{display:block;font-size:10.5px;color:#41474f}
+.vn{display:block;font-size:11px;color:#0d2b52;margin-top:1px}
+td{padding:5px 4px;vertical-align:middle;text-align:center;border-radius:5px;cursor:help}
+td .s{display:block;font-weight:600;font-size:10.5px}
+td .o{display:block;font-size:9.5px;color:#4a5158;opacity:.85}
+td.x{background:#f2f2f2}
+table.b{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e3e6ea;border-radius:10px;font-size:12.5px}
+table.b th,table.b td{padding:8px 10px;border-bottom:1px solid #eef1f5;text-align:left}
+table.b th{background:#eef1f5;font-size:12px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+.ev{color:#3f4750;font-size:11px}
+.note{background:#fff8e6;border:1px solid #f0dfae;border-radius:10px;padding:14px 16px;margin:16px 0;font-size:13px}
+.note b{color:#8a5b00}
+ol{margin:8px 0 0 18px}
+</style><link href="../assets/report-navigation.css" rel="stylesheet"/><meta content="width=device-width,initial-scale=1" name="viewport"/></head><body><div class="report-return"><a href="../index.html#replication-overview">← 返回内容总览</a><span>研究样本：Royal Match build 38174</span></div><div class="wrap">
+<h1>Royal Match 门控矩阵 —— 30 目标 × 19 门控</h1>
+<div class="sub">从 <code>tools/il2cppdumper/output-arm64/dump.cs</code>（12,191 类）重建继承图 → 沿 bases 找最近定义者 → 对 RVA 逐条反汇编定形态。数据源：<code>indices/gate_resolution_full.csv</code>（570 行）。悬停任意单元格看反汇编证据。</div>
+<div class="note"><b>结论先行：</b>570/570 个单元格的<b>定义者与指令形态已归类</b>。旧矩阵里 88 条 <code>unresolved/inherited virtual gate</code> 是未回溯继承链，本页已补上；112 条 <code>NOT_DECLARED</code> 是该分支不声明方法的结构性事实。<br/>
+<b>证据边界：</b>归类完成 ≠ 行为全解。其中 157 格仍是 <code>dynamic</code>，33 格是虚调用委派，还需继续追踪或运行时验证。本页是导航矩阵，不是 570 条精确玩法规则的完整证明。</div>
+<div class="note"><b>2026-09-20 审计修订：</b>当前工作区未找到本 HTML 的对应页面生成器，因此本次直接修补交付页。数据仍来自 <code>indices/gate_resolution_full.csv</code>；“页面生成器映射缺失”仍是一项交付可复现性缺口。</div>
+<div class="kpi">
+<div><b>570</b><span>已归类格数</span></div>
+<div><b>30</b><span>目标类</span></div>
+<div><b>19</b><span>门控方法</span></div>
+<div><b>0</b><span>未归类格数</span></div>
+<div><b>157</b><span>仍需一次运行时确认(dynamic)</span></div>
+</div>
+<h2>形态图例</h2>
+<div class="legend"><span class="lg"><i style="background:#c7e9c0"></i>常真 <b>113</b></span><span class="lg"><i style="background:#fbc9c9"></i>常假 <b>103</b></span><span class="lg"><i style="background:#fde3b3"></i>读字段 <b>49</b></span><span class="lg"><i style="background:#b3d9f2"></i>层数&lt;1 <b>3</b></span><span class="lg"><i style="background:#d9c9f5"></i>虚委派 <b>33</b></span><span class="lg"><i style="background:#e6e6e6"></i>动态 <b>157</b></span><span class="lg"><i style="background:#f2f2f2"></i>未声明 <b>112</b></span></div>
+<h2 id="gate-matrix">门控矩阵</h2>
+<div class="scroll"><table class="m"><thead><tr><th class="rh">目标类 \ 门控</th><th><span class="vt">CanSelectByBooster</span><span class="vn">道具可选</span></th><th><span class="vt">CanExplodeWithMatch</span><span class="vn">三连可炸</span></th><th><span class="vt">CanExplodeWithNearMatch</span><span class="vn">近邻匹配可炸</span></th><th><span class="vt">CanTakeDamage</span><span class="vn">可受伤</span></th><th><span class="vt">DoesBlockPropeller</span><span class="vn">挡螺旋桨</span></th><th><span class="vt">CanBeDamagedByPropeller</span><span class="vn">螺旋桨可伤</span></th><th><span class="vt">IsValidTarget</span><span class="vn">螺旋桨选目标</span></th><th><span class="vt">ShouldTryRedirectForPropeller</span><span class="vn">需转向</span></th><th><span class="vt">TryRedirectForPropeller</span><span class="vn">执行转向</span></th><th><span class="vt">WillPropellerComboHitItem</span><span class="vn">螺旋桨连击</span></th><th><span class="vt">WillExplodeOnPropellerComboHit</span><span class="vn">连击爆炸</span></th><th><span class="vt">ShouldBlockPropellerForLog</span><span class="vn">原木挡螺旋桨</span></th><th><span class="vt">GetLayerCount</span><span class="vn">取层数</span></th><th><span class="vt">RemainingExplodeCount</span><span class="vn">剩余层数</span></th><th><span class="vt">FinalExplodeCount</span><span class="vn">最终爆炸数</span></th><th><span class="vt">DoesBlockFall</span><span class="vn">挡下落</span></th><th><span class="vt">DoesBlockTouch</span><span class="vn">挡触摸</span></th><th><span class="vt">CanAddIncomingExploder</span><span class="vn">可加在途爆炸</span></th><th><span class="vt">CanReceiveMultipleHits</span><span class="vn">可多次命中</span></th></tr></thead><tbody><tr><th class="rh">BlindsItemModel</th><td style="background:#c7e9c0" title="BlindsItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#b3d9f2" title="BlindsItemModel · DoesBlockPropeller
+owner=BlindsItemModel @ 0x3680938
+shape=layer_lt_1
+RemainingExplodeCount()&lt;1  -&gt;  str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr "><span class="s">层数&lt;1</span><span class="o">BlindsItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="BlindsItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="BlindsItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="BlindsItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="BlindsItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="BlindsItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="BlindsItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="BlindsItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="BlindsItemModel · RemainingExplodeCount
+owner=BlindsItemModel @ 0x36805E4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x20, x0 | bl 0x3680030 &lt;__start_il2cpp+0x25e77a8&gt; | c"><span class="s">动态</span><span class="o">BlindsItemModel</span></td><td style="background:#e6e6e6" title="BlindsItemModel · FinalExplodeCount
+owner=BlindsItemModel @ 0x3680648
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5588000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">BlindsItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · DoesBlockFall
+owner=BlindsItemModel @ 0x3680930
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">BlindsItemModel</span></td><td style="background:#c7e9c0" title="BlindsItemModel · DoesBlockTouch
+owner=BlindsItemModel @ 0x3680920
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">BlindsItemModel</span></td><td style="background:#e6e6e6" title="BlindsItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="BlindsItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">BoxItemModel</th><td style="background:#c7e9c0" title="BoxItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="BoxItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="BoxItemModel · CanExplodeWithNearMatch
+owner=BoxItemModel @ 0x2A65D20
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">BoxItemModel</span></td><td style="background:#d9c9f5" title="BoxItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="BoxItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="BoxItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="BoxItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="BoxItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="BoxItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="BoxItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="BoxItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="BoxItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="BoxItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="BoxItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="BoxItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="BoxItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="BoxItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="BoxItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="BoxItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">CeramicItemModel</th><td style="background:#c7e9c0" title="CeramicItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CeramicItemModel · CanExplodeWithMatch
+owner=CeramicItemModel @ 0x187C104
+shape=dynamic
+ldr w8, [x0, #0x50] | cmp w8, #0x2 | cset w0, lt | ret | stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x1"><span class="s">动态</span><span class="o">CeramicItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · CanExplodeWithNearMatch
+owner=CeramicItemModel @ 0x187C0FC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">CeramicItemModel</span></td><td style="background:#c7e9c0" title="CeramicItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="CeramicItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CeramicItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CeramicItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="CeramicItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CeramicItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="CeramicItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CeramicItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CeramicItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CeramicItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CeramicItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CeramicItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">ChainItemModel</th><td style="background:#c7e9c0" title="ChainItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ChainItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="ChainItemModel · CanExplodeWithNearMatch
+owner=ChainItemModel @ 0x187B490
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ChainItemModel</span></td><td style="background:#c7e9c0" title="ChainItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="ChainItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ChainItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="ChainItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="ChainItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="ChainItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="ChainItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="ChainItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="ChainItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="ChainItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="ChainItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="ChainItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ChainItemModel · DoesBlockFall
+owner=ChainItemModel @ 0x187B488
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ChainItemModel</span></td><td style="background:#c7e9c0" title="ChainItemModel · DoesBlockTouch
+owner=ChainItemModel @ 0x187B480
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ChainItemModel</span></td><td style="background:#e6e6e6" title="ChainItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="ChainItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">ColorBoxItemModel</th><td style="background:#c7e9c0" title="ColorBoxItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="ColorBoxItemModel · CanExplodeWithNearMatch
+owner=ColorBoxItemModel @ 0x2D2528C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ColorBoxItemModel</span></td><td style="background:#d9c9f5" title="ColorBoxItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="ColorBoxItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="ColorBoxItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="ColorBoxItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="ColorBoxItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="ColorBoxItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="ColorBoxItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="ColorBoxItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="ColorBoxItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="ColorBoxItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="ColorBoxItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="ColorBoxItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">CookieJarItemModel</th><td style="background:#c7e9c0" title="CookieJarItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="CookieJarItemModel · CanExplodeWithNearMatch
+owner=CookieJarItemModel @ 0x30A56EC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CookieJarItemModel</span></td><td style="background:#d9c9f5" title="CookieJarItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fde3b3" title="CookieJarItemModel · IsValidTarget
+owner=CookieJarItemModel @ 0x30A53A0
+shape=field_return
+ldrb w0, [x0, #0xc8]; ret"><span class="s">读字段</span><span class="o">CookieJarItemModel</span></td><td style="background:#fbc9c9" title="CookieJarItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CookieJarItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CookieJarItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CookieJarItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#c7e9c0" title="CookieJarItemModel · ShouldBlockPropellerForLog
+owner=CookieJarItemModel @ 0x30A6974
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CookieJarItemModel</span></td><td style="background:#fde3b3" title="CookieJarItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CookieJarItemModel · RemainingExplodeCount
+owner=CookieJarItemModel @ 0x30A5888
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | ldrb w8, [x0, #0xc8] | cbz w8, 0x30a58d0 &lt;__start_il2cpp+0x200d048&gt; | mov x19, x"><span class="s">动态</span><span class="o">CookieJarItemModel</span></td><td style="background:#e6e6e6" title="CookieJarItemModel · FinalExplodeCount
+owner=CookieJarItemModel @ 0x30A5764
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x60] | cbz x0, 0x30a57a4 &lt;__start_il2cpp+0x200cf1c&gt;"><span class="s">动态</span><span class="o">CookieJarItemModel</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CookieJarItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="CookieJarItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">CryptexItemModel</th><td style="background:#fbc9c9" title="CryptexItemModel · CanSelectByBooster
+owner=CryptexItemModel @ 0x18764EC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">CryptexItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CryptexItemModel · CanTakeDamage
+owner=CryptexItemModel @ 0x1876754
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">CryptexItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · DoesBlockPropeller
+owner=CryptexItemModel @ 0x18762F0
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CryptexItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CryptexItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CryptexItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CryptexItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="CryptexItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CryptexItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="CryptexItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CryptexItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CryptexItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CryptexItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · DoesBlockFall
+owner=CryptexItemModel @ 0x18762E8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CryptexItemModel</span></td><td style="background:#c7e9c0" title="CryptexItemModel · DoesBlockTouch
+owner=CryptexItemModel @ 0x18762D8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CryptexItemModel</span></td><td style="background:#e6e6e6" title="CryptexItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CryptexItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">CupboardItemModel</th><td style="background:#c7e9c0" title="CupboardItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="CupboardItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="CupboardItemModel · CanExplodeWithNearMatch
+owner=CupboardItemModel @ 0x2DD0538
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CupboardItemModel</span></td><td style="background:#d9c9f5" title="CupboardItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="CupboardItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CupboardItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="CupboardItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="CupboardItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CupboardItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CupboardItemModel · WillPropellerComboHitItem
+owner=MultipleCellItemModel @ 0x339240C
+shape=dynamic
+sub sp, sp, #0x140 | str x28, [sp, #0x100] | stp x23, x22, [sp, #0x110] | stp x21, x20, [sp, #0x120] | stp x19"><span class="s">动态</span><span class="o">MultipleCellItemModel</span></td><td style="background:#d9c9f5" title="CupboardItemModel · WillExplodeOnPropellerComboHit
+owner=CupboardItemModel @ 0x2DD15D0
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x4, [x8, #0x718] | ldr x3, [x8, #0x720] | br x4 | mov w0, #0x14 | ret | str x22, [sp, #-0x3"><span class="s">虚委派</span><span class="o">CupboardItemModel</span></td><td style="background:#d9c9f5" title="CupboardItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="CupboardItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CupboardItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="CupboardItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="CupboardItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CupboardItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CupboardItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="CupboardItemModel · CanReceiveMultipleHits
+owner=CupboardItemModel @ 0x2DD0550
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CupboardItemModel</span></td></tr><tr><th class="rh">CurtainItemModel</th><td style="background:#fbc9c9" title="CurtainItemModel · CanSelectByBooster
+owner=CurtainItemModel @ 0x15CBF70
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">CurtainItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CurtainItemModel · CanTakeDamage
+owner=CurtainItemModel @ 0x15CC164
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">CurtainItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · DoesBlockPropeller
+owner=CurtainItemModel @ 0x15CBD74
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CurtainItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CurtainItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CurtainItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CurtainItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="CurtainItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="CurtainItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="CurtainItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="CurtainItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CurtainItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="CurtainItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · DoesBlockFall
+owner=CurtainItemModel @ 0x15CBD6C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CurtainItemModel</span></td><td style="background:#c7e9c0" title="CurtainItemModel · DoesBlockTouch
+owner=CurtainItemModel @ 0x15CBD5C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">CurtainItemModel</span></td><td style="background:#e6e6e6" title="CurtainItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="CurtainItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">DynamiteBoxItemModel</th><td style="background:#c7e9c0" title="DynamiteBoxItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="DynamiteBoxItemModel · CanExplodeWithNearMatch
+owner=DynamiteBoxItemModel @ 0x2AAA228
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">DynamiteBoxItemModel</span></td><td style="background:#d9c9f5" title="DynamiteBoxItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · IsValidTarget
+owner=DynamiteBoxItemModel @ 0x2AA96C0
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x358] | ldr x1, [x8, #0x360] | blr x"><span class="s">动态</span><span class="o">DynamiteBoxItemModel</span></td><td style="background:#fbc9c9" title="DynamiteBoxItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · WillPropellerComboHitItem
+owner=MultipleCellItemModel @ 0x339240C
+shape=dynamic
+sub sp, sp, #0x140 | str x28, [sp, #0x100] | stp x23, x22, [sp, #0x110] | stp x21, x20, [sp, #0x120] | stp x19"><span class="s">动态</span><span class="o">MultipleCellItemModel</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="DynamiteBoxItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="DynamiteBoxItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="DynamiteBoxItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="DynamiteBoxItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="DynamiteBoxItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">ForceFieldItemModel</th><td style="background:#fde3b3" title="ForceFieldItemModel · CanSelectByBooster
+owner=ForceFieldItemModel @ 0x18EA894
+shape=field_return
+ldrb w0, [x0, #0x88]; ret"><span class="s">读字段</span><span class="o">ForceFieldItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#b3d9f2" title="ForceFieldItemModel · DoesBlockPropeller
+owner=ForceFieldItemModel @ 0x18EA3B0
+shape=layer_lt_1
+RemainingExplodeCount()&lt;1  -&gt;  str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr "><span class="s">层数&lt;1</span><span class="o">ForceFieldItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · IsValidTarget
+owner=ForceFieldItemModel @ 0x18EA094
+shape=dynamic
+ldrb w8, [x0, #0x88] | cbz w8, 0x18ea0a4 &lt;__start_il2cpp+0x85181c&gt; | mov x2, xzr | b 0x30ed63c &lt;__start_il2cpp"><span class="s">动态</span><span class="o">ForceFieldItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · ShouldTryRedirectForPropeller
+owner=ForceFieldItemModel @ 0x18EA34C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ForceFieldItemModel</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · TryRedirectForPropeller
+owner=ForceFieldItemModel @ 0x18EA354
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x19, x0 | bl 0x18e96d4 &lt;__start_il2cpp+0x850e4c&gt; | cbz x0, 0x18ea374 &lt;__star"><span class="s">动态</span><span class="o">ForceFieldItemModel</span></td><td style="background:#f2f2f2" title="ForceFieldItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="ForceFieldItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="ForceFieldItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · RemainingExplodeCount
+owner=ForceFieldItemModel @ 0x18EA194
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x19, x0 | bl 0x18e96d4 &lt;__start_il2cpp+0x850e4c&gt; | cbz x0, 0x18ea1ec &lt;__star"><span class="s">动态</span><span class="o">ForceFieldItemModel</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · DoesBlockFall
+owner=ForceFieldItemModel @ 0x18EA3DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ForceFieldItemModel</span></td><td style="background:#c7e9c0" title="ForceFieldItemModel · DoesBlockTouch
+owner=ForceFieldItemModel @ 0x18EA3E4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ForceFieldItemModel</span></td><td style="background:#e6e6e6" title="ForceFieldItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="ForceFieldItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">GrassItemModel</th><td style="background:#c7e9c0" title="GrassItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="GrassItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="GrassItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="GrassItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="GrassItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="GrassItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="GrassItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="GrassItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="GrassItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="GrassItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="GrassItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="GrassItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="GrassItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="GrassItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="GrassItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="GrassItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="GrassItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="GrassItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="GrassItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">HoneyItemModel</th><td style="background:#c7e9c0" title="HoneyItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="HoneyItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="HoneyItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="HoneyItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="HoneyItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="HoneyItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="HoneyItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="HoneyItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="HoneyItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="HoneyItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="HoneyItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="HoneyItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="HoneyItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="HoneyItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="HoneyItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="HoneyItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="HoneyItemModel · DoesBlockTouch
+owner=HoneyItemModel @ 0x1BA3A1C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">HoneyItemModel</span></td><td style="background:#e6e6e6" title="HoneyItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="HoneyItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">IceBorderItemModel</th><td style="background:#d9c9f5" title="IceBorderItemModel · CanSelectByBooster
+owner=IceBorderItemModel @ 0x13664C4
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x578] | ldr x1, [x8, #0x580] | br x2 | ldrb w0, [x0, #0x90] | ret | stp x21, x20"><span class="s">虚委派</span><span class="o">IceBorderItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · CanExplodeWithNearMatch
+owner=IceBorderItemModel @ 0x1365858
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">IceBorderItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="IceBorderItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="IceBorderItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · ShouldTryRedirectForPropeller
+owner=IceBorderItemModel @ 0x1365820
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">IceBorderItemModel</span></td><td style="background:#e6e6e6" title="IceBorderItemModel · TryRedirectForPropeller
+owner=IceBorderItemModel @ 0x1365828
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x19, x0 | bl 0x1365580 &lt;__start_il2cpp+0x2cccf8&gt; | cbz x0, 0x1365844 &lt;__star"><span class="s">动态</span><span class="o">IceBorderItemModel</span></td><td style="background:#f2f2f2" title="IceBorderItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="IceBorderItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="IceBorderItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="IceBorderItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="IceBorderItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="IceBorderItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · DoesBlockFall
+owner=IceBorderItemModel @ 0x1365850
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">IceBorderItemModel</span></td><td style="background:#c7e9c0" title="IceBorderItemModel · DoesBlockTouch
+owner=IceBorderItemModel @ 0x1365848
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">IceBorderItemModel</span></td><td style="background:#e6e6e6" title="IceBorderItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="IceBorderItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">JellyItemModel</th><td style="background:#c7e9c0" title="JellyItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="JellyItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="JellyItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="JellyItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="JellyItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="JellyItemModel · CanBeDamagedByPropeller
+owner=JellyItemModel @ 0x135E738
+shape=dynamic
+tbz w1, #0x0, 0x135e74c &lt;__start_il2cpp+0x2c5ec4&gt; | ldrb w8, [x0, #0x94] | cmp w8, #0x0 | cset w0, eq | ret | "><span class="s">动态</span><span class="o">JellyItemModel</span></td><td style="background:#d9c9f5" title="JellyItemModel · IsValidTarget
+owner=JellyItemModel @ 0x135C684
+shape=tail_call_virtual
+cmp w1, #0x5 | b.hi 0x135c6b0 &lt;__start_il2cpp+0x2c3e28&gt; | adrp x9, 0x3e81000 | mov w8, w1 | add x9, x9, #0xbc0"><span class="s">虚委派</span><span class="o">JellyItemModel</span></td><td style="background:#fbc9c9" title="JellyItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="JellyItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="JellyItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="JellyItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="JellyItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="JellyItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="JellyItemModel · RemainingExplodeCount
+owner=JellyItemModel @ 0x135E424
+shape=dynamic
+str x30, [sp, #-0x10]! | ldrb w8, [x0, #0x94] | cbz w8, 0x135e438 &lt;__start_il2cpp+0x2c5bb0&gt; | mov w0, wzr | b "><span class="s">动态</span><span class="o">JellyItemModel</span></td><td style="background:#e6e6e6" title="JellyItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="JellyItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="JellyItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="JellyItemModel · CanAddIncomingExploder
+owner=JellyItemModel @ 0x135E754
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x20, x0 | mov w0, w1 | mov x1, xzr | mov w19, w2 | bl"><span class="s">动态</span><span class="o">JellyItemModel</span></td><td style="background:#fbc9c9" title="JellyItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">LightballItemModel</th><td style="background:#c7e9c0" title="LightballItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="LightballItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="LightballItemModel · CanExplodeWithNearMatch
+owner=LightballItemModel @ 0x33A49F8
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">LightballItemModel</span></td><td style="background:#d9c9f5" title="LightballItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="LightballItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="LightballItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="LightballItemModel · IsValidTarget
+owner=SpecialItemModel @ 0x368B628
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x358] | ldr x1, [x8, #0x360] | blr x"><span class="s">动态</span><span class="o">SpecialItemModel</span></td><td style="background:#fbc9c9" title="LightballItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="LightballItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="LightballItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="LightballItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="LightballItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="LightballItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="LightballItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="LightballItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="LightballItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="LightballItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="LightballItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="LightballItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">MatchItemModel</th><td style="background:#c7e9c0" title="MatchItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MatchItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="MatchItemModel · CanExplodeWithNearMatch
+owner=MatchItemModel @ 0x1E92ED4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">MatchItemModel</span></td><td style="background:#d9c9f5" title="MatchItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MatchItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MatchItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="MatchItemModel · IsValidTarget
+owner=MatchItemModel @ 0x1E94ED0
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x2, xzr | mov x19, x0 | bl 0x338c494 &lt;__start_il2cpp+0x22f3c0c&gt; | tbz w0, #0"><span class="s">动态</span><span class="o">MatchItemModel</span></td><td style="background:#fbc9c9" title="MatchItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MatchItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MatchItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MatchItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="MatchItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="MatchItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MatchItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MatchItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MatchItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MatchItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MatchItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="MatchItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">MetalPlateItemModel</th><td style="background:#c7e9c0" title="MetalPlateItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="MetalPlateItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MetalPlateItemModel · CanExplodeWithNearMatch
+owner=MetalPlateItemModel @ 0x155DF90
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">MetalPlateItemModel</span></td><td style="background:#c7e9c0" title="MetalPlateItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#b3d9f2" title="MetalPlateItemModel · DoesBlockPropeller
+owner=MetalPlateItemModel @ 0x155DFB0
+shape=layer_lt_1
+RemainingExplodeCount()&lt;1  -&gt;  str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr "><span class="s">层数&lt;1</span><span class="o">MetalPlateItemModel</span></td><td style="background:#c7e9c0" title="MetalPlateItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="MetalPlateItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MetalPlateItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MetalPlateItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="MetalPlateItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MetalPlateItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="MetalPlateItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="MetalPlateItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MetalPlateItemModel · RemainingExplodeCount
+owner=MetalPlateItemModel @ 0x155DC60
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x20, x0 | bl 0x155d9f4 &lt;__start_il2cpp+0x4c516c&gt; | cb"><span class="s">动态</span><span class="o">MetalPlateItemModel</span></td><td style="background:#e6e6e6" title="MetalPlateItemModel · FinalExplodeCount
+owner=MetalPlateItemModel @ 0x155DCBC
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5578000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">MetalPlateItemModel</span></td><td style="background:#c7e9c0" title="MetalPlateItemModel · DoesBlockFall
+owner=MetalPlateItemModel @ 0x155DFA8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">MetalPlateItemModel</span></td><td style="background:#c7e9c0" title="MetalPlateItemModel · DoesBlockTouch
+owner=MetalPlateItemModel @ 0x155DF98
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">MetalPlateItemModel</span></td><td style="background:#e6e6e6" title="MetalPlateItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MetalPlateItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">MushroomItemModel</th><td style="background:#c7e9c0" title="MushroomItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MushroomItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="MushroomItemModel · CanExplodeWithNearMatch
+owner=MushroomItemModel @ 0x308E008
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">MushroomItemModel</span></td><td style="background:#d9c9f5" title="MushroomItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MushroomItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MushroomItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="MushroomItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="MushroomItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MushroomItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MushroomItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MushroomItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="MushroomItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="MushroomItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MushroomItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="MushroomItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="MushroomItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MushroomItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MushroomItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="MushroomItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">MushroomSoilItemModel</th><td style="background:#c7e9c0" title="MushroomSoilItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="MushroomSoilItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="MushroomSoilItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="MushroomSoilItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MushroomSoilItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="MushroomSoilItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="MushroomSoilItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MushroomSoilItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MushroomSoilItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="MushroomSoilItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="MushroomSoilItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="MushroomSoilItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="MushroomSoilItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MushroomSoilItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MushroomSoilItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MushroomSoilItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MushroomSoilItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="MushroomSoilItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="MushroomSoilItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">OwlStatueItemModel</th><td style="background:#c7e9c0" title="OwlStatueItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="OwlStatueItemModel · CanExplodeWithNearMatch
+owner=OwlStatueItemModel @ 0x3084BC8
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">OwlStatueItemModel</span></td><td style="background:#d9c9f5" title="OwlStatueItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="OwlStatueItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="OwlStatueItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="OwlStatueItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="OwlStatueItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="OwlStatueItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="OwlStatueItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="OwlStatueItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="OwlStatueItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="OwlStatueItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="OwlStatueItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="OwlStatueItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">PropellerItemModel</th><td style="background:#c7e9c0" title="PropellerItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="PropellerItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="PropellerItemModel · CanExplodeWithNearMatch
+owner=GuidedExploderItemModel @ 0x26A1BD4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">GuidedExploderItemModel</span></td><td style="background:#d9c9f5" title="PropellerItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="PropellerItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="PropellerItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="PropellerItemModel · IsValidTarget
+owner=GuidedExploderItemModel @ 0x26A46A4
+shape=dynamic
+sub sp, sp, #0xf0 | str x22, [sp, #0xc0] | stp x21, x20, [sp, #0xd0] | stp x19, x30, [sp, #0xe0] | adrp x20, 0"><span class="s">动态</span><span class="o">GuidedExploderItemModel</span></td><td style="background:#fbc9c9" title="PropellerItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="PropellerItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="PropellerItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="PropellerItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="PropellerItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="PropellerItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="PropellerItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="PropellerItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="PropellerItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="PropellerItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="PropellerItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="PropellerItemModel · CanReceiveMultipleHits
+owner=GuidedExploderItemModel @ 0x26A46A4
+shape=dynamic
+sub sp, sp, #0xf0 | str x22, [sp, #0xc0] | stp x21, x20, [sp, #0xd0] | stp x19, x30, [sp, #0xe0] | adrp x20, 0"><span class="s">动态</span><span class="o">GuidedExploderItemModel</span></td></tr><tr><th class="rh">PurpleGrassItemModel</th><td style="background:#c7e9c0" title="PurpleGrassItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="PurpleGrassItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="PurpleGrassItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="PurpleGrassItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="PurpleGrassItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="PurpleGrassItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="PurpleGrassItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="PurpleGrassItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="PurpleGrassItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="PurpleGrassItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="PurpleGrassItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="PurpleGrassItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="PurpleGrassItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="PurpleGrassItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="PurpleGrassItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="PurpleGrassItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="PurpleGrassItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="PurpleGrassItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="PurpleGrassItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">RocketItemModel</th><td style="background:#c7e9c0" title="RocketItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="RocketItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="RocketItemModel · CanExplodeWithNearMatch
+owner=RocketItemModel @ 0x3691BF8
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">RocketItemModel</span></td><td style="background:#d9c9f5" title="RocketItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="RocketItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="RocketItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="RocketItemModel · IsValidTarget
+owner=SpecialItemModel @ 0x368B628
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x358] | ldr x1, [x8, #0x360] | blr x"><span class="s">动态</span><span class="o">SpecialItemModel</span></td><td style="background:#fbc9c9" title="RocketItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="RocketItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="RocketItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="RocketItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="RocketItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="RocketItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="RocketItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="RocketItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="RocketItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="RocketItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="RocketItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="RocketItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">RoofItemModel</th><td style="background:#c7e9c0" title="RoofItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="RoofItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="RoofItemModel · CanExplodeWithNearMatch
+owner=RoofItemModel @ 0x1552510
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">RoofItemModel</span></td><td style="background:#c7e9c0" title="RoofItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="RoofItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="RoofItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="RoofItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="RoofItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="RoofItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="RoofItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="RoofItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="RoofItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="RoofItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="RoofItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="RoofItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="RoofItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="RoofItemModel · DoesBlockTouch
+owner=RoofItemModel @ 0x155289C
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">RoofItemModel</span></td><td style="background:#e6e6e6" title="RoofItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="RoofItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">TntItemModel</th><td style="background:#c7e9c0" title="TntItemModel · CanSelectByBooster
+owner=ItemModel @ 0x338D774
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="TntItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="TntItemModel · CanExplodeWithNearMatch
+owner=TntItemModel @ 0x368CFF0
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">TntItemModel</span></td><td style="background:#d9c9f5" title="TntItemModel · CanTakeDamage
+owner=ItemModel @ 0x338E5E8
+shape=tail_call_virtual
+ldr x8, [x0] | mov w1, wzr | ldr x3, [x8, #0x3d8] | ldr x2, [x8, #0x3e0] | br x3 | ldr x8, [x0] | str x1, [x0,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="TntItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="TntItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="TntItemModel · IsValidTarget
+owner=SpecialItemModel @ 0x368B628
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x358] | ldr x1, [x8, #0x360] | blr x"><span class="s">动态</span><span class="o">SpecialItemModel</span></td><td style="background:#fbc9c9" title="TntItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="TntItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="TntItemModel · WillPropellerComboHitItem
+owner=ItemModel @ 0x338E410
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x0, [x0, #0x38] | cbz x0, 0x338e448 &lt;__start_il2cpp+0"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="TntItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="TntItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="TntItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="TntItemModel · RemainingExplodeCount
+owner=ItemModel @ 0x338C910
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x78] | cbz x0, 0x338c938 &lt;__start_il2cpp+0x22f40b0&gt; "><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="TntItemModel · FinalExplodeCount
+owner=ItemModel @ 0x338C8A4
+shape=dynamic
+str x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | ldr x8, [x0] | mov x19, x0 | ldr x9, [x8, #0x4c8] | ldr x"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#f2f2f2" title="TntItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="TntItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="TntItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fbc9c9" title="TntItemModel · CanReceiveMultipleHits
+owner=ItemModel @ 0x338DD14
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td></tr><tr><th class="rh">TreasureMapItemModel</th><td style="background:#fbc9c9" title="TreasureMapItemModel · CanSelectByBooster
+owner=TreasureMapItemModel @ 0x129E7DC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">TreasureMapItemModel</span></td><td style="background:#c7e9c0" title="TreasureMapItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="TreasureMapItemModel · CanExplodeWithNearMatch
+owner=TreasureMapItemModel @ 0x129E7D4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">TreasureMapItemModel</span></td><td style="background:#fbc9c9" title="TreasureMapItemModel · CanTakeDamage
+owner=TreasureMapItemModel @ 0x129E8D4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">TreasureMapItemModel</span></td><td style="background:#c7e9c0" title="TreasureMapItemModel · DoesBlockPropeller
+owner=TreasureMapItemModel @ 0x129E7FC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">TreasureMapItemModel</span></td><td style="background:#c7e9c0" title="TreasureMapItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="TreasureMapItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="TreasureMapItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="TreasureMapItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="TreasureMapItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="TreasureMapItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="TreasureMapItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="TreasureMapItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="TreasureMapItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="TreasureMapItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="TreasureMapItemModel · DoesBlockFall
+owner=TreasureMapItemModel @ 0x129E7F4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">TreasureMapItemModel</span></td><td style="background:#c7e9c0" title="TreasureMapItemModel · DoesBlockTouch
+owner=TreasureMapItemModel @ 0x129E7E4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">TreasureMapItemModel</span></td><td style="background:#e6e6e6" title="TreasureMapItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="TreasureMapItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">VendingMachineItemModel</th><td style="background:#fde3b3" title="VendingMachineItemModel · CanSelectByBooster
+owner=VendingMachineItemModel @ 0x3C1C354
+shape=field_return
+ldrb w0, [x0, #0x150]; ret"><span class="s">读字段</span><span class="o">VendingMachineItemModel</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · CanExplodeWithMatch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#fde3b3" title="VendingMachineItemModel · CanExplodeWithNearMatch
+owner=VendingMachineItemModel @ 0x3C1AFEC
+shape=field_return
+ldrb w0, [x0, #0x150]; ret"><span class="s">读字段</span><span class="o">VendingMachineItemModel</span></td><td style="background:#fde3b3" title="VendingMachineItemModel · CanTakeDamage
+owner=VendingMachineItemModel @ 0x3C1C518
+shape=field_return
+ldrb w0, [x0, #0x150]; ret"><span class="s">读字段</span><span class="o">VendingMachineItemModel</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · DoesBlockPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · CanBeDamagedByPropeller
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#d9c9f5" title="VendingMachineItemModel · IsValidTarget
+owner=ItemModel @ 0x338C494
+shape=tail_call_virtual
+ldr x8, [x0] | ldr x2, [x8, #0x358] | ldr x1, [x8, #0x360] | br x2 | ldr w0, [x0, #0x68] | ret | str x22, [sp,"><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fbc9c9" title="VendingMachineItemModel · ShouldTryRedirectForPropeller
+owner=ItemModel @ 0x338D77C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="VendingMachineItemModel · TryRedirectForPropeller
+owner=ItemModel @ 0x338D784
+shape=dynamic
+ret | stp x19, x30, [sp, #-0x10]! | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338d810 &lt;__start_il2cpp+0x22"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="VendingMachineItemModel · WillPropellerComboHitItem
+owner=MultipleCellItemModel @ 0x339240C
+shape=dynamic
+sub sp, sp, #0x140 | str x28, [sp, #0x100] | stp x23, x22, [sp, #0x110] | stp x21, x20, [sp, #0x120] | stp x19"><span class="s">动态</span><span class="o">MultipleCellItemModel</span></td><td style="background:#e6e6e6" title="VendingMachineItemModel · WillExplodeOnPropellerComboHit
+owner=ItemModel @ 0x338E390
+shape=dynamic
+stp x21, x20, [sp, #-0x20]! | stp x19, x30, [sp, #0x10] | mov x19, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x338e40"><span class="s">动态</span><span class="o">ItemModel</span></td><td style="background:#d9c9f5" title="VendingMachineItemModel · ShouldBlockPropellerForLog
+owner=ItemModel @ 0x338E5C4
+shape=tail_call_virtual
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4c8] | ldr x1, [x8, #0x4d0] | blr x9 | cmp w0, #0x3 | "><span class="s">虚委派</span><span class="o">ItemModel</span></td><td style="background:#fde3b3" title="VendingMachineItemModel · GetLayerCount
+owner=ItemModel @ 0x338C4A4
+shape=field_return
+ldr w0, [x0, #0x68]; ret"><span class="s">读字段</span><span class="o">ItemModel</span></td><td style="background:#e6e6e6" title="VendingMachineItemModel · RemainingExplodeCount
+owner=VendingMachineItemModel @ 0x3C1B00C
+shape=dynamic
+ldrb w8, [x0, #0x150] | cbz w8, 0x3c1b01c &lt;__start_il2cpp+0x2b82794&gt; | mov x1, xzr | b 0x338c910 &lt;__start_il2c"><span class="s">动态</span><span class="o">VendingMachineItemModel</span></td><td style="background:#e6e6e6" title="VendingMachineItemModel · FinalExplodeCount
+owner=VendingMachineItemModel @ 0x3C1B0C8
+shape=dynamic
+ldrb w8, [x0, #0x150] | cbz w8, 0x3c1b0d8 &lt;__start_il2cpp+0x2b82850&gt; | mov x1, xzr | b 0x338c8a4 &lt;__start_il2c"><span class="s">动态</span><span class="o">VendingMachineItemModel</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · DoesBlockFall
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · DoesBlockTouch
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="VendingMachineItemModel · CanAddIncomingExploder
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#c7e9c0" title="VendingMachineItemModel · CanReceiveMultipleHits
+owner=VendingMachineItemModel @ 0x3C1AFF4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">VendingMachineItemModel</span></td></tr><tr><th class="rh">WaterItemModel</th><td style="background:#c7e9c0" title="WaterItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · CanBeDamagedByPropeller
+owner=WaterItemModel @ 0x110C870
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">WaterItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · IsValidTarget
+owner=WaterItemModel @ 0x110C7E4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">WaterItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="WaterItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="WaterItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="WaterItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="WaterItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="WaterItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · RemainingExplodeCount
+owner=WaterItemModel @ 0x110C858
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">WaterItemModel</span></td><td style="background:#e6e6e6" title="WaterItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · CanAddIncomingExploder
+owner=WaterItemModel @ 0x110C878
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">WaterItemModel</span></td><td style="background:#fbc9c9" title="WaterItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr><tr><th class="rh">WaterSoilItemModel</th><td style="background:#c7e9c0" title="WaterSoilItemModel · CanSelectByBooster
+owner=StaticItemModel @ 0x30EDED4
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterSoilItemModel · CanExplodeWithMatch
+owner=StaticItemModel @ 0x30ED8DC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterSoilItemModel · CanExplodeWithNearMatch
+owner=StaticItemModel @ 0x30EDEDC
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterSoilItemModel · CanTakeDamage
+owner=StaticItemModel @ 0x30EE0B8
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterSoilItemModel · DoesBlockPropeller
+owner=StaticItemModel @ 0x30ED8C4
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#c7e9c0" title="WaterSoilItemModel · CanBeDamagedByPropeller
+owner=StaticItemModel @ 0x30ED644
+shape=constant_true
+mov w0, #0x1; ret"><span class="s">常真</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="WaterSoilItemModel · IsValidTarget
+owner=StaticItemModel @ 0x30ED63C
+shape=field_return
+ldrb w0, [x0, #0x14]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterSoilItemModel · ShouldTryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE088
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="WaterSoilItemModel · TryRedirectForPropeller
+owner=StaticItemModel @ 0x30EE090
+shape=dynamic
+ret | str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#f2f2f2" title="WaterSoilItemModel · WillPropellerComboHitItem
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#f2f2f2" title="WaterSoilItemModel · WillExplodeOnPropellerComboHit
+owner=(无) @ —
+shape=NOT_DECLARED
+该类在 ItemModel/StaticItemModel/GuidedExploderItemModel 链上都没有此虚方法"><span class="s">未声明</span><span class="o">—</span></td><td style="background:#e6e6e6" title="WaterSoilItemModel · ShouldBlockPropellerForLog
+owner=StaticItemModel @ 0x30EE094
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x3 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fde3b3" title="WaterSoilItemModel · GetLayerCount
+owner=StaticItemModel @ 0x30ED670
+shape=field_return
+ldr w0, [x0, #0x50]; ret"><span class="s">读字段</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="WaterSoilItemModel · RemainingExplodeCount
+owner=StaticItemModel @ 0x30EDE20
+shape=dynamic
+stp x19, x30, [sp, #-0x10]! | mov x8, x0 | ldr x0, [x0, #0x38] | cbz x0, 0x30ede48 &lt;__start_il2cpp+0x20555c0&gt; "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="WaterSoilItemModel · FinalExplodeCount
+owner=StaticItemModel @ 0x30EDD24
+shape=dynamic
+sub sp, sp, #0x30 | stp x21, x20, [sp, #0x10] | stp x19, x30, [sp, #0x20] | adrp x20, 0x5585000 | ldrb w8, [x2"><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterSoilItemModel · DoesBlockFall
+owner=StaticItemModel @ 0x30ED8CC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterSoilItemModel · DoesBlockTouch
+owner=StaticItemModel @ 0x30ED8BC
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td><td style="background:#e6e6e6" title="WaterSoilItemModel · CanAddIncomingExploder
+owner=StaticItemModel @ 0x30ED64C
+shape=dynamic
+str x30, [sp, #-0x10]! | ldr x8, [x0] | ldr x9, [x8, #0x4e8] | ldr x1, [x8, #0x4f0] | blr x9 | cmp w0, #0x0 | "><span class="s">动态</span><span class="o">StaticItemModel</span></td><td style="background:#fbc9c9" title="WaterSoilItemModel · CanReceiveMultipleHits
+owner=StaticItemModel @ 0x30EDF7C
+shape=constant_false
+mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr></tbody></table></div>
+<h2>根实现（继承链终点）</h2>
+<div class="note"><b>关键结构：</b><code>StaticItemModel</code> 与 <code>ItemModel</code> 是<b>平行兄弟根</b>（都是 <code>: IExplodeTarget, IExtraExplodeTarget, ITapItem, IRestorable</code>），<b>不是父子</b>。所以继承它们的类拿到两套不同的默认值，而且 <code>DoesBlockPropeller</code> / <code>CanBeDamagedByPropeller</code> 在 <code>ItemModel</code> 分支<b>根本不存在</b>。</div>
+<table class="b"><thead><tr><th>类</th><th>方法</th><th>arm64 RVA</th><th>形态</th><th>反汇编证据</th></tr></thead><tbody><tr><td class="mono">StaticItemModel</td><td class="mono">CanSelectByBooster</td><td class="mono">0x30EDED4</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">StaticItemModel</td><td class="mono">CanExplodeWithNearMatch</td><td class="mono">0x30EDEDC</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">StaticItemModel</td><td class="mono">CanTakeDamage</td><td class="mono">0x30EE0B8</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">StaticItemModel</td><td class="mono">DoesBlockPropeller</td><td class="mono">0x30ED8C4</td><td>常假</td><td class="mono ev">mov w0, wzr; ret</td></tr><tr><td class="mono">StaticItemModel</td><td class="mono">CanBeDamagedByPropeller</td><td class="mono">0x30ED644</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">StaticItemModel</td><td class="mono">IsValidTarget</td><td class="mono">0x30ED63C</td><td>读字段</td><td class="mono ev">ldrb w0, [x0, #0x14]; ret</td></tr><tr><td class="mono">ItemModel</td><td class="mono">CanSelectByBooster</td><td class="mono">0x338D774</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">ItemModel</td><td class="mono">CanExplodeWithNearMatch</td><td class="mono">0x338C5E4</td><td>常真</td><td class="mono ev">mov w0, #1; ret</td></tr><tr><td class="mono">ItemModel</td><td class="mono">CanTakeDamage</td><td class="mono">0x338E5E8</td><td>虚委派</td><td class="mono ev">ldr x3,[x8,#0x3d8] ... br x3</td></tr><tr><td class="mono">ItemModel</td><td class="mono">DoesBlockPropeller</td><td class="mono">—</td><td>未声明</td><td class="mono ev">ItemModel 分支没有这个虚方法</td></tr><tr><td class="mono">ItemModel</td><td class="mono">CanBeDamagedByPropeller</td><td class="mono">—</td><td>未声明</td><td class="mono ev">ItemModel 分支没有这个虚方法</td></tr></tbody></table>
+<h2>三个重点回答</h2>
+<ol>
+<li><b>近邻匹配 <code>CanExplodeWithNearMatch</code></b>：30/30 全确定 —— 常真 18（<code>StaticItemModel</code> 默认 + Box/ColorBox/CookieJar/Cupboard/DynamiteBox/IceBorder/Mushroom 直接覆写）、常假 11（Ceramic/Chain/Lightball/Match/MetalPlate/OwlStatue/<b>GuidedExploderItemModel(螺旋桨自己)</b>/Rocket/Roof/Tnt/TreasureMap）、读字段 1（VendingMachine → <code>[x0+0x150]</code>）。</li>
+<li><b>火箭</b>：<code>RocketItemModel</code> 自己只覆写 <code>CanExplodeWithNearMatch</code> = <b>常假</b>（火箭不能被近邻匹配炸掉），其余门控全部继承 <code>ItemModel</code>。螺旋桨打火箭走的是 redirect/combo 家族，不是 <code>DoesBlockPropeller</code>。</li>
+<li><b>螺旋桨</b>：三条路。<code>DoesBlockPropeller</code> 只 <code>StaticItemModel</code> 家族有（Cryptex/Curtain/TreasureMap <b>常真</b>、基类<b>常假</b>）；Blinds/ForceField/MetalPlate 三条反汇编<b>完全同款</b>，是 <code>RemainingExplodeCount() &lt; 1</code>（槽 0x4e8）——<b>层数门控，静态可读</b>；<code>CanBeDamagedByPropeller</code> 全包只 3 处（基类常真、Water 常假、Jelly 读 <code>[x0+0x94]</code>）。真正的选目标门控是 <code>IsValidTarget(GuidedExploderType)</code>，另有 <code>ShouldTryRedirectForPropeller</code> / <code>TryRedirectForPropeller</code> / <code>WillPropellerComboHitItem</code> / <code>WillExplodeOnPropellerComboHit</code> 一整套连击门控。</li>
+</ol>
+</div><script defer="" src="../assets/report-deep-links.js"></script>
+</body></html>

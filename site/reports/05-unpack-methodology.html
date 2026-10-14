@@ -1,6 +1,1198 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>打开对应具体内容</title>
-<link rel="canonical" href="https://kentxu0911.github.io/game-unpack-reports/index.html#research-method">
-<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/legacy-05.js"></script>
-</head><body><main class="legacy"><h1>内容已按主题整合</h1><p><a href="../index.html#research-method">打开对应具体内容与当前结论</a></p>
-<noscript><p>浏览器未启用JavaScript，可通过下面链接打开对应内容。</p></noscript><a id="sec1" href="../index.html#research-method">查看对应内容</a><a id="sec2" href="../index.html#research-method">查看对应内容</a><a id="sec3" href="../index.html#research-method">查看对应内容</a><a id="sec4" href="../index.html#research-method">查看对应内容</a><a id="sec5" href="../index.html#research-method">查看对应内容</a><a id="sec6" href="../index.html#research-method">查看对应内容</a><a id="sec7" href="../index.html#research-method">查看对应内容</a><a id="sec8" href="../index.html#research-method">查看对应内容</a><a id="sec9" href="../index.html#research-method">查看对应内容</a><a id="sec10" href="../index.html#research-method">查看对应内容</a><a id="sec11" href="../index.html#research-method">查看对应内容</a><a id="sec12" href="../index.html#research-method">查看对应内容</a><a id="sec13" href="../index.html#research-method">查看对应内容</a><a id="sec14" href="../index.html#research-method">查看对应内容</a><a id="sec15" href="../index.html#research-method">查看对应内容</a><a id="sec16" href="../index.html#research-method">查看对应内容</a><a id="sec17" href="../index.html#research-method">查看对应内容</a><a id="sec18" href="../index.html#research-method">查看对应内容</a><a id="sec19" href="../index.html#research-method">查看对应内容</a><a id="sec20" href="../index.html#research-method">查看对应内容</a><a id="sec21" href="../index.html#research-method">查看对应内容</a><a id="sec22" href="../index.html#research-method">查看对应内容</a><a id="sec23" href="../index.html#research-method">查看对应内容</a><a id="sec24" href="../index.html#research-method">查看对应内容</a><a id="sec25" href="../index.html#research-method">查看对应内容</a><a id="sec26" href="../index.html#research-method">查看对应内容</a><a id="sec27" href="../index.html#research-method">查看对应内容</a><a id="sec28" href="../index.html#research-method">查看对应内容</a><a id="sec29" href="../index.html#research-method">查看对应内容</a><a id="sec30" href="../index.html#research-method">查看对应内容</a><a id="sec31" href="../index.html#research-method">查看对应内容</a><a id="sec32" href="../index.html#research-method">查看对应内容</a><a id="sec33" href="../index.html#research-method">查看对应内容</a><a id="sec34" href="../index.html#research-method">查看对应内容</a><a id="sec35" href="../index.html#research-method">查看对应内容</a><a id="sec36" href="../index.html#research-method">查看对应内容</a><a id="sec37" href="../index.html#research-method">查看对应内容</a><a id="sec38" href="../index.html#research-method">查看对应内容</a><a id="sec39" href="../index.html#research-method">查看对应内容</a><a id="sec40" href="../index.html#research-method">查看对应内容</a><a id="sec41" href="../index.html#research-method">查看对应内容</a><a id="sec42" href="../index.html#research-method">查看对应内容</a><a id="sec43" href="../index.html#research-method">查看对应内容</a><a id="sec44" href="../index.html#research-method">查看对应内容</a><a id="sec45" href="../index.html#research-method">查看对应内容</a><a id="sec46" href="../index.html#research-method">查看对应内容</a><a id="sec47" href="../index.html#research-method">查看对应内容</a><a id="sec48" href="../index.html#research-method">查看对应内容</a><a id="sec49" href="../index.html#research-method">查看对应内容</a><a id="sec50" href="../index.html#research-method">查看对应内容</a><a id="sec51" href="../index.html#research-method">查看对应内容</a><a id="sec52" href="../index.html#research-method">查看对应内容</a><a id="sec53" href="../index.html#research-method">查看对应内容</a><a id="sec54" href="../index.html#research-method">查看对应内容</a><a id="sec55" href="../index.html#research-method">查看对应内容</a><a id="sec56" href="../index.html#research-method">查看对应内容</a><a id="sec57" href="../index.html#research-method">查看对应内容</a><a id="sec58" href="../index.html#research-method">查看对应内容</a><a id="sec59" href="../index.html#research-method">查看对应内容</a></main></body></html>
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>APK 解包复盘与可复用方法论 — Royal Match 38174 / Gossip Harbor 3.98.0</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1c2024; --ink2:#4a5259; --muted:#7b858e;
+  --line:#e3e7ec; --line2:#eef1f5; --accent:#1f5fd0; --accent-soft:#eaf1fd;
+  --code-bg:#f3f5f8; --code-ink:#243b53; --th:#f0f3f7;
+  --warn:#b8860b; --danger:#c0392b;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14171a; --panel:#1b1f24; --ink:#e8ecf1; --ink2:#c3ccd6; --muted:#8f9aa6;
+    --line:#2b3238; --line2:#232a30; --accent:#7aa7ff; --accent-soft:#1e2937;
+    --code-bg:#11151a; --code-ink:#cfe1ff; --th:#212830;
+    --warn:#e0b341; --danger:#ff7b6b;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{display:grid;grid-template-columns:288px minmax(0,1fr);gap:32px;
+      max-width:1440px;margin:0 auto;padding:28px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);
+    overflow:auto;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:18px 16px}
+nav .brand{font-weight:700;font-size:15px;margin:0 0 4px}
+nav .sub{color:var(--muted);font-size:12px;margin:0 0 14px;line-height:1.5}
+nav a{display:block;color:var(--ink2);text-decoration:none;font-size:13px;
+      padding:4px 8px;border-radius:7px;border-left:2px solid transparent}
+nav a:hover{background:var(--accent-soft);color:var(--accent)}
+nav a.l1{font-weight:700;color:var(--ink);margin-top:10px}
+nav a.l2{padding-left:16px}
+nav a.l3{padding-left:30px;font-size:12px;opacity:.82}
+main{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+     padding:40px 48px 56px;min-width:0}
+.hero{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:6px}
+.hero .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+              color:var(--accent);font-weight:700;margin:0 0 10px}
+.hero .meta{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.hero .meta li{font-size:13.4px;color:var(--ink2);margin:0}
+.hero .meta b{color:var(--ink);font-weight:700}
+h1{font-size:30px;line-height:1.34;margin:0 0 8px;letter-spacing:-.3px}
+h2{font-size:22px;margin:52px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line);
+   letter-spacing:-.2px}
+h3{font-size:17px;margin:32px 0 10px}
+h4{font-size:15px;margin:24px 0 8px}
+h2:first-of-type{margin-top:20px}
+p{margin:11px 0}
+a{color:var(--accent)}
+hr{border:0;border-top:1px solid var(--line);margin:36px 0}
+code{font-family:var(--mono);font-size:12.6px;background:var(--code-bg);
+     color:var(--code-ink);padding:1.5px 5px;border-radius:5px;
+     border:1px solid var(--line2);word-break:break-word}
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;overflow:auto;margin:14px 0}
+pre code{background:none;border:0;padding:0;font-size:12.4px;line-height:1.6;
+         color:var(--code-ink);white-space:pre}
+blockquote{margin:16px 0;padding:13px 18px;background:var(--accent-soft);
+           border-left:4px solid var(--accent);border-radius:0 10px 10px 0;color:var(--ink2)}
+blockquote strong{color:var(--ink)}
+ul,ol{margin:11px 0;padding-left:24px}
+li{margin:5px 0}
+li>ul,li>ol{margin:5px 0}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.2px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:top;
+      text-align:left}
+th{background:var(--th);font-weight:700;white-space:nowrap;
+   border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--accent-soft)}
+td.right,th.right{text-align:right}
+td.center,th.center{text-align:center}
+td code,th code{font-size:12px}
+@media (max-width:1020px){
+  .wrap{grid-template-columns:1fr;padding:16px}
+  nav{position:static;max-height:none}
+  main{padding:26px 20px 40px}
+}
+</style>
+<link href="../assets/report-navigation.css" rel="stylesheet"/></head>
+<body><div class="report-return"><a href="../index.html#replication-overview">← 返回内容总览</a><span>研究样本：Royal Match build 38174</span></div>
+<div class="wrap">
+<nav>
+<p class="brand">APK 解包复盘与方法论</p>
+<p class="sub">样本：Royal Match 38174 · Gossip Harbor 3.98.0</p>
+<a class="l1" href="#sec1">0. 这份文档怎么用</a>
+<a class="l1" href="#sec2">1. 两个样本，两条完全不同的路线</a>
+<a class="l2" href="#sec3">1.1 样本卡</a>
+<a class="l2" href="#sec4">1.2 决定路线分叉的四条结构差异</a>
+<a class="l2" href="#sec5">1.3 路线 A —— Addressables + xLua（GH）</a>
+<a class="l2" href="#sec6">1.4 路线 B —— 无 catalog + 纯 IL2CPP（RM）</a>
+<a class="l2" href="#sec7">1.5 上手判断树（先跑这三条，再决定投入）</a>
+<a class="l1" href="#sec8">2. 工具链总表</a>
+<a class="l2" href="#sec9">2.1 全景表</a>
+<a class="l2" href="#sec10">2.2 静态侧详解</a>
+<a class="l3" href="#sec11">2.2.1 拆包：先分清"三种包"</a>
+<a class="l3" href="#sec12">2.2.2 UnityPy：三个必知动作</a>
+<a class="l3" href="#sec13">2.2.3 Il2CppDumper：怎么读它的输出与日志</a>
+<a class="l3" href="#sec14">2.2.4 为什么用 Python + capstone 而不是 IDA / Ghidra</a>
+<a class="l3" href="#sec15">2.2.5 FlatBuffers schema 恢复</a>
+<a class="l2" href="#sec16">2.3 运行时侧详解</a>
+<a class="l3" href="#sec17">2.3.1 Android Studio：它不是 IDE，是「设备供应商」</a>
+<a class="l3" href="#sec18">2.3.2 adb 的六种用法</a>
+<a class="l3" href="#sec19">2.3.3 Frida 详解：原理 · 地址 · 语义坑 · 采集协议</a>
+<a class="l3" href="#sec20">2.3.4 mitmproxy + CA 注入：绕开 <code>/system</code> 只读</a>
+<a class="l3" href="#sec21">2.3.5 报告侧自检：Chrome headless + PIL</a>
+<a class="l2" href="#sec22">2.4 本机没装、需要绕的工具</a>
+<a class="l1" href="#sec23">3. 七步 SOP：拿到新 APK 的第一个小时</a>
+<a class="l2" href="#sec24">Step 0 · 侦察（30 分钟，<strong>不写一行代码</strong>）</a>
+<a class="l2" href="#sec25">Step 1 · 拆包与校验</a>
+<a class="l2" href="#sec26">Step 2 · 引擎与结构判定</a>
+<a class="l2" href="#sec27">Step 3 · 跑信噪比最高的那一招</a>
+<a class="l2" href="#sec28">Step 4 · 静态索引</a>
+<a class="l2" href="#sec29">Step 5 · 语义回填（反汇编）</a>
+<a class="l2" href="#sec30">Step 6 · 运行时确认（<strong>只在静态说不清时上</strong>）</a>
+<a class="l2" href="#sec31">Step 7 · 产出与自检</a>
+<a class="l1" href="#sec32">4. 问题分册</a>
+<a class="l2" href="#sec33">A 环境与工具类</a>
+<a class="l2" href="#sec34">B 静态解析类</a>
+<a class="l2" href="#sec35">C 二进制语义类（IL2CPP 反汇编）</a>
+<a class="l2" href="#sec36">D 运行时观测类（Frida）</a>
+<a class="l2" href="#sec37">E 关卡与状态类（进阶）</a>
+<a class="l2" href="#sec38">F 报告与交付类</a>
+<a class="l1" href="#sec39">5. 可迁移方法论</a>
+<a class="l2" href="#sec40">5.1 证据分级</a>
+<a class="l2" href="#sec41">5.2 三层归属澄清（回答"这个数据到底在不在包里"）</a>
+<a class="l2" href="#sec42">5.3 六条硬方法论</a>
+<a class="l2" href="#sec43">5.4 「穷尽证明某数据不在包里」的四步标准动作</a>
+<a class="l2" href="#sec44">5.5 「机制层 vs 数值层」的边界必须提前说清</a>
+<a class="l1" href="#sec45">6. 踩坑速查表</a>
+<a class="l2" href="#sec46">6.1 「一条都解不出来 / 全部失败」类</a>
+<a class="l2" href="#sec47">6.2 「看起来对、结果是错的」类（最危险）</a>
+<a class="l2" href="#sec48">6.3 「环境 / 工具」类</a>
+<a class="l2" href="#sec49">6.4 反模式清单（<strong>不要这么做</strong>）</a>
+<a class="l1" href="#sec50">7. 明确拿不到的东西（诚实清单）</a>
+<a class="l2" href="#sec51">7.1 Royal Match 38174</a>
+<a class="l2" href="#sec52">7.2 Gossip Harbor 3.98.0</a>
+<a class="l2" href="#sec53">7.3 通用边界（可直接用于判断新包）</a>
+<a class="l1" href="#sec54">8. 新 APK 30 分钟侦察清单（可直接照做）</a>
+<a class="l1" href="#sec55">9. 附录</a>
+<a class="l2" href="#sec56">9.1 关键复现命令</a>
+<a class="l2" href="#sec57">9.2 产物与索引规模（本次）</a>
+<a class="l2" href="#sec58">9.3 相关文档与技能索引</a>
+<a class="l1" href="#sec59">10. 一页速查：如果只能记住十条</a>
+</nav>
+<main>
+<header class="hero">
+<p class="kicker">解包方法论 · 复盘</p>
+<h1>APK 解包复盘与可复用方法论</h1>
+<p>覆盖样本：<strong>Royal Match 38174</strong>（<code>com.dreamgames.royalmatch</code>）与 <strong>Gossip Harbor 3.98.0 / 303</strong>（<code>com.mergegames.gossipharbor</code>）</p>
+<ul class="meta"><li>目的：把这两个包里踩过的坑固化成<strong>可迁移到任意 APK</strong> 的问题册 + 工具手册 + 标准动作清单。</li>
+<li>编写日期：2026-09-17；审计修订：2026-09-20</li></ul>
+</header>
+<blockquote><strong>可复现性声明（2026-09-20 审计）：</strong>当前仓库没有提交基线、依赖锁文件和“输出→生成器→输入 hash→运行时”完整清单；
+尤其 <code>04-gate-resolution.html</code> 与本页未找到对应页面生成器。因此这是一份可阅读的方法记录，不是第三方可一键重生的封闭交付。
+当前系统 <code>/usr/bin/python3</code> 为 3.9.6，页面生成器 60/64/70 需要 Python 3.12+；本次已用 <code>/Users/kenny/.local/bin/python3.12</code> 验证可运行的生成器。</blockquote>
+<h2 id="sec1">0. 这份文档怎么用</h2>
+<p>三种读法，按你现在的处境选：</p>
+<div class="tw"><table><thead><tr><th class="left">你的处境</th><th class="left">读哪几节</th></tr></thead><tbody><tr><td class="left"><strong>拿到一个新 APK，不知道从哪下手</strong></td><td class="left">§1 判断结构 → §3 七步 SOP → §8 30 分钟侦察清单</td></tr><tr><td class="left"><strong>卡住了，某个东西解不出来</strong></td><td class="left">§6 踩坑速查表（先按症状找）→ 再去 §4 对应分册看完整成因</td></tr><tr><td class="left"><strong>要对外交报告 / 被人质疑结论</strong></td><td class="left">§5 证据规范 + §7 诚实清单，这两节是交付底线</td></tr></tbody></table></div>
+<p><strong>一句话总结这套方法：</strong></p>
+<blockquote><strong>先判断结构（决定路线）→ 先跑信噪比最高的那一招 → 数据读不出来时先怀疑自己而不是怀疑格式 → 静态解不动的部分才上运行时 → 每一步都留可复核的证据。</strong></blockquote>
+<p>两个包最贵的教训只有一条，但它花掉了四轮返工：</p>
+<blockquote>TextAsset二进制不能用有损的encode("utf-8", "ignore")恢复。surrogateescape字节丢失会破坏FlatBuffers偏移，使正确数据看起来像加密内容。无损读取应保留原始字节，并以结构、长度和哈希验证结果。</blockquote>
+<hr/>
+<h2 id="sec2">1. 两个样本，两条完全不同的路线</h2>
+<h3 id="sec3">1.1 样本卡</h3>
+<div class="tw"><table><thead><tr><th class="left">项</th><th class="left">Gossip Harbor</th><th class="left">Royal Match</th></tr></thead><tbody><tr><td class="left">包名</td><td class="left"><code>com.mergegames.gossipharbor</code></td><td class="left"><code>com.dreamgames.royalmatch</code></td></tr><tr><td class="left">版本</td><td class="left">3.98.0 / versionCode 303</td><td class="left">38174 / versionCode 38174</td></tr><tr><td class="left">容器</td><td class="left"><code>.apkm</code>（本质是 ZIP）</td><td class="left"><code>.xapk</code></td></tr><tr><td class="left">容器内</td><td class="left"><code>base.apk</code> + arm64-v8a &amp; armeabi-v7a split + <code>gpdeku</code> 动态特性 split</td><td class="left"><code>base.apk</code> 33.5 MB + <code>UnityDataAssetPack.apk</code> 141 MB + <code>config.armeabi_v7a.apk</code> 36.6 MB</td></tr><tr><td class="left">SHA-256（容器）</td><td class="left"><code>c0a039a386a5a0eb9e068246174760b8a31a195b437928c31a2f149584a2142a</code></td><td class="left"><code>fba53c5661b0e20c884669f58632e750b466bb05b48f38654cef64787a178135</code></td></tr><tr><td class="left">体积</td><td class="left">229 MB（split0–8），容器约 265 MB</td><td class="left">211,567,899 B</td></tr><tr><td class="left">引擎</td><td class="left">Unity <strong>2022.3.62f2</strong></td><td class="left">Unity <strong>2021.3.55f1</strong></td></tr><tr><td class="left">脚本层</td><td class="left"><strong>xLua</strong>（Lua 归档，61 字节重复密钥 XOR）</td><td class="left"><strong>纯 IL2CPP</strong>，无 Lua</td></tr><tr><td class="left">代码层</td><td class="left"><code>libil2cpp.so</code> + <code>libxlua.so</code> + <code>libsqlcipher.so</code></td><td class="left"><code>libil2cpp.so</code>（arm64 91,901,952 B）+ <code>global-metadata.dat</code>（17.5 MB）</td></tr><tr><td class="left">ABI</td><td class="left">双 ABI（arm64-v8a + armeabi-v7a）</td><td class="left">原始 XAPK <strong>只有 armeabi-v7a</strong>，后补下 arm64</td></tr><tr><td class="left">最低 API</td><td class="left">23</td><td class="left">24</td></tr><tr><td class="left">语言</td><td class="left">77 种</td><td class="left">—</td></tr></tbody></table></div>
+<h3 id="sec4">1.2 决定路线分叉的四条结构差异</h3>
+<p>这张表是整份文档最重要的判断依据 —— <strong>同样的"Unity 手游解包"，两条路线上的第一招、核心工具、甚至"哪些数据能拿到"的结论都不一样。</strong></p>
+<div class="tw"><table><thead><tr><th class="left"></th><th class="left">Gossip Harbor</th><th class="left">Royal Match</th><th class="left">后果</th></tr></thead><tbody><tr><td class="left"><strong>资源分发</strong></td><td class="left">Unity Addressables：<code>assets/aa/catalog.json</code> + 246 个 <code>.bundle</code></td><td class="left"><strong>无 Addressables catalog</strong>；<code>datapack.unity3d</code>（91 MB）+ 26 个 <code>.ab</code> + 4 个 <code>*_bundle_config.json</code></td><td class="left">GH 可以直接读 catalog 拿到<strong>全部远程资源的逻辑路径</strong>，按 <code>/android/&lt;模块&gt;/</code> 就能看出配置分布；RM 只能靠 <code>*_bundle_config.json</code> 反查模块分组</td></tr><tr><td class="left"><strong>脚本层</strong></td><td class="left">xLua —— 数值逻辑在 Lua 层</td><td class="left">纯 IL2CPP C#</td><td class="left">GH 的关键是<strong>破 Lua 归档</strong>（重复密钥 XOR，纯静态可破）；RM 的关键是<strong>反汇编 ARM64</strong></td></tr><tr><td class="left"><strong>本地化</strong></td><td class="left">明文 <code>game_text_{lang}.json</code> × 10 语，12,741 key</td><td class="left">包内已恢复5,103个词条、11种语言，56,133个非空文案单元；该表不含中文。</td><td class="left">两种结构都可取得分发文案；需验证导出完整性与语言覆盖。</td></tr><tr><td class="left"><strong>配置承载</strong></td><td class="left"><code>dataconfig</code> bundle 里的 MonoBehaviour（可直接 <code>read_typetree()</code>）</td><td class="left"><code>TextAsset</code> 二进制（FlatBuffers）+ 少量明文 JSON</td><td class="left">GH 的配置类是"读出来的"；RM 的配置类是"反汇编猜出来的"</td></tr></tbody></table></div>
+<h3 id="sec5">1.3 路线 A —— Addressables + xLua（GH）</h3>
+<pre><code>.apkm ──unzip──&gt; base.apk / split.apk
+│
+├─ assets/bin/Data/Managed/Metadata/global-metadata.dat ──&gt; 类名 / 域名 / 源文件名
+├─ assets/aa/catalog.json ────────────────────────────────&gt; 远程资源逻辑路径
+├─ assets/aa/android/*.bundle ──UnityPy──&gt; 对象清单 / typetree / 贴图 / TextAsset
+└─ Lua_*.bytes ──周期检测→列频→相位对齐──&gt; 明文 Lua 字节码</code></pre>
+<p>三个关键动作：<strong>全量 MonoBehaviour typetree 扫描</strong>（0 失败）→ <strong>TextAsset 全量导出后 grep</strong>（不能直接 grep bundle）→ <strong>Lua 归档按周期破 XOR</strong>。</p>
+<h3 id="sec6">1.4 路线 B —— 无 catalog + 纯 IL2CPP（RM）</h3>
+<pre><code>.xapk ──unzip──&gt; base.apk / UnityDataAssetPack.apk / config.&lt;abi&gt;.apk
+│
+├─ libil2cpp.so + global-metadata.dat ──Il2CppDumper──&gt; dump.cs / script.json
+│                                                        / il2cpp.h / stringliteral.json
+├─ datapack.unity3d ──UnityPy──&gt; 166,986 个对象 / 14,991 个 TextAsset / 7,859 张 PNG
+└─ *bundle_config.json（明文）──&gt; 45 个玩法/活动模块分组
+│
+└─ TextAsset 二进制（FlatBuffers）──&gt; 需要 schema 才能读</code></pre>
+<p>和 GH 不同，RM 的路线里<strong>"反汇编"是一等公民</strong>，不是备选：51 个明文 JSON 之外的一切（奖励代码语义、弹窗条件、vtable 分发）都只能从机器码里读出来。</p>
+<h3 id="sec7">1.5 上手判断树（先跑这三条，再决定投入）</h3>
+<pre><code>包里有没有 assets/aa/catalog.json（或任何 Addressables catalog）？
+├─ 有 ──&gt; Addressables 路线：catalog 先看模块分布，再定向读 bundle
+└─ 无 ──&gt; 找 datapack.unity3d / *.ab / *_bundle_config.json，按"大容器 + 分组清单"处理
+
+包里有没有 Lua 相关文件（Lua_*.bytes / *.lua / libxlua.so）？
+├─ 有 ──&gt; 先做周期检测（自相关），不要先装 IDA
+└─ 无 ──&gt; 纯 IL2CPP：Il2CppDumper 必跑
+
+包里有没有明文本地化表（game_text_*.json / localization 目录）？
+├─ 有 ──&gt; ⭐ 第一优先级：这一张表能白拿物品表 + 活动模板库
+└─ 无 ──&gt; 只能从 MonoBehaviour typetree 和 IL2CPP 元数据里拼</code></pre>
+<p><strong>判断规则（可当预判准则）</strong>：<strong>运营能随时调的数字 → 服务端；改了要发版的东西 → 包里，而且大概率明文。</strong></p>
+<hr/>
+<h2 id="sec8">2. 工具链总表</h2>
+<h3 id="sec9">2.1 全景表</h3>
+<div class="tw"><table><thead><tr><th class="left">工具</th><th class="left">解决什么问题</th><th class="left">本项目具体做了什么</th><th class="left">关键命令 / 参数</th></tr></thead><tbody><tr><td class="left"><strong>unzip / Python <code>zipfile</code> / 7z</strong></td><td class="left">容器双层拆包</td><td class="left"><code>.apkm</code> / <code>.xapk</code> 是 ZIP，里面还有 APK 和 split</td><td class="left"><code>unzip -o pkg.xapk -d bundle/</code></td></tr><tr><td class="left"><strong>Android Studio（AVD Manager + emulator）</strong></td><td class="left">提供一台可 root 的 arm64 Android 设备（<strong>它在这里是「设备供应商」，不是 IDE</strong> → 详见 §2.3.1）</td><td class="left">建 <code>Pixel_6</code> AVD（android-31 / google_apis / arm64-v8a，4 GB 内存）；提供 SDK（adb、emulator）</td><td class="left"><code>emulator -avd Pixel_6 -no-window -no-audio -gpu swiftshader_indirect</code></td></tr><tr><td class="left"><strong>adb</strong></td><td class="left">装包、拿文件、看进程、模拟触摸、配代理</td><td class="left">install-multiple 三个 split；<code>/proc/&lt;pid&gt;/maps</code> 判 libil2cpp 是否加载；<code>screencap</code> 取棋盘截图；<code>input tap/swipe</code> 走棋；<code>settings put global http_proxy</code></td><td class="left"><code>adb root</code> / <code>adb shell pidof &lt;pkg&gt;</code> / <code>adb exec-out screencap -p</code></td></tr><tr><td class="left"><strong>frida-server + frida-python</strong></td><td class="left">运行时事件级观测：某方法被调了几次、参数是什么、字段值是多少；也能写内存做实验（→ 完整详解见 §2.3.3）</td><td class="left">RM：<strong>102 个 hook 点</strong>（difficulty 9 / trycount 15 / refill 26 / special 21 / obstacle 31），4 个会话 39.1 万行事件、62 步受控走棋</td><td class="left"><code>frida-server -D</code> + <code>Interceptor.attach(ptr(rva+base), {...})</code></td></tr><tr><td class="left"><strong>mitmproxy（mitmdump）</strong></td><td class="left">解密 HTTPS，看服务端下发了什么</td><td class="left">RM：单次冷启动抓到 5 个域名 / 139+84+7 次请求；<code>POST /api</code> 89 KB 响应体落盘</td><td class="left"><code>mitmdump --listen-host 0.0.0.0 --listen-port 8080 -w cap.mitm</code></td></tr><tr><td class="left"><strong>openssl</strong></td><td class="left">算 CA 的 Android 信任库文件名</td><td class="left"><code>subject_hash_old</code> → <code>c8750f0d.0</code>，用于 bind-mount 注入</td><td class="left"><code>openssl x509 -subject_hash_old -in mitmproxy-ca-cert.pem | head -1</code></td></tr><tr><td class="left"><strong>Il2CppDumper</strong></td><td class="left">把 IL2CPP 元数据还原成可读的类/方法/字段表</td><td class="left">RM：<code>dump.cs</code> 38.5 MB、<code>script.json</code> 115 MB、<code>il2cpp.h</code> 86.8 MB、<code>stringliteral.json</code> 2.3 MB、<code>DummyDll</code> 83 个；armv7 与 arm64 <strong>各跑一次</strong></td><td class="left"><code>./Il2CppDumper libil2cpp.so global-metadata.dat output/</code></td></tr><tr><td class="left"><strong>UnityPy</strong></td><td class="left">读 AssetBundle：对象清单 / typetree / 贴图 / TextAsset</td><td class="left">GH：246 bundle / 20,641 MonoBehaviour <strong>0 失败</strong>、2,603 贴图导出 2,595 张、606 TextAsset；RM：166,986 对象 / 63 类型 <strong>0 失败</strong>、7,859 张 PNG</td><td class="left"><code>UnityPy.load(p)</code> → <code>o.read_typetree()</code> / <code>o.read().image.save()</code></td></tr><tr><td class="left"><strong>Python + capstone</strong></td><td class="left">自写反汇编器（不需要 IDA/Ghidra 许可证）</td><td class="left">42 条奖励代码双向还原、<code>GetUpdatedMoveCount</code> 还原、跳转表解析、224 个弹窗 hook 扫描</td><td class="left"><code>md.disasm(so[v2o(va):v2o(end)], va)</code></td></tr><tr><td class="left"><strong>Python + PIL</strong></td><td class="left">截图裁切、格心采样、连通域找按钮</td><td class="left">棋盘逐格颜色识别；<code>tap_green.py</code> 用「宽≥400 且纵横比≥1.8 的绿色横长块」定位 Play 按钮</td><td class="left"><code>Image.crop()</code> / 逐格 16×16 均值 → HSV</td></tr><tr><td class="left"><strong>Chrome headless</strong></td><td class="left">报告 HTML 的视觉自检（防止只有自己看不出问题）</td><td class="left">整页截图 + PIL 裁切复核；抓到 SVG 橙色框文字溢出、表格列大量「—」</td><td class="left"><code>--headless --screenshot --window-size=1440,16000</code></td></tr><tr><td class="left"><strong>Python <code>html.parser</code></strong></td><td class="left">HTML 标签平衡审计</td><td class="left">抓出 <code>tr</code> 开 841 闭 743（98 个未闭合）—— 定位到生成器漏了 <code>&lt;/tr&gt;</code></td><td class="left">自定义 <code>HTMLParser</code> 计数</td></tr><tr><td class="left"><strong>ELF 手动解析（Python）</strong></td><td class="left">地址校验、prologue 判别</td><td class="left">按 <code>PT_LOAD</code> 做 vaddr→文件偏移映射，读首 4 字节判"这地址是不是真函数体"</td><td class="left">见 §4-E3</td></tr><tr><td class="left"><strong>agent-browser / 真 Chromium</strong></td><td class="left">过 Cloudflare 拿 APK 下载页</td><td class="left">APKMirror 下载端点有 Cloudflare，本机 curl 过不去</td><td class="left">—</td></tr></tbody></table></div>
+<h3 id="sec10">2.2 静态侧详解</h3>
+<h4 id="sec11">2.2.1 拆包：先分清"三种包"</h4>
+<div class="tw"><table><thead><tr><th class="left">形态</th><th class="left">内容</th><th class="left">注意</th></tr></thead><tbody><tr><td class="left"><code>.apk</code></td><td class="left">单包</td><td class="left">可能只有 base，<code>lib/</code> 可能为空</td></tr><tr><td class="left"><code>.xapk</code> / <code>.apkm</code></td><td class="left">ZIP 容器，含 <code>base.apk</code> + <code>config.&lt;abi&gt;.apk</code> + 资源 split</td><td class="left"><strong>必须双层解</strong>；APKPure 的 XAPK 通常<strong>只给一个 ABI</strong></td></tr><tr><td class="left">split APK 集合</td><td class="left"><code>base.apk</code> + <code>config.arm64_v8a.apk</code> + <code>&lt;AssetPack&gt;.apk</code></td><td class="left">模拟器上必须 <code>install-multiple</code> <strong>三个都装</strong>，少一个就可能停在 logo</td></tr></tbody></table></div>
+<p><strong>RM 的教训</strong>：拿到的 XAPK 只含 armeabi-v7a，而 AVD 是 arm64-v8a → 装不上。解法是<strong>换包</strong>（去 APKCombo 拿 arm64 版），不是改模拟器。</p>
+<h4 id="sec12">2.2.2 UnityPy：三个必知动作</h4>
+<pre><code class="lang-python">env = UnityPy.load(bundle_path)
+for o in env.objects:
+t = o.type.name
+if t == "MonoBehaviour":
+tree = o.read_typetree()          # ⭐ 直接返回 dict，字段名+值全在
+elif t == "TextAsset":
+d = o.read()
+raw = d.m_Script                  # ⚠️ 可能是 str 也可能 bytes，见 §4-B1
+elif t in ("Texture2D", "Sprite"):
+o.read().image.save(dest)         # Sprite 可能没有 image，失败属正常</code></pre>
+<ol>
+<li><strong><code>read_typetree()</code> 是性价比最高的一招。</strong> 遇到"bundle 里是乱码"，</li>
+</ol>
+<p>第一反应不是"加密了"，而是先试 <code>read_typetree()</code> —— GH 实测 20,641 个 MonoBehaviour <strong>全成功、0 失败、71 秒</strong>。</p>
+<ol>
+<li><strong>别直接 <code>strings</code> bundle 再 grep。</strong> bundle 内 payload 可能是压缩的，会漏。正确做法是<strong>全量导出 TextAsset 到磁盘，再 grep 文件</strong>。GH 246 bundle → 606 TextAsset，这一步才给出"配置类文本里确实没有"的硬结论。</li>
+<li><strong>依赖要装全，否则报错会骗你。</strong> 缺 <code>pyfmodex</code> 时抛的 <code>ModuleNotFoundError</code> 是在解析 <strong>AudioClip</strong> 时产生的，表现为<strong>整个 bundle 解析失败</strong>，看起来像"纹理格式不支持"，跟纹理毫无关系。<code>archspec</code> 是它的间接依赖，也得装。</li>
+</ol>
+<p><code>tpk_ar</code> 是个特殊的坑（只有 sdist，本机 pip 建临时目录会报 <code>EEXIST</code>），绕过办法见 §6.3。</p>
+<h4 id="sec13">2.2.3 Il2CppDumper：怎么读它的输出与日志</h4>
+<pre><code class="lang-bash"># 注意：armv7 和 arm64 要分别跑，输出到不同目录
+./Il2CppDumper _extracted/configarmv7/lib/armv7/libil2cpp.so \
+_extracted/base/assets/bin/Data/Managed/Metadata/global-metadata.dat \
+tools/il2cppdumper/output</code></pre>
+<p>产出物与用途：</p>
+<div class="tw"><table><thead><tr><th class="left">文件</th><th class="left">体积（RM）</th><th class="left">用途</th></tr></thead><tbody><tr><td class="left"><code>dump.cs</code></td><td class="left">38.5 MB</td><td class="left"><strong>类名 / 方法名 / 字段偏移 / TypeDefIndex / vtable Slot 号</strong>。查字段偏移、查方法签名、查枚举值都在这</td></tr><tr><td class="left"><code>script.json</code></td><td class="left">115 MB</td><td class="left"><strong>方法名 → RVA</strong> 全表（约 17 万条）。反汇编脚本靠它定位；不硬编码 RVA 才能跨版本复用</td></tr><tr><td class="left"><code>il2cpp.h</code></td><td class="left">86.8 MB</td><td class="left">结构体布局，还原 FlatBuffers schema 时用</td></tr><tr><td class="left"><code>stringliteral.json</code></td><td class="left">2.3 MB</td><td class="left"><strong>28,426 条「地址 → 字符串字面量」</strong>。这是解"配置里写的缩写代码到底是什么意思"的钥匙</td></tr><tr><td class="left"><code>DummyDll/</code></td><td class="left">83 个</td><td class="left">缺 typetree 时可丢进 dnSpy/ILSpy 看结构</td></tr></tbody></table></div>
+<p><strong>日志要会读</strong>：</p>
+<pre><code>Initializing metadata...
+Metadata Version: 31
+WARNING: find JNI_OnLoad
+ERROR: This file may be protected.        ← 别慌，这是良性的
+Il2Cpp Version: 31
+Searching...
+Change il2cpp version to: 29              ← 自动降版探测，正常
+CodeRegistration : 4b83560
+MetadataRegistration : 4c5b1ac
+Dumping... Done!</code></pre>
+<p>看到 <code>ERROR: This file may be protected.</code> 不要以为失败了 —— RM 的 <code>.so</code> 有 JNI_OnLoad 混淆，Il2CppDumper 会自动降版本探测并成功。<strong>判据是最后有没有 <code>Dumping... Done!</code> 和输出文件大小是否合理</strong>，不是中间那行 ERROR。</p>
+<h4 id="sec14">2.2.4 为什么用 Python + capstone 而不是 IDA / Ghidra</h4>
+<p>本项目所有反汇编都用 <code>capstone</code> 在 Python 里做。收益有三：</p>
+<ol>
+<li><strong>可批量化、可复现。</strong> IDA/Ghidra 是交互式的，<code>42 条奖励代码 × 每条要跟 3 跳指针</code> 这种活必须脚本化。</li>
+<li><strong>免许可证。</strong> 不用管 IDA 授权，也不受 Ghidra 的 JVM 启动开销拖累。</li>
+<li><strong>和索引产物同源。</strong> 反汇编结果直接落 CSV/JSON，和 HTML 报告共用一套真相。</li>
+</ol>
+<p>代价是<strong>没有反编译器</strong>（只有反汇编），所以需要人读汇编。为此写了一个<strong>通用批注器</strong>（RM <code>scripts/67_gating_chain.py</code>），把每行反汇编自动补上人类可读的注释：</p>
+<pre><code>0x275dfd4  adrp  x8, #0x5199000
+0x275dfd8  ldr   x8, [x8, #0x270]        ; slot 0x5199270
+0x275dfdc  ldr   x1, [x8]                ; → "ULV"
+0x275dfe0  bl    #0x1d063b4              ; → System.String::op_Equality
+0x275dfe4  mov   w0, #2                  ; = 2
+0x275dfe8  b     #0x275e95c</code></pre>
+<p><code>bl</code> → 被调方法全名、<code>ldr</code> → 字符串、<code>mov</code> → 十进制。<strong>这个批注器是本轮最有复用价值的工具</strong>，任何"配置里的魔法值到底代表什么"的问题都能用它打开。</p>
+<h4 id="sec15">2.2.5 FlatBuffers schema 恢复</h4>
+<p>RM 的 14,500 个关卡是 FlatBuffers，但<strong>没有随包发 <code>.fbs</code></strong>。恢复路径是"反着来"：</p>
+<pre><code>dump.cs 里 grep GetRootAsFTiled / GetDataTableSchema
+→ 533 个 FlatBuffers 表访问器
+→ 从访问器的字段读取顺序 + il2cpp.h 的结构体布局，倒推出 slot 顺序
+→ 产出 indices/fbs_schema_recovered.cs
+→ 用它在 decoded/text_fixed/ 上按标准 table_pos − soffset = vtable_pos 精确读取</code></pre>
+<p><strong>外部队验</strong>：用这套 schema 去解服务端下发的 83 个关卡，与本地逐格比对 <strong>83/83 完全一致</strong> —— 这既证明了 schema 正确，也证明了本地关卡不是过期数据。<strong>这是"用独立数据源验证自己恢复的格式"的范例，比任何内部一致性检验都硬。</strong></p>
+<h3 id="sec16">2.3 运行时侧详解</h3>
+<h4 id="sec17">2.3.1 Android Studio：它不是 IDE，是「设备供应商」</h4>
+<p><strong>先纠正一个认知</strong>：在这套工作流里，Android Studio <strong>不是拿来写代码的</strong> —— 一行 Java/Kotlin 都不会在里面写。它实际提供的是三样东西：</p>
+<div class="tw"><table><thead><tr><th class="left">组件</th><th class="left">干什么</th><th class="left">在链路里的位置</th></tr></thead><tbody><tr><td class="left"><strong>AVD Manager</strong></td><td class="left">建一台虚拟设备（选机型 / API 版本 / 系统镜像 / 内存）</td><td class="left">一切的前提</td></tr><tr><td class="left"><strong>emulator</strong></td><td class="left">把这台设备启动起来，提供 adb 能连上的 <code>emulator-5554</code></td><td class="left">运行时观测的载体</td></tr><tr><td class="left"><strong>Android SDK</strong>（platform-tools / build-tools / cmdline-tools）</td><td class="left">顺带带来 <strong>adb</strong>（真正天天用的命令）、aapt2、sdkmanager</td><td class="left">装包 / 截图 / 模拟触摸 / 配代理</td></tr></tbody></table></div>
+<blockquote><strong>一句话</strong>：Android Studio 在这里的角色 ≈「一台可 root、可随时重置、可多开好几台的 Android 设备」。真正干活的命令行是 <strong>adb</strong>。</blockquote>
+<p><strong>为什么不直接上真机？</strong> 三条需求决定了模拟器是默认选项：</p>
+<div class="tw"><table><thead><tr><th class="left">需求</th><th class="left">模拟器</th><th class="left">真机</th></tr></thead><tbody><tr><td class="left">需要 <strong>root</strong></td><td class="left"><code>google_apis</code> 镜像下一条 <code>adb root</code> 就来</td><td class="left">要解 BL 锁 + 刷 Magisk；多数国行机解不了 BL</td></tr><tr><td class="left">需要 <strong>反复重置</strong></td><td class="left">删 AVD 重建 / 快照回滚，分钟级</td><td class="left">恢复出厂，小时级</td></tr><tr><td class="left">需要 <strong>改系统 CA</strong>（抓包）</td><td class="left">bind-mount 覆盖信任库即可</td><td class="left">同样先要 root</td></tr><tr><td class="left">需要 <strong>多 ABI / 多 API 版本</strong></td><td class="left">建多个 AVD 并存</td><td class="left">得有多台机器</td></tr><tr><td class="left">需要 <strong>多版本 APK 对照</strong></td><td class="left">装 / 卸 / 换包，秒级</td><td class="left">每次手动</td></tr><tr><td class="left">性能（尤其图形）</td><td class="left">慢，软件渲染更慢</td><td class="left">快</td></tr><tr><td class="left">被反模拟器逻辑识别</td><td class="left"><strong>有风险</strong>（部分游戏会检测）</td><td class="left">无</td></tr></tbody></table></div>
+<p><strong>结论</strong>：解包场景（要 root、要反复重置、要改 CA）→ <strong>默认上模拟器</strong>。只有遇到「游戏有反模拟器逻辑」或「必须测真实性能」时才换真机。</p>
+<p><strong>AVD 怎么建</strong>（命令行方式，可脚本化；GUI 见下方注意事项）：</p>
+<pre><code class="lang-bash">SDK=$HOME/Library/Android/sdk
+
+# 1) 装系统镜像 —— arm64 主机必须装 arm64-v8a 镜像（见下方 Apple Silicon 说明）
+$SDK/cmdline-tools/latest/bin/sdkmanager \
+"system-images;android-31;google_apis;arm64-v8a" "platform-tools" "emulator"
+
+# 2) 建 AVD（-d 指定机型，pixel_6 有固定分辨率，便于坐标标定）
+$SDK/cmdline-tools/latest/bin/avdmanager create avd \
+-n Pixel_6 -k "system-images;android-31;google_apis;arm64-v8a" -d pixel_6
+
+# 3) 内存调到 4 GB（写进 config.ini）
+echo "hw.ramSize=4096" &gt;&gt; ~/.android/avd/Pixel_6.avd/config.ini
+
+# 4) 自检：能 root 才算建对
+ADB=$SDK/platform-tools/adb
+$ADB root &amp;&amp; $ADB shell whoami      # 期望输出 root</code></pre>
+<blockquote>🔴 <strong>GUI 里最容易踩的一步</strong>：Android Studio 的 Create Device 向导在选择系统镜像时，<strong>「Google Play」和「Google APIs」是两个不同的 tab</strong>。<br/>选了 <strong>Google Play</strong> → 镜像带 PlayStore，<code>adb root</code> 直接失效，<strong>后续 frida-server 全部作废</strong>。<br/>必须选 <strong>Google APIs</strong>（或 AOSP），并确认 <code>PlayStore.enabled=false</code>。</blockquote>
+<p><strong>四个必须设置的开关</strong>（以及不设会怎样）：</p>
+<div class="tw"><table><thead><tr><th class="left">设置</th><th class="left">值</th><th class="left">不设会怎样</th></tr></thead><tbody><tr><td class="left">系统镜像</td><td class="left"><strong><code>google_apis</code> 或 AOSP</strong>，<code>PlayStore.enabled=false</code></td><td class="left"><code>adb root</code> 报 <code>cannot run as root in production builds</code> → 后续 frida-server 全废（见 §4-A8）</td></tr><tr><td class="left">ABI</td><td class="left">与你要装的 APK split <strong>一致</strong>（本项目 arm64-v8a）</td><td class="left"><code>INSTALL_FAILED_NO_MATCHING_ABIS</code>（见 §4-A5）</td></tr><tr><td class="left">内存</td><td class="left"><strong>≥ 4 GB</strong></td><td class="left">Frida 注入报 <code>unexpected crash while trying to allocate memory</code>（<strong>看起来像内存不足，但不一定是</strong>，见 §4-D6 / §4-A9）</td></tr><tr><td class="left">启动参数</td><td class="left"><code>-no-window -no-audio -gpu swiftshader_indirect -no-snapshot-save</code></td><td class="left">无头环境必须有 <code>-no-window</code>；<code>swiftshader_indirect</code> 让截图可用</td></tr></tbody></table></div>
+<p><strong>启动参数逐个拆开讲</strong>（这条命令是整个运行时链路的起点）：</p>
+<pre><code class="lang-bash">emulator -avd Pixel_6 -no-window -no-audio -gpu swiftshader_indirect -no-snapshot-save</code></pre>
+<div class="tw"><table><thead><tr><th class="left">参数</th><th class="left">为什么必须加</th></tr></thead><tbody><tr><td class="left"><code>-no-window</code></td><td class="left">无头 / 远程环境没有显示服务器；有窗口还会抢焦点、且窗口尺寸会影响截图像素（破坏坐标标定的可复现性）</td></tr><tr><td class="left"><code>-no-audio</code></td><td class="left">少一条 CoreAudio 初始化路径，减少启动失败面。本项目不需要听声音</td></tr><tr><td class="left"><code>-gpu swiftshader_indirect</code></td><td class="left"><strong>纯软件渲染。</strong> Apple Silicon 上 <code>-gpu host</code> 常黑屏；而 <code>screencap</code> 必须要有能出画的 GPU 后端，否则截出来是黑图 → 无法做棋盘识别</td></tr><tr><td class="left"><code>-no-snapshot-save</code></td><td class="left">每次冷启动，状态干净可复现</td></tr></tbody></table></div>
+<p><strong>快照机制是个取舍，不是随便加的</strong>：</p>
+<ul>
+<li><strong>默认（有快照）</strong>：第二次启动秒进。但<strong>游戏内存里可能残留上一轮的实例、frida-server 可能已被杀、hook 状态可能残留</strong> —— 你分不清日志里的事件是这一轮的还是上一轮的。</li>
+<li><strong>本项目选冷启动</strong>（<code>-no-snapshot-save</code>）：宁可每次多等 30–60 秒，也要保证「这一轮日志从全新状态开始」。<strong>采集会话的可复现性 &gt; 启动速度。</strong></li>
+</ul>
+<p><strong>Apple Silicon 的额外限制</strong> 🟡：主机是 M4 Pro 时，模拟器只自带 <code>qemu/darwin-aarch64</code>。<code>x86_64</code> 镜像需要 QEMU 全指令翻译，<strong>基本不可用</strong> → 直接放弃 x86_64，用 arm64-v8a 镜像。这也意味着：<strong>如果手上的 APK 只有 x86_64 的 so，这台机器上做不了运行时观测。</strong></p>
+<p><strong>本机实测环境</strong>：<code>~/Library/Android/sdk</code>，AVD <code>Pixel_6</code>，<code>system-images/android-31/google_apis/arm64-v8a</code>，<code>hw.ramSize=4096</code>。</p>
+<blockquote>⚠️ <strong>adb / emulator 不在 PATH 里</strong>，脚本里必须写绝对路径：<br/><code>$HOME/Library/Android/sdk/platform-tools/adb</code>、<code>$HOME/Library/Android/sdk/emulator/emulator</code>。<br/>本项目 <code>tools/frida/setup_android_frida.sh</code> 里就是用 <code>ANDROID_HOME="$HOME/Library/Android/sdk"</code> 显式拼路径的。</blockquote>
+<p><strong>环境准备一条命令搞定</strong>（<code>tools/frida/setup_android_frida.sh</code>，六步全自动）：</p>
+<pre><code class="lang-bash">bash tools/frida/setup_android_frida.sh 16.5.9</code></pre>
+<p>它做的事：① 起模拟器并等 <code>sys.boot_completed=1</code> → ② 读 <code>ro.product.cpu.abi</code> 决定下哪个架构的 frida-server → ③ <code>adb root</code> 并校验（失败即退出，提示换镜像）→ ④ 下载 <code>frida-server-&lt;ver&gt;-android-&lt;arch&gt;.xz</code> 并解压 → ⑤ push 到 <code>/data/local/tmp</code> 并 <code>-D</code> 启动 → ⑥ 确认本机 Python 侧 <code>frida</code> 包版本与设备端一致。</p>
+<blockquote><strong>版本必须对齐</strong>：宿主 <code>frida</code> Python 包与设备 <code>frida-server</code> 版本不一致时，<code>device.attach()</code> 会直接失败。脚本第 6 步就是专门防这个。</blockquote>
+<h4 id="sec18">2.3.2 adb 的六种用法</h4>
+<pre><code class="lang-bash">ADB=~/Library/Android/sdk/platform-tools/adb
+
+# 1) 装 split 包（必须一次装全）
+$ADB install-multiple -r -t base.apk split_config.arm64_v8a.apk split_UnityDataAssetPack.apk
+
+# 2) 起游戏 + 确认 libil2cpp 已加载（延迟加载，见 §4-D5）
+$ADB shell "monkey -p com.dreamgames.royalmatch -c android.intent.category.LAUNCHER 1"
+PID=$($ADB shell pidof com.dreamgames.royalmatch | tr -d '\r')
+$ADB shell "grep -c libil2cpp /proc/$PID/maps"     # 必须 &gt; 0
+
+# 3) 截图（exec-out 才不会被 \r\n 污染）
+$ADB exec-out screencap -p &gt; shots/cur.png
+
+# 4) 模拟触摸（坐标必须像素实测，见 §4-E6）
+$ADB shell input swipe x1 y1 x2 y2 200
+
+# 5) 配代理（模拟器网关 10.0.2.2 = 宿主机）
+$ADB shell settings put global http_proxy 10.0.2.2:8080
+
+# 6) 强制重启游戏（恢复 Frida 可 attach 状态的唯一办法，见 §4-D6 / A10）
+$ADB shell am force-stop com.dreamgames.royalmatch</code></pre>
+<h4 id="sec19">2.3.3 Frida 详解：原理 · 地址 · 语义坑 · 采集协议</h4>
+<p><strong>A · 它是什么，为什么非它不可</strong></p>
+<p>Frida 是<strong>动态插桩</strong>工具，两侧配合：</p>
+<pre><code>宿主（macOS）                          设备（Android 模拟器）
+frida-python  ──── 把 JS 源码字符串 ────&gt;  frida-server（root 跑）
+▲                                          │
+│                                          ├─ 在当前进程里起一个 JS 运行时
+│                                          ├─ 暴露 Native API：读写这块进程的内存
+│                                          └─ 装 inline hook（运行时改写指令流）
+└────────── send(payload)  ←───────────────┘</code></pre>
+<p>它给的是三件静态分析永远给不了的能力：</p>
+<div class="tw"><table><thead><tr><th class="left">能力</th><th class="left">典型问题</th><th class="left">本项目用例</th></tr></thead><tbody><tr><td class="left"><strong>读内存</strong></td><td class="left">这个字段此刻的实际值是多少</td><td class="left">读 <code>LevelRandomManager</code> 的 <code>difficultySeed@0x24</code>、<code>BasicUserData.Level@0x14</code></td></tr><tr><td class="left"><strong>hook 函数</strong></td><td class="left">这个方法被调了几次、参数是什么、返回什么</td><td class="left">102 个 hook 点，覆盖难度 / 次数 / 补棋 / 特殊块 / 障碍</td></tr><tr><td class="left"><strong>调函数 + 写内存</strong></td><td class="left">我想让它现在执行这一步（做实验）</td><td class="left">写 <code>Level</code> + 调 <code>LevelLoad()</code> 实现跳关</td></tr></tbody></table></div>
+<p><strong>为什么 IL2CPP 游戏必须靠它</strong>：静态解包能告诉你「代码长什么样」，但拿不到「这一次实际走了哪个分支」。</p>
+<blockquote>证据：<code>IsAnyCombo</code> 静态看只是个判断方法，<strong>运行时调用 69 次、只有 3 次返回 1</strong>。这个分布 —— 也就是"它到底有没有真的触发" —— 只有运行时才有。只看静态代码，你会得出截然相反的结论。</blockquote>
+<p><strong>B · 地址怎么算：<code>base + RVA</code></strong></p>
+<pre><code>设备上的实际地址 = libil2cpp.so 加载基址 + RVA</code></pre>
+<ul>
+<li><strong>RVA</strong>（相对虚拟地址）来自 Il2CppDumper 的 <code>script.json</code>（约 17 万条「方法名 → RVA」）。<strong>不要硬编码绝对地址</strong>，硬编码换一个版本就全废。</li>
+<li><strong>基址</strong>运行时取：<code>Process.findModuleByName('libil2cpp.so').base</code>。</li>
+</ul>
+<blockquote>🔴 <strong>RVA 与 ABI 强绑定</strong>：armv7 与 arm64 的 RVA 完全不同，字段偏移也不同（RM 实测：arm64 下 <code>difficultySeed</code> 在 <code>+0x24</code>，armv7 不是）。<strong>禁止混用</strong>，项目里还专门为此在两个 ABI 上各跑了一次 Il2CppDumper。</blockquote>
+<p><strong>C · 注入前必做：RVA 校验</strong>（<code>tools/frida/validate_rva.py</code>）</p>
+<p>原理：把设备内存里 <code>base+RVA</code> 处的<strong>前 16 字节</strong>，与本地 <code>.so</code> 文件同一虚拟地址处的 16 字节，逐条比对。</p>
+<p>本地侧不能直接按文件偏移读 —— 要用<strong>程序头做 vaddr → 文件偏移映射</strong>：</p>
+<pre><code class="lang-python"># 遍历 PT_LOAD，找到覆盖该 vaddr 的段，换算成文件偏移
+p_type  = struct.unpack_from("&lt;I", data, off)[0]
+p_vaddr = struct.unpack_from("&lt;Q", data, off + 0x10)[0]
+p_filesz= struct.unpack_from("&lt;Q", data, off + 0x20)[0]
+if p_vaddr &lt;= vaddr &lt; p_vaddr + p_filesz:
+file_off = p_offset + (vaddr - p_vaddr)</code></pre>
+<p>抽样覆盖四块目标各取代表，实测 <strong>9/9 一致</strong>：</p>
+<div class="tw"><table><thead><tr><th class="left">方法</th><th class="left">RVA</th></tr></thead><tbody><tr><td class="left"><code>LevelRandomManager.DifficultyNext</code></td><td class="left"><code>0x2A31474</code></td></tr><tr><td class="left"><code>LevelRandomManager.GetDifficultyNext</code></td><td class="left"><code>0x2A31478</code></td></tr><tr><td class="left"><code>LevelRandomManager.SetDifficultySeed</code></td><td class="left"><code>0x2A313F0</code></td></tr><tr><td class="left"><code>SemiDynamicDifficulty.IncrementTryCount</code></td><td class="left"><code>0x1C850C4</code></td></tr><tr><td class="left"><code>UserInventory.GetTryCount</code></td><td class="left"><code>0x2A0DC20</code></td></tr><tr><td class="left"><code>ItemCreator.GetRandomFillItem</code></td><td class="left"><code>0x20E9CA4</code></td></tr><tr><td class="left"><code>ItemCreator.GetRandomColor</code></td><td class="left"><code>0x20E9E78</code></td></tr><tr><td class="left"><code>MatchManager.ExplodeMatchGroup</code></td><td class="left"><code>0x137C544</code></td></tr><tr><td class="left"><code>BoxItemModel.TryExplode</code></td><td class="left"><code>0x2A65D38</code></td></tr></tbody></table></div>
+<blockquote>🔴 <strong>不校验就开始采 = 可能整轮白采。</strong> 采到的是"方法一次都没命中"，而你<strong>分不清</strong>是「逻辑真的没走到」还是「地址根本不对」。这两者的排查方向完全相反。<br/>校验脚本末尾会明确输出「匹配 → 可以继续采集」或「不一致 → 修正前不要 hook」。</blockquote>
+<p><strong>D · 102 个 hook 点怎么写：表驱动，不是 102 段重复代码</strong></p>
+<pre><code class="lang-js">// { n: 名字, r: RVA, f: 是否读 this 字段, a: 是否记参数, v: 是否记返回值 }
+var DIFFICULTY_HOOKS = [
+{ n: 'LevelRandomManager.SetSeed',            r: 0x2A30DEC, f: false, a: true,  v: false },
+{ n: 'LevelRandomManager.GetDifficultyNext',  r: 0x2A31478, f: true,  a: true,  v: true  },
+{ n: 'LevelRandomManager.NextBool',           r: 0x2A31008, f: false, a: false, v: true  }
+];</code></pre>
+<p>统一的挂载引擎消化整张表：</p>
+<pre><code class="lang-js">function install(module, group, spec) {
+spec.forEach(function (s) {
+var addr = module.base.add(s.r);
+try {
+Interceptor.attach(addr, {
+onEnter: function (args) {
+var seq = RM.seq++;
+this.__rmSeq = seq;
+var payload = { group: group, thisPtr: args[0].toString() };
+if (s.a) { var a = []; for (var i = 1; i &lt;= 4; i++) a.push(args[i].toInt32()); payload.args = a; }
+if (s.f === true) payload = Object.assign(payload, readDifficultyFields(args[0]));
+emit('enter', s.n, s.r, payload, seq);
+},
+onLeave: function (retval) {
+if (!s.v) return;
+emit('leave', s.n, s.r, { ret: retval.toInt32() }, this.__rmSeq);
+}
+});
+} catch (e) {
+emit('error', s.n, s.r, { message: String(e) });   // 单点失败不拖垮整批
+}
+});
+}</code></pre>
+<p><strong>好处</strong>：加一个观测点只改一行数据；三个开关（<code>f/a/v</code>）按需控制日志体量；单个点 attach 失败被 <code>try</code> 捕获成一条 error 事件，不影响其余 101 个。</p>
+<p><strong>102 个点分五组</strong>：</p>
+<div class="tw"><table><thead><tr><th class="left">组</th><th class="left">点数</th><th class="left">覆盖什么</th></tr></thead><tbody><tr><td class="left"><code>difficulty</code></td><td class="left">9</td><td class="left">难度随机种子状态（<code>SetSeed</code> / <code>ResetDifficultySeed</code> / <code>GenerateTrySeeds</code> / <code>GetDifficultyNext</code> …）</td></tr><tr><td class="left"><code>trycount</code></td><td class="left">15</td><td class="left">失败计数与动态难度分段（<code>SemiDynamicDifficulty.*</code> + <code>UserInventory.*</code>）</td></tr><tr><td class="left"><code>refill</code></td><td class="left">26</td><td class="left">补棋来源分派（<code>ItemCreator.*</code>：从哪个池子取棋子、随机色、禁色、调优）</td></tr><tr><td class="left"><code>special</code></td><td class="left">21</td><td class="left">特殊块生成与爆炸（<code>*ItemModel.TryExplode</code>、<code>MatchManager.ExplodeMatchGroup</code>）</td></tr><tr><td class="left"><code>obstacle</code></td><td class="left">31</td><td class="left">障碍物扣减（<code>Cupboard</code> / <code>CookieJar</code> / <code>ColorBox</code> / <code>VendingMachine</code> / <code>Rocket</code> / <code>Tnt</code> / <code>Lightball</code> / <code>Propeller</code> …）</td></tr></tbody></table></div>
+<p><strong>E · 三个必须知道的 Frida 语义坑</strong></p>
+<p><strong>① <code>args[0]</code> 是 <code>this</code>，不是第一个参数</strong> 🔴</p>
+<p>C++ 成员函数调用约定里，第一个寄存器放的是对象指针。所以：</p>
+<pre><code class="lang-js">onEnter: function (args) {
+// args[0] = this（对象自身指针）
+// args[1] = 真正的第一个参数
+// args[2] = 第二个 … 依此类推
+}</code></pre>
+<p>把 <code>args[0]</code> 当第一参数用，是"参数值看起来毫无规律"的常见根因。</p>
+<p><strong>② <code>enter</code> / <code>leave</code> 必须用同一个 <code>seq</code> 配对</strong> 🟡</p>
+<p>因为 hook 可能递归、也可能多线程并发，返回值<strong>不能靠"下一条 leave"来猜</strong>。</p>
+<pre><code class="lang-js">onEnter: function (args) {
+var seq = RM.seq++;          // 分配序号
+this.__rmSeq = seq;          // 存到本次调用上下文
+emit('enter', s.n, s.r, payload, seq);
+},
+onLeave: function (retval) {
+emit('leave', s.n, s.r, { ret: retval.toInt32() }, this.__rmSeq);   // ← 用同一个 seq
+}</code></pre>
+<blockquote>注释里也写明了：<code>enter / leave 必须共用同一个 seq，否则无法把返回值配回调用</code>。</blockquote>
+<p><strong>③ 读任何字段都要 <code>try</code> 包住</strong> 🔴</p>
+<p>目标指针可能是 <code>null</code>、可能已被回收、可能根本不是你要的类型。<strong>一次未捕获异常就能让整个 hook 静默失效</strong>（而且不会报错，只是后面不再有事件）。</p>
+<pre><code class="lang-js">function safeS32(p, off) { try { return ptr(p).add(off).readS32(); } catch (e) { return null; } }
+function safeU32(p, off) { try { return ptr(p).add(off).readU32(); } catch (e) { return null; } }
+function safePtr(p, off) {
+try { var v = ptr(p).add(off).readPointer(); return v.isNull() ? null : v.toString(); }
+catch (e) { return null; }
+}</code></pre>
+<p><strong>F · IL2CPP 内存模型：字段不是直连的，要跳好几次</strong></p>
+<p>C# 对象在内存里的字段不连续摆放，中间隔着 klass 指针等元数据。<strong>每一次 <code>+offset</code> 读到的往往是指针，得再 <code>.readPointer()</code> 才能到真正的数据</strong> —— 这就是"两跳解引用"。</p>
+<p>本项目最典型的一条链（读当前关卡号）：</p>
+<pre><code>UserInventory 实例
+→ +0x18  → CurrentUser        （第一跳，指针）
+→ +0x18  → BasicUserData      （第二跳，指针）
+→ +0x14  → Level              （第三跳，int32，终于到值）</code></pre>
+<pre><code class="lang-js">var u  = FN.getCurrentUser();
+if (u.isNull()) return null;
+var bd = u.add(0x18).readPointer();          // 第二跳
+if (bd.isNull()) return null;
+var level = bd.add(0x14).readS32();          // 第三跳 → 真正的值</code></pre>
+<blockquote><strong>每一跳都要判 <code>null</code>。</strong> 少判一次，<code>[null + 0x14]</code> 直接触发 access violation —— 而这个报错信息里只会告诉你"访问 0x14 出错"，不会告诉你是哪一跳断的。<br/>字段偏移从 <code>dump.cs</code> 里查（它直接给出 <code>字段偏移 / TypeDefIndex / vtable Slot</code>）。</blockquote>
+<p><strong>G · 从 JS 调托管方法：必须先 <code>il2cpp_thread_attach</code></strong> 🔴（本项目最贵的坑）</p>
+<ul>
+<li><strong>症状</strong>：用 <code>NativeFunction</code> 调任何<strong>托管实例方法</strong>，一律报 <code>Error: access violation accessing 0x10</code>。实测 <code>LevelManager.LevelLoad(0x205BB40)</code> 和 <code>GetDownloadedLevel(0x205D618)</code> 的报错<strong>完全一致</strong>。</li>
+<li><strong>诡异之处</strong>：同一个方法由游戏自己调用时，<code>Interceptor</code> hook 正常命中 → <strong>说明地址没错、方法没找错</strong>。</li>
+<li><strong>根因</strong>：Frida 的 JS 线程<strong>没有注册进 IL2CPP 运行时</strong>。IL2CPP 生成代码里要取 <code>il2cpp::vm::Thread::Current()</code>，拿到的是 <code>null</code>，紧接着去读 <code>[null + 0x10]</code>（拿 thread 上的静态字段基址）→ 必炸。</li>
+<li><strong>修法</strong>：<strong>做任何托管 <code>NativeFunction</code> 调用之前，先跑这一段</strong>：</li>
+</ul>
+<pre><code class="lang-js">var dom = new NativeFunction(Module.findExportByName('libil2cpp.so', 'il2cpp_domain_get'),
+'pointer', [])();
+new NativeFunction(Module.findExportByName('libil2cpp.so', 'il2cpp_thread_attach'),
+'pointer', ['pointer'])(dom);
+// 之后 thread_current() 不再为 null</code></pre>
+<blockquote><strong>判据</strong>：如果报错固定是 <code>accessing 0x10</code>（小偏移、固定值），<strong>先怀疑线程没 attach</strong>，而不是怀疑偏移算错。偏移错通常报的是一个大而随机的地址。</blockquote>
+<p><strong>H · RPC 不可用 → 把整条时序搬进 JS</strong> 🔴</p>
+<p>这是本项目<strong>最关键的一个架构决策</strong>。</p>
+<p>实测事实：</p>
+<div class="tw"><table><thead><tr><th class="left">方向</th><th class="left">可靠性</th><th class="left">证据</th></tr></thead><tbody><tr><td class="left">宿主 → 脚本（<code>recv</code>）</td><td class="left">🔴 <strong>不可靠</strong></td><td class="left">Frida 16.5.9 的 <code>recv(callback)</code> 是<strong>一次性</strong>的，只交付下一条消息（连发 5 条只回 1 条 echo）</td></tr><tr><td class="left">宿主 → 脚本（改"收到后重新 recv"）</td><td class="left">🔴 <strong>仍然不可靠</strong></td><td class="left">在 <code>Interceptor</code> 回调开始命中之后，回包<strong>整体中断</strong> —— 日志里 17 条 rpc <strong>全部在 hook 之前</strong>，hook 之后 <strong>0 条</strong></td></tr><tr><td class="left">脚本 → 宿主（<code>send</code>）</td><td class="left">🟢 <strong>始终可靠</strong></td><td class="left">hook 回调里 <code>send</code> 正常，<code>setInterval</code> 里 <code>send</code> 也正常</td></tr></tbody></table></div>
+<p>→ <strong>结论：不要设计「宿主逐条发命令、脚本应答」的交互协议。</strong> 把整条时序写成 JS 里的状态机，宿主只负责监听 <code>send</code>。</p>
+<pre><code class="lang-js">var PLAN = {
+target: 4,
+mode: 'poke',              // poke | setlevel | admin | readonly | pokestart | pokeflag
+stepGapMs: 1500,
+stepTimeoutMs: 180000,
+watchCount: 5,             // 执行后轮询观察次数（看服务端会不会回滚）
+watchGapMs: 4000
+};</code></pre>
+<p>执行流：① 装载 hook（函数级 11 个 + 指令级 1 个）→ ② <code>setInterval</code> 轮询实例指针（<strong>实例只能在 hook 命中时拿到</strong>）→ ③ 实例齐全后按 <code>PLAN.steps</code> 逐步执行，步间等 <code>stepGapMs</code> → ④ 最后按 <code>watchGapMs</code> 轮询若干次，观察关卡号是否被服务端回滚。</p>
+<blockquote>⚠️ <strong>指令级 hook 有代价</strong>：它会让 <strong>JS 线程整体停摆</strong>（<code>setInterval</code> 不再触发、后续 <code>send</code> 全无）—— 详见 §4-D11。<br/>所以 <code>PLAN.useInsHook</code> 默认 <code>false</code>，只在确实需要时打开，且<strong>打开后不能再依赖定时器</strong>。</blockquote>
+<p><strong>收益</strong>：宿主断连也不影响脚本跑完；日志顺序与真实执行顺序严格一致。</p>
+<blockquote>🔴 <strong>这里还有一个自残型坑</strong>：宿主用正则把 JS 里 <code>PLAN</code> 那一整块替换掉以注入配置。<br/>而脚本<strong>注释里如果出现了同样的字面量示例</strong>，非贪婪正则会先命中注释里那一段 ——<br/>结果是<strong>真正的赋值原封不动，脚本一直跑内置默认值</strong>。<br/>表现极具迷惑性：「三次不同模式的实验，其实跑的是同一套参数」。<br/>已改成匹配 <code>var PLAN = {</code> + 换行 + <code>};</code>，并加 <code>count=1</code> 强校验。</blockquote>
+<p><strong>I · Frida 的第二个身份：改内存做实验</strong></p>
+<p>不只观测，还能<strong>写</strong>。跳关就是"写 + 调"的组合：</p>
+<pre><code class="lang-js">FN.setLevel  = new NativeFunction(base.add(0x219AA68), 'void', ['pointer', 'int']);
+FN.levelLoad = new NativeFunction(base.add(0x205BB40), 'void', ['pointer']);
+// 数据层：写 BasicUserData.Level（+0x14），再调 LevelLoad() 让游戏自己走加载流程</code></pre>
+<p><strong>为什么"只写不调"不行</strong>：改了字段但游戏不会自动重新加载关卡，屏幕毫无变化 —— 看起来像"写失败了"。 <strong>为什么"只调不写"也不行</strong>：加载的还是原来的关卡号。</p>
+<blockquote>服务端可能把关卡号<strong>回滚</strong>（这本身是有价值的情报）→ 所以脚本里带 <code>watchCount</code> / <code>watchGapMs</code> 轮询观察。<br/><strong>能力边界</strong>：跳过去的关卡「<strong>能加载、不能玩</strong>」（棋盘数据 / 关卡状态不完整）—— 详见 §4-E2。别把"加载成功"当"跳关成功"。<br/>副作用警告见 §4-D12（内存改值不跨进程重启，且会影响账号状态）。</blockquote>
+<p><strong>J · 自动走棋：为什么必须按坐标，以及坐标怎么来的</strong></p>
+<p>游戏是 Unity 渲染的 —— <strong>没有可访问的 view 树</strong>，你拿不到"第 3 行第 4 列的格子"这种元素。只能：</p>
+<pre><code>screencap 截图 → 识别棋盘在屏幕上的位置 → 算出 9×9 每个格心像素 → input tap x y</code></pre>
+<p><strong>坐标必须实测，不能估</strong> 🔴🔴（<code>calibrate_grid.py</code>）—— 这是<strong>最容易毁掉整轮采集</strong>的一个点（详见 §4-D7）：</p>
+<div class="tw"><table><thead><tr><th class="left">坑</th><th class="left">后果</th></tr></thead><tbody><tr><td class="left">写死行距（本项目曾用 <code>110px</code>）</td><td class="left">实测应为 <strong>≈116px</strong>，4 行累积约 17px 偏差 → 读数看起来"正常"，但"自带三连"、合法走法虚报到 40+ 个 → 交换被大面积弹回</td></tr><tr><td class="left">忽略教程提示横幅</td><td class="left">横幅出现时<strong>整个棋盘被下压约 50px</strong>（纯偏移），格心全部错位</td></tr><tr><td class="left">用颜色分类格子</td><td class="left">橙色花朵（棋子）会被误判成土块</td></tr></tbody></table></div>
+<p><strong>更稳的做法</strong>：以棋盘的「灰浆色」<code>(147,167,217)</code> 为签名求列缝 / 行缝，再<strong>等距重铺格心</strong> —— <strong>不依赖任何写死常量</strong>。格子分类也不要靠颜色，按「<strong>格内灰浆像素占比</strong>」判：占用槽位实测 7~16%，帘幕 / 土块面板恒 0%，<strong>两者零重叠</strong>。</p>
+<p>标定完成后<strong>输出一张 overlay 图</strong>（把格心画在截图上）交人工确认「格心确实压在格子上」：</p>
+<pre><code class="lang-bash">python3 tools/frida/calibrate_grid.py outputs/shots/cur.png --overlay /tmp/cal.png</code></pre>
+<blockquote>对工具本身也要保持怀疑：本项目的自愈在两张已知正确的截图上<strong>逐格无差异</strong>，但实测驱动 3 步只有 2 步真实生效，<strong>第 0 行仍最不可靠</strong> —— 属于<strong>显著改善而非完全修复</strong>。</blockquote>
+<p><code>play_moves.py</code> 支持 <code>--bias top|bottom|left|right</code> 控制走法倾向 —— <strong>目的是让每一轮采集的走法分布可控、可复现</strong>，而不是随机乱点。配合 <code>--tag A/B/...</code> 给每轮会话打标，事后能按标签切分。</p>
+<p><strong>K · 采集协议：用「行号区间」切日志，不要用「时间窗口」</strong> 🔴</p>
+<p>这是本轮最重要的方法论之一。</p>
+<div class="tw"><table><thead><tr><th class="left"></th><th class="left">做法</th><th class="left">后果</th></tr></thead><tbody><tr><td class="left">❌ 错</td><td class="left"><code>--duration 60</code> 采 60 秒，然后按<strong>时间戳</strong>切段</td><td class="left">动作被切到错误的段里</td></tr><tr><td class="left">✅ 对</td><td class="left">按<strong>行号区间</strong>切段</td><td class="left">每次走棋的因果链完整</td></tr></tbody></table></div>
+<p><strong>原因</strong>：hook 回调里 <code>send</code> 的<strong>顺序</strong>是可靠的，但<strong>时间戳会因主线程阻塞而抖动</strong> —— 一次 1.8 秒的卡顿能把两个相隔很远的动作压到同一毫秒。按时间切，等于用一个不可靠的轴去切一个可靠的序列。</p>
+<p>实现：<code>analyze_moves.py --moves &lt;moves.json&gt; --log &lt;jsonl&gt; --md &lt;md&gt; --json &lt;json&gt;</code> —— 按「每次走棋动作的前后 hook 事件<strong>行号</strong>」划段，而不是按 <code>t</code> 字段。</p>
+<p><strong>L · 两条最贵的误读</strong> 🔴</p>
+<p><strong>① 「日志行数变多了」不是成功信号。</strong></p>
+<p>跳关失败、游戏弹回主界面时，会<strong>重跑一遍初始化流程</strong>，同样产生<strong>约 1800 行</strong>噪音事件。 判成功要看<strong>内容</strong>（关卡号真的变了 / 目标方法真的命中了预期次数），<strong>不是看行数</strong>。</p>
+<p><strong>② 「方法返回 1」≠「业务真的发生了」。</strong></p>
+<div class="tw"><table><thead><tr><th class="left">方法</th><th class="left">调用次数</th><th class="left">返回 1 的次数</th><th class="left">结论</th></tr></thead><tbody><tr><td class="left"><code>IsAnyCombo</code></td><td class="left">69</td><td class="left">3</td><td class="left">只有这 3 次是真触发</td></tr><tr><td class="left"><code>IsCombo</code></td><td class="left">485</td><td class="left">34</td><td class="left">几乎全是噪音</td></tr></tbody></table></div>
+<p><strong>必须同时看「调用次数」和「返回值分布」两个数</strong>，只看某一个必然误判。</p>
+<p><strong>M · 硬约束：这台模拟器上 Frida 只能 attach 一次</strong> 🔴</p>
+<p>一次会话结束后再 attach 会失败。已知的恢复办法只有：</p>
+<pre><code class="lang-bash">adb shell am force-stop com.dreamgames.royalmatch     # 重启游戏进程</code></pre>
+<p><strong>由此推出一条作业纪律</strong>：<strong>每次 attach 之前，必须把所有要采的点一次性挂全。</strong> 不能"先采一部分，看看情况，再补挂另一批" —— 补挂时你面对的是一个没法再 attach 的进程，只能重启，而重启会丢失"已经玩到某个状态"的现场。</p>
+<p><strong>N · 最小可运行闭环</strong></p>
+<pre><code class="lang-bash"># 1) 环境（起模拟器 + root + frida-server + 版本对齐）
+bash tools/frida/setup_android_frida.sh 16.5.9
+# 2) 必做：校验 RVA（必须 9/9 一致）
+$PY tools/frida/validate_rva.py
+# 3) 挂 102 个点，落 JSONL
+$PY tools/frida/attach_rm.py --out outputs/runtime_hook_X.jsonl --wait-il2cpp 60
+# 4) 自动走棋（另一终端）
+$PYI tools/frida/play_moves.py --moves 6 --tag A --bias top --log &lt;jsonl&gt;
+# 5) 按行号区间切段分析
+$PYI tools/frida/analyze_moves.py --moves &lt;json&gt; --log &lt;jsonl&gt; --md &lt;md&gt; --json &lt;json&gt;</code></pre>
+<blockquote><code>$PY</code> = <code>.../python/versions/3.13.12/bin/python3</code>（有 frida，无 PIL）<br/><code>$PYI</code> = <code>.../python/envs/default/bin/python</code>（有 PIL + capstone，无 frida）<br/><strong>本机两个 Python 各有各的包</strong>，装混了会互相顶掉 —— 详见 §4-A1。</blockquote>
+<h4 id="sec20">2.3.4 mitmproxy + CA 注入：绕开 <code>/system</code> 只读</h4>
+<p>Android 7+ 只信任系统 CA。常规做法 <code>adb remount</code> 在多数镜像上会失败（dm-verity + vbmeta 写保护）。<strong>不要硬碰 /system，用 bind-mount 覆盖信任库</strong>：</p>
+<pre><code class="lang-bash">H=$(openssl x509 -subject_hash_old -in ~/.mitmproxy/mitmproxy-ca-cert.pem | head -1)
+adb shell "setenforce 0;
+mkdir -p /data/local/tmp/cacerts &amp;&amp;
+cp -a /system/etc/security/cacerts/. /data/local/tmp/cacerts/"
+adb push ~/.mitmproxy/mitmproxy-ca-cert.pem /data/local/tmp/cacerts/$H.0
+adb shell "chmod 644 /data/local/tmp/cacerts/*;
+mount --bind /data/local/tmp/cacerts /system/etc/security/cacerts"
+
+mitmdump --listen-host 0.0.0.0 --listen-port 8080 -w capture/rm_capture.mitm
+adb shell settings put global http_proxy 10.0.2.2:8080</code></pre>
+<p><strong>两个实测事实</strong>：</p>
+<ul>
+<li>Unity(IL2CPP) 的流量<strong>同样吃这个代理</strong>，TLS 正常解开 —— <strong>没有证书锁定</strong>。所以"Unity 游戏抓不到包"这个假设是错的。</li>
+<li>真正值得抓的不是资源，是<strong>服务端到底下发了什么</strong>。RM 抓包的有限样本中，<code>difficulty</code> / <code>tryCount</code> / <code>testGroup</code> / <code>experiment</code> 明文键为<strong>零命中</strong>。这是有范围的阴性观测，不能据此证明包内 43 段阈值表就是运行时权威，也不能排除编码字段、其他端点或账号分组。</li>
+</ul>
+<h4 id="sec21">2.3.5 报告侧自检：Chrome headless + PIL</h4>
+<p>报告生成后<strong>必须视觉复核</strong>，否则只有用户看得出问题。本项目的两次自查抓到的都是真问题：</p>
+<ul>
+<li><strong>SVG 橙色框文字溢出</strong>：<code>!ShouldAddAutoDialogIfHasAutoDialogBefore() &amp;&amp; hasAutoDialogBefore</code> 超出框边界 → 框从 <code>x=120 w=300</code> 改 <code>x=78 w=384</code>，字号 11.5 → 11。</li>
+<li><strong>表格一整列显示「—」</strong>：价格读错了来源（见 §4-F3）。</li>
+</ul>
+<p><strong>无头模式的坑</strong>：<code>--headless</code> 下页内锚点跳转不生效，两张"不同锚点"的截图会<strong>字节数完全相同</strong>（10981 B），容易误判成"截好了"。解法是<strong>用裁剪副本</strong>（把目标章节单独存成小 HTML）或整页 <code>--window-size=1440,16000</code> 截后再用 PIL 裁切定位。</p>
+<h3 id="sec22">2.4 本机没装、需要绕的工具</h3>
+<p>实测 <code>frida</code> / <code>adb</code> / <code>apktool</code> / <code>jadx</code> / <code>mitmproxy</code> / <code>aapt2</code> <strong>都不在 PATH</strong>（frida 与 mitmproxy 以 Python 包形式装、adb 在 SDK 里），<code>unzip</code> / <code>java</code> / <code>python3</code> / <code>node</code> 可用。</p>
+<div class="tw"><table><thead><tr><th class="left">缺的工具</th><th class="left">影响</th><th class="left">绕过方案</th></tr></thead><tbody><tr><td class="left"><strong>apktool</strong></td><td class="left">二进制 AXML 解不了（<code>AndroidManifest.xml</code>）</td><td class="left">版本/权限从 XAPK 的 <code>manifest.json</code> 或 <code>.apkm</code> 的 <code>info.json</code> 取；真要看 manifest 就单独装 apktool</td></tr><tr><td class="left"><strong>jadx</strong></td><td class="left">看不了 <code>classes*.dex</code></td><td class="left">业务逻辑本来就不在 dex 里（在 <code>libil2cpp.so</code>）；域名搜索直接对 <code>global-metadata.dat</code> 做二进制检索更快</td></tr><tr><td class="left"><strong>aapt2</strong></td><td class="left">拿不到资源 ID 表</td><td class="left">用 UnityPy 直接读 <code>resources.assets</code></td></tr><tr><td class="left"><strong>IDA / Ghidra</strong></td><td class="left">没有反编译器</td><td class="left">Python + capstone 反汇编 + 自写批注器（§2.2.4）</td></tr><tr><td class="left"><strong>TypeTreeGeneratorAPI</strong></td><td class="left">RM 的 MonoBehaviour typetree 读不出（UnityPy 1.25.3 缺 2021.3.55f1 类型树，报 <code>Expected to read N bytes, but only read M</code>）</td><td class="left">GH 那边是<strong>从公开 Git LFS 拿到了 2022 的类型树</strong>；RM 这条路当时没走通，改用 <strong>Il2CppDumper 的 <code>il2cpp.h</code> 还原结构体</strong>替代</td></tr></tbody></table></div>
+<blockquote><strong>一般规律</strong>：UnityPy 缺 typetree 时有两个方向 —— <strong>补类型树</strong>（下对应 Unity 版本的类型树资源）或<strong>绕类型树</strong>（用 Il2CppDumper 恢复的结构体 + FlatBuffers schema 手工读）。前者一劳永逸但要找到版本匹配的资源，后者更可控但要自己写布局。</blockquote>
+<hr/>
+<h2 id="sec23">3. 七步 SOP：拿到新 APK 的第一个小时</h2>
+<h3 id="sec24">Step 0 · 侦察（30 分钟，<strong>不写一行代码</strong>）</h3>
+<p>确认四件事，写进 <code>README.md</code> 头部：<strong>包名、版本/versionCode、引擎、容器形态</strong>。</p>
+<p>搜索 <code>包名 apk</code> 一般能在 appgoblin / apkder / apkmirror 拿到"引擎 + 体积 + 版本"。</p>
+<blockquote><strong>不要跳过这一步去写解包脚本。</strong> 引擎判错（Unity vs Cocos vs UE）会让后面几小时全部作废。</blockquote>
+<h3 id="sec25">Step 1 · 拆包与校验</h3>
+<pre><code class="lang-bash">sha256sum pkg.xapk                       # 记进 README
+unzip -o pkg.xapk -d bundle/
+ls -R bundle/ | head -50                 # 看清有几个 split、哪些 ABI</code></pre>
+<p><strong>算哈希不是形式主义</strong> —— 后面任何"这个文件里没有 X"的结论，都必须绑定到一个确定的样本哈希上。</p>
+<h3 id="sec26">Step 2 · 引擎与结构判定</h3>
+<pre><code class="lang-bash">ls bundle/*/lib/*/                       # 有 libil2cpp.so → Unity IL2CPP
+# 有 libcocos2djs.so → Cocos
+# 有 libUE4.so → UE
+ls bundle/*/assets/bin/Data/Managed/Metadata/global-metadata.dat
+ls bundle/*/assets/aa/catalog.json       # 有 → Addressables
+find . -name "*.bundle" -o -name "datapack*" -o -name "*_bundle_config.json"
+find . -name "Lua*" -o -name "*.lua"     # 有 → xLua / Lua</code></pre>
+<p>→ 到这里就应该能回答 §1.5 的三条判断。</p>
+<h3 id="sec27">Step 3 · 跑信噪比最高的那一招</h3>
+<p>按引擎选，<strong>只跑一个</strong>：</p>
+<div class="tw"><table><thead><tr><th class="left">情形</th><th class="left">第一招</th><th class="left">为什么</th></tr></thead><tbody><tr><td class="left">有明文本地化表</td><td class="left">导出 + 按前缀聚类</td><td class="left">白拿物品表 / 活动模板库，收益最大</td></tr><tr><td class="left">有大量 MonoBehaviour</td><td class="left">全量 <code>read_typetree()</code> 扫描</td><td class="left">GH 实测 20,641 个 <strong>0 失败</strong>，信息密度最高</td></tr><tr><td class="left">纯 IL2CPP 无明文配置</td><td class="left">Il2CppDumper → <code>dump.cs</code> grep 类名</td><td class="left">没有别的入口</td></tr></tbody></table></div>
+<p><strong>这一步的产出物</strong>：一张对象/类清单 CSV。<strong>先读清单再决定提取策略，不要一上来全量导出。</strong></p>
+<h3 id="sec28">Step 4 · 静态索引</h3>
+<p>把清单里命中的东西<strong>批量落成 CSV/JSON</strong>，不要一事一议。产物命名要能自解释（<code>indices/xxx.csv</code>）。</p>
+<p><strong>这一步就要开始写"证据列"</strong>：每行标 <code>source</code> / <code>verified</code> / <code>evidence</code>（见 §5.1）。</p>
+<h3 id="sec29">Step 5 · 语义回填（反汇编）</h3>
+<p>清单能给"有什么"，给不了"是什么"。语义靠反汇编：</p>
+<pre><code>配置里的魔法值  ──dump.cs 找对应枚举──&gt; 枚举成员名
+──stringliteral.json 反查──&gt; 字符串字面量
+──script.json 找方法 RVA──&gt; capstone 反汇编 → 批注器</code></pre>
+<p><strong>通用三项技术</strong>（RM 验证过，见 §4-C）：</p>
+<ol>
+<li><strong>两跳解引用</strong>：<code>adrp</code> → 元数据槽 → <code>ldr</code> 取 <code>Il2CppString*</code> → <code>op_Equality</code> 比对 → 得到枚举值。</li>
+<li><strong>跳转表</strong>：<code>sub w8, wX, #1; cmp w8, #N; ldr x8, [x9, w8, sxtw #3]</code>，表项直接就是字符串指针。</li>
+<li><strong>vtable 偏移</strong>：<code>偏移 = 0x138 + slot × 0x10</code>，与 <code>dump.cs</code> 的 <code>Slot:</code> 号完全对应。</li>
+</ol>
+<h3 id="sec30">Step 6 · 运行时确认（<strong>只在静态说不清时上</strong>）</h3>
+<p>静态能给出"代码怎么写"，给不出"实际跑了哪条路"。三种情形必须上运行时：</p>
+<div class="tw"><table><thead><tr><th class="left">情形</th><th class="left">手段</th></tr></thead><tbody><tr><td class="left">某段逻辑的分支条件取决于服务端值</td><td class="left">抓包（mitmproxy）看服务端下发什么</td></tr><tr><td class="left">某个 hook 到底命中几次、参数是什么</td><td class="left">Frida <code>Interceptor.attach</code></td></tr><tr><td class="left">某数值实际随时间/状态怎么变</td><td class="left">Frida + 定时截图双证据</td></tr></tbody></table></div>
+<p><strong>三步纪律</strong>：</p>
+<ol>
+<li><strong>先校验地址</strong>（RVA 逐条比对字节）</li>
+<li><strong>先跑基线会话</strong>（不改任何东西，确认 hook 会命中）</li>
+<li><strong>事件归属用日志行号区间</strong>，不用时间窗（见 §5.3 ③）</li>
+</ol>
+<h3 id="sec31">Step 7 · 产出与自检</h3>
+<ul>
+<li>报告 HTML 生成后 <strong><code>html.parser</code> 查标签平衡</strong> + <strong>Chrome headless 截图视觉复核</strong></li>
+<li>多份产物（HTML / JSON / CSV）<strong>做一致性审计</strong>：同一个数字在三份里必须一致</li>
+<li><strong>写"未拿到部分的诚实清单"</strong>（§7），这是交付底线</li>
+</ul>
+<hr/>
+<h2 id="sec32">4. 问题分册</h2>
+<blockquote>每条格式：<strong>编号 · 现象 → 根因 → 修法</strong>。<br/>标 🔴 的是"会让你得出错误结论"的，🔴 比 🟡 严重得多。</blockquote>
+<h3 id="sec33">A 环境与工具类</h3>
+<p><strong>A1 · Python 环境分裂（两个 Python 各缺一半）</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：装上 frida 之后 PIL 没了；装上 PIL 之后 frida 没了。</li>
+<li><strong>根因</strong>：本机有两个 Python —— <code>binaries/python/versions/3.13.12/bin/python3</code>（有 <code>frida</code>，无 <code>PIL</code>）、<code>binaries/python/envs/default/bin/python</code>（有 <code>PIL</code> + <code>capstone</code>，无 <code>frida</code>）。</li>
+<li><strong>修法</strong>：按用途分工，别混用。</li>
+<ul>
+<li>注入/附加/走棋：<code>3.13.12/bin/python3</code></li>
+<li>截图处理/反汇编：<code>envs/default/bin/python</code></li>
+<li>在脚本里写死绝对路径（<code>P</code> 与 <code>PYI</code> 两个变量）。</li>
+</ul>
+</ul>
+<p><strong>A2 · <code>ModuleNotFoundError: No module named 'capstone'</code></strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：用 <code>/usr/bin/python3</code> 跑反汇编脚本直接失败。</li>
+<li><strong>修法</strong>：改用 <code>binaries/python/envs/default/bin/python</code>（capstone 5.0.7）。</li>
+</ul>
+<p><strong>A3 · <code>tpk_ar</code> 装不上，拖垮整个 UnityPy</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>pip install UnityPy</code> 报 <code>EEXIST: file already exists</code>，换 <code>TMPDIR</code> 无效。</li>
+<li><strong>根因</strong>：<code>tpk_ar</code> 只有 sdist，pip 建临时目录时冲突。</li>
+<li><strong>修法</strong>：手工铺包。</li>
+</ul>
+<pre><code class="lang-bash">pip download --no-deps --no-cache-dir -d ./whl UnityPy lz4 brotli Pillow \
+    texture2ddecoder etcpak astc-encoder-py fmod_toolkit fsspec attrs
+curl -sL -o tpk_ar.tar.gz &lt;pypi sdist url&gt; &amp;&amp; tar -xzf tpk_ar.tar.gz -C src
+cp -R src/tpk_ar-*/tpk_ar &lt;site-packages&gt;/
+# 手工建 tpk_ar-0.2.4.dist-info/{METADATA,WHEEL,top_level.txt,RECORD}
+pip install --no-deps --no-index --find-links ./whl UnityPy lz4 brotli ...</code></pre>
+<p><strong>A4 · 缺 <code>pyfmodex</code> 伪装成"纹理格式不支持"</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：解析某个 bundle 时整个失败，报错提到图片/纹理。</li>
+<li><strong>根因</strong>：<code>pyfmodex</code> 是在解析 <strong>AudioClip</strong> 时被 import 的；它缺失会让<strong>整个 bundle 解析循环抛出</strong>，栈里最先看到的是纹理相关调用。</li>
+<li><strong>修法</strong>：<code>pip install pyfmodex archspec texture2ddecoder</code>（<code>archspec</code> 是 <code>pyfmodex</code> 的间接依赖，也得装）。</li>
+<li><strong>教训</strong>：报错位置<strong>不等于</strong>出错原因。看到"纹理不支持"时先确认依赖是否装全，别急着研究纹理压缩格式。</li>
+</ul>
+<p><strong>A5 · ABI 不匹配装不上包</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>INSTALL_FAILED_NO_MATCHING_ABIS</code>，AVD 的 <code>abilist32</code> 为空、<code>native.bridge=0</code>。</li>
+<li><strong>根因</strong>：AVD 是 arm64-v8a，而 APK 只带 armeabi-v7a（APKPure 的 XAPK 常只给一个 ABI）。</li>
+<li><strong>修法</strong>：<strong>换包，不换模拟器</strong>。去 APKCombo / APKMirror 找含 <code>config.arm64_v8a.apk</code> 的版本。</li>
+</ul>
+<p><strong>A6 · x86_64 镜像在 Apple Silicon 上不可用</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：想走 x86_64 路线，模拟器起不来或极慢。</li>
+<li><strong>根因</strong>：M4 Pro 主机的模拟器只自带 <code>qemu/darwin-aarch64</code>，跑 x86_64 镜像需要 QEMU 全指令翻译。</li>
+<li><strong>修法</strong>：<strong>放弃 x86_64 路线</strong>，直接用 arm64-v8a 镜像。</li>
+</ul>
+<p><strong>A7 · <code>/system</code> 只读，CA 装不进去</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>adb remount</code> / <code>adb disable-verity</code> 均失败（dm-verity + vbmeta 写保护）。</li>
+<li><strong>修法</strong>：<code>setenforce 0</code> 后 <strong>bind-mount</strong> 覆盖信任库，不碰 /system。完整命令见 §2.3.4。</li>
+</ul>
+<p><strong>A8 · AVD 不是 <code>google_apis</code> 镜像 → <code>adb root</code> 不可用</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：<code>adb root</code> 报 <code>cannot run as root in production builds</code>。</li>
+<li><strong>根因</strong>：这是<strong>镜像类型</strong>问题，不是设置问题。带 Google Play 的镜像是 production build，永不可 root。</li>
+<li><strong>修法</strong>：AVD 必须用 <code>google_apis</code> 或 AOSP 镜像（<code>PlayStore.enabled=false</code>）。</li>
+</ul>
+<p><strong>A9 · AVD 内存 &lt; 4 GB → Frida 注入失败</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：注入报 <code>unexpected crash while trying to allocate memory</code>。</li>
+<li><strong>修法</strong>：AVD 内存设 ≥ 4 GB。<strong>但注意 A10/D6：这个报错的根因不止内存一个。</strong></li>
+</ul>
+<p><strong>A10 · 这台模拟器上 Frida 只能 attach 一次</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：第一次 attach/detach 完成后，<strong>后续 attach 一律失败</strong>，报同一个 <code>unexpected crash while trying to allocate memory</code>。实测连续探测 40 次全败（耗时 120s）。</li>
+<li><strong>最危险的地方</strong>：<code>attach_rm.py</code> 的失败路径<strong>不抛异常</strong>（只打印"超时仍未看到 libil2cpp.so"就继续），很容易被误读成"采集成功但没事件"。</li>
+<li><strong>修法</strong>：</li>
+<ol>
+<li><strong>看 jsonl 行数，不看进程是否退出</strong>。</li>
+<li>只有 <code>am force-stop</code> 重启游戏才恢复；重启后第 1 次 attach 稳定成功。</li>
+<li><strong>结构性后果</strong>：<code>jump_run.py</code>（跳关）+ <code>attach_rm.py</code>（采集）这种"两次 attach"的用法<strong>必然失败</strong> → 必须合并成一个 session（<code>combo_run.py</code> 在同一 session 上 <code>create_script</code> 两次，A = 跳关、B = 采集）。</li>
+</ol>
+</ul>
+<p><strong>A11 · BSD <code>grep</code> 的 BRE 交替静默失败</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：<code>grep -nE "A\|B"</code> 返回空（<strong>不报错</strong>），极易读成"库里没有 X"。<code>grep -nE "class ShopPackageConfig"</code> 也落空，因为声明写的是 <code>public struct</code>。</li>
+<li><strong>修法</strong>：（a）用 <code>grep -E</code>（ERE），不要混 BRE 的 <code>\|</code>；（b）优先用工具级 Grep；（c）先 <code>grep -c 关键词</code> 确认真存在，再取行号。</li>
+</ul>
+<p><strong>A12 · 下载站点出口限制 / Cloudflare</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>apkmirror.com</code> / <code>apkpure.com</code> / <code>github.com</code> 返回 <code>000</code>（<code>SSL_ERROR_SYSCALL</code>），走不走代理都一样；<code>d.apkpure.net</code> / <code>apk4all</code> 等返回 403。</li>
+<li><strong>根因</strong>：本机网络出口是白名单制的，<strong>不是沙箱问题</strong>。</li>
+<li><strong>修法</strong>：<strong>不要反复试 curl</strong>。要么让用户从外网机器下载后给本地路径，要么用 <code>agent-browser</code>（真 Chromium，能过 Cloudflare）。<code>pypi.org</code> / <code>api.github.com</code> 在白名单内，装 Python 包不受影响。</li>
+</ul>
+<h3 id="sec34">B 静态解析类</h3>
+<p><strong>B1 · 关卡二进制"四轮作废"：真因是有损编码，不是格式特殊</strong> 🔴🔴（<strong>本次最贵的一条</strong>）</p>
+<ul>
+<li><strong>现象</strong>：</li>
+<ol>
+<li>全量提取报"命中 6,072 / 14,500（41.9%）" → 大量命中其实是 FlatBuffers 的 <strong>uoffset 向量</strong>（元素 0 = 空引用/邻近表相对偏移），天然"主导值为 0、值域小、长度整齐"，<strong>形状很像棋盘</strong>。</li>
+<li>收紧判据报"可信棋盘 54 关" → 逐一检查颜色覆盖，<strong>42/54 连 1–4 四色都凑不齐</strong>。</li>
+<li>用实机截图确证关卡 1 后，仍报"全量提取不成立"（全量仅 473/14,500 有候选）→ <strong>这一步的判断本身也是错的</strong>。</li>
+<li>「vtable 反查零命中」「棋盘数组起始偏移是奇数，4 字节对齐的 uoffset 数学上指不进去」→ 被当成"格式特殊"的证据。</li>
+</ol>
+<li><strong>根因</strong>：有损导出脚本 <code>02_unity_scan.py</code> 用 UnityPy 读 TextAsset 的 <code>m_Script</code> 得到的是 Python <code>str</code>（UnityPy 内部用 <code>utf-8 + surrogateescape</code> 解码原始字节），脚本转回字节时用了<strong>有损的</strong> <code>.encode("utf-8", "ignore")</code> —— <strong>凡触发 surrogateescape 的字节被直接丢弃</strong>。</li>
+</ul>
+<p>关卡 1 因此从真实的 <strong>4,200 字节</strong>被削到 <strong>3,495 字节</strong>（丢了 17%），之后所有偏移全部错位。</p>
+<ul>
+<li><strong>修法</strong>：改用对称的 <code>.encode("utf-8", "surrogateescape")</code> 重新导出（<code>decoded/text_fixed/</code>），标准 FlatBuffers <code>table_pos − soffset = vtable_pos</code> 算法<strong>一次性打通</strong>。同算法扫全部 14,500 关：<strong>100% 成功，0 失败</strong>。</li>
+<li><strong>两条方法论结论</strong>：</li>
+<ol>
+<li><strong>外部真值比内部一致性检验值钱</strong> —— 没有 schema 时，统计启发式只能找到"形状相似的字节"，不是"有意义的结构"。</li>
+<li><strong>比截图更值钱的是先确认数据没被自己搞坏</strong> —— 拿到 schema 后先花 <strong>10 分钟</strong>验证字节完整性，比花<strong>三轮</strong>调启发式判据便宜得多。</li>
+</ol>
+<li>资源读取结果：14,991份文本／二进制资源已无损读取，包括14,500关。非关卡数据应保留原始字节；字段语义与消费者行为仍需逐项确认。</li>
+</ul>
+<p><strong>B2 · UnityPy typetree 不可读</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>Expected to read N bytes, but only read M</code>。</li>
+<li><strong>根因</strong>：UnityPy 1.25.3 缺 Unity 2021.3.55f1 的类型树资源。</li>
+<li><strong>修法（两条路）</strong>：</li>
+<ul>
+<li><strong>补类型树</strong>：GH 是从公开 Git LFS 拿到 Unity 2022 的类型树资源后，246 bundle / 20,641 MonoBehaviour <strong>0 失败</strong>。</li>
+<li><strong>绕类型树</strong>：用 Il2CppDumper 的 <code>il2cpp.h</code> 恢复的结构体布局 + FlatBuffers schema 手工读（RM 走的是这条）。</li>
+<li>备选：调 <code>FALLBACK_UNITY_VERSION</code> 换版本试。</li>
+</ul>
+</ul>
+<p><strong>B3 · 误判"MonoBehaviour 加密不可读"</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：只用 <code>strings</code> 看 raw bytes，看到乱码 → 下结论"配置被加密/压缩，读不出来"。</li>
+<li><strong>根因</strong>：<strong>方法用错了。</strong> bundle 内 payload 可能是压缩的，<code>strings</code> 天然看不出来。</li>
+<li><strong>修法</strong>：先试 <code>o.read_typetree()</code>。GH <code>dataconfig</code> 实测读出来是这些：</li>
+</ul>
+<p><code>SlotBoundsConfig</code> 7,985 条（槽位坐标+尺寸）、<code>MapConfig</code> 7,998、<code>ImageFileConfig</code> 4,598、<code>UIPrefabConfig</code> 1,667、<code>AudioFileConfig</code> 319、<code>ScenePrefabConfig</code> 48、<code>RoleConfig</code> 44。</p>
+<ul>
+<li><strong>教训</strong>：<strong>判定"不可读"之前，一定要先试 <code>read_typetree()</code>。这是解包里性价比最高的一招。</strong></li>
+</ul>
+<p><strong>B4 · 直接 grep bundle 会漏</strong> 🟡</p>
+<ul>
+<li><strong>根因</strong>：同 B3，bundle 内是压缩 payload。</li>
+<li><strong>修法</strong>：<code>TextAsset</code> 全量导出到磁盘<strong>再 grep</strong>。GH 246 bundle → 606 TextAsset，这一步才给出"配置类文本里确实没有逐档奖励"的硬结论。</li>
+</ul>
+<p><strong>B5 · 没有 Addressables catalog 时怎么找模块分组</strong> 🟡</p>
+<ul>
+<li><strong>修法</strong>：找 <code>*_bundle_config.json</code>。RM 的 4 个文件直接列出全部分组与 bundle（222 条）：</li>
+<ul>
+<li><strong>feature(10)</strong>：ads, coin_shop, diamond_pass, direct_payment, extremely_hard_level_offer, holiday_pass, journey_offer, summer_pass, weekly_pass, weekly_pass_common</li>
+<li><strong>gameplay(12)</strong>：extreme_level, hard_level_backgrounds, hard_level_music, item, magic_duke, multiplier_token, new_royal_league, new_royal_league_leaderboard, portal_item, super_duke, supercharge, table_game</li>
+<li><strong>multiplayer(10)</strong>：clash_of_champions, daily_lightning_rush, invite_friends, multiplier_selection, propeller_rush, robot_rivals, royal_world_cup, team_tournament, train_journey, upcoming_events</li>
+<li><strong>singleplayer(13)</strong>：ancient_adventure, daily_rewards, hidden_temple, merge_smith, mission_control, mission_events_common, mission_pursuit, ocean_odyssey, puzzle_break, remaining_collectables_conversion, remote_puzzles, royal_boost_bundle_offer, short_expedition_event</li>
+<li>有 catalog 的话（GH）也一样：按 <code>/android/&lt;模块&gt;/</code> 聚合 <code>m_InternalIds</code>，能看出配置分布。GH 最大的 <code>dynamicconfigremote</code>（560 条）就是服务器下发的动态配置 —— <strong>基础包内没有</strong>。</li>
+</ul>
+</ul>
+<p><strong>B6 · split 包少装一个 → 停在 logo</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：游戏起来停 logo，TMP 报错，全程零命中。</li>
+<li><strong>根因</strong>：<code>base</code> + <code>split_config.&lt;abi&gt;</code> + <code>split_UnityDataAssetPack</code> 三个必须都装。</li>
+<li><strong>修法</strong>：<code>adb install-multiple -r -t</code> 一次装全。</li>
+</ul>
+<p><strong>B7 · 密文打分判据错，导致"判定无解"</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：跑遍"单字节 XOR / 周期重复 XOR / 循环减法 ×（ASCII 打分 / UTF-8 中文打分）"全不中，判定"不是简单变换，可能需要 IDA"。</li>
+<li><strong>根因</strong>：<strong>判据类型错了。</strong> 明文是 <strong>Lua 预编译字节码</strong>（二进制，大量 <code>0x00</code> 与结构字节），<strong>不是文本</strong>。用"ASCII 可打印率 / UTF-8 中文率"打分必然失败。</li>
+<li><strong>修法</strong>：判据改用 <strong><code>\x1bLua</code>（<code>0x1B 4C 75 61</code>）魔数计数</strong>。解对了它会出现几十到几百次；GH 上<strong>魔数次数 == 归档里的文件数</strong>（269 == 269）是硬证据。</li>
+<li><strong>同类教训</strong>：别用"字节上限 0xF4"这类<strong>文本特征</strong>去否掉流密码。</li>
+</ul>
+<p><strong>B8 · 归档 datalen 断链 → 改魔数锚定；别用文件名链</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：3.97.0 上 <code>&lt;I datalen&gt;&lt;data&gt;</code> 能一路链到 2,473 条；3.98.0 上第 2 条就断，且 datalen 解出天文数字（base entry0 = 1,224,938,758）。</li>
+<li><strong>根因</strong>：<strong>不是 datalen 语义变了</strong>，而是大部分条目在包内<strong>已不是裸字节码</strong> —— 第一个 entry 的 data 头是 <code>4f 62 65 10</code>，不是 <code>\x1bLua</code>（也非 zlib/lzma/gzip 魔数，压缩算法未识别）。5 个包 3,000+ 条目里<strong>只有 33 个是裸 Lua 字节码</strong>。</li>
+<li><strong>修法</strong>：改用<strong>魔数锚定 + 三重自校验</strong>（名字后面紧跟 datalen 再紧跟 <code>\x1bLua</code>）：</li>
+</ul>
+<pre><code class="lang-python">for L in (m.start() for m in re.finditer(b'\x1bLua', out)):
+    datalen = struct.unpack_from('&lt;I', out, L-4)[0]
+    for nl in range(3, 220):                      # 反推 &lt;H namelen&gt;&lt;name&gt;
+        p = L - 6 - nl
+        if struct.unpack_from('&lt;H', out, p)[0] != nl: continue
+        name = out[p+2:p+2+nl]
+        if not all(32 &lt;= c &lt; 127 for c in name): continue
+        if not re.fullmatch(rb'[A-Za-z]\w*(?:\.\w+)+', name): continue
+        # 三重通过 → data = out[L:L+datalen]</code></pre>
+<ul>
+<li><strong>⚠️ 千万别用"文件名链"</strong>（扫所有 <code>&lt;H nl&gt;&lt;name&gt;</code> 自洽的位置）：Lua 文件<strong>内部的字符串常量</strong>（如 <code>Data.Config.AdventureBoardScrollConfig_bandgirl</code>）前面也带长度字节，会和真条目名混在一起 → 曾据此误判"config 复原了 3 条"。</li>
+<li><strong>补充</strong>：若某包解出的 N 是天文数字，说明该包前面有额外头未对齐，但<strong>主体往往照样能解</strong>，别直接判定"这个包破不开"。</li>
+</ul>
+<p><strong>B9 · 包里存在「被去头的 Lua 块」，魔数锚定会漏</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：GH 3.98.0 的 core 包（5.49 MB）<strong>前 1.5 MB 没有任何 <code>\x1bLua</code> 魔数</strong>，但里面是<strong>完整可读的 Lua 常量表</strong>（<code>BaseUIBoardModel</code> 的 <code>Init</code> / <code>Create</code> / <code>GetValidPositionIterator</code> / <code>_SetItem</code> / <code>GenerateItem</code> / <code>DispatchItem</code> / <code>SpreadItem</code> 全在，未被压缩）。</li>
+<li><strong>含义</strong>：之前报的"33 个可验证模块"是<strong>下限，不是上限</strong>。</li>
+<li><strong>修法</strong>：对每包补一遍<strong>全量常量表扫描</strong>（不依赖头部、不依赖切分），把"可读符号"按偏移归档，再由相邻符号语义聚合回模块。这条路径<strong>天然免疫头部改动和 datalen 语义差异</strong>。</li>
+</ul>
+<p><strong>B10 · 加密类型不能靠类名判断</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：元数据里搜到 <code>Assets/Scripts/Utility/Encryption/DesEncryption.cs</code>，据此认定 Lua payload 是 DES 加密；随后花大量时间做 DES 密钥爆破（从 <code>global-metadata</code> 提 107,688 个 8 字节可打印串作候选，跑 ECB/CBC(0)/CBC(iv=前8字节)/CFB/OFB/CTR 六模式 × 前 64 字节 = 64.6 万次解密，按 magic + 可打印率打分）→ 61 个"命中"全是 2 字节 magic 的随机巧合，后续字节全乱码。</li>
+<li><strong>根因</strong>：<strong>文件里有 DES 工具类 ≠ Lua 用它。</strong> 实际用的是<strong>重复密钥 XOR</strong>（周期 61）。回看：周期检测早已指向 61 周期流密码，<strong>块密码方向一开始就错了</strong>。</li>
+<li><strong>修法</strong>：<strong>加密类型只能靠密文统计判定</strong>（熵 / 可打印比例 / 自相关周期），不能靠类名。</li>
+</ul>
+<h3 id="sec35">C 二进制语义类（IL2CPP 反汇编）</h3>
+<p><strong>C1 · 配置里的缩写代码怎么解：两跳解引用</strong> 🟢（技术）</p>
+<ul>
+<li><strong>背景</strong>：配置写 <code>{"t": "ULV", "a": 15}</code>。<code>dump.cs</code> 里 grep <code>"ULV"</code> <strong>搜不到</strong> —— 字符串字面量在裸 UTF-16 池里（<code>stringliteral.json</code> 共 28,426 条），代码只持有间接引用。</li>
+<li><strong>技术形状</strong>：</li>
+</ul>
+<pre><code>adrp x8, #0x5199000 ; ldr x8, [x8, #0x270]   → x8 = 元数据槽地址 (0x5199270)
+ldr  x1, [x8]                                 → x1 = Il2CppString*
+bl   String.op_Equality ; mov w0, #N ; b      → N = 枚举值</code></pre>
+<ul>
+<li><strong>产物</strong>：42 条奖励代码 → <code>RewardType</code> 的完整映射，且<strong>正反双向独立还原、42/42 完全一致</strong>。</li>
+</ul>
+<p><strong>C2 · 判定顺序陷阱：<code>ldr</code> 的 disp==0 与 pages 表冲突 → 一条都解不出来</strong> 🔴🔴（<strong>本轮最隐蔽的一条</strong>）</p>
+<ul>
+<li><strong>现象</strong>：脚本正常结束，输出"反汇编解出 0 条"，只剩 13 条硬编码常量兜底。<strong>不报错。</strong></li>
+<li><strong>排查过程</strong>（值得记住的排错姿势）：</li>
+<ol>
+<li>打印函数头，发现约 42 组 <code>adrp/ldr/bl</code> 静态初始化三连（prologue）。</li>
+<li>统计 <code>bl</code> 目标：<code>0x1d063b4</code>（<code>String.op_Equality</code>）×42 ⇒ 确认是 42 次比较。</li>
+<li>确认 42 条 <code>mov w0,#N</code> 全部紧跟 <code>b</code> 跳到同一 epilogue ⇒ 确认形状没猜错。</li>
+<li><strong>手工探针直接解一次</strong>：<code>slot 0x5199270 → 0x545df18 text='SNS'</code> —— 链路本身<strong>是通的</strong>。</li>
+<li>于是问题不在"链路"，在"我的模拟器没走到链路"。</li>
+</ol>
+<li><strong>根因</strong>：<code>ldr x1,[x8]</code> 的 <code>disp == 0</code>，而 <strong>x8 同时也在 <code>pages</code> 表里</strong>（<code>adrp</code> 刚写过）。若把 <code>base in pages</code> 判在前面，会命中并算出 <code>pages[x8] + 0</code>，<strong>永远走不到解引用分支</strong>。</li>
+<li><strong>修法</strong>：<strong>把 <code>base in regslot</code> 判定移到 <code>base in pages</code> 之前</strong>。</li>
+</ul>
+<pre><code class="lang-python">if base in regslot and mem.index == 0 and mem.disp == 0:      # ldr x1,[x8] → 取字符串指针
+    s = slotstr(regslot[base])
+    if s is not None: cur = s
+    regslot.pop(dst, None); continue
+if base in pages and mem.index == 0 and mem.disp &gt;= 0:        # adrp 后的 ldr → 得到槽位地址
+    regslot[dst] = pages[base] + mem.disp; continue</code></pre>
+<ul>
+<li><strong>修完 42/42 全部解出。</strong></li>
+<li><strong>教训</strong>：<strong>"一条都解不出来"通常不是"库里没有"，而是"我的解释器走错了分支"。</strong> 遇到这种形态，先写一个手工探针证明链路可通，再回头查自己的模拟器。</li>
+</ul>
+<p><strong>C3 · 跳转表（switch）表项直接就是字符串指针</strong> 🟡</p>
+<ul>
+<li><strong>背景</strong>：<code>ToRewardTypeName</code> 是反向函数，用跳转表把枚举值映射回名字。</li>
+<li><strong>技术形状</strong>：<code>sub w8, w19, #1; cmp w8, #0x34; adrp x9, #0x4f88000; add x9, x9, #0xc68; ldr x8, [x9, w8, sxtw #3]</code>（表在 <code>0x4f88c68</code>，53 项 × 8 B，索引 = 枚举值 − 1）。</li>
+<li><strong>第一次失败</strong>：把表项当作"需要再解引用一次的元数据槽"，得到 0 项。</li>
+<li><strong>根因</strong>：解析 <code>.dynamic</code> 段的 RELA 重定位表（545,962 条）后确认 —— <strong>ELF 重定位已经应用过了</strong>（<code>raw=0x544a7e0</code> 直接落在字符串字面量区）。</li>
+<li><strong>修法</strong>：<code>s = SL.get(ent) or slotstr(ent)</code>（先当直接指针，不行再当槽）。</li>
+<li><strong>结果</strong>：<strong>42/42 正向 ↔ 42/42 反向，100% 一致</strong>（独立的第二套证据）。</li>
+</ul>
+<p><strong>C4 · vtable 偏移与 <code>dump.cs</code> 的 <code>Slot:</code> 号对应关系</strong> 🟢（技术）</p>
+<ul>
+<li><strong>公式</strong>：<code>偏移 = 0x138 + slot × 0x10</code></li>
+<li><strong>实测吻合</strong>：</li>
+</ul>
+<div class="tw"><table><thead><tr><th class="left">偏移</th><th class="left">Slot</th><th class="left">方法</th></tr></thead><tbody><tr><td class="left"><code>0x178</code></td><td class="left">4</td><td class="left"><code>GetIcon</code></td></tr><tr><td class="left"><code>0x1c8</code></td><td class="left">9</td><td class="left"><code>GetDeeplinkAction</code></td></tr><tr><td class="left"><code>0x1e8</code></td><td class="left">11</td><td class="left"><code>TryAddInfoDialog</code></td></tr><tr><td class="left"><code>0x1f8</code></td><td class="left">12</td><td class="left"><code>TryAddStartDialog</code></td></tr><tr><td class="left"><code>0x208</code></td><td class="left">13</td><td class="left"><code>TryAddClaimDialog</code></td></tr><tr><td class="left"><code>0x218</code></td><td class="left">14</td><td class="left"><code>TryAddDeeplinkDialog</code></td></tr><tr><td class="left"><code>0x228</code></td><td class="left">15</td><td class="left"><code>ShouldAddAutoDialogIfHasAutoDialogBefore</code></td></tr></tbody></table></div>
+<ul>
+<li><strong>用途</strong>：在 <code>dump.cs</code> 看到某基类有一堆 <code>TryAddXxxDialog</code>（Slot 11–15），就能直接算出它们的 vtable 偏移，去实现类里读对应槽位的真实代码。<strong>224 个弹窗 hook 实现就是这么扫出来的。</strong></li>
+</ul>
+<p><strong>C5 · 函数尾判定</strong> 🟡</p>
+<ul>
+<li><strong>修法</strong>：不硬编码函数长度。用 <code>script.json</code> 的方法表<strong>排序后二分</strong>找下一个方法的 RVA，当作当前函数的右边界。</li>
+<li>好处：跨版本复用（只要 <code>script.json</code> 重跑，边界自动跟随）。</li>
+</ul>
+<p><strong>C6 · arm64 与 armv7 的字段偏移不同，禁止混用</strong> 🔴</p>
+<ul>
+<li><strong>实测（<code>SemiDynamicDifficulty</code>）</strong>：</li>
+</ul>
+<div class="tw"><table><thead><tr><th class="left">字段</th><th class="left">arm64</th><th class="left">armv7</th></tr></thead><tbody><tr><td class="left"><code>difficultySeed</code></td><td class="left"><code>+0x24</code></td><td class="left"><code>0x18</code></td></tr><tr><td class="left"><code>generationCount</code></td><td class="left"><code>+0x28</code></td><td class="left"><code>0x1C</code></td></tr><tr><td class="left"><code>difficultyRandom</code></td><td class="left"><code>+0x38</code></td><td class="left"><code>0x28</code></td></tr></tbody></table></div>
+<ul>
+<li><strong>修法</strong>：<strong>两个 ABI 各跑一次 Il2CppDumper</strong>（RM 有 <code>output/</code> 与 <code>output-arm64/</code> 两套），字段偏移按 ABI 分开记。</li>
+</ul>
+<p><strong>C7 · 转发壳函数（1 条指令的方法）</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>DifficultyNext @ 0x2A31474</code> 反汇编出来只有 1 条指令，读不出任何逻辑。</li>
+<li><strong>根因</strong>：它是跳转壳，<strong>真正实现在 <code>GetDifficultyNext @ 0x2A31478</code></strong>。</li>
+<li><strong>修法</strong>：遇到疑似"空方法"时，先看它是不是 <code>b &lt;target&gt;</code>；跟一跳再读。（附：<code>tryCount</code> 也不在 <code>SemiDynamicDifficulty</code> 上，而在 <code>UserInventory.GetTryCount</code>(0x2A0DC20) / <code>UpdateTryCount</code>(0x2A0DC40)。）</li>
+</ul>
+<p><strong>C8 · 方法名 grep 不到 ≠ 不存在</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：<code>grep "class ShopPackageConfig"</code> 落空 → 误判"没有这个类"。</li>
+<li><strong>根因</strong>：声明是 <code>public struct</code>（不是 class）；<code>tryCount</code> 相关方法在<strong>别的类</strong>上；<code>grep</code> 的 BRE 交替静默失败（见 A11）。</li>
+<li><strong>修法</strong>：搜关键词<strong>不带类型限定词</strong>，或用 <code>grep -E</code>；先 <code>grep -c</code> 确认真存在。</li>
+</ul>
+<h3 id="sec36">D 运行时观测类（Frida）</h3>
+<p><strong>D1 · 弹回的交换也产生约 1800 行事件</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：走一步棋，日志暴涨，以为成功了。</li>
+<li><strong>根因</strong>：全是 <code>FindThreeMatchesAndPropellersForCell</code> 的<strong>扫描噪音</strong> —— 没有爆炸、没有补棋。</li>
+<li><strong>修法</strong>：<strong>「日志行数变多」绝不能当作成功信号。</strong> 必须找 <code>ExplodeMatchGroup</code>，并用「棋盘截图是否变化」这条<strong>独立证据</strong>交叉验证。</li>
+<li><strong>放大的坑</strong>：配合 D2 会被放大成"连续 13 步全部弹回"，实际把真实走棋的步数白耗掉。</li>
+</ul>
+<p><strong>D2 · hook 的 <code>MAX_RECORDS</code> 写满后静默停止</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：日志突然不再增长。</li>
+<li><strong>修法</strong>：设上限（本项目 500 万）并<strong>监控是否触顶</strong>；触顶即视为该会话失效。</li>
+<li><strong>性能附注</strong>：<code>FindThreeMatchesAndPropellersForCell</code> 是最大噪音源（<strong>单步可达 4,396 次</strong>），调试时<strong>先过滤它再读日志</strong>。</li>
+</ul>
+<p><strong>D3 · 参数数组是 <code>args[1..4]</code>，不是函数签名参数</strong> 🔴</p>
+<ul>
+<li><strong>根因</strong>：<code>args[0]</code> 是被 hook 的 <code>this</code>。</li>
+<li><strong>追加坑</strong>：<strong><code>leave</code> 事件读不到参数</strong>。要拿 <code>Random.Next(min,max)</code> 的返回值，必须<strong>按 <code>seq</code> 把 <code>onEnter</code> 的 args 和 <code>onLeave</code> 的 ret 配对</strong>。</li>
+</ul>
+<p><strong>D4 · Frida 枚举到的是应用显示名，不是包名</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：按包名 attach 找不到进程。</li>
+<li><strong>修法</strong>：<code>resolve_pid()</code> 做<strong>三级匹配</strong>：包名 → 显示名（<code>Royal Match</code>）→ <code>royal</code> 关键字。</li>
+</ul>
+<p><strong>D5 · <code>libil2cpp.so</code> 是延迟加载的</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：进程刚起来时 hook 全部落空。</li>
+<li><strong>修法</strong>：<code>wait_for_il2cpp()</code> 轮询 <code>/proc/&lt;pid&gt;/maps</code> 直到它出现；<code>attach_rm.py --wait-il2cpp 60</code>。</li>
+</ul>
+<p><strong>D6 · 注入失败先做"系统进程对照测试"</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：<code>unexpected crash while trying to allocate memory</code>，看起来像内存不足（A9）。</li>
+<li><strong>修法（廉价且决定性的诊断）</strong>：对 <code>system_server</code> 等<strong>系统进程</strong>试同一操作。</li>
+<ul>
+<li>若能成功 → <strong>环境没问题，是目标进程的问题</strong>，不要再去调 AVD 内存。</li>
+<li>实测最有效的两步：<strong><code>am force-stop</code> 重启游戏进程</strong>；<strong>在游戏刚启动的窗口期内立刻 attach</strong>（同一 pid 反复重试也可能突然成功）。</li>
+</ul>
+</ul>
+<p><strong>D7 · 棋盘行网格不是常量（最容易毁掉整轮采集）</strong> 🔴🔴</p>
+<ul>
+<li><strong>现象</strong>：读数看起来"正常"，但<strong>"自带三连"</strong>、合法走法虚报到 40+ 个 → 交换被大面积弹回。</li>
+<li><strong>根因</strong>：写死的行距 <code>110px</code> 不对，实测 ≈ <strong>116px</strong>（4 行累积约 17px 偏差）；另外<strong>教程提示横幅出现时整个棋盘被下压约 50px</strong>（纯偏移）。</li>
+<li><strong>修法</strong>：<code>read_grid</code> 做<strong>偏移 × 行距二维搜索</strong>，候选里<strong>直接否决"自带三连"的</strong>（稳定棋盘物理上不可能有三连）。</li>
+<li><strong>更稳的做法</strong>：<code>calibrate_grid.py</code> 以棋盘「灰浆色」<code>(147,167,217)</code> 为签名求列缝/行缝，再等距重铺格心，<strong>不依赖任何写死常量</strong>。</li>
+<li><strong>附带</strong>：格子分类也不要靠颜色 —— 橙色花朵（棋子）会被误判成土块。按「<strong>格内灰浆像素占比</strong>」判：占用槽位实测 7~16%，帘幕/土块面板恒 0%，<strong>两者零重叠</strong>。</li>
+<li><strong>对标定器本身的判断</strong>：自愈在两张已知正确截图上<strong>逐格无差异</strong>，但实测驱动 3 步只有 2 步真实生效，<strong>第 0 行仍最不可靠</strong> —— 是显著改善而非完全修复。</li>
+</ul>
+<p><strong>D8 · 弹窗态被误判成「满屏特殊块」</strong> 🟡</p>
+<ul>
+<li><strong>根因</strong>：关卡失败/过关弹窗出现后整个棋盘被覆盖，所有格子读成 <code>?</code> → 特殊块检测报告满屏特殊块并挑出一堆假的相邻对，脚本对着弹窗空划几十步。</li>
+<li><strong>修法</strong>：加 <code>is_abnormal()</code> 拦截。</li>
+</ul>
+<p><strong>D9 · <code>recv(callback)</code> 一次性 + hook 后 RPC 通道整体中断</strong> 🔴</p>
+<ul>
+<li><strong>现象 1</strong>：诊断脚本连发 5 条 ping，只收到 1 条 echo（同期 <code>setInterval</code> 的 tick 每 3 s 正常 → <strong>证明 JS 线程没卡</strong>）。</li>
+<li><strong>现象 2</strong>：即使重挂载，宿主→脚本方向在 hook 开始命中之后<strong>仍会整体中断</strong>（日志里 17 条 rpc 全在 hook 之前，hook 之后 0 条）。</li>
+<li><strong>修法</strong>：Frida 16.5.9 的 <code>recv(fn)</code> 只交付<strong>下一条</strong>消息，必须在回调里重新 <code>recv(...)</code>；但既然重挂载也不解决，<strong>最终放弃 RPC 模式，改成纯 <code>send</code> 单向 + 时序搬进 JS</strong>（<code>rm_jump.js</code> 的 <code>PLAN</code> 状态机）。<code>send</code> 方向始终可靠（hook 回调里、<code>setInterval</code> 里都正常）。</li>
+</ul>
+<p><strong>D10 · 从 JS 线程调托管方法必须先 <code>il2cpp_thread_attach</code></strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：任何托管实例方法（<code>LevelLoad</code> 0x205BB40、<code>GetDownloadedLevel</code> 0x205D618）都报 <code>Error: access violation accessing 0x10</code>；但<strong>同一方法由游戏自己调用时 hook 正常命中</strong>。</li>
+<li><strong>根因</strong>：Frida 的 JS 线程没注册进 IL2CPP，<code>Thread::Current()</code> 得 null → <code>[null+0x10]</code>。</li>
+<li><strong>修法</strong>：</li>
+</ul>
+<pre><code class="lang-js">var domainGet    = new NativeFunction(Module.findExportByName('libil2cpp.so','il2cpp_domain_get'),'pointer',[]);
+var threadAttach = new NativeFunction(Module.findExportByName('libil2cpp.so','il2cpp_thread_attach'),'pointer',['pointer']);
+threadAttach(domainGet());</code></pre>
+<p>加完之后 <code>LevelLoad()</code> 与 <code>GetDownloadedLevel()</code> 都能正常返回。</p>
+<ul>
+<li><strong>判别要点</strong>：<strong>"游戏自己调能命中、我从 JS 调就崩"这个对照本身就是诊断</strong> —— 说明地址没错，是线程上下文问题。</li>
+</ul>
+<p><strong>D11 · 指令级 hook 会让 JS 线程整体停摆</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：在 <code>LevelLoad</code> 内部 <code>0x205BC00</code>（<code>ldr w8,[x8,#0x14]</code> 读 <code>BasicUserData.Level</code>）挂 <code>Interceptor.attach</code> 后，一旦执行到该地址：<code>setInterval</code> 停止触发、<code>send</code> 全无，<strong>而该 hook 自己一次都没进过 <code>onEnter</code></strong>。</li>
+<li><strong>修法</strong>：改用 <code>setInterval</code> 轮询（不装指令 hook）。在跳关脚本里用 <code>PLAN.useInsHook</code>（默认 <code>false</code>）把指令级 hook 隔离成实验开关。</li>
+</ul>
+<p><strong>D12 · 内存改值不跨进程重启 + 账号状态副作用</strong> 🔴</p>
+<ul>
+<li><strong>现象 1</strong>：写入 <code>Level=951</code> 后 <code>am force-stop</code> + 重启，关卡号回到 <strong>1</strong>。→ <strong>进度以服务端/本地存档为准，内存改值是易失的。</strong></li>
+<li><strong>现象 2</strong>：观察到<strong>金币 2000 → 0、体力 5 → 3</strong>，重启后出现「新手指引箭头」。<code>syncId</code>(+0x10) 每次写字段都 +1（等于反复告诉游戏"用户数据变了，去同步"）。</li>
+<li><strong>修法</strong>：<strong>这类实验只能在可丢弃的小号上做。</strong></li>
+</ul>
+<h3 id="sec37">E 关卡与状态类（进阶）</h3>
+<p><strong>E1 · 数据层 vs 视图层要分开说</strong> 🟢（技术）</p>
+<ul>
+<li>跳关实验的层次结论：<strong>能跳。桌面路径是「改 <code>BasicUserData.Level</code> + 让游戏自己重新进关」。</strong></li>
+</ul>
+<div class="tw"><table><thead><tr><th class="left">层</th><th class="left">手段</th><th class="left">状态</th></tr></thead><tbody><tr><td class="left">数据层</td><td class="left">Frida 写 <code>BasicUserData.Level</code>（+0x14），再调 <code>LevelManager.LevelLoad()</code></td><td class="left">✅ 已打通并交叉验证</td></tr><tr><td class="left">视图层</td><td class="left">调 <code>LevelManager.LevelStart()</code> 从 JS 线程触发</td><td class="left">❌ 报 <code>breakpoint triggered</code>（摘掉全部 hook 后仍报，非 hook 重入）</td></tr><tr><td class="left">视图层（替代）</td><td class="left">改完字段后<strong>走游戏自己的 UI</strong>：设置齿轮 → Quit Level → 重新进关</td><td class="left">✅ 有效，游戏自行重建为靶关</td></tr></tbody></table></div>
+<ul>
+<li>三重交叉验证（靶关 L951）：离线 FBS 解析 <code>chain_count=27</code> / 运行时 <code>parsedLevel</code> 1→951 且 <code>chainCount</code> 0→<strong>27</strong>（与基准完全一致）/ 游戏 UI 标题 <code>Level 1</code> → <strong><code>Level 951</code></strong>、目标 Box → <strong>紫壶+草地</strong>、<code>Moves 21</code> → <strong><code>30</code></strong>。</li>
+</ul>
+<p><strong>E2 · 跳过去的关卡「能加载、不能玩」</strong> 🔴（<strong>重要的能力边界</strong>）</p>
+<div class="tw"><table><thead><tr><th class="left">观测</th><th class="left">结果</th></tr></thead><tbody><tr><td class="left">L2049 棋盘上做相邻交换</td><td class="left"><strong>80 次</strong>，Moves 恒为 <strong>36</strong>，一步未消耗</td></tr><tr><td class="left">棋子点击</td><td class="left">无任何选中高亮</td></tr><tr><td class="left">关卡内设置齿轮</td><td class="left">点不开（但地图按钮、弹窗 X 都能点 → <strong>触摸通道没坏</strong>）</td></tr><tr><td class="left">棋盘布局</td><td class="left">4×3 同色块 + 4×3 同色块的<strong>死局</strong>，却始终不洗牌</td></tr><tr><td class="left">对照：正常进入的第 1 关</td><td class="left">棋盘<strong>完全可交互</strong></td></tr></tbody></table></div>
+<ul>
+<li><strong>判定</strong>：<code>poke Level + LevelLoad()</code> 能让数据层与视图层都切过去，但<strong>开局要与服务端握手</strong>；本地进度与服务端不一致时，关卡停在"棋盘已渲染、输入控制器未启用"。</li>
+<li><strong>结论</strong>：<strong>跳关只能用来「看清任意关卡的数据」，不能用来「打样本」。</strong></li>
+</ul>
+<p><strong>E3 · 静态反证：读 <code>.so</code> 首 4 字节判 prologue（很便宜，建议以后先跑）</strong> 🟢（技术）</p>
+<ul>
+<li><strong>做法</strong>：直接从 APK 里的 <code>libil2cpp.so</code> 按 ELF program header 把 RVA 换算成文件偏移，读首 4 个字看 prologue。</li>
+<li><strong>实测（"障碍 hook 零命中"时用来排除地址错）</strong>：</li>
+</ul>
+<div class="tw"><table><thead><tr><th class="left">符号</th><th class="left">RVA</th><th class="left">首 4 字</th><th class="left">判定</th></tr></thead><tbody><tr><td class="left"><code>LevelManager.LevelLoad</code>（已知会命中的对照）</td><td class="left">0x205BB40</td><td class="left"><code>F81C0FF8</code></td><td class="left"><code>str x24,[sp,#-64]!</code> 真 prologue</td></tr><tr><td class="left"><code>MushroomSoilItemModel.TryExplode</code></td><td class="left">0x15590C0</td><td class="left"><code>F81E0FF4</code></td><td class="left">与对照同款</td></tr><tr><td class="left"><code>CryptexItemModel.TryExplode</code></td><td class="left">0x1876210</td><td class="left"><code>F81E0FF4</code></td><td class="left">同款</td></tr><tr><td class="left"><code>CurtainItemModel.TryExplode</code></td><td class="left">0x15CB980</td><td class="left"><code>F81E0FF4</code></td><td class="left">同款</td></tr><tr><td class="left"><code>BoxItemModel.TryExplode</code></td><td class="left">0x2A65D38</td><td class="left"><code>A9BF7BF3</code></td><td class="left"><code>stp x19,x30,[sp,#-16]!</code></td></tr><tr><td class="left"><code>HoneyItemModel.TryExplode</code></td><td class="left">0x1BA3608</td><td class="left"><code>D103C3FF</code></td><td class="left"><code>sub sp,sp,#0xF0</code></td></tr><tr><td class="left"><strong><code>CurtainItemModel.CanTakeDamage</code></strong></td><td class="left">0x15CC164</td><td class="left"><code>2A1F03E0 D65F03C0</code></td><td class="left"><strong><code>mov w0,wzr; ret</code> 恒返回 false</strong></td></tr><tr><td class="left"><code>StaticItemModel.CanTakeDamage</code>（基类）</td><td class="left">0x30EE0B8</td><td class="left"><code>52800020 D65F03C0</code></td><td class="left"><code>mov w0,#1; ret</code> 恒返回 true</td></tr><tr><td class="left"><em>[对照] 故意编造的地址</em></td><td class="left">0x2F00000</td><td class="left"><code>F00118D4</code></td><td class="left"><strong>垃圾</strong> —— 证明该校验能识别坏地址</td></tr></tbody></table></div>
+<ul>
+<li><strong>结论</strong>：24 条障碍 hook 地址<strong>全部落在真实函数体上</strong>，零命中的原因是<strong>没有发生任何消除</strong>（Moves 未消耗），不是 hook 表错。</li>
+</ul>
+<p><strong>E4 · 障碍扣减入口在 Manager 侧，不在 <code>ItemModel</code> 上</strong> 🟢（技术）</p>
+<ul>
+<li><strong>线索</strong>：<code>CurtainItemModel</code> 虽有 <code>TryExplode</code>(Slot 42) 与 <code>CanTakeDamage</code>(Slot 76)，但后者实现是<strong>恒 <code>false</code></strong> → 帘幕不走"爆炸器询问能否受伤"这条路。</li>
+<li><strong>真正的入口</strong>在 <code>CurtainManager : ICollectManager</code>：<code>DecrementTarget</code>(0x15CCA78) / <code>ItemReached(bool hitFromLeft)</code>(0x15CCB04) / <code>Explode</code>(0x15CCCD8)。同类模式还有 <code>TreasureMapManager</code> / <code>CryptexItemManager</code> / <code>CoilItemManager</code> / <code>DrillManager</code> / <code>ColorMixerItemManager</code> / <code>AncientVaultItemManager</code> / <code>LogItemManager</code> / <code>SapphireItemManager</code> / <code>BowlingRackItemManager</code>。</li>
+<li><strong>教训</strong>：<strong>"这个类上有个同名方法"不等于"这个类负责这件事"。</strong> 恒返回 <code>false</code> 的实现是重要信号 —— 它在告诉你"走到别处去找"。</li>
+</ul>
+<p><strong>E5 · 字段全 0 ≠ 字段不存在</strong> 🟡（<strong>销案的价值</strong>）</p>
+<ul>
+<li><strong>现象</strong>：<code>FTiledCell.waterSoil</code> 在 14,500 关里<strong>恒为 0</strong>，怀疑解析错了。</li>
+<li><strong>排查</strong>：已对 <code>CreateFTiledCell</code> 签名复核字段顺序；TiledId 238/239（Water/WaterSoil）在 fillType 层出现 <strong>0</strong> 次；<code>FTiledLevel.waterData</code>（slot 33）在全部 14,500 关"槽位都存在" → <strong>该 slot 不是水位数据</strong>。</li>
+<li><strong>结论</strong>：<strong>在本地 14,500 关里，水这个机制不存在。</strong> 不是解析问题，是内容问题。</li>
+<li><strong>附带发现一个自己的缺陷</strong>：<code>55_level_obstacle_index.py</code> 里的 <code>water_data_present</code> 列<strong>没有判别力</strong>（实现是 <code>1 if get_table_field(...) is not None else 0</code>，恒为 1）→ <strong>已属已知缺陷，必须标注</strong>。</li>
+</ul>
+<p><strong>E6 · UI 坐标必须像素实测，不要看截图目测</strong> 🔴</p>
+<div class="tw"><table><thead><tr><th class="left">坑</th><th class="left">症状</th><th class="left">做法</th></tr></thead><tbody><tr><td class="left">不能从<strong>缩放截图目测</strong>坐标</td><td class="left">L1 弹窗 Play 估在 y≈1532，真实 <strong>y≈1675</strong>，偏 140–230 px；点击后<strong>毫无反馈</strong>，<strong>极像"触摸坏了"</strong></td><td class="left"><code>tap_green.py</code>：连通域 + 「宽 ≥400 且纵横比 ≥1.8 的绿色横长块」定位 Play / Try Again / 地图 Level 按钮</td></tr><tr><td class="left">弹窗高度随内容变</td><td class="left">L1（Goal + 3 个锁道具）Play 在 y≈1675；带 Butler's Gift 的弹窗更低</td><td class="left"><strong>每张弹窗重新测</strong></td></tr><tr><td class="left">重启后游戏<strong>自动续上未完成的关卡</strong></td><td class="left">以为在地图，实际在关卡里 → "点地图按钮"全成空点</td><td class="left"><code>keyevent 4</code> 看有没有红色 Quit（同样是「宽 ≥400、纵横比 ≥2」的红色块），有就点掉</td></tr><tr><td class="left">地图上会出现<strong>黄色指引箭头遮罩</strong></td><td class="left">整屏压暗、吞掉所有点击，只剩返回键有效</td><td class="left">本轮没找到稳定解除方式，<strong>只能重启</strong></td></tr></tbody></table></div>
+<h3 id="sec38">F 报告与交付类</h3>
+<p><strong>F1 · HTML 标签不平衡（生成器漏标签）</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>tr</code> 开 841 / 闭 743，<code>p</code> 越界 2 → 98 个"未闭合 tr"错误，全部指向同一行。</li>
+<li><strong>根因</strong>：报告生成器的 f-string <strong>漏了 <code>&lt;/tr&gt;</code></strong>。</li>
+<li><strong>修法</strong>：补上；并把 <code>html.parser</code> 计数做成生成后的固定自检步骤（错误数必须为 0）。</li>
+</ul>
+<p><strong>F2 · 无头 Chrome 下锚点跳转不生效</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：两张"不同锚点"的截图<strong>字节数完全相同</strong>（10981 B）→ 容易误判成"截好了"。</li>
+<li><strong>修法</strong>：用<strong>裁剪副本</strong>（把目标章节单独存成小 HTML）或整页 <code>--window-size=1440,16000</code> 截后用 PIL 裁切定位。</li>
+</ul>
+<p><strong>F3 · 价格读错来源，导致整列「—」</strong> 🔴</p>
+<ul>
+<li><strong>现象</strong>：「美元（名称内编码）」列大部分 SKU 显示 <code>—</code>，只有属性名带 <code>FiveDollar</code> 这种词的才有值。</li>
+<li><strong>根因</strong>：把 <strong>productId 的数字后缀</strong>（例如 <code>stagedpass1.10</code>）直接翻译成真实货币价格；这个映射没有得到商店响应或实机价格的独立验证。</li>
+<li><strong>修法</strong>：保留数字后缀作为 <strong>SKU 档位线索</strong>，不再渲染为“$10”。真实货币金额以 <code>PurchaseHelper.ParseProducts(storeResponse)</code> 和实机本地化显示为准。</li>
+<li><strong>教训</strong>：<strong>一个字段"大部分为空"通常不是数据缺失，而是你读错了地方。</strong></li>
+</ul>
+<p><strong>F4 · 中文标签重复</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：<code>15 分钟 无限生命(分钟)</code>。</li>
+<li><strong>修法</strong>：时长类奖励的数量语义就是分钟，生成标签时去掉名字里重复的「(分钟)」。<strong>任何自动拼接的中文标签都要抽查一遍。</strong></li>
+</ul>
+<p><strong>F5 · 表格缺列（数据拿到了但没展示）</strong> 🟡</p>
+<ul>
+<li><strong>现象</strong>：抽查 <code>Single100CoinAmount</code> 未出现在 HTML 里 → 有数据、没列。</li>
+<li><strong>修法</strong>：锚价表补「常量名」列。<strong>交付前做一次"关键值可达性抽查"</strong>：随机挑 5 个已知的重要数值，确认它们在报告里真的能找到。</li>
+</ul>
+<p><strong>F6 · 多份产物的一致性审计</strong> 🟡</p>
+<ul>
+<li><strong>要求</strong>：同一个数字在 HTML / JSON / CSV 三份产物里必须一致。生成器应该<strong>从同一份数据源同时产出三种格式</strong>，不要分别手写。</li>
+</ul>
+<p><strong>F7 · 「拿不到的部分」必须显式写出来</strong> 🔴（<strong>交付底线</strong>）</p>
+<ul>
+<li>报告必须有一节"未拿到部分的诚实清单"，逐条写：<strong>缺什么 / 为什么拿不到 / 下一步</strong>。</li>
+<li>这不是示弱 —— 它是<strong>防止下游把推断当成事实使用</strong>的唯一手段。</li>
+</ul>
+<hr/>
+<h2 id="sec39">5. 可迁移方法论</h2>
+<h3 id="sec40">5.1 证据分级</h3>
+<p>两个项目共用一套四档分级，<strong>任何结论都必须带档位</strong>：</p>
+<div class="tw"><table><thead><tr><th class="left">档位</th><th class="left">含义</th><th class="left">能不能当事实用</th></tr></thead><tbody><tr><td class="left"><strong>E1</strong></td><td class="left">静态包内事实：文件名、对象类型、明文配置、二进制统计</td><td class="left">✅ 可用</td></tr><tr><td class="left"><strong>E2</strong></td><td class="left">运行时事实：抓包、hook 实测、实机截图比对</td><td class="left">✅ 可用</td></tr><tr><td class="left"><strong>H1</strong></td><td class="left">跨样本推断（跨视频图标匹配 / 旧奖励序列），坐标位次与等级可能偏移</td><td class="left">⚠️ 标注后可用</td></tr><tr><td class="left"><strong>H2</strong></td><td class="left">时间码失配的旧样本</td><td class="left">🟡 只作追溯</td></tr><tr><td class="left"><strong>R</strong></td><td class="left">下一步提取动作</td><td class="left">—</td></tr></tbody></table></div>
+<p>配套的表达规范（<strong>交付时必须带，否则会被当成配置值误用</strong>）：</p>
+<blockquote><strong>记录的是「某格在某帧看见了什么」，不可导出为任何版本的 <code>initial_board</code>。</strong><br/><strong>观测值 ≠ 配置值。</strong></blockquote>
+<h3 id="sec41">5.2 三层归属澄清（回答"这个数据到底在不在包里"）</h3>
+<p>这是本项目最有解释力的一套框架。以 RM 的"难度"为例：</p>
+<div class="tw"><table><thead><tr><th class="left">层</th><th class="left">内容</th><th class="left">位置</th><th class="left">证据</th></tr></thead><tbody><tr><td class="left"><strong>① 包内基线</strong></td><td class="left">43 段阈值资产（<code>DynamicDifficultyEasy/Hard.json</code>，各约 10 KB 明文）；14,500 关棋盘</td><td class="left"><code>datapack.unity3d</code> 内的 TextAsset</td><td class="left">表和棋盘在包内；获取的 83 个服务端关卡与本地样本逐格一致</td></tr><tr><td class="left"><strong>② CDN 内容</strong></td><td class="left">4 份已观测配置（<code>superlightball-ab-config.txt</code>；<code>super-charge-config.txt</code>；<code>dynamic-bundle-config.json</code>；<code>dynamic-content-config.json</code>）</td><td class="left"><code>contents.prod.rylmtch.com</code>；已扫描的本地 TextAsset 未发现同名文件</td><td class="left">抓包 + 限定范围的包内名称扫描</td></tr><tr><td class="left"><strong>③ 机器码里的公式</strong></td><td class="left"><code>tryCount</code> / seed / 存档位段等换算</td><td class="left"><code>libil2cpp.so</code></td><td class="left">反汇编</td></tr></tbody></table></div>
+<p><strong>判据边界</strong>：在已捕获的三个候选入口中搜索 <code>difficulty</code> / <code>tryCount</code> / <code>testGroup</code> / <code>experiment</code> 为零命中，只能说这份有限样本没出现这些明文键；<strong>不能反证包内阈值就是线上运行时权威，也不能排除其他端点、编码字段或账号分组</strong>。</p>
+<p><strong>为什么这套框架有用</strong>：它把"能不能拿到"从一个是非题变成三个可分别回答的问题。<strong>"阈值表在包里、A/B 分组走 CDN、换算公式在机器码里"</strong> 这种级别的结论，比"部分拿到"有用得多。</p>
+<h3 id="sec42">5.3 六条硬方法论</h3>
+<p><strong>① 先确认数据没被自己搞坏。</strong> <code>decode → encode</code> 往返必须用<strong>对称</strong>的 error handler（<code>surrogateescape</code> 对 <code>surrogateescape</code>）。一个有损的 <code>.encode("utf-8","ignore")</code> 让 RM 关卡解析白费三轮。<strong>拿到 schema 后先花 10 分钟验证字节完整性，比花三轮调启发式判据便宜得多。</strong></p>
+<p><strong>② 外部真值 &gt; 内部一致性检验。</strong> 没有 schema 时，统计启发式只能找到"形状相似的字节"，不是"有意义的结构"。本项目最硬的两条验证都是外部真值：</p>
+<ul>
+<li>RM 关卡 1 实机截图逐格像素比对 <strong>27/27 全等</strong>；</li>
+<li>服务端下发的 83 个关卡用恢复出的 schema 解码，与本地 <strong>83/83 完全一致</strong>。</li>
+</ul>
+<p><strong>③ 不要用时间窗推断事件归属，用日志行号区间。</strong> 自动操作每执行一步就记下<strong>前后的日志行号</strong>；日志严格按发生顺序追加，所以 <code>[log_line_start, log_line_end)</code> 这一段<strong>必定只属于那一步</strong>。这比"最近 60 ms 内命中了哪个池子"的时间窗猜测可靠得多（后者会<strong>跨段串味</strong>）。</p>
+<p><strong>④ 一个方法返回 1 不等于业务发生了。</strong> 活教材：</p>
+<div class="tw"><table><thead><tr><th class="left">方法</th><th class="left">调用次数</th><th class="left">返回 1</th><th class="left">真实语义</th></tr></thead><tbody><tr><td class="left"><code>ComboManager.IsAnyCombo</code></td><td class="left">69</td><td class="left"><strong>3</strong></td><td class="left"><strong>交换是否为一对道具</strong> —— Combo 的触发条件，极稀少</td></tr><tr><td class="left"><code>ComboManager.Explode</code></td><td class="left"><strong>1</strong></td><td class="left">—</td><td class="left"><strong>Combo 开始执行</strong> —— 整个会话只进入过 1 次</td></tr><tr><td class="left"><code>ComboManager.IsCombo</code></td><td class="left">485</td><td class="left">34</td><td class="left">match group 是否含特殊块 —— <strong>噪音极大，不能单独当判据</strong></td></tr></tbody></table></div>
+<p>→ <strong>可靠判据只有 <code>IsAnyCombo == 1</code> 且 <code>ComboManager.Explode</code> 被进入。</strong> 类似地，<code>Combo 判定</code> 与 <code>Combo 执行</code> 是<strong>两个分离阶段</strong>（交换被识别为道具对 → 延迟 148 ms 等动画落定 → 才进入 <code>Explode</code>）。</p>
+<p><strong>⑤ 判定"不可读"之前，先试 <code>read_typetree()</code>。</strong> 这是解包里性价比最高的一招。GH 用它把"dataconfig 加密不可读"翻成 <strong>20,641 个对象 0 失败</strong>。</p>
+<p><strong>⑥ 阴性结论要显式给出，并且值得花成本。</strong> "服务端不下发动态难度参数"这个结论，价值不低于任何一个阳性发现 —— 它把一个开放问题<strong>关闭</strong>了。要得到一个可信的阴性结论，必须<strong>穷尽检索变体</strong>（见下节 <code>§8</code> 的关键词变体法）。</p>
+<h3 id="sec43">5.4 「穷尽证明某数据不在包里」的四步标准动作</h3>
+<p>用户质疑"这个包里面没有吗"时，<strong>不要重复论点，要升级取证手段</strong>。四步成本递增、说服力递增：</p>
+<div class="tw"><table><thead><tr><th class="left">步</th><th class="left">动作</th><th class="left">耗时</th><th class="left">说明</th></tr></thead><tbody><tr><td class="left">①</td><td class="left"><strong>关键词变体全量二进制检索</strong></td><td class="left">5 min</td><td class="left">token 要覆盖<strong>全部命名变体</strong>，别只搜一个</td></tr><tr><td class="left">②</td><td class="left"><strong>UnityPy 全量导出 TextAsset 后再检索</strong></td><td class="left">10 min</td><td class="left"><strong>最硬的一条</strong>，直接 grep bundle 会漏（B4）</td></tr><tr><td class="left">③</td><td class="left"><strong>拆 <code>dataconfig</code> / <code>data</code> 前缀 bundle 看类型</strong></td><td class="left">5 min</td><td class="left">名字带 config <strong>不代表</strong>是数值配置；但<strong>也别急着判"加密不可读"</strong>（B3）</td></tr><tr><td class="left">④</td><td class="left"><strong>解释命中的目录到底是什么</strong></td><td class="left">5 min</td><td class="left">防误判：<code>bp_1_1..bp_6_4.prefab</code> 看起来像"通行证关卡"，实际是<strong>赛季装饰地图 6 区 × 4 槽</strong></td></tr></tbody></table></div>
+<p>关键词变体示例（通行证场景）：</p>
+<pre><code>battlepass / missionpass / mission_pass / seasonpass / season_pass / superpass /
+goldpass / bonusbank / passlevel / pass_level / passreward / pass_reward /
+vippass / vip_pass / levelreward / freeReward / vipReward / seasonReward</code></pre>
+<p>外加下划线变体。<strong>命中数为 1 且落在语言包 → 强证据。</strong></p>
+<h3 id="sec44">5.5 「机制层 vs 数值层」的边界必须提前说清</h3>
+<div class="tw"><table><thead><tr><th class="left">层</th><th class="left">内容</th><th class="left">可得性</th><th class="left">在哪</th></tr></thead><tbody><tr><td class="left"><strong>机制层</strong></td><td class="left">玩法怎么玩、任务类型、目标、交互约束</td><td class="left">🟢 明文可拿</td><td class="left">本地化表 <code>hint</code> / <code>intro</code> / <code>desc</code>；或 IL2CPP 类名</td></tr><tr><td class="left"><strong>数值层</strong></td><td class="left">掉落率、时长、门槛、奖励梯度、积分公式、价格金额</td><td class="left">🟡 视架构</td><td class="left">xLua 项目在 Lua 层（可静态破）；纯 IL2CPP 项目<strong>通常在服务端</strong></td></tr></tbody></table></div>
+<p><strong>RM 的实测答案</strong>（可作为"数值层到底能拿到多少"的标尺）：</p>
+<div class="tw"><table><thead><tr><th class="left">用户问的</th><th class="left">解包能拿到吗</th><th class="left">已拿到</th><th class="left">拿不到</th></tr></thead><tbody><tr><td class="left"><strong>每个活动奖励什么</strong></td><td class="left">🟡 已扫描范围</td><td class="left">784 个奖励节点 / 29 个活动 / 26 种代码（可翻成中文阶梯）</td><td class="left">奖励美术资源名；未扫描的新版本/服务端活动</td></tr><tr><td class="left"><strong>礼包价格</strong></td><td class="left">🟢 SKU/档位线索 / 🔴 真实金额</td><td class="left"><code>0/20/30/50/100</code> 等包内档位值；<strong>49 个 SKU</strong> 及数字后缀；6 档金币常量；4 种策略类型</td><td class="left"><strong>真实货币金额与本地化文案</strong> —— 需 <code>PurchaseHelper.ParseProducts(storeResponse)</code> 或实机商店显示</td></tr><tr><td class="left"><strong>弹出条件</strong></td><td class="left">🟢 客户端逻辑 / 🟡 实际时机</td><td class="left">224 个 hook 实现（208 个带逻辑）；基类三闸；<code>TryAddAutoDialog</code> 链；频控 key</td><td class="left">条件里引用的<strong>服务端开关值与时间窗</strong></td></tr></tbody></table></div>
+<hr/>
+<h2 id="sec45">6. 踩坑速查表</h2>
+<blockquote>按症状查。<strong>🔴 标的是"会导致错误结论"的，务必先看这些。</strong></blockquote>
+<h3 id="sec46">6.1 「一条都解不出来 / 全部失败」类</h3>
+<div class="tw"><table><thead><tr><th class="left">症状</th><th class="left">最可能的原因</th><th class="left">编号</th></tr></thead><tbody><tr><td class="left">反汇编解出 0 条，不报错</td><td class="left"><code>ldr</code> 的 <code>disp==0</code> 与 <code>pages</code> 表判定顺序错</td><td class="left"><strong>C2</strong></td></tr><tr><td class="left">跳转表还原 0 项</td><td class="left">表项是直接指针（重定位已应用），不是元数据槽</td><td class="left"><strong>C3</strong></td></tr><tr><td class="left">方法反汇编只有 1 条指令</td><td class="left">转发壳，跟一跳</td><td class="left"><strong>C7</strong></td></tr><tr><td class="left">全量提取命中率异常低</td><td class="left"><strong>数据被自己的有损编码搞坏了</strong></td><td class="left"><strong>B1</strong></td></tr><tr><td class="left">Lua 破译四种组合全不中</td><td class="left">打分判据用了文本特征（明文是字节码）</td><td class="left"><strong>B7</strong></td></tr><tr><td class="left">grep 返回空，不报错</td><td class="left">BSD grep 的 BRE <code>|</code> 陷阱</td><td class="left"><strong>A11</strong></td></tr><tr><td class="left"><code>ModuleNotFoundError: capstone</code></td><td class="left">用错 Python 环境</td><td class="left"><strong>A2</strong></td></tr></tbody></table></div>
+<h3 id="sec47">6.2 「看起来对、结果是错的」类（最危险）</h3>
+<div class="tw"><table><thead><tr><th class="left">症状</th><th class="left">最可能的原因</th><th class="left">编号</th></tr></thead><tbody><tr><td class="left">日志暴涨，以为走棋成功</td><td class="left">弹回交换的 1800 行扫描噪音</td><td class="left"><strong>D1</strong></td></tr><tr><td class="left">走几步后日志不再增长</td><td class="left"><code>MAX_RECORDS</code> 写满静默停止</td><td class="left"><strong>D2</strong></td></tr><tr><td class="left">采集"成功"但零事件</td><td class="left">attach 失败路径不抛异常</td><td class="left"><strong>A10</strong></td></tr><tr><td class="left">读数"正常"但自带三连、合法走法虚高</td><td class="left">棋盘行网格不是常量（116 而非 110）</td><td class="left"><strong>D7</strong></td></tr><tr><td class="left"><code>IsCombo == 1</code> 当成 Combo 触发</td><td class="left">返回 1 ≠ 业务发生</td><td class="left"><strong>§5.3 ④</strong></td></tr><tr><td class="left">点击毫无反馈，以为触摸坏了</td><td class="left">坐标是缩放截图目测的</td><td class="left"><strong>E6</strong></td></tr><tr><td class="left">表格整列「—」</td><td class="left">字段读错了来源（属性名 vs productId）</td><td class="left"><strong>F3</strong></td></tr><tr><td class="left">障碍 hook 零命中，怀疑地址错</td><td class="left">先做 prologue 静态反证，再查是否真的没发生消除</td><td class="left"><strong>E3</strong></td></tr><tr><td class="left">托管方法从 JS 调就崩</td><td class="left">缺 <code>il2cpp_thread_attach</code></td><td class="left"><strong>D10</strong></td></tr><tr><td class="left">判定"MonoBehaviour 加密不可读"</td><td class="left">没试 <code>read_typetree()</code></td><td class="left"><strong>B3</strong></td></tr><tr><td class="left">按类名判断加密算法</td><td class="left">类名误导（<code>DesEncryption</code> ≠ DES）</td><td class="left"><strong>B10</strong></td></tr><tr><td class="left">字段全 0，怀疑解析错</td><td class="left">可能真的是内容里没有（水在 14500 关不存在）</td><td class="left"><strong>E5</strong></td></tr></tbody></table></div>
+<h3 id="sec48">6.3 「环境 / 工具」类</h3>
+<div class="tw"><table><thead><tr><th class="left">症状</th><th class="left">修法</th><th class="left">编号</th></tr></thead><tbody><tr><td class="left"><code>pip install UnityPy</code> 报 <code>EEXIST</code></td><td class="left">手工铺 <code>tpk_ar</code></td><td class="left"><strong>A3</strong></td></tr><tr><td class="left">bundle 解析失败，报错像纹理问题</td><td class="left">装 <code>pyfmodex archspec texture2ddecoder</code></td><td class="left"><strong>A4</strong></td></tr><tr><td class="left"><code>INSTALL_FAILED_NO_MATCHING_ABIS</code></td><td class="left">换含 arm64 的包</td><td class="left"><strong>A5</strong></td></tr><tr><td class="left"><code>adb root</code> 报 <code>cannot run as root</code></td><td class="left">换 <code>google_apis</code> / AOSP 镜像</td><td class="left"><strong>A8</strong></td></tr><tr><td class="left"><code>adb remount</code> 失败</td><td class="left">bind-mount 信任库，别碰 /system</td><td class="left"><strong>A7</strong></td></tr><tr><td class="left">Frida 报 <code>unexpected crash while allocating memory</code></td><td class="left">①系统进程对照测试 ②<code>am force-stop</code> 重启 ③刚启动窗口期 attach</td><td class="left"><strong>D6 / A9 / A10</strong></td></tr><tr><td class="left">只有第 1 次 attach 能用</td><td class="left">合并成一个 session，<code>create_script</code> 两次</td><td class="left"><strong>A10</strong></td></tr><tr><td class="left">无头截图"两张一样"</td><td class="left">锚点不生效，用裁剪副本</td><td class="left"><strong>F2</strong></td></tr><tr><td class="left">下载站点 000 / 403</td><td class="left">换 agent-browser 或让用户给包</td><td class="left"><strong>A12</strong></td></tr><tr><td class="left">typetree 报 <code>Expected to read N bytes</code></td><td class="left">补类型树 或 用 <code>il2cpp.h</code> 绕</td><td class="left"><strong>B2</strong></td></tr></tbody></table></div>
+<h3 id="sec49">6.4 反模式清单（<strong>不要这么做</strong>）</h3>
+<div class="tw"><table><thead><tr><th class="left">❌ 反模式</th><th class="left">✅ 正确做法</th></tr></thead><tbody><tr><td class="left">一上来写解包脚本</td><td class="left">先花 30 min 判引擎与结构（Step 0）</td></tr><tr><td class="left">直接 <code>strings</code> bundle 再 grep</td><td class="left">全量导出 TextAsset 再 grep（B4）</td></tr><tr><td class="left">看到乱码就判"加密不可读"</td><td class="left">先试 <code>read_typetree()</code>（B3）</td></tr><tr><td class="left">用文本打分判二进制明文的解密是否成功</td><td class="left">用魔数计数（<code>\x1bLua</code>）（B7）</td></tr><tr><td class="left">用时间窗给事件分段</td><td class="left">用日志行号区间（§5.3 ③）</td></tr><tr><td class="left">拿单个方法返回值当业务判据</td><td class="left">要求"判定 + 执行"双证据（§5.3 ④）</td></tr><tr><td class="left">硬编码 RVA / 写死屏幕坐标 / 写死函数长度</td><td class="left">从 <code>script.json</code> 动态取；标定器自测；二分取边界（C5）</td></tr><tr><td class="left">armv7 字段偏移套用到 arm64</td><td class="left">两个 ABI 各 dump 一次（C6）</td></tr><tr><td class="left">跳过 RVA 字节校验直接采</td><td class="left">采集前必跑 <code>validate_rva.py</code>（§2.3.3）</td></tr><tr><td class="left">报告生成后不看截图</td><td class="left">Chrome headless + PIL 视觉复核（§2.3.5）</td></tr><tr><td class="left">只报拿到的，不报拿不到的</td><td class="left">「诚实清单」是交付底线（F7）</td></tr><tr><td class="left">在真账号上做内存改值实验</td><td class="left">只能在可丢弃的小号上做（D12）</td></tr></tbody></table></div>
+<hr/>
+<h2 id="sec50">7. 明确拿不到的东西（诚实清单）</h2>
+<h3 id="sec51">7.1 Royal Match 38174</h3><p class="note">当前资源覆盖：14,991份文本／二进制资源无损读取；本地化已恢复5,103个词条、11种语言（不含中文）。165个区域、1,634个任务的配置可取得；完整场景bundle目前仅有1／2／3／163。取得原始数据与完整解释字段、恢复原制作工程是不同的工作。</p>
+<div class="tw"><table><thead><tr><th class="left">缺什么</th><th class="left">为什么</th><th class="left">下一步</th></tr></thead><tbody><tr><td class="left"><strong>真实货币金额与本地化价格文案</strong></td><td class="left">需商店查询响应 <code>PurchaseHelper.ParseProducts(storeResponse)</code> 或实机显示</td><td class="left">抓取商店响应，或人工记录</td></tr><tr><td class="left">服务端热更真值</td><td class="left"><code>remote-levels.prod.rylmtch.com</code> 证明关卡可远程下发，包内是<strong>基线</strong></td><td class="left">抓包比对；当前获取的 83 个样本与本地逐格一致</td></tr><tr><td class="left">实时活动排期、真实货币定价、掉落率、A/B 分群</td><td class="left">服务端/商店有实时输入</td><td class="left">抓包 / 多版本 diff</td></tr><tr><td class="left">玩家进度相关的动态难度实际触发值</td><td class="left">包内资产不等于主线实际生效</td><td class="left">Frida 运行时采集</td></tr><tr><td class="left"><code>story-*</code>（261 个）/ <code>reactivation-*</code>（90 个）字段级内容</td><td class="left">同关卡格式的 FlatBuffers，<strong>未破解</strong></td><td class="left">复用关卡 schema 恢复流程</td></tr><tr><td class="left">MonoBehaviour typetree</td><td class="left">UnityPy 1.25.3 缺 2021.3.55f1 类型树</td><td class="left">补类型树 或 用 <code>il2cpp.h</code> 绕</td></tr><tr><td class="left"><code>AndroidManifest</code> 明细</td><td class="left">二进制 AXML，本轮未解</td><td class="left">apktool/aapt2</td></tr><tr><td class="left">编码语义（<code>FTiledCell</code> 三位数）</td><td class="left">需 <code>CellFillType</code> / <code>TiledId</code> / 玩法类逐项对照</td><td class="left">未展开</td></tr><tr><td class="left"><code>FTiledLevel</code> 其余约 49 个字段值级解码</td><td class="left">本轮未逐个验证</td><td class="left">未展开</td></tr></tbody></table></div>
+<h3 id="sec52">7.2 Gossip Harbor 3.98.0</h3>
+<div class="tw"><table><thead><tr><th class="left">缺什么</th><th class="left">为什么</th><th class="left">下一步</th></tr></thead><tbody><tr><td class="left"><strong>首次加载棋盘占位（<code>row/column → itemId/level</code>）</strong></td><td class="left">本地 Addressables 内容里<strong>没有任何显式初盘表</strong>；<code>game_text_cn</code> 只有物品 ID/名与合成链描述，无格子坐标；教程 Lua 与 Lua core/activity payload 是编码二进制</td><td class="left">初始化 payload / 解 Lua 路径 / 实机首次运行抓取</td></tr><tr><td class="left">合成配方、订单谓词、成本、掉落表、服务端活动开关</td><td class="left">解码出的注册表只标明<strong>资源与地图槽位</strong>，本身不证明运行规则</td><td class="left">实机同槽位 before→action→after 取证</td></tr><tr><td class="left">数值层（活动/通行证奖励、掉落率、时长）</td><td class="left"><code>dynamicconfigremote</code> + Addressables 远程 bundle 下发</td><td class="left">adb pull 运行时缓存 / 抓包 / 逆 IL2CPP</td></tr><tr><td class="left">棋盘道具名 → 实际等级映射</td><td class="left">需要与实机事件配对</td><td class="left">实机取证</td></tr></tbody></table></div>
+<h3 id="sec53">7.3 通用边界（可直接用于判断新包）</h3>
+<p><strong>✅ 一般能拿到</strong>：美术、UI 布局、文案、角色设定、系统骨架、活动模板库、代码模块划分、类名与方法名、字段偏移、静态配置基线。</p>
+<p><strong>❌ 一般拿不到</strong>：数值配置（时长 / 门槛 / 掉落率 / 价格档位 / 奖励表）、服务端热更覆盖后的线上真值、A/B 分群、真实货币金额。</p>
+<hr/>
+<h2 id="sec54">8. 新 APK 30 分钟侦察清单（可直接照做）</h2>
+<pre><code class="lang-bash">PKG=&lt;包路径&gt;; OUT=_audit; mkdir -p $OUT
+
+# ── 0. 记录样本指纹（后面所有"没有 X"的结论都绑定到它）
+shasum -a 256 "$PKG"; ls -l "$PKG"
+
+# ── 1. 拆包
+unzip -o "$PKG" -d $OUT/unpacked
+find $OUT/unpacked -maxdepth 2 -name "*.apk" -o -maxdepth 2 -name "*.json" | head -20
+
+# ── 2. 引擎与结构判定（四个问题一次回答）
+find $OUT -name "libil2cpp.so" -o -name "libcocos2djs.so" -o -name "libUE4.so"
+find $OUT -name "global-metadata.dat"
+find $OUT -name "catalog.json" -o -name "datapack*" -o -name "*_bundle_config.json"
+find $OUT -name "Lua_*.bytes" -o -name "*.lua" -o -name "libxlua.so"
+find $OUT -name "game_text_*.json" -o -iname "*localization*" -type d
+unzip -l "$PKG" | head -40          # 看 split 构成与 ABI
+
+# ── 3. 高信噪比第一招（按 Step 3 的表选一个，只跑一个）
+#    有本地化表 → 导出后按前缀聚类
+#    有 MonoBehaviour → 全量 read_typetree()
+#    纯 IL2CPP → Il2CppDumper
+
+# ── 4. 记录到 README：包名 / 版本 / 引擎 / 容器 / SHA-256 / ABI / 路线判定</code></pre>
+<p><strong>然后写三行结论</strong>，贴到 <code>README.md</code> 顶部：</p>
+<ol>
+<li><strong>结构判定</strong>：<code>Addressables? 有/无</code> · <code>Lua? 有/无</code> · <code>本地化表? 有/无</code> → <strong>路线：A / B</strong></li>
+<li><strong>信噪比最高的入口</strong>是什么，跑出来的量级是多少</li>
+<li><strong>第一批要索引的目标</strong>是哪几个（列名字）</li>
+</ol>
+<p><strong>接着就可以按 §3 的 Step 4→7 推进了。</strong></p>
+<hr/>
+<h2 id="sec55">9. 附录</h2>
+<h3 id="sec56">9.1 关键复现命令</h3>
+<pre><code class="lang-bash"># ── Python 环境分工会话变量
+P=/Users/kenny/.workbuddy/binaries/python/versions/3.13.12/bin/python3   # frida（无 PIL）
+PYI=/Users/kenny/.workbuddy/binaries/python/envs/default/bin/python       # PIL + capstone（无 frida）
+
+# ── Il2CppDumper（armv7 与 arm64 各一次）
+cd tools/il2cppdumper
+./Il2CppDumper &lt;libil2cpp.so&gt; &lt;global-metadata.dat&gt; output          # armv7
+./Il2CppDumper &lt;libil2cpp.so&gt; &lt;global-metadata.dat&gt; output-arm64    # arm64
+
+# ── Frida 全链路
+bash tools/frida/setup_android_frida.sh 16.5.9                       # 1) 起环境
+$P tools/frida/validate_rva.py                                       # 2) 校验 RVA（必须 9/9 一致）
+$P tools/frida/attach_rm.py --out outputs/runtime_hook_X.jsonl --wait-il2cpp 60   # 3) 挂 hook
+$PYI tools/frida/play_moves.py --moves 6 --tag A --bias top --log &lt;jsonl&gt;         # 4) 自动走棋
+$PYI tools/frida/analyze_moves.py --moves &lt;json&gt; --log &lt;jsonl&gt; --md &lt;md&gt; --json &lt;json&gt;  # 5) 按行号区间切段
+
+# ── 跳关 + 采集（一次 attach 干两件事）
+$P -u tools/frida/combo_run.py --target 13478 --mode poke --restart \
+--collect-seconds 900 --watch-count 6 --watch-gap 3000 \
+--jump-out outputs/jump_L13478.jsonl \
+--collect-out outputs/runtime_hook_obstacles_L13478.jsonl
+
+# ── 棋盘标定（换关后必跑，旧常量会失效）
+$PYI tools/frida/calibrate_grid.py outputs/shots/cur.png --overlay /tmp/cal.png
+
+# ── 抓包
+H=$(openssl x509 -subject_hash_old -in ~/.mitmproxy/mitmproxy-ca-cert.pem | head -1)
+adb shell "setenforce 0; mkdir -p /data/local/tmp/cacerts &amp;&amp; cp -a /system/etc/security/cacerts/. /data/local/tmp/cacerts/"
+adb push ~/.mitmproxy/mitmproxy-ca-cert.pem /data/local/tmp/cacerts/$H.0
+adb shell "chmod 644 /data/local/tmp/cacerts/*; mount --bind /data/local/tmp/cacerts /system/etc/security/cacerts"
+mitmdump --listen-host 0.0.0.0 --listen-port 8080 -w capture/rm_capture.mitm
+adb shell settings put global http_proxy 10.0.2.2:8080</code></pre>
+<h3 id="sec57">9.2 产物与索引规模（本次）</h3>
+<div class="tw"><table><thead><tr><th class="left">项目</th><th class="left">规模</th></tr></thead><tbody><tr><td class="left">RM Unity 对象</td><td class="left">166,986 个 / 63 种类型 / <strong>解析失败 0</strong></td></tr><tr><td class="left">RM TextAsset</td><td class="left">14,991 个（关卡 14,500 个）</td></tr><tr><td class="left">RM 美术导出</td><td class="left">7,859 张 PNG（失败 796，Sprite 无 image 属性属正常）</td></tr><tr><td class="left">RM IL2CPP 元数据</td><td class="left">153,380 个可读串；类名候选 79,629</td></tr><tr><td class="left">RM 索引</td><td class="left"><code>indices/</code> 95 个文件</td></tr><tr><td class="left">RM Frida 采集</td><td class="left">4 会话 / 39.1 万行事件 / 62 步受控走棋 / 102 个 hook 点</td></tr><tr><td class="left">RM 关卡</td><td class="left">14,500 关（ID 1–14500 连续无缺口），尺寸 38 种，主流 9×11（10,372 关，71.5%）</td></tr><tr><td class="left">GH Addressables</td><td class="left">246 个 bundle / 127 MB</td></tr><tr><td class="left">GH Unity 对象</td><td class="left">110,228 个（core bundle 24,215 个：6,212 GameObject / 3,888 MonoBehaviour / 982 Texture2D / 850 Sprite / 393 ParticleSystem / 168 Mesh / 150 Animator）</td></tr><tr><td class="left">GH MonoBehaviour 全量扫描</td><td class="left">20,641 个 <strong>0 失败</strong>，71 秒</td></tr><tr><td class="left">GH 美术导出</td><td class="left">2,595 张（失败 8）</td></tr><tr><td class="left">GH 本地化</td><td class="left"><code>game_text_{lang}.json</code> × 10 语，各 12,741 key</td></tr><tr><td class="left">GH 明文可读符号</td><td class="left">6,338 个字符串常量</td></tr></tbody></table></div>
+<h3 id="sec58">9.3 相关文档与技能索引</h3>
+<div class="tw"><table><thead><tr><th class="left">文档</th><th class="left">内容</th></tr></thead><tbody><tr><td class="left"><code>royal-match-apk-audit-38174/README.md</code>（832 行）</td><td class="left">RM 完整问题日志（§0–§14），本文档 RM 部分的主要素材源</td></tr><tr><td class="left"><code>royal-match-apk-audit-38174/tools/frida/README.md</code>（552 行）</td><td class="left">Frida 环境前置条件、采集协议、11 条运行时踩坑、跳关配方</td></tr><tr><td class="left"><code>royal-match-apk-audit-38174/indices/fbs_schema_recovered.cs</code></td><td class="left">恢复出的 FlatBuffers schema</td></tr><tr><td class="left"><code>gossip-harbor-apk-audit-3.98.0/indices/core_findings.md</code></td><td class="left">GH 核心发现与证据边界</td></tr><tr><td class="left"><code>gossip-harbor-apk-audit-3.98.0/decoded/config_registry.csv</code></td><td class="left">GH 配置注册表清单</td></tr><tr><td class="left"><strong>技能 <code>unity-mobile-game-unpack</code></strong></td><td class="left">可执行的解包 SOP（含 xLua XOR 破译完整流程、八轮补充经验）</td></tr><tr><td class="left"><strong>技能 <code>royal-match-refill-reverse-engineering</code></strong></td><td class="left">RM 补棋链路逆向 + Frida 运行时校准</td></tr></tbody></table></div>
+<hr/>
+<h2 id="sec59">10. 一页速查：如果只能记住十条</h2>
+<ol>
+<li><strong>先判结构，再动手。</strong> <code>catalog.json</code> / <code>Lua</code> / <code>本地化表</code> 三个有无，决定整条路线。</li>
+<li><strong>先怀疑自己，再怀疑格式。</strong> <code>decode → encode</code> 必须对称；拿到 schema 先验字节完整性。</li>
+<li><strong>判定"不可读"之前先试 <code>read_typetree()</code>。</strong> 性价比最高的一招。</li>
+<li><strong>"一条都解不出来"通常是解释器走错分支</strong>，不是库里没有。先写手工探针证明链路可通。</li>
+<li><strong>返回 1 ≠ 业务发生。</strong> 要求"判定 + 执行"双证据。</li>
+<li><strong>事件归属用日志行号区间，不用时间窗。</strong></li>
+<li><strong>阴性结论要显式给出，并穷尽关键词变体证明。</strong></li>
+<li><strong>外部真值 &gt; 内部一致性检验。</strong> 一张实机截图、一份服务端数据，胜过三轮统计启发式。</li>
+<li><strong>报告三件事：生成后自检（标签平衡 + 截图）、多产物一致性审计、拿不到的诚实清单。</strong></li>
+<li><strong>只能在可丢弃的小号上做内存改值实验。</strong></li>
+</ol>
+<blockquote><strong>一句话工作法：先判定结构 → 先跑信噪比最高的那一招 → 数据读不出来时先怀疑自己 → 静态解不动的才上运行时 → 每一步都留可复核的证据。</strong></blockquote>
+</main>
+</div>
+<script>
+document.querySelectorAll('nav a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var t = document.querySelector(a.getAttribute('href'));
+    if(!t) return;
+    e.preventDefault();
+    window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - 16,
+                     behavior:'smooth'});
+    history.replaceState(null,'',a.getAttribute('href'));
+  });
+});
+</script>
+<script defer="" src="../assets/report-deep-links.js"></script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+.report-return{display:flex;justify-content:space-between;gap:16px;align-items:center;background:#fff;border-bottom:1px solid #dce3ec;padding:12px max(22px,calc((100vw - 1240px)/2));font:13px/1.6 "PingFang SC","Microsoft YaHei",sans-serif;color:#66717c}.report-return a{color:#225fa9;text-decoration:none}.report-return a:hover{text-decoration:underline}
+@media(max-width:640px){.report-return{padding:10px 16px;flex-wrap:wrap;gap:4px}.report-return span{font-size:11px}body{overflow-wrap:anywhere}.chart,svg{max-width:100%;height:auto}pre{max-width:100%;overflow:auto}}

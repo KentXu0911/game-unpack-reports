@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>特殊块生成位置与激活时机 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / PLAYER EXPERIENCE</p>
+<p><a class="header-back" href="../index.html#row-special-creation">← 返回内容总览</a> / 三消玩法</p>
+<h1>特殊块生成位置与激活时机</h1><p>已确认候选洗牌、过滤、评分选择，以及延迟创建、激活和解冻的阶段。完整同分坐标规则仍待核实。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span>
+<span>研究样本：build 38174</span></div><section id="special-creation" class="topic-detail" aria-labelledby="title-special-creation"><h2 id="title-special-creation">特殊块生成位置与激活时机</h2><div class="topic-body"><h3>先从匹配格中挑出生成位置</h3><p>匹配成功后，程序先打乱候选格顺序，再去掉空对象和不允许参与的特定静态物，逐个比较候选分数，留下更优的格子。同分时还会比较坐标字段；具体按哪种方向决定先后尚未全部确认，所以不能简单理解成总留在手指落点或完全随机。</p><h3>生成格留下，其余匹配格清掉</h3><p>选定位置后，这一格会从普通销毁和收集列表中排除，其余匹配格继续进入清除流程。特殊块因此能留在选定格，成为下一手可使用的道具。生成位置不是等整组清空后，再由画面层随意补出来的。</p><h3>等创建阶段结束，再恢复落子</h3><p>程序先等待一段创建延迟，再激活特殊块的画面、粒子和状态，最后解除相关格子的冻结。具体延迟值和全部分支的帧边界仍待验证。画面已经开始播放，不代表棋盘已经可以继续下落，也不能直接用动画总长当作解冻时刻。</p><h3>位置和时机会改变组合机会</h3><p>特殊块留在哪格，决定下一手能否接上其他道具；何时激活、何时恢复下落，决定连锁是否清楚和操作是否及时。复现时要把生成位置、显示、可操作和恢复下落分别对齐。</p><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>特殊块生成、方向与组合</h6><p>ARM64／ARMv7静态规则。SelectSmartRocket 0x20EDA34；横评分0x20EDAF4、纵评分0x20EDB94；生成选格0x1378554；创建协程0x20EE048；组合分派0x26AD2C4。静态已确认方向比较与局部创建阶段，完整帧边界待实机。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv</code></p></div></details></div></section>
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2><p>结论：从“特殊块通常留在交换位置”的经验，细化为候选筛选、评分与创建时序。</p><p>速度：能直接定位位置异常与过早可点击的原因；同分方向、特殊静态物和帧边界仍需对照。</p></section>
+<nav class="related-topics" aria-label="相关算法解读"><h2>相关内容</h2><a href="../topics/propeller-targeting.html">飞机寻路：目标选择、重选与组合</a><a href="../topics/smart-rocket.html">智能火箭：方向与范围收益</a><a href="../topics/hit-spread-timing.html">命中去重、扩散与连锁节奏</a>
+<a href="../reports/03-mechanism-difficulty.html#refill">补棋、Seed与难度完整报告</a>
+<a href="../reports/04-gate-resolution.html#gate-matrix">障碍门控矩阵完整报告</a></nav>
+<footer><a href="../index.html#row-special-creation">← 返回内容总览</a> · 结论限于已取得的build 38174样本。</footer></main>
+</body></html>
