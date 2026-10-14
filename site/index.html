@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小游戏解包审计报告集（2026.10.14）</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#1b1e23;
+ font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px 80px}
+header{background:linear-gradient(135deg,#16233b,#2b4a7d 55%,#2f7ed8);color:#fff;padding:40px 22px 34px;margin-bottom:26px}
+header .inner{max-width:1080px;margin:0 auto}
+h1{font-size:28px;margin:0 0 10px;letter-spacing:.4px}
+header p{margin:0;opacity:.86;font-size:13.5px;max-width:820px}
+.tagline{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.tagline span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+ padding:3px 11px;border-radius:20px;font-size:12px}
+h2{font-size:19px;margin:44px 0 8px;padding-left:12px;border-left:5px solid #2f7ed8}
+p{margin:9px 0}
+a{color:#2f7ed8}
+.lead{color:#4b5563;font-size:13.5px;margin:6px 0 16px}
+.card{background:#fff;border:1px solid #e2e6eb;border-radius:14px;padding:20px 22px;margin:14px 0;
+ box-shadow:0 1px 3px rgba(16,24,40,.04);display:block;text-decoration:none;color:inherit;
+ transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease}
+a.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,24,40,.10);border-color:#bcd4f2}
+.card-head{display:flex;align-items:flex-start;gap:14px}
+.num{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#2b4a7d,#2f7ed8);
+ color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.card-title{font-size:16.5px;font-weight:600;color:#16233b;margin:3px 0 0;line-height:1.45}
+.card-q{color:#4b5563;font-size:13.5px;margin:7px 0 0}
+.card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.card-meta span{background:#eef4fc;color:#2b5c9e;border:1px solid #d6e5f8;padding:2px 9px;border-radius:5px;font-size:11.5px}
+.card-meta span.grey{background:#f1f3f5;color:#5b6572;border-color:#e2e6eb}
+.open{margin-top:13px;font-size:13px;color:#2f7ed8;font-weight:500}
+.note{border-left:4px solid #2f7ed8;background:#f3f8fe;padding:13px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13.5px}
+.note.warn{border-color:#e0932e;background:#fdf7ec}
+.note.bad{border-color:#d94a4a;background:#fdf1f1}
+.note b{color:#16233b}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+ border:1px solid #e2e6eb;border-radius:10px;overflow:hidden}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid #eef0f3;vertical-align:top}
+th{background:#f7f9fb;font-weight:600;color:#16233b;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+footer{margin-top:46px;padding-top:18px;border-top:1px solid #e2e6eb;color:#8b93a1;font-size:12px}
+@media(max-width:640px){h1{font-size:22px}.card{padding:16px 16px}.card-head{gap:10px}}
+
+/* REPLICATION OVERVIEW START */
+.replication-overview section{scroll-margin-top:18px}.replication-overview h3{font-size:16px;margin:24px 0 8px;color:#16233b}
+.overview-scroll{overflow-x:auto}.overview-scroll table{min-width:680px}.overview-scroll tbody th{background:#fff;font-weight:500;font-size:13px}
+.availability{display:inline-block;white-space:nowrap;font-size:12px;border-radius:5px;padding:2px 7px}
+.availability.available{color:#216449;background:#e8f4ed}.availability.framework{color:#86591b;background:#fbf2df}.availability.unavailable{color:#59616d;background:#edf0f3}
+.overview-legend{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;font-size:12px;color:#4b5563}.overview-nav{display:flex;gap:18px;flex-wrap:wrap;margin:16px 0}
+.overview-mobile-hint{display:none}@media(max-width:700px){.overview-mobile-hint{display:block;font-size:12px;color:#6b7280}}
+/* REPLICATION OVERVIEW END */
+</style></head>
+<body>
+<header><div class="inner">
+  <h1>小游戏解包审计报告集</h1>
+  <p>汇总 Royal Match 解包、关卡机制、活动和商业化报告。2026-10-14 新增研发复刻总览与 REA 重解包补充详解，可从总览直接跳到对应章节。</p>
+  <div class="tagline">
+    <span>Royal Match 38174</span>
+    <span>com.dreamgames.royalmatch</span>
+    <span>静态解包 + 局内机制还原</span>
+    <span>含跨样本方法论</span>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+<!-- REPLICATION OVERVIEW START -->
+<section id="replication-overview" class="replication-overview">
+<h2>从研发角度看：哪些能够拿到与复刻</h2>
+<p class="lead">点击第一列的内容名称，直接进入对应详解章节。范围：Royal Match 38174；2026-10-14 REA 重解包复核。</p>
+<div class="overview-legend"><span class="availability available">完全获得</span><span>具体规则和已取得内容可恢复，用于复刻</span><span class="availability framework">只能获得框架</span><span>客户端流程可恢复，具体缺失内容见每行说明</span><span class="availability unavailable">完全不能获得</span><span>原内部工具、后台或制作工程不在客户端内</span></div>
+<p class="lead">分类表示可得性，不代表本轮已经完成全部复刻。“只能获得框架”的条目逐项说明能拿到什么、拿不到什么、如何补齐。服务器或平台返回数据可以补齐当次内容，但不会自动给出后台算法。</p>
+<nav class="overview-nav" aria-label="复刻总览分类"><a href="#replication-core">三消玩法</a><a href="#replication-meta">外围 Meta</a><a href="#replication-money">商业化</a></nav>
+<p class="overview-mobile-hint">左右滑动表格，可查看完整内容和复刻程度。</p>
+<section id="replication-core"><h3>三消玩法</h3><div class="overview-scroll"><table><colgroup><col style="width:22%"><col style="width:61%"><col style="width:17%"></colgroup><thead><tr><th>具体内容</th><th>具体能够拿到的内容</th><th>能够复刻程度</th></tr></thead><tbody><tr><th scope="row"><a href="reports/07-rea-recovery.html#level-config">初始棋盘、关卡配置</a></th><td>每关棋子和障碍怎么摆、要完成什么目标、有多少步；随机格怎么生成。已恢复14,500关数据。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/03-mechanism-difficulty.html#refill">补棋算法、随机数</a></th><td>从哪里补棋、先补哪里、各种棋子出现的权重，以及如何按随机种子生成棋子。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#fall-rules">交换、匹配、下落</a></th><td>哪些交换有效、怎么形成消除、棋子怎样直落或斜落、冻结和多棋盘怎么处理。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#obstacle-rules">障碍、道具、组合技</a></th><td>障碍打几次消失、怎样扩散或生成；道具的攻击范围、组合效果、飞机如何选目标。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/03-mechanism-difficulty.html#adaptation">胜负、结算</a></th><td>什么时候判定过关或失败，剩余步数怎样处理，客户端怎样计算和展示奖励。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#production-tools">原关卡生产工具</a></th><td>能拿到成品关卡和运行规则，用来自己做编辑器；拿不到原团队的编辑器、生成器和内部验收标准。</td><td><span class="availability unavailable">完全不能获得</span></td></tr></tbody></table></div></section><section id="replication-meta"><h3>外围 Meta</h3><div class="overview-scroll"><table><colgroup><col style="width:22%"><col style="width:61%"><col style="width:17%"></colgroup><thead><tr><th>具体内容</th><th>具体能够拿到的内容</th><th>能够复刻程度</th></tr></thead><tbody><tr><th scope="row"><a href="reports/07-rea-recovery.html#area-tasks">装修、章节、解锁</a></th><td>有哪些装修任务、消耗多少、先后顺序和解锁条件。已恢复165区域配置、1,634任务。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/02-activity-config.html#s2">活动玩法、默认奖励</a></th><td>包内活动怎样积累进度、分几个阶段、什么时候领奖，以及默认奖励清单。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/01-activity-schedule.html#schedule-boundaries">当期活动、排期、排行</a></th><td><p>能拿到：活动页面、时间字段、倒计时和排行展示流程。</p><p>拿不到：仅靠安装包无法确定当期开始／结束日期、当期奖励、对手和名次，也无法知道尚未下发的未来排期。</p><p>补齐方式：取得对应服务器数据后，可以读取该期内容；仍不能推知未下发的未来安排。</p></td><td><span class="availability framework">只能获得框架</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#team-flow">团队、社交流程</a></th><td>客户端怎样展示团队、处理加入或退出、发起社交请求；不能由此得到原后台实现。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#distributed-assets">界面、美术、动画、音效</a></th><td>已取得资源包里的图片、界面布局、动画、声音和文案。其他区域的完整画面需下载对应资源包。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#server-boundary">原社交、赛事后台</a></th><td>能看懂客户端如何请求和展示结果；拿不到原服务器怎样匹配对手、校验排名、核验奖励的实现。</td><td><span class="availability unavailable">完全不能获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#source-projects">原制作工程</a></th><td>拿不到原Unity工程、图片分层源文件和音频制作工程。</td><td><span class="availability unavailable">完全不能获得</span></td></tr></tbody></table></div></section><section id="replication-money"><h3>商业化</h3><div class="overview-scroll"><table><colgroup><col style="width:22%"><col style="width:61%"><col style="width:17%"></colgroup><thead><tr><th>具体内容</th><th>具体能够拿到的内容</th><th>能够复刻程度</th></tr></thead><tbody><tr><th scope="row"><a href="reports/06-commercialization-audit.html#failure-product">失败续关</a></th><td>续关弹窗、包内金币价格和加步数量，以及连续购买时客户端怎样切换档位。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/06-commercialization-audit.html#user-tiers">用户分层</a></th><td><p>能拿到：付费／未付费、历史购买档位、活动内升降档的客户端规则，以及不同分层怎样选择商品和奖励。</p><p>拿不到：后台按哪些条件、阈值或公式给账号分配动态／阶梯礼包层级；仅靠安装包也无法确定某账号当前所属层。</p><p>补齐方式：服务器返回数据可告诉我们该账号被分到哪层，但不会给出后台为什么这样分的完整算法。</p></td><td><span class="availability framework">只能获得框架</span></td></tr><tr><th scope="row"><a href="reports/06-commercialization-audit.html#adaptive-product">商店、礼包规则</a></th><td>商品怎么排列、什么条件下展示、多久能再出现；已存在的礼包升档和降档规则。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/02-activity-config.html#s2">默认礼包、通行证</a></th><td>包内默认礼包装什么、数量多少；通行证各阶段免费和付费奖励是什么。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/06-commercialization-audit.html#user-tiers">账号当天的礼包、实验分组</a></th><td><p>能拿到：礼包接收、展示和实验版本切换的客户端流程。</p><p>拿不到：仅靠安装包无法确定某账号今天实际收到哪个礼包、奖励种类和数量，以及被分到哪个实验组。</p><p>补齐方式：取得该账号当天的服务器返回数据后，可以读取这次下发的礼包和实验组；不能据此还原后台分配规则。</p></td><td><span class="availability framework">只能获得框架</span></td></tr><tr><th scope="row"><a href="reports/06-commercialization-audit.html#payment">客户端支付、广告流程</a></th><td>点购买或看广告后怎样调用平台、处理成功或失败，以及客户端怎样处理奖励。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/02-activity-config.html#s3">实时价格、实际广告</a></th><td><p>能拿到：商品价格显示、广告请求和播放的客户端流程。</p><p>拿不到：仅靠安装包无法确定当地此刻的实际售价、币种，以及这一次实际播放哪条广告；也拿不到广告平台选中它的内部算法。</p><p>补齐方式：商店或广告平台返回数据后，可知道这次实际价格或广告；不能预先知道未来每次的结果。</p></td><td><span class="availability framework">只能获得框架</span></td></tr><tr><th scope="row"><a href="reports/06-commercialization-audit.html#experiments">客户端实验版本</a></th><td>能拿到客户端写好的各个实验版本，例如不同界面和规则，以及选择版本的代码。</td><td><span class="availability available">完全获得</span></td></tr><tr><th scope="row"><a href="reports/07-rea-recovery.html#server-boundary">原商业策略、交易后台</a></th><td>拿不到原后台怎样给玩家分组、推荐或定价，以及订单核验、风控和广告竞价的原实现。</td><td><span class="availability unavailable">完全不能获得</span></td></tr></tbody></table></div></section></section>
+<!-- REPLICATION OVERVIEW END -->
+
+  <h2>报告清单</h2>
+  <p class="lead">按「先全景、再细节、最后方法论」的顺序排列。点击卡片直接进入报告；每份报告内部都有锚点目录。</p>
+  <div class="note"><b>版本说明：</b>首页总览和⑦为2026-10-14 REA复核；①至⑥保留各自报告的样本与日期。使用结论时请同时查看对应章节的证据范围。</div>
+
+  <a class="card" href="reports/01-activity-schedule.html">
+    <div class="card-head"><div class="num">1</div>
+      <div>
+        <div class="card-title">活动全扫描：清单 · 内容 · 排期 · 甘特</div>
+        <p class="card-q">有哪些活动？什么时候上？怎么轮换？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>105 KB</span><span class="grey">三张甘特图</span><span class="grey">59 条资源组</span><span class="grey">含未解清单</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+  <a class="card" href="reports/02-activity-config.html">
+    <div class="card-head"><div class="num">2</div>
+      <div>
+        <div class="card-title">活动配置深挖：奖励内容 · SKU 档位 · 弹出条件</div>
+        <p class="card-q">每个活动奖励什么？礼包有哪些档位？什么条件下弹？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>132 KB</span><span class="grey">784 个奖励节点</span><span class="grey">49 个内购 SKU</span><span class="grey">224 个弹窗 hook</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+  <a class="card" href="reports/03-mechanism-difficulty.html">
+    <div class="card-head"><div class="num">3</div>
+      <div>
+        <div class="card-title">局内机制 × 解包状态 × 难度曲线</div>
+        <p class="card-q">一局关卡是怎么跑起来的？难度怎么变？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>257 KB</span><span class="grey">交互补棋动画</span><span class="grey">压力公式与统计口径</span><span class="grey">L39/L1451 实机</span><span class="grey">胜负·回流·续关</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+  <a class="card" href="reports/04-gate-resolution.html">
+    <div class="card-head"><div class="num">4</div>
+      <div>
+        <div class="card-title">门控矩阵：30 目标 × 19 门控</div>
+        <p class="card-q">570 格定义者/指令形态如何分类？哪些仍需运行时确认？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>161 KB</span><span class="grey">门控矩阵</span><span class="grey">继承链根实现</span><span class="grey">三个重点定论</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+  <a class="card" href="reports/05-unpack-methodology.html">
+    <div class="card-head"><div class="num">5</div>
+      <div>
+        <div class="card-title">APK 解包复盘与可复用方法论</div>
+        <p class="card-q">怎么解包一款新 APK？踩过哪些坑？用什么工具？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>153 KB</span><span class="grey">工具链全景表</span><span class="grey">Android Studio + Frida 详解</span><span class="grey">七步标准流程</span><span class="grey">60+ 条问题分册</span><span class="grey">30 分钟侦察清单</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+  <a class="card" href="reports/06-commercialization-audit.html">
+    <div class="card-head"><div class="num">6</div>
+      <div>
+        <div class="card-title">商业化与活动深度审计</div>
+        <p class="card-q">玩家如何被分群、看到什么商品、从哪个渠道付款，奖励又如何到账？</p>
+      </div>
+    </div>
+    <div class="card-meta"><span>125 个 ARM64 方法</span><span class="grey">Short Expedition 动态升降档</span><span class="grey">Dynamic / Golden / Team Offer</span><span class="grey">Native + Xsolla</span><span class="grey">Supercharge 远程价格</span></div>
+    <div class="open">打开报告 →</div>
+  </a>
+
+<a class="card" href="reports/07-rea-recovery.html"><div class="card-head"><div class="num">7</div><div><div class="card-title">REA 重解包补充：玩法 · Meta · 复刻边界</div><p class="card-q">初始棋盘、下落、障碍、装修任务和素材，具体能恢复到哪里？</p></div></div><div class="card-meta"><span>2026-10-14</span><span class="grey">14,500关无损恢复</span><span class="grey">165区域配置</span><span class="grey">原工具与后台边界</span></div><div class="open">打开补充详解 →</div></a>
+
+  <div class="note">
+    <b>推荐先看哪份？</b>　活动与商业化决策直接看 ⑥；关卡、补棋和难度看 ③；要复制解包流程看 ⑤。①②保留完整的活动清单、奖励表和 SKU 索引，④用于门控定义核对。
+  </div>
+
+  <h2>证据分级说明</h2>
+  <p class="lead">旧页面中有部分颜色标记；修订后应优先按 E1/E2/H/R 的证据来源理解结论，而不是只看颜色。</p>
+  <table>
+    <tr><th style="width:70px">标记</th><th>含义</th><th style="width:180px">可直接引用吗</th></tr>
+    <tr><td>E1</td><td>静态包内事实，或已闭合的本地运行时事实</td><td>带版本/样本范围引用</td></tr>
+    <tr><td>E2</td><td>抓包、hook、实机截图等运行时样本</td><td>带账号/关卡/会话范围引用</td></tr>
+    <tr><td>H</td><td>推断、部分解析或否定性扫描</td><td>不得伪装成穷尽事实</td></tr>
+    <tr><td>R</td><td>待验证问题或下一步动作</td><td>不可当作事实</td></tr>
+  </table>
+  <p>另有一条贯穿全部报告的边界：<b>包内配置是客户端基线值，服务器可热更覆盖，不等于线上真值。</b>凡标注「未拿到」的项目，报告里都写明了原因与下一步，请勿把推断当结论使用。</p>
+
+  <h2>内容与使用边界</h2>
+  <div class="note warn">
+    <b>用途：内部竞品玩法研究。</b>请勿外传、公开分发，勿将提取的美术 / 音频 / 代码资源复用到对外产品，勿用于外挂或私服。<br>
+    本次为便于同事免下载查阅，额外做了一份在线站点版；如认为不宜开放访问，可随时下线（见下）。
+  </div>
+  <p>报告内所有结论都可溯源到具体的包内文件或运行时会话；需要复核时请注明报告编号与章节。</p>
+
+  <h2>同一套报告的另一种拿法</h2>
+  <p class="lead">如果更习惯在企业微信里看，同一批报告也挂在企业微信智能文档上（附件可下载原件）：</p>
+  <p><a href="https://doc.weixin.qq.com/smartpage/a1_AKsA43jJANQCN0Mpu6fV3T8WXPD7b_a">小游戏解包审计报告集（企业微信智能文档）</a></p>
+
+  <footer>
+    最后更新：2026-10-14 · 共 7 份 HTML 报告 · 首页总览可直达详解章节
+  </footer>
+</div>
+</body></html>

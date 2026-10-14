@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REA 重解包：玩法、Meta 与复刻边界</title><style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#1b1e23;
+ font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px 80px}
+header{background:linear-gradient(135deg,#16233b,#2b4a7d 55%,#2f7ed8);color:#fff;padding:40px 22px 34px;margin-bottom:26px}
+header .inner{max-width:1080px;margin:0 auto}
+h1{font-size:28px;margin:0 0 10px;letter-spacing:.4px}
+header p{margin:0;opacity:.86;font-size:13.5px;max-width:820px}
+.tagline{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.tagline span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+ padding:3px 11px;border-radius:20px;font-size:12px}
+h2{font-size:19px;margin:44px 0 8px;padding-left:12px;border-left:5px solid #2f7ed8}
+p{margin:9px 0}
+a{color:#2f7ed8}
+.lead{color:#4b5563;font-size:13.5px;margin:6px 0 16px}
+.card{background:#fff;border:1px solid #e2e6eb;border-radius:14px;padding:20px 22px;margin:14px 0;
+ box-shadow:0 1px 3px rgba(16,24,40,.04);display:block;text-decoration:none;color:inherit;
+ transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease}
+a.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,24,40,.10);border-color:#bcd4f2}
+.card-head{display:flex;align-items:flex-start;gap:14px}
+.num{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#2b4a7d,#2f7ed8);
+ color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.card-title{font-size:16.5px;font-weight:600;color:#16233b;margin:3px 0 0;line-height:1.45}
+.card-q{color:#4b5563;font-size:13.5px;margin:7px 0 0}
+.card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.card-meta span{background:#eef4fc;color:#2b5c9e;border:1px solid #d6e5f8;padding:2px 9px;border-radius:5px;font-size:11.5px}
+.card-meta span.grey{background:#f1f3f5;color:#5b6572;border-color:#e2e6eb}
+.open{margin-top:13px;font-size:13px;color:#2f7ed8;font-weight:500}
+.note{border-left:4px solid #2f7ed8;background:#f3f8fe;padding:13px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13.5px}
+.note.warn{border-color:#e0932e;background:#fdf7ec}
+.note.bad{border-color:#d94a4a;background:#fdf1f1}
+.note b{color:#16233b}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+ border:1px solid #e2e6eb;border-radius:10px;overflow:hidden}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid #eef0f3;vertical-align:top}
+th{background:#f7f9fb;font-weight:600;color:#16233b;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+footer{margin-top:46px;padding-top:18px;border-top:1px solid #e2e6eb;color:#8b93a1;font-size:12px}
+@media(max-width:640px){h1{font-size:22px}.card{padding:16px 16px}.card-head{gap:10px}}
+
+section{scroll-margin-top:20px}nav{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}li{margin:7px 0}.evidence{color:#4b5563;font-size:13px}
+</style></head><body>
+<header><div class="inner"><h1>REA 重解包：具体内容与复刻边界</h1><p>Royal Match build 38174 · 2026-10-14 · 补充说明首页总览中的客户端内容、资源和原工具边界。</p></div></header>
+<main class="wrap">
+<p><a href="../index.html#replication-overview">返回首页复刻总览</a></p>
+<nav aria-label="补充详解目录"><a href="#level-config">初始棋盘</a><a href="#fall-rules">交换与下落</a><a href="#obstacle-rules">障碍与道具</a><a href="#area-tasks">装修任务</a><a href="#distributed-assets">界面与素材</a><a href="#team-flow">团队与社交</a><a href="#production-tools">原生产工具</a><a href="#server-boundary">原后台</a><a href="#source-projects">原制作工程</a></nav>
+<div class="note"><b>首页分类看的是可得性：</b>客户端具体规则可以继续恢复，不代表本轮已经完成全部规则移植、确定性回放或原版对照。元数据方法名也不等于原源码。</div>
+<section id="level-config"><h2>初始棋盘与关卡配置</h2>
+<p>能够拿到每关的成品数据：棋盘布局、目标、步数、棋子与障碍配置，以及游戏读取这些配置的代码。带随机格的初始盘，需要结合随机种子和生成顺序才能算出实际颜色。</p>
+<p>本轮从原包重新读取14,991份文本／二进制资源，其中14,500关无损导出，与此前固定版本逐字节一致；另修复399份旧导出的非关卡二进制内容。</p>
+<p>字段含义还没有全部解释完，属于解析工作进度。关卡结构和客户端读取规则仍归“完全获得”。</p>
+<p><a href="03-mechanism-difficulty.html#seed-lifecycle">继续看：Seed 怎样决定一次开局</a></p>
+<p class="evidence">证据：资源无损校验、精确类身份恢复的配置字段、原ARM64客户端消费者。本轮未取得线上最新关卡覆盖。</p></section>
+<section id="fall-rules"><h2>交换、匹配、下落与多棋盘</h2>
+<p>有效交换、匹配判断和连锁结算都由客户端执行，具体实现可以逆向。此次补查进一步确认了下落中的几个具体规则：</p>
+<ul><li>一帧重力更新先清理目标，再计算直落、斜落，最后执行下落更新。</li><li>斜落会检查候选、冻结和棋盘编号；并不能简化成“永远先往左落”。</li><li>冻结用计数叠加，计数大于0时判定为冻结。</li><li>多棋盘切换会限制触摸、更新当前棋盘编号，并按高度差计算切换时长。</li></ul>
+<p>间接调用、特殊组合及完整帧内顺序还需要继续追踪与验证；这些代码在客户端里，不应因此判为只能获得框架。</p>
+<p class="evidence">证据：FallManager、CellModel、BoardManager原机器码及字段偏移，详见本轮原生机制审计。</p></section>
+<section id="obstacle-rules"><h2>障碍、道具与组合技</h2>
+<p>具体可恢复的是每种物体怎样受击、扣层、扩散、生成和消失，以及道具怎样选目标、组合和播放表现。</p>
+<ul><li>箱子受击会扣层，扣完后进入消除路径。</li><li>爆炸伤害按爆炸编号去重，不是笼统的“每帧只能打一次”。</li><li>蘑菇扩散有土壤、候选格、冻结和当前操作等约束。</li><li>飞机等道具的目标评分属于选目标优先级，不是玩家分数或金币结算。</li></ul>
+<p>本轮确认了部分关键规则，不将这些例子外推为所有障碍都已经完整复刻。</p>
+<p><a href="04-gate-resolution.html#gate-matrix">继续看：障碍门控矩阵</a> · <a href="03-mechanism-difficulty.html#refill">继续看：棋子补入流程</a></p>
+<p class="evidence">证据：ItemModel、BoxItemModel、MushroomSoilItemHelper、ExplodeTargetMediator机器码与配置关联。</p></section>
+<section id="area-tasks"><h2>装修、章节与解锁任务</h2>
+<p>本轮恢复165个区域的配置和1,634个任务。任务包含编号、消耗字段、前置依赖和重放配置，因此可以知道有哪些任务、哪些要先做，以及任务间怎样推进。</p>
+<p>消耗字段的具体业务单位需结合消费代码确认，不能直接把所有price字段都叫作耗星。配置覆盖165个区域，也不意味着每个区域的完整画面都已在本地。</p>
+<p>当前包中完整场景资源仅覆盖区域1、2、3和163；其他区域的场景要取得对应资源包。已分发的配置和客户端推进规则可以恢复，用于复刻。</p>
+<p class="evidence">证据：AreaTaskConfig实例、price／dependency／dependencies／replayConfig字段、任务消费者及场景bundle清单。</p></section>
+<section id="distributed-assets"><h2>界面、美术、动画、音效与文案</h2>
+<p>已经分发并取得的资源内容可以提取，包括图片、界面组件、动画曲线、音频和文案；这与拿到原制作工程是两件事。</p>
+<table><thead><tr><th>内容</th><th>本轮恢复结果</th></tr></thead><tbody>
+<tr><td>本地化文案</td><td>5,103个词条、11种语言，共56,133个非空文案单元；该表不含中文。</td></tr>
+<tr><td>动画</td><td>1,374个动画片段，曲线、绑定和事件可读，共358个事件。</td></tr>
+<tr><td>音频</td><td>697个原始FSB5片段，全部通过文件头校验；尚未批量转换和逐段试听。</td></tr>
+<tr><td>界面组件</td><td>13,715个脚本组件严格读取通过，非空资源引用全部解析到对应对象；另有7个解析残留。</td></tr>
+</tbody></table>
+<p>格式转换、粒子完整导出和接入复刻项目属于后续工作，不能当作“内容拿不到”。未取得的远端场景需继续获取对应下载包。</p>
+<p><a href="#source-projects">区别：为什么原Unity、图片分层和音频工程拿不到</a></p></section>
+<section id="team-flow"><h2>团队与社交：客户端能恢复到哪里</h2>
+<p>客户端页面、展示方式、按钮交互、加入／退出流程和请求数据结构可以逆向，用来复刻玩家看到和操作的部分。</p>
+<p>真实团队成员、对手和名次是当前服务器数据。拿到相应响应可以读取这一次的具体内容；离线包不能决定实时名单或赛事结果。</p>
+<p>原服务器怎样组织团队、匹配对手和校验结果，属于后台实现边界。本轮没有新增线上团队或赛事账号样本，也不宣称已恢复后台算法。</p>
+<p><a href="#server-boundary">继续看：原后台实现与自建替代的区别</a></p></section>
+<section id="production-tools"><h2>原关卡编辑器、生成器与验收标准</h2>
+<p>能够拿到的是成品关卡、配置结构和运行规则。这些足以支持自己开发编辑器、校验器或求解器。</p>
+<p>当前分发样本没有可确认的原内部三消生产工具、策划验收标准或设计过程，不能从成品唯一反推出原团队使用的工具。</p>
+<p>查到的PuzzleBoardGenerator属于外围拼图玩法；LevelLoadValidationHelper用于存档校验。它们不能作为原三消生产工具和策划验收流程的证据。</p>
+<p><b>“完全不能获得”指原件。</b>自行开发相同用途的工具是可行的，但应称自建替代。</p></section>
+<section id="server-boundary"><h2>原社交、赛事、商业与交易后台</h2>
+<p>客户端能暴露请求协议、消费方式和部分返回结果，但不包含原服务器的源实现。</p>
+<p>因此无法仅靠客户端取得原对手匹配、排名核验、奖励核销、分群推荐、订单核验、风控或广告平台竞价的完整原实现。有限响应样本也不能唯一确定后台代码。</p>
+<p>可以按已经恢复的客户端接口自行实现需要的服务。首页把原实现列为“完全不能获得”，不表示同类功能无法自行开发。</p>
+<p><a href="06-commercialization-audit.html#boundaries">继续看：商业化的客户端能力与当期投放边界</a></p></section>
+<section id="source-projects"><h2>原Unity工程、图片分层与音频工程</h2>
+<p>发布包保存的是可供游戏运行的资源和编译代码。它不等同于原团队的Unity制作工程、PSD分层、DCC模型工程或音频编辑工程。</p>
+<p>提取出的纹理、网格、动画和声音能用于重建表现；原工程组织、编辑过程、未分发源文件和制作历史无法仅靠这些成品完整恢复。</p></section>
+<section id="evidence"><h2>本轮方法与范围</h2>
+<p>使用用户指定的morluto/rea项目，本机发布版6.4.0。重新提取APK容器并扫描24个Unity bundle；重新读取资源，重导出337个原生函数机器码，并对18个关键函数实际生成REA／Ghidra伪代码。</p>
+<p>完整89.6MB原生库的REA分析曾超时，随后使用保留原RVA和机器码的静态子集完成关键函数分析。签名、机器码和伪代码均不等于完整原源码；本轮未进行原版完整操作回放。</p>
+<p>本地审计入口：research/rm-reunpack-2026-10-14/REPORT.md、resources/report.md、native-gap/FINDINGS.md、BOUNDARIES.md。</p></section>
+<footer>2026-10-14 · Royal Match 38174 · <a href="../index.html#replication-overview">返回总览</a></footer>
+</main><script defer src="../assets/report-deep-links.js"></script>
+</body></html>
