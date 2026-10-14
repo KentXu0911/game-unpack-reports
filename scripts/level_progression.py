@@ -49,16 +49,14 @@ def level_progression():
 <p>前100关登场密集，101–1000关逐渐拉开到20–50关；1001关以后先以100关为常见间隔，2201关以后多数新登场集中到200关段的开头。到了后期，每200关通常才加一批新类型，其余关卡继续复用已出现的类型。</p>
 <div class="data-scroll stage-table"><table><thead><tr><th scope="col">关卡阶段</th><th scope="col">新增配置类型／不同首现关</th><th scope="col">具体登场节奏</th></tr></thead><tbody>'''+''.join(stage_rows)+'''</tbody></table></div>
 <p>例如箱子从L1开始、总共出现在1,704关；草地从L4开始、出现在1,498关；蜂蜜从L81开始、出现在1,134关；传送带从L3801开始、出现在713关。它们的首次出现隔得很远，但后来会与其他已登场物体反复组合；首现时间不能替代每关的组合统计。</p>
-<h4>按玩家要处理的事情归纳</h4>
-<p>参照游生GameLife的公众号文章<a href="https://mp.weixin.qq.com/s/7qYl20a_JL_1A8mwNYo_kg" target="_blank" rel="noopener">《看完13900关Royal Match：关卡设计不是一直出新障碍，而是压力组合控制》</a>（2026-07-04），可以把关卡中的压力分成下面五类。一关可以同时出现多类；这是分析归纳，不是游戏原生枚举。</p>
-<div class="data-scroll"><table><thead><tr><th scope="col">归纳类别</th><th scope="col">玩家具体要处理什么</th><th scope="col">文章中的代表例子</th></tr></thead><tbody>
+<h4 id="obstacle-categories">按玩家要处理的事情归纳</h4>
+<div class="data-scroll"><table><thead><tr><th scope="col">归纳类别</th><th scope="col">玩家具体要处理什么</th><th scope="col">代表障碍</th></tr></thead><tbody>
 <tr><td>A · 面积／覆盖层</td><td>把一片区域逐步清理干净，消除位置决定覆盖效率。</td><td>草地、蜂蜜、果冻、屋顶、锁链</td></tr>
 <tr><td>B · 点状／多击障碍</td><td>集中处理占位物体，清掉后才释放空间。</td><td>箱子、花瓶、蛋、小猪、保险箱、石头</td></tr>
 <tr><td>C · 生成／投放源</td><td>除眼前目标外，还要处理后续投放出来的东西。</td><td>邮箱、药水、鸟巢、糖果机</td></tr>
 <tr><td>D · 位移／路径规则</td><td>目标的位置或行动路线会改变，需要跟着位置安排消除。</td><td>鸟、传送带、磁铁、飞碟、原木</td></tr>
 <tr><td>E · 条件／优先级机关</td><td>处理顺序受条件限制，要先满足条件再推进其他目标。</td><td>藤蔓、能量块、雷达、松鼠</td></tr>
 </tbody></table></div>
-<p>文章把B类作为常见骨架，再看它叠加几种其他压力。作者的13,900关统计中，101–1000关以“B加一种”为主（52.2%）；3001–5000关，“B加两种”由41.7%升到53.4%；9001关以后，“B加三种”约占21%–25%。这几组比例引用自文章，未当作我们14,500关包体的复算结果。这里借用它的分类与分阶段写法，把登场节奏、组合压力和下方配置曲线放在一起阅读。</p>
 <h4 id="obstacle-first-seen">每种障碍的首次关卡与后续出现</h4>
 <p>物体层按TiledId合并颜色、等级和多格部件，得到98个模型族；格子层另有14个非空字段，共112条来源记录、105个不同首现关。这不等于112种独立玩法：横／竖玩具箱、生成源与收集器等仍可能属于同一套机制。金币也作为目标物体列出；waterSoil在这批配置中未出现。</p>
 <p class="chart-caption">每类在同一关只计一次。“后续4关”是第一次之后再次出现它的4个关卡，不要求连续。统计只数初始配置中的Items与格子层；运行时投放、生成、转换后的物体另需运行轨迹。中文名用于阅读，查证以旁列原模型名为准。</p>
@@ -66,7 +64,7 @@ def level_progression():
 <p id="obstacle-result-count" role="status" aria-live="polite">显示112条来源记录。</p>
 <div class="data-scroll obstacle-table" tabindex="0" role="region" aria-label="障碍首现完整表"><table><thead><tr><th scope="col">障碍／目标物体</th><th scope="col">配置位置</th><th scope="col">首次关卡</th><th scope="col">之后再次出现的4关</th><th scope="col">出现关数</th></tr></thead><tbody>'''+''.join(rows)+'''</tbody></table></div>
 <p><a href="../assets/level-progression.json" download>下载完整登场统计与曲线聚合JSON（含源索引SHA-256）</a></p>
-<details class="evidence"><summary>统计来源与计数口径</summary><p>build38174；Items来自level_boards_fbs.csv，格子层来自level_obstacle_index.csv。Items仅用item_mechanism_taxonomy.csv中的TiledId变体映射，不把ItemType或GoalType的同号值混入。全量关卡号为1–14500，无遗漏与重复；14个格子层的首现及覆盖数与obstacle_unlock_table.csv交叉核对。首现间隔按不同关卡去重；分类表及文章组合比例来自链接文章，不用于确定包体运行行为。</p></details>
+<details class="evidence"><summary>统计来源与计数口径</summary><p>build38174；Items来自level_boards_fbs.csv，格子层来自level_obstacle_index.csv。Items仅用item_mechanism_taxonomy.csv中的TiledId变体映射，不把ItemType或GoalType的同号值混入。全量关卡号为1–14500，无遗漏与重复；14个格子层的首现及覆盖数与obstacle_unlock_table.csv交叉核对。首现间隔按不同关卡去重；五类障碍按玩家需要处理的事情归纳，具体受击、生成与移动规则须结合对应实现。</p></details>
 </section>'''
     curves=(ROOT/'content/level-difficulty.html').read_text().replace('<!-- PRESSURE_AXES -->',pressure_axes(data))
     return html+curves

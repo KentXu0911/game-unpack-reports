@@ -14,7 +14,7 @@
 - 公开内容只呈现当前有依据的结论，移除历轮解包结论对比。区分可恢复、已提取、可执行、实机认证；未完成的算法分支不得写成已完成。
 - 初始棋盘例子绑定原字节SHA-256与批量索引，随机格保留候选池标记。物体TiledId、目标GoalType和补入CellFillType是独立枚举，编号不得混用；物体层与草地等格子层须分别说明。
 - 初始棋盘中的障碍登场统计源为 `content/level-progression.json`，可用 `scripts/extract_level_progression.py --source-root ../royal-match-apk-audit-38174` 只读复算；CI只消费仓库内快照。每类每关只计一次，首现间隔按不同关卡去重；模型族数不等于独立机制数，初始配置不涵盖运行时生成。
-- 完整配置曲线、七轴、尾号与19项首现压力分析保存在 `content/level-difficulty.html`，由 `scripts/level_progression.py` 渲染进初始棋盘。旧报告 `#curve`、`#colleague` 保留跳转入口。压力模型空颜色池按4色回退；所有轴截断到0–1。文章引用比例与包体统计分开标明。
+- 完整配置曲线、七轴、尾号与19项首现压力分析保存在 `content/level-difficulty.html`，由 `scripts/level_progression.py` 渲染进初始棋盘。旧报告 `#curve`、`#colleague` 保留跳转入口。压力模型空颜色池按4色回退；所有轴截断到0–1。障碍分类直接说明玩家要处理的事情，页面不加入参考公众号文章的介绍或其样本比例。
 - 效率列只作有依据的方法对比；没有同口径人时记录，不给提速倍数。设计解读、示意数字与原版实测分开标记。
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。
