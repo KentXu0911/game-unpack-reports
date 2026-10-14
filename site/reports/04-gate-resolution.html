@@ -34,7 +34,7 @@ table.b th{background:#eef1f5;font-size:12px}
 .note{background:#fff8e6;border:1px solid #f0dfae;border-radius:10px;padding:14px 16px;margin:16px 0;font-size:13px}
 .note b{color:#8a5b00}
 ol{margin:8px 0 0 18px}
-</style><link href="../assets/report-navigation.css" rel="stylesheet"/><meta content="width=device-width,initial-scale=1" name="viewport"/></head><body><div class="report-return"><a href="../index.html#replication-overview">← 返回内容总览</a><span>研究样本：Royal Match build 38174</span></div><div class="wrap">
+</style><link href="../assets/report-navigation.css" rel="stylesheet"/><meta content="width=device-width,initial-scale=1" name="viewport"/><script defer src="../assets/legacy-report-routes.js"></script></head><body><div class="report-return"><a href="../index.html#replication-overview">← 返回内容总览</a><span>研究样本：Royal Match build 38174</span></div><div class="wrap">
 <h1>Royal Match 门控矩阵 —— 30 目标 × 19 门控</h1>
 <div class="sub">从 <code>tools/il2cppdumper/output-arm64/dump.cs</code>（12,191 类）重建继承图 → 沿 bases 找最近定义者 → 对 RVA 逐条反汇编定形态。数据源：<code>indices/gate_resolution_full.csv</code>（570 行）。悬停任意单元格看反汇编证据。</div>
 <div class="note"><b>结论先行：</b>570/570 个单元格的<b>定义者与指令形态已归类</b>。旧矩阵里 88 条 <code>unresolved/inherited virtual gate</code> 是未回溯继承链，本页已补上；112 条 <code>NOT_DECLARED</code> 是该分支不声明方法的结构性事实。<br/>

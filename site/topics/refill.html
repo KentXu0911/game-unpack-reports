@@ -1,0 +1,727 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>补棋算法、随机数 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-refill">← 返回内容总览</a></p>
+<h1>补棋算法、随机数</h1><p>已确认固定来源、列队列和LevelSet随机回退；目标列包含过滤、优先集合与权重抽样。全局随机调用轨迹尚未完整验收。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="refill" class="topic-detail" aria-labelledby="title-refill"><h2 id="title-refill">补棋算法、随机数</h2><div class="topic-body"><h3>先决定从哪补，再决定补什么</h3><p>下落系统确定空格与来源列；有上层棋盘来源时直接取，否则检查该列预定队列，队列耗尽才进入LevelSet回退。固定来源不执行这颗棋的普通随机选色调用；种子在开局时已初始化。</p><h3>种子怎样变成一次开局</h3><p>已核验链路中，关卡号、账号ID低32位、设备数字键通过32位加法形成baseSeed。客户端把0–999洗成尝试种子表，以LevelTryCount取模选本局种子。LevelTryCount在真正StartGame时推进，不能直接当作连败计数。</p><h3>目标列的两层抽样</h3><p>GetSetsFromColumn按FillType筛可用集合；GetRandomTargetColumnItem先尝试优先集合，成功时会减少requiredItemCount。普通权重分支先按集合FillRatio累计阈值选Set，再按Set内可用元素ratio选Item。该普通分支有两次DifficultyNext；优先、调色或固定队列分支不能套用同一调用次数。</p><h3>为什么同一个Seed也可能对不上录像</h3><p>DifficultyNext只是推进计数并调用随机对象Next(min,max)。要重放，还必须一致地恢复候选池、每次范围、棋盘状态与调用顺序。洗牌、初始生成和部分道具操作也会消耗随机数；局部颜色序列匹配不等于全游戏确定性回放完成。</p><h3>已验证到哪</h3><p>L39受控实机五局共380颗随机补棋，均能按对应返回值和候选表映射。该测试强制了步数，用于验证链路，不能当自然玩家胜率样本。完整开局、调色、扩散、洗牌及多棋盘轨迹仍需逐调用对照。</p><details class="references" id="data-color-runtime"><summary>展开：L39五局受控补棋采集结果</summary><div class="reference-item"><h6>逐颗 Frida 实抓：五次连续失败</h6><div class="data-scroll" tabindex="0" role="region" aria-label="逐颗 Frida 实抓：五次连续失败"><table><thead><tr><th>TryCount</th><th>seed</th><th>实抓数</th><th>蓝 1</th><th>绿 2</th><th>红 3</th><th>黄 4</th></tr></thead><tbody><tr><td>24</td><td>413</td><td>147</td><td>40</td><td>36</td><td>34</td><td>37</td></tr><tr><td>25</td><td>697</td><td>50</td><td>12</td><td>10</td><td>15</td><td>13</td></tr><tr><td>26</td><td>272</td><td>52</td><td>10</td><td>14</td><td>12</td><td>16</td></tr><tr><td>27</td><td>393</td><td>62</td><td>17</td><td>21</td><td>16</td><td>8</td></tr><tr><td>28</td><td>879</td><td>69</td><td>20</td><td>21</td><td>16</td><td>12</td></tr><tr><td><b>合计</b></td><td>-</td><td><b>380</b></td><td><b>99</b></td><td><b>102</b></td><td><b>93</b></td><td><b>86</b></td></tr></tbody></table></div></div></details><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>随机调用、候选与Seed生命周期</h6><p>静态调用点／受控运行记录。DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s</code></p></div><div class="evidence-entry"><h6>L39受控补棋采集</h6><p>受控实机观测／局部映射验证。五局强制步数样本共380颗，候选表与对应随机返回映射一致。用于验证消费链；不是自然难度、全账号统计或全局确定性回放认证。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/runtime_L39_difficulty_ego_validation.jsonl</code></p></div></details></div></section><style>@scope (.original-report) {
+
+.original-report{--paper:#F6F7F2;--ink:#172033;--muted:#5F6875;--line:#D7DCD5;--teal:#0F766E;--amber:#B45309;--red:#B42318;--white:#FFF}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--paper)}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Noto Sans SC","PingFang SC",sans-serif;line-height:1.72}
+a{color:var(--teal);text-underline-offset:3px}code,pre,.mono{font-family:"IBM Plex Mono","SFMono-Regular",monospace}
+.shell{display:grid;grid-template-columns:240px minmax(0,1080px);gap:42px;max-width:1400px;margin:auto;padding:24px 28px 80px}.rail{position:sticky;top:18px;align-self:start;height:calc(100vh - 36px);border-right:1px solid var(--line);padding:22px 24px 20px 0;overflow:auto}
+.kicker,.section-no{color:var(--red);font:700 12px/1.4 "IBM Plex Mono",monospace}.rail h1{margin:10px 0 18px;font:700 25px/1.28 "Noto Serif SC",serif}.rail nav a{display:block;padding:7px 0;color:var(--muted);text-decoration:none;font-size:14px}.rail nav a:hover{color:var(--teal)}.meta{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}main{min-width:0}
+.hero{padding:54px 0 38px;border-bottom:3px solid var(--ink)}.hero h2{margin:12px 0 16px;max-width:920px;font:800 clamp(38px,6vw,76px)/1.08 "Noto Serif SC",serif}.hero p{max-width:800px;margin:0;font-size:18px;color:var(--muted)}
+.verdicts,.term-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:28px;background:var(--line);border:1px solid var(--line)}.verdict,.term{background:var(--white);padding:20px;min-height:160px}.verdict b,.term b{display:block;margin-bottom:8px;font:700 20px/1.35 "Noto Serif SC",serif}.verdict span{color:var(--muted);font-size:14px}
+section{padding:48px 0;border-bottom:1px solid var(--line);scroll-margin-top:18px}h3{margin:8px 0 12px;font:750 34px/1.25 "Noto Serif SC",serif}h4{margin:30px 0 10px;font:700 20px/1.4 "Noto Serif SC",serif}.lead{max-width:850px;margin:0 0 24px;font-size:18px;color:#354052}
+.plain,.warning,.negative{padding:18px 20px;border-left:4px solid var(--teal);background:#EEF5F1;margin:18px 0}.warning{border-color:var(--amber);background:#FBF2E6}.negative{border-color:var(--red);background:#F9EBE8}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);margin:28px 0;border:1px solid var(--line)}.flow>div{min-height:150px;padding:18px 20px;background:var(--white);border-right:1px solid var(--line)}.flow>div:last-child{border:0}.flow strong{display:block;margin-bottom:8px;color:var(--teal)}.flow small{color:var(--muted)}
+.refill-decision{margin:28px 0;background:var(--white);border:1px solid var(--line)}.refill-decision svg{display:block;width:100%;height:auto}.decision-action{fill:#EEF5F1;stroke:#9BBEB5;stroke-width:1.5}.decision-random{fill:#FBF2E6;stroke:#D2A669;stroke-width:1.5}.decision-question{fill:#FFF;stroke:var(--teal);stroke-width:1.5;stroke-dasharray:7 5}.decision-line{fill:none;stroke:var(--teal);stroke-width:2;marker-end:url(#original-refill-arrow)}.decision-merge{fill:none;stroke:#8C958D;stroke-width:1.5}.decision-label{fill:var(--ink);font:700 17px "Noto Sans SC",sans-serif}.decision-sub{fill:var(--muted);font:13px "IBM Plex Mono",monospace}.decision-branch{fill:#7A3B06;font:700 12px "IBM Plex Mono",monospace}.refill-decision figcaption{padding:12px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.flow-mobile{display:none;padding:4px 18px 18px}.flow-mobile ol{margin:0;padding:0;list-style:none;counter-reset:refill}.flow-mobile li{counter-increment:refill;position:relative;margin-left:14px;padding:14px 4px 14px 38px;border-left:2px solid var(--teal)}.flow-mobile li::before{content:counter(refill);position:absolute;left:-15px;top:15px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--teal);color:#FFF;font:700 12px "IBM Plex Mono",monospace}.flow-mobile b{display:block;margin-bottom:3px}.flow-mobile span{display:block;color:var(--muted);font-size:13px}.branch-tag{display:inline-block!important;width:auto;margin:5px 6px 0 0;padding:2px 6px;border:1px solid #D2A669;border-radius:3px;color:#7A3B06!important;background:#FBF2E6;font:700 11px "IBM Plex Mono",monospace}
+.term-grid{grid-template-columns:repeat(2,1fr)}.term{min-height:170px}.term .name{color:var(--red);font:700 13px/1.4 "IBM Plex Mono",monospace}.term-example{margin-top:14px;padding:10px 12px;border-left:3px solid var(--teal);background:#F1F5F1;color:#354052;font-size:13px;line-height:1.6}.term-example b{display:inline!important;margin:0!important;color:var(--teal);font:700 12px/1.4 "IBM Plex Mono",monospace!important}
+.chain{display:flex;align-items:stretch;overflow-x:auto;margin:26px 0;padding-bottom:8px}.node{flex:0 0 176px;padding:16px;border:1px solid var(--line);background:var(--white)}.arrow{flex:0 0 36px;align-self:center;text-align:center;color:var(--teal);font:700 22px monospace}
+.seed-flow{margin:22px 0 28px;padding:22px;border:1px solid var(--line);background:var(--white)}.seed-flow-head{display:flex;justify-content:space-between;gap:18px;align-items:start;margin-bottom:18px}.seed-flow-head b{font:700 18px/1.4 "Noto Serif SC",serif}.seed-flow-head span{color:var(--muted);font-size:13px}.seed-lane{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}.seed-lane-label{color:var(--muted);font:700 12px/1.4 "IBM Plex Mono",monospace}.seed-tape,.seed-map,.seed-pieces{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.seed-pair,.seed-map-item{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;background:#EEF1ED;border:1px solid transparent;border-radius:4px}.seed-pair{opacity:.38;transition:opacity .18s,transform .18s,border-color .18s}.seed-pair.active{opacity:1;transform:translateY(-2px);border-color:var(--amber)}.seed-pair.done{opacity:.72}.seed-num{min-width:25px;text-align:center;font:700 13px/1.4 "IBM Plex Mono",monospace}.seed-piece{display:inline-flex;align-items:center;gap:6px;opacity:.22;transition:opacity .18s,transform .18s}.seed-piece.visible{opacity:1}.seed-piece.current{transform:translateY(-3px);font-weight:700}.piece-dot{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 -3px 0 #0002}.piece-red{background:#E85D5D}.piece-blue{background:#4387D9}.piece-green{background:#4E9E67}.piece-yellow{background:#E8B84B}.seed-detail{min-height:52px;margin-top:8px;padding:13px 0;border-top:1px solid var(--line);color:#354052}.seed-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.seed-controls button{min-width:86px;padding:8px 12px;border:1px solid var(--line);border-radius:4px;background:var(--white);color:var(--ink);font:700 13px/1.4 "Noto Sans SC",sans-serif;cursor:pointer}.seed-controls button.primary{border-color:var(--teal);background:var(--teal);color:#FFF}.seed-controls button:disabled{opacity:.35;cursor:not-allowed}.seed-progress{margin-left:auto;color:var(--muted);font:12px "IBM Plex Mono",monospace}
+.split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:28px;align-items:start}.code-block{margin:22px 0;padding:18px 20px;overflow:auto;color:#E8F0EA;background:#172033;border-radius:4px;font-size:13px;line-height:1.75}.code-block pre{margin:0}.stat{padding:18px 0;border-top:1px solid var(--line)}.stat b{display:block;font:750 30px/1.2 "Noto Serif SC",serif;color:var(--teal)}
+table{width:100%;border-collapse:collapse;margin:22px 0;background:var(--white)}th,td{padding:12px 14px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:#E9EEEA;font-size:13px}td{font-size:14px}.badge{display:inline-block;padding:2px 7px;border-radius:3px;font:700 11px/1.5 "IBM Plex Mono",monospace}.badge.e1{color:#075E58;background:#D9EEE7}.badge.e2{color:#7A3B06;background:#F9E5C7}.badge.h2{color:#8B1B13;background:#F6D8D3}
+.chart-wrap{padding:14px;background:var(--white);border:1px solid var(--line);overflow:auto}.chart{display:block;min-width:650px;width:100%;height:auto}.grid{stroke:#E1E5E0}.axis{fill:#66717D;font:11px "IBM Plex Mono",monospace}.axis-title{fill:#172033;font:700 14px "Noto Sans SC",sans-serif}.axis-box{fill:#FFF;stroke:#D7DCD5}.pressure-line{fill:none;stroke:#0F766E;stroke-width:3}.pressure-dot{fill:#B42318}.mean-line{stroke:#B45309;stroke-width:1.5;stroke-dasharray:5 4}.down{color:var(--teal);font-weight:700}.up{color:var(--red);font-weight:700}
+details{margin:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#ffffff94}summary{cursor:pointer;padding:14px 4px;font-weight:700}details>div{padding:0 4px 20px}.scroll{overflow:auto;max-height:480px}.animation-frame{width:100%;height:760px;border:1px solid var(--line);background:#FFF}.evidence{display:grid;grid-template-columns:180px 1fr;border-top:1px solid var(--line)}.evidence dt,.evidence dd{margin:0;padding:12px 0;border-bottom:1px solid var(--line)}.evidence dt{font:12px "IBM Plex Mono",monospace;color:var(--red)}footer{padding:36px 0;color:var(--muted);font-size:12px}
+.section-divider{margin:42px 0;border:0;border-top:1px solid var(--line)}
+@media(max-width:980px){.shell{grid-template-columns:1fr;padding:16px 20px 60px}.rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 0 18px}.rail nav{display:flex;gap:14px;overflow-x:auto}.rail nav a{white-space:nowrap}.verdicts,.term-grid,.split{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow>div{min-height:0;border-right:0;border-bottom:1px solid var(--line)}.hero h2{font-size:42px}}
+@media(max-width:700px){body{overflow-x:hidden}.shell{max-width:100%}.refill-decision .decision-desktop{display:none}.flow-mobile{display:block}table{display:block;max-width:100%;overflow-x:auto}.evidence{grid-template-columns:100px minmax(0,1fr)}.evidence dd,td,code{overflow-wrap:anywhere}}
+@media(max-width:520px){.shell{padding:10px 14px 48px}.hero{padding-top:36px}.hero h2{font-size:34px}h3{font-size:27px}.lead{font-size:16px}.animation-frame{height:660px}.seed-flow{padding:15px}.seed-flow-head,.seed-lane{display:grid;grid-template-columns:1fr}.seed-progress{width:100%;margin-left:0}}
+
+
+    #original-rm-seed-stages {
+      --foreground: var(--ink); --muted-foreground: #5F6875; --card: var(--white);
+      --card-foreground: var(--ink); --border: var(--line); --muted: #EEF1ED;
+      --primary: var(--teal); --primary-foreground: #FFF;
+      --viz-series-1: #0F766E; --viz-series-2: #B45309;
+      --viz-series-3: #25636B; --viz-series-4: #B42318;
+      color: var(--foreground); margin-top: 24px;
+    }
+    #original-rm-seed-stages * { box-sizing: border-box; }
+    #original-rm-seed-stages .stage-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 16px; }
+    #original-rm-seed-stages .stage-head h2 { margin: 0; font: 750 28px/1.25 "Noto Serif SC",serif; }
+    #original-rm-seed-stages .stage-status { color: var(--muted-foreground); white-space: nowrap; }
+    #original-rm-seed-stages .stage-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding-bottom: 4px; }
+    #original-rm-seed-stages .btn { flex: 0 0 auto; min-height: 38px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--foreground); font: 700 13px/1.4 "Noto Sans SC",sans-serif; cursor: pointer; }
+    #original-rm-seed-stages .btn:hover { border-color: var(--primary); }
+    #original-rm-seed-stages .btn-primary { border-color: var(--primary); background: var(--primary); color: var(--primary-foreground); }
+    #original-rm-seed-stages .btn:disabled { opacity: .38; cursor: not-allowed; }
+    #original-rm-seed-stages .text-small { font-size: 13px; line-height: 1.65; }
+    #original-rm-seed-stages .text-muted { color: var(--muted-foreground); }
+    #original-rm-seed-stages .form-range { width: 100%; accent-color: var(--primary); }
+    #original-rm-seed-stages code { font-size: .92em; }
+    #original-rm-seed-stages .stage-panel[hidden] { display: none; }
+    #original-rm-seed-stages .stage-kicker { color: var(--muted-foreground); margin-bottom: 6px; }
+    #original-rm-seed-stages .diagram { display: grid; gap: 12px; padding: 8px 0; }
+    #original-rm-seed-stages .flow-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: stretch; }
+    #original-rm-seed-stages .flow-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #original-rm-seed-stages .flow-row.one { grid-template-columns: minmax(0, 1fr); }
+    #original-rm-seed-stages .flow-node { position: relative; min-width: 0; padding: 14px; background: color-mix(in srgb, var(--card) 92%, transparent); border: 1px solid var(--border); border-radius: 6px; color: var(--card-foreground); }
+    #original-rm-seed-stages .flow-node.source { background: color-mix(in srgb, var(--viz-series-1) 12%, var(--card)); }
+    #original-rm-seed-stages .flow-node.process { background: color-mix(in srgb, var(--viz-series-2) 12%, var(--card)); }
+    #original-rm-seed-stages .flow-node.output { background: color-mix(in srgb, var(--viz-series-3) 14%, var(--card)); }
+    #original-rm-seed-stages .flow-node.branch { background: color-mix(in srgb, var(--viz-series-4) 12%, var(--card)); }
+    #original-rm-seed-stages .flow-node strong { display: block; margin-bottom: 5px; font-weight: 500; }
+    #original-rm-seed-stages .flow-node code { overflow-wrap: anywhere; }
+    #original-rm-seed-stages .flow-node .sub { display: block; margin-top: 5px; color: var(--muted-foreground); }
+    #original-rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2192"; position: absolute; right: -22px; top: 50%; transform: translateY(-50%); color: var(--muted-foreground); }
+    #original-rm-seed-stages .down { text-align: center; color: var(--muted-foreground); padding: 1px 0; }
+    #original-rm-seed-stages .sum { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    #original-rm-seed-stages .sum + .sum { margin-top: 8px; }
+    #original-rm-seed-stages .sum-value { font-variant-numeric: tabular-nums; text-align: right; }
+    #original-rm-seed-stages .tape { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+    #original-rm-seed-stages .tape-cell { padding: 8px 4px; text-align: center; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; font-variant-numeric: tabular-nums; }
+    #original-rm-seed-stages .tape-cell.selected { color: var(--primary-foreground); background: var(--primary); }
+    #original-rm-seed-stages .try-control { margin: 12px 0; }
+    #original-rm-seed-stages .try-line { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    #original-rm-seed-stages .shuffle-control { margin: 12px 0 16px; }
+    #original-rm-seed-stages .calc-value { display: inline-block; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    #original-rm-seed-stages .calc-final { color: var(--foreground); }
+    #original-rm-seed-stages .try-result { display: grid; grid-template-columns: auto 1fr auto 1fr auto; gap: 10px; align-items: center; text-align: center; margin-top: 14px; }
+    #original-rm-seed-stages .try-result .flow-node { min-height: 78px; }
+    #original-rm-seed-stages .try-result .arrow { color: var(--muted-foreground); }
+    #original-rm-seed-stages .branch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+    #original-rm-seed-stages .branch-lane { display: grid; gap: 10px; align-content: start; }
+    #original-rm-seed-stages .lane-label { color: var(--muted-foreground); }
+    #original-rm-seed-stages .vertical-arrow { text-align: center; color: var(--muted-foreground); }
+    #original-rm-seed-stages .detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    #original-rm-seed-stages .detail-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #original-rm-seed-stages .detail-item { min-width: 0; padding: 10px 0; border-top: 1px solid var(--border); }
+    #original-rm-seed-stages .detail-item strong { display: block; margin-bottom: 4px; font-weight: 500; }
+    #original-rm-seed-stages .detail-item span { color: var(--muted-foreground); }
+    #original-rm-seed-stages .micro-flow { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-top: 10px; }
+    #original-rm-seed-stages .micro-step { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--primary-foreground); background: var(--primary); font-variant-numeric: tabular-nums; }
+    #original-rm-seed-stages .micro-copy { min-width: 0; padding-bottom: 9px; border-bottom: 1px solid var(--border); }
+    #original-rm-seed-stages .micro-copy strong { display: block; font-weight: 500; }
+    #original-rm-seed-stages .micro-copy span { display: block; margin-top: 3px; color: var(--muted-foreground); }
+    #original-rm-seed-stages .state-line { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 10px; }
+    #original-rm-seed-stages .state-line .state { padding: 9px; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; overflow-wrap: anywhere; }
+    #original-rm-seed-stages .state-line .state-arrow { color: var(--muted-foreground); text-align: center; }
+    #original-rm-seed-stages .truth-line { padding: 10px 0; border-top: 1px solid var(--border); color: var(--muted-foreground); }
+    #original-rm-seed-stages .truth-line strong { color: var(--foreground); font-weight: 500; }
+    #original-rm-seed-stages .legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted-foreground); margin-top: 14px; }
+    #original-rm-seed-stages .legend span { display: inline-flex; gap: 6px; align-items: center; }
+    #original-rm-seed-stages .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    #original-rm-seed-stages .swatch.e1 { background: var(--viz-series-1); }
+    #original-rm-seed-stages .swatch.e2 { background: var(--viz-series-2); }
+    #original-rm-seed-stages .swatch.e3 { background: var(--viz-series-3); }
+    #original-rm-seed-stages .swatch.e4 { background: var(--viz-series-4); }
+    #original-rm-seed-stages .controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
+    #original-rm-seed-stages .controls-right { display: flex; gap: 8px; }
+    #original-rm-seed-stages .nowrap { white-space: nowrap; }
+    @media (max-width: 620px) {
+      #original-rm-seed-stages .stage-head { display: grid; }
+      #original-rm-seed-stages .stage-nav .btn { flex: 1 1 calc(33.333% - 8px); }
+      #original-rm-seed-stages .flow-row, #original-rm-seed-stages .flow-row.two, #original-rm-seed-stages .branch-grid, #original-rm-seed-stages .detail-grid, #original-rm-seed-stages .detail-grid.two { grid-template-columns: 1fr; gap: 20px; }
+      #original-rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+      #original-rm-seed-stages .tape { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      #original-rm-seed-stages .try-result { grid-template-columns: 1fr; }
+      #original-rm-seed-stages .try-result .arrow { transform: rotate(90deg); }
+      #original-rm-seed-stages .state-line { grid-template-columns: 1fr; }
+      #original-rm-seed-stages .state-line .state-arrow { transform: rotate(90deg); }
+      #original-rm-seed-stages .controls { align-items: stretch; display: grid; }
+      #original-rm-seed-stages .controls-right { flex: 1; }
+      #original-rm-seed-stages .controls-right .btn { flex: 1; }
+    }
+  
+}</style><div class="original-report"><section id="original-terms"><div class="section-no">01 / FOUR TERMS</div><h3>四个词，只各做一件事</h3><p class="lead">先把名词分开：关卡表决定“能选什么”，Seed 决定“随机数从哪里开始”，DifficultyNext 只负责“取下一个整数”。</p><div class="term-grid">
+<div class="term"><span class="name">LEVEL SET</span><b>候选菜单</b>列出当前关卡可以生成哪些棋子、各自权重多少。列限制和低匹配逻辑还能进一步缩小菜单。<div class="term-example"><b>例子：</b>L1451 的候选表是 <code>[3,1,2,4]</code>，可以理解成“红3、蓝1、绿2、黄4”这四个选项。</div></div>
+<div class="term"><span class="name">SEED</span><b>随机机器的初始密码</b>同一个 seed 配合同一串调用，产生同一串整数；它本身不写“蓝、红、绿”。<div class="term-example"><b>例子：</b>seed 只负责让随机机器从同一个起点出发；它不等于“873 就是蓝色”。调用顺序相同，后面的数字才会相同。</div></div>
+<div class="term"><span class="name">DIFFICULTY NEXT</span><b>按一下机器，取一个范围整数</b>调用一次，随机状态向前一步，计数器加一，返回 <code>[min,max)</code> 中的整数。<div class="term-example"><b>例子：</b><code>DifficultyNext(0,4)=1</code> 时，取候选表第 2 项，也就是蓝1；返回 3 时，取第 4 项，也就是黄4。</div></div>
+<div class="term"><span class="name">LEVEL TRY COUNT</span><b>开局序号</b>每次真正 StartGame 都加一，用它从每关的 1000 个候选 seed 排列中取本局 seed。它不是只在失败时增加。<div class="term-example"><b>例子：</b>L101 实测 TryCount 18、19、20 对应 seed 895、429、174；这说明换的是下一局随机轨迹，不代表失败后一定变简单。</div></div></div></section>
+<section id="original-seed-lifecycle"><div class="section-no">02 / SEED LIFECYCLE</div><h3>一颗棋出现前，Seed 经历的五个阶段</h3><p class="lead">下面从“进入关卡”一直追到“下一局”。点阶段按钮切换；第 2、3 阶段的滑块可以重算 L1451 的真实数值。</p>
+<div id="original-rm-seed-stages">
+<style>
+    #rm-seed-stages {
+      --foreground: var(--ink); --muted-foreground: #5F6875; --card: var(--white);
+      --card-foreground: var(--ink); --border: var(--line); --muted: #EEF1ED;
+      --primary: var(--teal); --primary-foreground: #FFF;
+      --viz-series-1: #0F766E; --viz-series-2: #B45309;
+      --viz-series-3: #25636B; --viz-series-4: #B42318;
+      color: var(--foreground); margin-top: 24px;
+    }
+    #rm-seed-stages * { box-sizing: border-box; }
+    #rm-seed-stages .stage-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 16px; }
+    #rm-seed-stages .stage-head h2 { margin: 0; font: 750 28px/1.25 "Noto Serif SC",serif; }
+    #rm-seed-stages .stage-status { color: var(--muted-foreground); white-space: nowrap; }
+    #rm-seed-stages .stage-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding-bottom: 4px; }
+    #rm-seed-stages .btn { flex: 0 0 auto; min-height: 38px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--foreground); font: 700 13px/1.4 "Noto Sans SC",sans-serif; cursor: pointer; }
+    #rm-seed-stages .btn:hover { border-color: var(--primary); }
+    #rm-seed-stages .btn-primary { border-color: var(--primary); background: var(--primary); color: var(--primary-foreground); }
+    #rm-seed-stages .btn:disabled { opacity: .38; cursor: not-allowed; }
+    #rm-seed-stages .text-small { font-size: 13px; line-height: 1.65; }
+    #rm-seed-stages .text-muted { color: var(--muted-foreground); }
+    #rm-seed-stages .form-range { width: 100%; accent-color: var(--primary); }
+    #rm-seed-stages code { font-size: .92em; }
+    #rm-seed-stages .stage-panel[hidden] { display: none; }
+    #rm-seed-stages .stage-kicker { color: var(--muted-foreground); margin-bottom: 6px; }
+    #rm-seed-stages .diagram { display: grid; gap: 12px; padding: 8px 0; }
+    #rm-seed-stages .flow-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: stretch; }
+    #rm-seed-stages .flow-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #rm-seed-stages .flow-row.one { grid-template-columns: minmax(0, 1fr); }
+    #rm-seed-stages .flow-node { position: relative; min-width: 0; padding: 14px; background: color-mix(in srgb, var(--card) 92%, transparent); border: 1px solid var(--border); border-radius: 6px; color: var(--card-foreground); }
+    #rm-seed-stages .flow-node.source { background: color-mix(in srgb, var(--viz-series-1) 12%, var(--card)); }
+    #rm-seed-stages .flow-node.process { background: color-mix(in srgb, var(--viz-series-2) 12%, var(--card)); }
+    #rm-seed-stages .flow-node.output { background: color-mix(in srgb, var(--viz-series-3) 14%, var(--card)); }
+    #rm-seed-stages .flow-node.branch { background: color-mix(in srgb, var(--viz-series-4) 12%, var(--card)); }
+    #rm-seed-stages .flow-node strong { display: block; margin-bottom: 5px; font-weight: 500; }
+    #rm-seed-stages .flow-node code { overflow-wrap: anywhere; }
+    #rm-seed-stages .flow-node .sub { display: block; margin-top: 5px; color: var(--muted-foreground); }
+    #rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2192"; position: absolute; right: -22px; top: 50%; transform: translateY(-50%); color: var(--muted-foreground); }
+    #rm-seed-stages .down { text-align: center; color: var(--muted-foreground); padding: 1px 0; }
+    #rm-seed-stages .sum { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    #rm-seed-stages .sum + .sum { margin-top: 8px; }
+    #rm-seed-stages .sum-value { font-variant-numeric: tabular-nums; text-align: right; }
+    #rm-seed-stages .tape { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+    #rm-seed-stages .tape-cell { padding: 8px 4px; text-align: center; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; font-variant-numeric: tabular-nums; }
+    #rm-seed-stages .tape-cell.selected { color: var(--primary-foreground); background: var(--primary); }
+    #rm-seed-stages .try-control { margin: 12px 0; }
+    #rm-seed-stages .try-line { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    #rm-seed-stages .shuffle-control { margin: 12px 0 16px; }
+    #rm-seed-stages .calc-value { display: inline-block; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    #rm-seed-stages .calc-final { color: var(--foreground); }
+    #rm-seed-stages .try-result { display: grid; grid-template-columns: auto 1fr auto 1fr auto; gap: 10px; align-items: center; text-align: center; margin-top: 14px; }
+    #rm-seed-stages .try-result .flow-node { min-height: 78px; }
+    #rm-seed-stages .try-result .arrow { color: var(--muted-foreground); }
+    #rm-seed-stages .branch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+    #rm-seed-stages .branch-lane { display: grid; gap: 10px; align-content: start; }
+    #rm-seed-stages .lane-label { color: var(--muted-foreground); }
+    #rm-seed-stages .vertical-arrow { text-align: center; color: var(--muted-foreground); }
+    #rm-seed-stages .detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    #rm-seed-stages .detail-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #rm-seed-stages .detail-item { min-width: 0; padding: 10px 0; border-top: 1px solid var(--border); }
+    #rm-seed-stages .detail-item strong { display: block; margin-bottom: 4px; font-weight: 500; }
+    #rm-seed-stages .detail-item span { color: var(--muted-foreground); }
+    #rm-seed-stages .micro-flow { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-top: 10px; }
+    #rm-seed-stages .micro-step { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--primary-foreground); background: var(--primary); font-variant-numeric: tabular-nums; }
+    #rm-seed-stages .micro-copy { min-width: 0; padding-bottom: 9px; border-bottom: 1px solid var(--border); }
+    #rm-seed-stages .micro-copy strong { display: block; font-weight: 500; }
+    #rm-seed-stages .micro-copy span { display: block; margin-top: 3px; color: var(--muted-foreground); }
+    #rm-seed-stages .state-line { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 10px; }
+    #rm-seed-stages .state-line .state { padding: 9px; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; overflow-wrap: anywhere; }
+    #rm-seed-stages .state-line .state-arrow { color: var(--muted-foreground); text-align: center; }
+    #rm-seed-stages .truth-line { padding: 10px 0; border-top: 1px solid var(--border); color: var(--muted-foreground); }
+    #rm-seed-stages .truth-line strong { color: var(--foreground); font-weight: 500; }
+    #rm-seed-stages .legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted-foreground); margin-top: 14px; }
+    #rm-seed-stages .legend span { display: inline-flex; gap: 6px; align-items: center; }
+    #rm-seed-stages .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    #rm-seed-stages .swatch.e1 { background: var(--viz-series-1); }
+    #rm-seed-stages .swatch.e2 { background: var(--viz-series-2); }
+    #rm-seed-stages .swatch.e3 { background: var(--viz-series-3); }
+    #rm-seed-stages .swatch.e4 { background: var(--viz-series-4); }
+    #rm-seed-stages .controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
+    #rm-seed-stages .controls-right { display: flex; gap: 8px; }
+    #rm-seed-stages .nowrap { white-space: nowrap; }
+    @media (max-width: 620px) {
+      #rm-seed-stages .stage-head { display: grid; }
+      #rm-seed-stages .stage-nav .btn { flex: 1 1 calc(33.333% - 8px); }
+      #rm-seed-stages .flow-row, #rm-seed-stages .flow-row.two, #rm-seed-stages .branch-grid, #rm-seed-stages .detail-grid, #rm-seed-stages .detail-grid.two { grid-template-columns: 1fr; gap: 20px; }
+      #rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+      #rm-seed-stages .tape { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      #rm-seed-stages .try-result { grid-template-columns: 1fr; }
+      #rm-seed-stages .try-result .arrow { transform: rotate(90deg); }
+      #rm-seed-stages .state-line { grid-template-columns: 1fr; }
+      #rm-seed-stages .state-line .state-arrow { transform: rotate(90deg); }
+      #rm-seed-stages .controls { align-items: stretch; display: grid; }
+      #rm-seed-stages .controls-right { flex: 1; }
+      #rm-seed-stages .controls-right .btn { flex: 1; }
+    }
+  </style>
+<div class="stage-head">
+<div>
+<div class="stage-kicker text-small">Royal Match build 38174</div>
+<h2>Seed 到补棋：五个阶段</h2>
+</div>
+<div aria-live="polite" class="stage-status text-small" id="original-rm-stage-status">阶段 1 / 5</div>
+</div>
+<div aria-label="选择阶段" class="stage-nav viz-controls" role="group">
+<button aria-pressed="true" class="btn btn-primary" data-stage-button="0" type="button">1 基础 Seed</button>
+<button aria-pressed="false" class="btn" data-stage-button="1" type="button">2 洗牌</button>
+<button aria-pressed="false" class="btn" data-stage-button="2" type="button">3 本次尝试</button>
+<button aria-pressed="false" class="btn" data-stage-button="3" type="button">4 变成棋子</button>
+<button aria-pressed="false" class="btn" data-stage-button="4" type="button">5 下一局</button>
+</div>
+<section aria-labelledby="original-rm-stage-1-title" class="stage-panel" data-stage="0">
+<div class="stage-kicker text-small">阶段 1 · 进入关卡时</div>
+<h3 id="original-rm-stage-1-title">三个输入合成基础 Seed</h3>
+<div class="diagram">
+<div class="flow-row">
+<div class="flow-node source"><strong>读取当前关卡号</strong><code>CurrentUser → SessionData → activeLevel → number</code><span class="sub text-small">类型：32 位整数 · L1451 读到 1451</span></div>
+<div class="flow-node source"><strong>读取当前账号 ID</strong><code>CurrentUser → UserId → id</code><span class="sub text-small">原值是 64 位整数；计算时只使用低 32 位。</span></div>
+<div class="flow-node source"><strong>计算设备数字键</strong><code>DeviceInfo.DeviceId()</code><span class="sub text-small">从左向右保留数字字符，凑满 5 位后停止，再执行 int.Parse。</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><strong>关卡号何时变</strong><span class="text-small">通关进入下一主线关时变化；重试同一关不变。</span></div>
+<div class="detail-item"><strong>账号项何时变</strong><span class="text-small">切换账号才会变化；同一账号重启游戏仍是同一项。</span></div>
+<div class="detail-item"><strong>设备项何时变</strong><span class="text-small">来自当前设备标识；本次实机测试中保持稳定并被缓存。</span></div>
+</div>
+<div class="down">三个整数执行 32 位加法 ↓</div>
+<div class="flow-row one">
+<div class="flow-node process">
+<strong><code>baseSeed = levelNumber + userIdLow32 + deviceIdKey</code></strong>
+<div class="sum"><span>本机稳定部分：账号低 32 位 + deviceIdKey</span><span class="sum-value">-1580804884</span></div>
+<div class="sum"><span>L1451 关卡号</span><span class="sum-value">+1451</span></div>
+<div class="detail-item"><strong>整数规则</strong><span class="text-small">ARM64 使用 32 位寄存器相加；超过范围时按 32 位回绕，因此出现负数完全正常。</span></div>
+</div>
+</div>
+<div class="down">↓</div>
+<div class="flow-row one">
+<div class="flow-node output"><strong>L1451 的基础 Seed</strong><code>-1580803433</code><span class="sub text-small">该整数用来初始化下一阶段的 1000 项洗牌，它本身不携带颜色或难度标签。</span></div>
+</div>
+<div class="truth-line text-small"><strong>实机交叉验证：</strong>L1 为 -1580804883，L1451 为 -1580803433；差值 1450，恰好等于关卡号差值。</div>
+</div>
+</section>
+<section aria-labelledby="original-rm-stage-2-title" class="stage-panel" data-stage="1" hidden="">
+<div class="stage-kicker text-small">阶段 2 · 每关建立尝试表</div>
+<h3 id="original-rm-stage-2-title">基础 Seed 把 0–999 洗成固定顺序</h3>
+<div class="diagram">
+<div class="flow-row">
+<div class="flow-node source"><strong>建立原始表</strong><code>GenerateTrySeeds(1000)</code><span class="sub text-small">向 List&lt;ushort&gt; 依次写入 0、1、2……999；此时还没有随机。</span></div>
+<div class="flow-node process"><strong>把基础 Seed 装入随机机</strong><code>SetDifficultySeed(baseSeed)</code><span class="sub text-small">内部创建 new System.Random(-1580803433)，并把生成计数清零。</span></div>
+<div class="flow-node process"><strong>开始原位洗牌</strong><code>ShuffleListBasedOnDifficulty</code><span class="sub text-small">不创建另一张服务器下发的表，而是在客户端现场交换原列表。</span></div>
+</div>
+<div class="down">一次循环内部具体发生什么 ↓</div>
+<div class="flow-row one">
+<div class="flow-node process">
+<div class="micro-flow">
+<span class="micro-step text-small">1</span><div class="micro-copy"><strong>确定当前位置</strong><span class="text-small"><code>position</code> 从 0 开始，最大处理到 998。</span></div>
+<span class="micro-step text-small">2</span><div class="micro-copy"><strong>从尚未固定的区域选择交换位</strong><span class="text-small"><code>j = DifficultyNext(position, 1000)</code>，System.Random 的上界 1000 不包含，因此 j 落在 position–999。</span></div>
+<span class="micro-step text-small">3</span><div class="micro-copy"><strong>交换两个值</strong><span class="text-small"><code>Swap(list[position], list[j])</code>；当前位置从此固定。</span></div>
+<span class="micro-step text-small">4</span><div class="micro-copy"><strong>推进随机机</strong><span class="text-small"><code>difficultySeedGenerationCount + 1</code>，然后 position + 1 继续。</span></div>
+<span class="micro-step text-small">5</span><div class="micro-copy"><strong>停止</strong><span class="text-small">总共执行 999 次随机交换；最后一个位置自然确定。</span></div>
+</div>
+</div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><strong>排列性质</strong><span class="text-small">仍然只包含 0–999，每个数字恰好一次，不会新增或丢失。</span></div>
+<div class="detail-item"><strong>可复现性</strong><span class="text-small">相同 baseSeed + 相同 System.Random 实现，会得到完全相同的交换轨迹。</span></div>
+<div class="detail-item"><strong>它的用途</strong><span class="text-small">给第 0、1、2……次尝试安排不同 difficultySeed，不直接安排棋子。</span></div>
+</div>
+<div class="truth-line text-small"><strong>两张表不要混为一谈：</strong>这里洗出的 <code>seedList</code> 有 1000 项，用来决定第 N 次开局选哪个 difficultySeed。当某个 difficultySeed 真正被选中后，<code>new System.Random(seed)</code> 才会再现场生成它自己的随机状态表。</div>
+<div class="down">把其中一次 <code>DifficultyNext(position, 1000)</code> 完整算到底 ↓</div>
+<div class="flow-row one">
+<div class="flow-node source">
+<strong>System.Random(-1580803433) 的初始化</strong>
+<div class="micro-flow">
+<span class="micro-step text-small">1</span><div class="micro-copy"><strong>处理 Seed</strong><span class="text-small"><code>abs(-1580803433) = 1580803433</code></span></div>
+<span class="micro-step text-small">2</span><div class="micro-copy"><strong>计算第一个状态值</strong><span class="text-small"><code>161803398 - 1580803433 = -1419000035</code>；小于 0，增加 <code>2147483647</code>，得到 <code>728483612</code>。</span></div>
+<span class="micro-step text-small">3</span><div class="micro-copy"><strong>扩展成 56 槽状态表</strong><span class="text-small"><code>seedArray[55] = 728483612</code>；索引 1–55 是 55 个有效状态值，索引 0 是实现占位。其余格按 <code>(21 × i) % 55</code> 的位置顺序填入。</span></div>
+<span class="micro-step text-small">4</span><div class="micro-copy"><strong>做 4 轮差值混合</strong><span class="text-small">每格减去另一指定格并按 MBIG 回绕，让所有状态格都受初始 Seed 影响。</span></div>
+<span class="micro-step text-small">5</span><div class="micro-copy"><strong>设置两个游标</strong><span class="text-small"><code>inext = 0</code>、<code>inextp = 21</code>；每抽一次，两者都前进一格。</span></div>
+</div>
+</div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><strong>状态数组结构</strong><span class="text-small">包体中的 <code>System.Random</code> 创建长度 56 的 <code>_seedArray</code>：索引 1–55 保存 55 个有效状态值，索引 0 是实现占位。</span></div>
+<div class="detail-item"><strong>运行时初始化</strong><span class="text-small">包体保存初始化算法；每局选定 seed 后，状态数组由该算法现场计算。</span></div>
+<div class="detail-item"><strong>确定性与状态推进</strong><span class="text-small">相同 seed 经同一算法会生成相同初始状态；每次抽数会改写状态值并推进两个游标。</span></div>
+</div>
+<div class="flow-row one">
+<div class="flow-node process">
+<strong>选择一次真实洗牌调用</strong>
+<div class="shuffle-control">
+<div class="try-line"><label class="form-label" for="rm-shuffle-position"><code>position</code></label><output class="tabular-nums nowrap" id="original-rm-shuffle-output">0</output></div>
+<input aria-describedby="original-rm-shuffle-calculation" class="form-range" id="original-rm-shuffle-position" max="19" min="0" step="1" type="range" value="0"/>
+</div>
+<div aria-live="polite" class="micro-flow" id="original-rm-shuffle-calculation">
+<span class="micro-step text-small">1</span><div class="micro-copy"><strong>游标先前进</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-pointers">inext: 0→1 · inextp: 21→22</code></span></div>
+<span class="micro-step text-small">2</span><div class="micro-copy"><strong>读取两个状态格并相减</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-subtract">1438502552 - 1690771336 = -252268784</code></span></div>
+<span class="micro-step text-small">3</span><div class="micro-copy"><strong id="original-rm-calc-wrap-label">负数按 MBIG 回绕</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-wrap">-252268784 + 2147483647 = 1895214863</code>；同时写回 <code class="calc-value" id="original-rm-calc-write">seedArray[1]</code>。</span></div>
+<span class="micro-step text-small">4</span><div class="micro-copy"><strong>转成 0–1 小数</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-unit">1895214863 / 2147483647 = 0.8825281932</code></span></div>
+<span class="micro-step text-small">5</span><div class="micro-copy"><strong>缩放到尚未固定的区间</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-scale">floor(0.8825281932 × (1000 - 0)) = 882</code></span></div>
+<span class="micro-step text-small">6</span><div class="micro-copy"><strong>加回下界得到交换位 j</strong><span class="text-small"><code class="calc-value calc-final" id="original-rm-calc-result">j = 0 + 882 = 882</code>，所以 j 必定位于 <code class="calc-value" id="original-rm-calc-range">0–999</code>。</span></div>
+<span class="micro-step text-small">7</span><div class="micro-copy"><strong>执行本轮交换</strong><span class="text-small"><code class="calc-value" id="original-rm-calc-swap">Swap(list[0]=0, list[882]=882)；位置 0 最终固定为 882</code></span></div>
+</div>
+</div>
+</div>
+<div class="down">完成 999 次交换 ↓</div>
+<div class="flow-row one">
+<div class="flow-node output">
+<strong>L1451 实机复现出的 seedList 前 20 项</strong>
+<div aria-label="L1451 Seed 表前二十项" class="tape">
+<span class="tape-cell">0→882</span><span class="tape-cell">1→809</span><span class="tape-cell">2→741</span><span class="tape-cell">3→977</span><span class="tape-cell">4→579</span>
+<span class="tape-cell">5→456</span><span class="tape-cell">6→634</span><span class="tape-cell">7→696</span><span class="tape-cell">8→713</span><span class="tape-cell">9→354</span>
+<span class="tape-cell">10→67</span><span class="tape-cell">11→604</span><span class="tape-cell">12→493</span><span class="tape-cell">13→162</span><span class="tape-cell">14→329</span>
+<span class="tape-cell">15→873</span><span class="tape-cell">16→52</span><span class="tape-cell">17→666</span><span class="tape-cell">18→360</span><span class="tape-cell">19→698</span>
+</div>
+<span class="sub text-small">左边是尝试索引，右边是将被取出的 difficultySeed；完整表一共有 1000 项。</span>
+</div>
+</div>
+<div class="truth-line text-small"><strong>关键区别：</strong><code>baseSeed</code> 是“洗这张表”的 Seed；表里的 882、809、873 等才是每次挑战实际使用的 Seed。</div>
+</div>
+</section>
+<section aria-labelledby="original-rm-stage-3-title" class="stage-panel" data-stage="2" hidden="">
+<div class="stage-kicker text-small">阶段 3 · 每次点击开始关卡</div>
+<h3 id="original-rm-stage-3-title">尝试次数决定这一次用哪个 Seed</h3>
+<div class="flow-row one">
+<div class="flow-node source">
+<strong>读取保存值</strong><code>UserKeyValue.GetInt("LevelTryCount", 0)</code>
+<div class="detail-grid">
+<div class="detail-item"><strong>正常进入新关</strong><span class="text-small"><code>BasicUserData.UpdateLevel</code> 把它重置为 0。</span></div>
+<div class="detail-item"><strong>重试当前关</strong><span class="text-small">保存值递增，下一次就会读取 seedList 的下一个位置。</span></div>
+<div class="detail-item"><strong>审计跳关例外</strong><span class="text-small">若工具绕过 UpdateLevel，可能保留上一关的非零计数；这不是正常流程。</span></div>
+</div>
+</div>
+</div>
+<div class="try-control">
+<div class="try-line"><label class="form-label" for="rm-try-count">L1451 的 <code>LevelTryCount</code></label><output class="tabular-nums nowrap" id="original-rm-try-output">15</output></div>
+<input aria-describedby="original-rm-try-detail" class="form-range" id="original-rm-try-count" max="19" min="0" step="1" type="range" value="15"/>
+</div>
+<div aria-live="polite" class="try-result" id="original-rm-try-detail">
+<div class="flow-node source"><strong>LevelTryCount</strong><code id="original-rm-try-a">15</code></div>
+<div class="arrow">→</div>
+<div class="flow-node process"><strong>取表位置</strong><code id="original-rm-try-index">15 mod 1000 = 15</code></div>
+<div class="arrow">→</div>
+<div class="flow-node output"><strong>本次 difficultySeed</strong><code id="original-rm-try-seed">seedList[15] = 873</code></div>
+</div>
+<div class="diagram">
+<div class="flow-row">
+<div class="flow-node process"><strong>写入本次 Seed</strong><code id="original-rm-set-seed">difficultySeed = 873</code><span class="sub text-small">覆盖阶段 2 洗牌时使用的 baseSeed。</span></div>
+<div class="flow-node process"><strong>生成计数归零</strong><code>difficultySeedGenerationCount = 0</code><span class="sub text-small">之后每调用一次 DifficultyNext 就 +1。</span></div>
+<div class="flow-node output"><strong>创建本次随机机</strong><code id="original-rm-new-random">difficultyRandom = new Random(873)</code><span class="sub text-small">相同 Seed 的整数流可复现。</span></div>
+</div>
+<div class="truth-line text-small"><strong>为什么取模：</strong><code>LevelTryCount % seedList.Count</code> 保证计数超过 999 后仍能回到 0–999；正常玩家通常不会走到这么高。</div>
+<div class="truth-line text-small"><strong>当前控件范围：</strong>只展示已复现的前 20 项；并不代表 seedList 只有 20 项。</div>
+</div>
+</section>
+<section aria-labelledby="original-rm-stage-4-title" class="stage-panel" data-stage="3" hidden="">
+<div class="stage-kicker text-small">阶段 4 · 棋盘需要补一个空格</div>
+<h3 id="original-rm-stage-4-title">棋盘先找来源，随机机只负责候选选择</h3>
+<div class="diagram">
+<div class="flow-row">
+<div class="flow-node source"><strong>1. 发现可填空格</strong><span class="sub text-small">三消、爆炸或障碍消除后，棋盘模型知道哪个坐标为空。</span></div>
+<div class="flow-node process"><strong>2. 沿重力方向追溯来源</strong><span class="sub text-small">先看上方现有棋子能否落下，再追到该列的顶部入口。</span></div>
+<div class="flow-node branch"><strong>3. 顶部入口需要新棋子</strong><span class="sub text-small">只有走到这里，系统才在“预定队列”和“随机 LevelSet”之间选择。</span></div>
+</div>
+<div class="truth-line text-small"><strong>坐标与 Seed 的边界：</strong>空格坐标、重力路径和列入口由棋盘状态决定；difficultySeed 不负责从所有列中挑一列。</div>
+<div class="down">顶部入口的三种来源，按优先顺序检查 ↓</div>
+<div class="branch-grid">
+<div class="branch-lane">
+<div class="lane-label text-small">路径 A · 非随机来源</div>
+<div class="flow-node source"><strong>Top-board 特殊来源命中</strong><span class="sub text-small">棋子由上层棋盘或特殊入口队列传入，不在此时新随机一个颜色。L1451 本次样本该分支均返回空。</span></div>
+<div class="vertical-arrow">否则 ↓</div>
+<div class="flow-node source"><strong>列预定队列还有棋子</strong><code>GetQueue → Dequeue</code><span class="sub text-small">颜色和顺序来自关卡数据中的队列，取完一颗队首向前推进。</span></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node output"><strong>送入已经确定的列入口</strong><span class="sub text-small">这两种情况都不调用 DifficultyNext，因此随机机游标不会因为这颗棋而前进。</span></div>
+</div>
+<div class="branch-lane">
+<div class="lane-label text-small">路径 B · L1451 普通随机回退</div>
+<div class="flow-node source"><strong>确定可用 LevelSet</strong><span class="sub text-small">优先使用当前列的专属集合；没有时回退到本关普通集合。</span></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process">
+<strong>第 1 次：选一个 Set</strong>
+<code>DifficultyNext(0, 可用 Set 总权重)</code>
+<span class="sub text-small">L1451 只有 Set1，所以实测为 <code>DifficultyNext(0,1)=0</code>。即使只有一个 Set，这次调用仍会推进随机状态。</span>
+</div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process"><strong>读取选中 Set 内的候选棋子</strong><code>L1451 Set1 = [3, 1, 2, 4]</code><span class="sub text-small">颜色、权重、列限制和当前棋盘条件会决定本次实际候选范围。</span></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process">
+<strong>第 2 次：选 Set 内具体棋子</strong>
+<code>DifficultyNext(0, Set 内总权重)</code>
+<div class="micro-flow">
+<span class="micro-step text-small">1</span><div class="micro-copy"><strong>生成计数 +1</strong><span class="text-small"><code>difficultySeedGenerationCount++</code></span></div>
+<span class="micro-step text-small">2</span><div class="micro-copy"><strong>读取同一个随机机对象</strong><span class="text-small"><code>difficultyRandom</code> 保留上一次调用结束后的内部状态。</span></div>
+<span class="micro-step text-small">3</span><div class="micro-copy"><strong>调用 System.Random.Next</strong><span class="text-small">L1451 实测 <code>DifficultyNext(0,4)=2</code>，选中候选表第 3 项。</span></div>
+</div>
+</div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node output"><strong>下标经候选表解释成棋子</strong><code>[3,1,2,4][2] = MatchType 2</code><span class="sub text-small">随机数先作为候选表下标，由当前 LevelSet 映射成棋子类型，再送进既定列入口。</span></div>
+</div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><strong>同一个 Seed，不同关卡</strong><span class="text-small">LevelSet 不同，相同随机整数可能映射成不同颜色。</span></div>
+<div class="detail-item"><strong>同一关，不同棋盘时刻</strong><span class="text-small">候选池或此前调用次数改变，后续映射也可能不同。</span></div>
+<div class="detail-item"><strong>预定队列用完</strong><span class="text-small">不会重新生成另一条预定队列；之后进入 LevelSet 随机路径。</span></div>
+</div>
+<div class="truth-line text-small"><strong>分支边界：</strong>上面是 L1451 已闭合的普通回退路径。有目标列任务或 low-match 调节时，可转入 <code>GetRandomTargetColumnItem</code> 或 <code>GetTunedItem</code>，不应把“每颗永远恰好两次”推广到全游戏。</div>
+</div>
+</section>
+<section aria-labelledby="original-rm-stage-5-title" class="stage-panel" data-stage="4" hidden="">
+<div class="stage-kicker text-small">阶段 5 · 本局结束</div>
+<h3 id="original-rm-stage-5-title">失败与过关走向不同的下一轮</h3>
+<div class="branch-grid">
+<div class="branch-lane">
+<div class="lane-label text-small">失败 / 重开同一关</div>
+<div class="flow-node source"><strong>保持同一关卡身份</strong><code>activeLevel.number = 1451</code><span class="sub text-small">账号项、设备项和关卡号都不变，因此 baseSeed 不变。</span></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process"><strong>只推进尝试计数</strong><code>LevelTryCount: 15 → 16</code></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process"><strong>同一张表换一个位置</strong>
+<div class="state-line"><span class="state"><code>seedList[15] = 873</code></span><span class="state-arrow">→</span><span class="state"><code>seedList[16] = 52</code></span></div>
+</div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node output"><strong>重启 difficultyRandom</strong><code>new Random(52)</code><span class="sub text-small">本次随机整数流改变，因此随机补棋轨迹也可能整体改变；固定队列和关卡 LevelSet 本身不因此改写。</span></div>
+</div>
+<div class="branch-lane">
+<div class="lane-label text-small">胜利 / 进入下一关</div>
+<div class="flow-node source"><strong>更新主线关卡</strong><code>activeLevel.number: 1451 → 1452</code><span class="sub text-small">BasicUserData.UpdateLevel 同时处理当前关尝试计数重置。</span></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process"><strong>LevelTryCount 重置</strong><code>15 → 0</code></div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node process"><strong>重新计算基础 Seed</strong>
+<div class="state-line"><span class="state"><code>L1451: -1580803433</code></span><span class="state-arrow">→</span><span class="state"><code>L1452: -1580803432</code></span></div>
+</div>
+<div class="vertical-arrow">↓</div>
+<div class="flow-node output"><strong>生成 L1452 自己的 1000 项排列</strong><span class="sub text-small">随后从位置 0 取 L1452 的首次尝试 Seed；它不是简单沿用 L1451 的 seedList[17]。</span></div>
+</div>
+</div>
+<div class="diagram">
+<div class="flow-row one">
+<div class="flow-node branch">
+<strong>这条 Seed 调用链没有直接读取的量</strong>
+<div class="detail-grid">
+<div class="detail-item"><strong>上一关输赢结果</strong><span class="text-small">只通过“是否换关”和“尝试次数是否增加”间接改变选 Seed 的位置。</span></div>
+<div class="detail-item"><strong>连胜 / 连败长度</strong><span class="text-small">GenerateTrySeeds 与 DifficultyNext 中没有读取 streak。</span></div>
+<div class="detail-item"><strong>Easy / Hard 门槛表</strong><span class="text-small">当前已测主线未发现它注入 baseSeed、difficultySeed 或 System.Random。</span></div>
+</div>
+</div>
+</div>
+<div class="truth-line text-small"><strong>因此不能直接推导：</strong>“连败第 N 次必发好棋”或“连胜后 Seed 会变难”。目前能证明的是尝试次数换了 seedList 的索引；不同 Seed 的实际通关难度仍需同关、同操作策略的批量实验。</div>
+</div>
+</section>
+<div aria-label="流程颜色" class="legend text-small">
+<span><i aria-hidden="true" class="swatch e1"></i>输入 / 数据来源</span>
+<span><i aria-hidden="true" class="swatch e2"></i>计算 / 转换</span>
+<span><i aria-hidden="true" class="swatch e3"></i>输出 / 实机例子</span>
+<span><i aria-hidden="true" class="swatch e4"></i>分支 / 边界</span>
+</div>
+<div class="controls">
+<span class="text-small text-muted" id="original-rm-stage-name">基础 Seed 的来源</span>
+<div class="controls-right">
+<button class="btn" disabled="" id="original-rm-prev-stage" type="button">← 上一阶段</button>
+<button class="btn btn-primary" id="original-rm-next-stage" type="button">下一阶段 →</button>
+</div>
+</div>
+
+</div>
+</section>
+<section id="original-refill"><div class="section-no">03 / REFILL &amp; COORDINATES</div><h3>补棋到底怎么发生</h3><div class="notice"><strong>目标列的两层抽样</strong><p>GetSetsFromColumn按FillType筛可用集合；GetRandomTargetColumnItem先尝试优先集合，成功时会减少requiredItemCount。普通权重分支先按集合FillRatio累计阈值选Set，再按Set内可用元素ratio选Item。该普通分支有两次DifficultyNext；优先、调色或固定队列分支不能套用同一调用次数。</p></div><p class="lead">棋盘先确定“哪个坐标空了”，再决定从哪里拿一颗棋。Seed 不负责选列，它只在需要随机选择时提供数字。</p>
+<figure class="refill-decision"><div class="decision-desktop"><svg aria-labelledby="original-refill-flow-title original-refill-flow-desc" role="img" viewbox="0 0 980 1135">
+<title id="original-refill-flow-title">Royal Match 补棋完整决策树</title><desc id="original-refill-flow-desc">空格坐标先确定。系统依次检查 Top-board、列预定队列、列专属候选池和普通候选池；只有走到 LevelSet 路径时才调用 DifficultyNext。</desc>
+<defs><marker id="original-refill-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="7" refy="4" viewbox="0 0 8 8"><path d="M0,0 L8,4 L0,8 Z" fill="#0F766E"></path></marker></defs>
+<path class="decision-line" d="M490 86 V120"></path><path class="decision-line" d="M490 194 V228"></path><path class="decision-line" d="M490 304 V342"></path>
+<path class="decision-line" d="M315 266 H6 V778 H20"></path><text class="decision-branch" x="166" y="254">有</text><text class="decision-branch" x="505" y="330">没有</text>
+<path class="decision-line" d="M490 418 V456"></path><path class="decision-line" d="M315 380 H150 V570"></path><text class="decision-branch" x="166" y="368">有</text><text class="decision-branch" x="505" y="444">已经用完</text>
+<path class="decision-line" d="M490 532 V566 H475 V590"></path><path class="decision-line" d="M665 494 H805 V590"></path><text class="decision-branch" x="452" y="555">有</text><text class="decision-branch" x="735" y="482">没有</text>
+<path class="decision-merge" d="M475 666 V706 H490"></path><path class="decision-merge" d="M805 666 V706 H490"></path><path class="decision-line" d="M490 706 V730"></path>
+<path class="decision-line" d="M490 806 V840"></path><path class="decision-line" d="M490 916 V960"></path>
+<path class="decision-merge" d="M20 608 H6 V998 H350"></path><path class="decision-merge" d="M150 816 V940 H330 V998 H350"></path><path class="decision-line" d="M490 1036 V1070"></path>
+<g><rect class="decision-action" height="66" rx="8" width="280" x="350" y="20"></rect><text class="decision-label" text-anchor="middle" x="490" y="48">发生消除</text><text class="decision-sub" text-anchor="middle" x="490" y="70">棋盘出现空格</text></g>
+<g><rect class="decision-action" height="74" rx="8" width="360" x="310" y="120"></rect><text class="decision-label" text-anchor="middle" x="490" y="150">下落系统检查空格</text><text class="decision-sub" text-anchor="middle" x="490" y="174">先确定目标坐标 x, y</text></g>
+<g><rect class="decision-question" height="76" rx="8" width="350" x="315" y="228"></rect><text class="decision-label" text-anchor="middle" x="490" y="258">这个位置有</text><text class="decision-label" text-anchor="middle" x="490" y="282">Top-board 特殊来源？</text></g>
+<g><rect class="decision-question" height="76" rx="8" width="350" x="315" y="342"></rect><text class="decision-label" text-anchor="middle" x="490" y="372">这一列的预定队列</text><text class="decision-label" text-anchor="middle" x="490" y="396">还有棋子？</text></g>
+<g><rect class="decision-question" height="76" rx="8" width="350" x="315" y="456"></rect><text class="decision-label" text-anchor="middle" x="490" y="486">这一列有</text><text class="decision-label" text-anchor="middle" x="490" y="510">专属候选池？</text></g>
+<g><rect class="decision-action" height="76" rx="8" width="260" x="20" y="740"></rect><text class="decision-label" text-anchor="middle" x="150" y="772">从 Top-board 来源</text><text class="decision-sub" text-anchor="middle" x="150" y="796">直接取棋子</text></g>
+<g><rect class="decision-action" height="76" rx="8" width="260" x="20" y="570"></rect><text class="decision-label" text-anchor="middle" x="150" y="600">直接取队首棋子</text><text class="decision-sub" text-anchor="middle" x="150" y="624">顺序由关卡配置确定</text></g>
+<g><rect class="decision-action" height="76" rx="8" width="290" x="330" y="590"></rect><text class="decision-label" text-anchor="middle" x="475" y="620">读取该列允许的</text><text class="decision-sub" text-anchor="middle" x="475" y="644">LevelSet 和权重</text></g>
+<g><rect class="decision-action" height="76" rx="8" width="290" x="660" y="590"></rect><text class="decision-label" text-anchor="middle" x="805" y="620">读取本关普通的</text><text class="decision-sub" text-anchor="middle" x="805" y="644">LevelSet 和权重</text></g>
+<g><rect class="decision-random" height="76" rx="8" width="350" x="315" y="730"></rect><text class="decision-label" text-anchor="middle" x="490" y="760">调用 DifficultyNext</text><text class="decision-sub" text-anchor="middle" x="490" y="784">用 seed 随机流选择一个 Set</text></g>
+<g><rect class="decision-random" height="76" rx="8" width="350" x="315" y="840"></rect><text class="decision-label" text-anchor="middle" x="490" y="870">再次调用 DifficultyNext</text><text class="decision-sub" text-anchor="middle" x="490" y="894">选择 Set 里的具体颜色</text></g>
+<g><rect class="decision-action" height="76" rx="8" width="280" x="350" y="960"></rect><text class="decision-label" text-anchor="middle" x="490" y="990">在已经确定的那一列上方</text><text class="decision-sub" text-anchor="middle" x="490" y="1014">创建棋子</text></g>
+<g><rect class="decision-action" height="46" rx="8" width="280" x="350" y="1070"></rect><text class="decision-label" text-anchor="middle" x="490" y="1100">受重力下落，填进空格</text></g>
+</svg></div>
+<div class="flow-mobile"><ol>
+<li><b>消除产生空格</b><span>下落系统先确定目标坐标 <code>(x,y)</code>，包括具体哪一列。</span></li>
+<li><b>检查 Top-board 特殊来源</b><span class="branch-tag">有：直接取棋子</span><span class="branch-tag">没有：继续</span></li>
+<li><b>检查该列预定队列</b><span class="branch-tag">有：按配置取队首</span><span class="branch-tag">用完：继续</span></li>
+<li><b>确定候选池</b><span class="branch-tag">该列有专属池：读列 LevelSet</span><span class="branch-tag">没有：读普通 LevelSet</span></li>
+<li><b>第一次 DifficultyNext</b><span>用 seed 随机流在可用 LevelSet 和权重中选择一个 Set。</span></li>
+<li><b>第二次 DifficultyNext</b><span>在选中的 Set 内按权重选择具体棋子。</span></li>
+<li><b>创建并下落</b><span>棋子在步骤 1 已确定的列上方生成，再受重力落入空格。</span></li>
+</ol></div><figcaption>实线节点是动作，虚线节点是条件判断；琥珀色节点才会消耗 seed 随机流。固定来源命中时，不经过普通 LevelSet 随机选色。</figcaption></figure>
+<div class="plain"><b>最容易误解的一点：</b>预定队列有棋时，这颗棋不走普通随机选色；队列耗尽后，才对那一次补棋进入 LevelSet 随机回退。Seed 在开局时早已初始化，并不是等队列用完才“启动”。</div>
+<details><summary>打开可玩实验：交换、消除与按列预定补棋</summary><div><iframe class="animation-frame" src="data:text/html;base64,PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc9InpoLUNOIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCxpbml0aWFsLXNjYWxlPTEiPgo8dGl0bGU+Um95YWwgTWF0Y2ggMzgxNzQg6KGl5qOL5py65Yi277ya6K+B5o2u5YyW5Yqo55S76K6y6KejPC90aXRsZT4KPHN0eWxlPgo6cm9vdHsKICAtLWJnOiMwNzExMWY7LS1wYW5lbDojMTAxZTMyOy0tcGFuZWwyOiMxNTI4NDI7LS1saW5lOiMyOTQzNjE7LS1pbms6I2VlZjdmZjsKICAtLW11dGVkOiM5Y2IwYzc7LS1jeWFuOiM1OGQ4ZmY7LS1ncmVlbjojNjhlM2ExOy0tYW1iZXI6I2ZmZDM2YzstLXJlZDojZmY3ZThlOwogIC0tb3JhbmdlOiNmZjlhNWI7LS1ibHVlOiM2NWE4ZmY7LS1jZWxsOmNsYW1wKDM4cHgsNy4ydncsNjZweCk7LS1nYXA6NnB4Owp9Cip7Ym94LXNpemluZzpib3JkZXItYm94fQpbaGlkZGVuXXtkaXNwbGF5Om5vbmUhaW1wb3J0YW50fQpodG1se3Njcm9sbC1iZWhhdmlvcjpzbW9vdGh9CmJvZHl7bWFyZ2luOjA7YmFja2dyb3VuZDpyYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDIwJSAwLCMxMzJkNGEgMCx0cmFuc3BhcmVudCA0MiUpLHZhcigtLWJnKTtjb2xvcjp2YXIoLS1pbmspO2ZvbnQ6MTVweC8xLjY1ICJQaW5nRmFuZyBTQyIsIk1pY3Jvc29mdCBZYUhlaSIsc2Fucy1zZXJpZn0KYnV0dG9ue2ZvbnQ6aW5oZXJpdH0KbWFpbnttYXgtd2lkdGg6MTI4MHB4O21hcmdpbjphdXRvO3BhZGRpbmc6MjRweH0KaDF7Zm9udC1zaXplOmNsYW1wKDI2cHgsNHZ3LDQycHgpO2xpbmUtaGVpZ2h0OjEuMTU7bWFyZ2luOjAgMCAxMHB4fQpoMntmb250LXNpemU6MjJweDttYXJnaW46MzRweCAwIDEycHg7cGFkZGluZy1sZWZ0OjEycHg7Ym9yZGVyLWxlZnQ6NHB4IHNvbGlkIHZhcigtLWN5YW4pfQpoM3tmb250LXNpemU6MTZweDttYXJnaW46MCAwIDhweH0KcHttYXJnaW46OHB4IDB9LmxlYWR7Y29sb3I6I2JmZDJlNzttYXgtd2lkdGg6OTgwcHh9LnNtYWxse2ZvbnQtc2l6ZToxMnB4O2NvbG9yOnZhcigtLW11dGVkKX0KLm5vdGljZXttYXJnaW46MThweCAwO3BhZGRpbmc6MTJweCAxNXB4O2JvcmRlcjoxcHggc29saWQgIzdlNjczMDtiYWNrZ3JvdW5kOiMyYTI0MTg7Ym9yZGVyLXJhZGl1czoxMnB4O2NvbG9yOiNmZmU5YWR9Ci5ub3RpY2Ugc3Ryb25ne2NvbG9yOnZhcigtLWFtYmVyKX0KLmxlZ2VuZCwuY2hpcHMsLmNvbnRyb2xzLC5zY2VuYXJpby10YWJze2Rpc3BsYXk6ZmxleDtnYXA6OHB4O2ZsZXgtd3JhcDp3cmFwO2FsaWduLWl0ZW1zOmNlbnRlcn0KLmNoaXB7ZGlzcGxheTppbmxpbmUtZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjZweDtib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpO2JvcmRlci1yYWRpdXM6OTk5cHg7cGFkZGluZzo0cHggOXB4O2JhY2tncm91bmQ6IzBiMTgyODtmb250LXNpemU6MTJweH0KLmRvdHt3aWR0aDo4cHg7aGVpZ2h0OjhweDtib3JkZXItcmFkaXVzOjUwJTtiYWNrZ3JvdW5kOmN1cnJlbnRDb2xvcn0uZTF7Y29sb3I6dmFyKC0tY3lhbil9LmUye2NvbG9yOnZhcigtLWdyZWVuKX0uZHtjb2xvcjp2YXIoLS1hbWJlcil9Lmh7Y29sb3I6dmFyKC0tcmVkKX0KLmFwcHtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOm1pbm1heCgzOTBweCwxLjE1ZnIpIG1pbm1heCgzMzBweCwuODVmcik7Z2FwOjE2cHg7YWxpZ24taXRlbXM6c3RhcnQ7bWFyZ2luLXRvcDoxOHB4fQouY2FyZHtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCgxODBkZWcscmdiYSgxOSwzNyw2MSwuOTcpLHJnYmEoMTEsMjQsNDEsLjk3KSk7Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTtib3JkZXItcmFkaXVzOjE4cHg7cGFkZGluZzoxNnB4O2JveC1zaGFkb3c6MCAxOHB4IDQ1cHggcmdiYSgwLDAsMCwuMjQpfQouc2NlbmFyaW8tdGFic3ttYXJnaW4tYm90dG9tOjEzcHh9LnNjZW5hcmlve2N1cnNvcjpwb2ludGVyO2NvbG9yOnZhcigtLWluayk7YmFja2dyb3VuZDojMGIxOTJiO2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7Ym9yZGVyLXJhZGl1czoxMHB4O3BhZGRpbmc6OHB4IDExcHh9LnNjZW5hcmlvLmFjdGl2ZXtib3JkZXItY29sb3I6dmFyKC0tY3lhbik7YmFja2dyb3VuZDojMTczYjU1O2NvbG9yOiNkZmY5ZmZ9Ci5zY2VuZXtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOmF1dG8gbWlubWF4KDE1MHB4LDFmcik7Z2FwOjE2cHg7YWxpZ24taXRlbXM6Y2VudGVyO21pbi1oZWlnaHQ6NTE1cHh9Ci5ib2FyZC13cmFwe3Bvc2l0aW9uOnJlbGF0aXZlO3BhZGRpbmctdG9wOjExMnB4O2p1c3RpZnktc2VsZjpjZW50ZXJ9Ci5xdWV1ZXtwb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjA7cmlnaHQ6MDt0b3A6MDtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCg2LHZhcigtLWNlbGwpKTtnYXA6dmFyKC0tZ2FwKX0KLnF1ZXVlLWxhbmV7aGVpZ2h0Ojk4cHg7Ym9yZGVyOjFweCBkYXNoZWQgIzQ5NjY4Mjtib3JkZXItcmFkaXVzOjEycHg7YmFja2dyb3VuZDpyZ2JhKDUsMTMsMjMsLjQyKTtkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uLXJldmVyc2U7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpmbGV4LXN0YXJ0O3BhZGRpbmc6NXB4O2dhcDozcHg7Y29sb3I6IzcyOGJhNDtmb250LXNpemU6MTBweH0KLnF1ZXVlLWxhbmUuYWN0aXZle2JvcmRlci1jb2xvcjp2YXIoLS1hbWJlcik7Ym94LXNoYWRvdzowIDAgMCAycHggcmdiYSgyNTUsMjExLDEwOCwuMTIpfQoucXVldWUtdG9rZW57d2lkdGg6MzBweDtoZWlnaHQ6MjRweDtib3JkZXItcmFkaXVzOjhweDtkaXNwbGF5OmdyaWQ7cGxhY2UtaXRlbXM6Y2VudGVyO2NvbG9yOiMwNzExMWY7Zm9udC13ZWlnaHQ6ODAwO2JveC1zaGFkb3c6MCAzcHggMTBweCByZ2JhKDAsMCwwLC4zKX0KLmJvYXJke2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDYsdmFyKC0tY2VsbCkpO2dyaWQtdGVtcGxhdGUtcm93czpyZXBlYXQoNix2YXIoLS1jZWxsKSk7Z2FwOnZhcigtLWdhcCk7cGFkZGluZzo4cHg7Ym9yZGVyOjJweCBzb2xpZCAjMzY1ODc4O2JvcmRlci1yYWRpdXM6MTZweDtiYWNrZ3JvdW5kOiMwODE1MjE7Ym94LXNoYWRvdzppbnNldCAwIDAgMzBweCByZ2JhKDAsMCwwLC42KX0KLmNlbGx7cG9zaXRpb246cmVsYXRpdmU7Ym9yZGVyLXJhZGl1czoxMnB4O2JhY2tncm91bmQ6IzEzMjczYjtkaXNwbGF5OmdyaWQ7cGxhY2UtaXRlbXM6Y2VudGVyO292ZXJmbG93OmhpZGRlbjt0cmFuc2l0aW9uOmJhY2tncm91bmQgLjI1cyxib3gtc2hhZG93IC4yNXN9Ci5jZWxsLmZvY3Vze2JhY2tncm91bmQ6IzI3NDM1YTtib3gtc2hhZG93Omluc2V0IDAgMCAwIDJweCB2YXIoLS1hbWJlcil9Ci5waWVjZXt3aWR0aDo3NiU7aGVpZ2h0Ojc2JTtib3JkZXItcmFkaXVzOjE2cHg7ZGlzcGxheTpncmlkO3BsYWNlLWl0ZW1zOmNlbnRlcjtjb2xvcjojMDcxMTFmO2ZvbnQtd2VpZ2h0OjkwMDtmb250LXNpemU6MThweDtib3gtc2hhZG93Omluc2V0IDAgLTdweCAwIHJnYmEoMCwwLDAsLjE2KSwwIDVweCAxMnB4IHJnYmEoMCwwLDAsLjI4KTt0cmFuc2l0aW9uOnRyYW5zZm9ybSAuNDVzLG9wYWNpdHkgLjNzfQoucDF7YmFja2dyb3VuZDojZmY3MDg1fS5wMntiYWNrZ3JvdW5kOiNmZmQ0NWZ9LnAze2JhY2tncm91bmQ6IzY3ZGU5Yn0ucDR7YmFja2dyb3VuZDojNjJiOGZmfS5wNXtiYWNrZ3JvdW5kOnZhcigtLW9yYW5nZSl9Ci5naG9zdHtvcGFjaXR5Oi4xODt0cmFuc2Zvcm06c2NhbGUoLjYyKX0KLmJ1cnN0e3Bvc2l0aW9uOmFic29sdXRlO2luc2V0OjhweDtib3JkZXI6MnB4IHNvbGlkIHZhcigtLWFtYmVyKTtib3JkZXItcmFkaXVzOjE0cHg7YW5pbWF0aW9uOnB1bHNlIC43cyBpbmZpbml0ZSBhbHRlcm5hdGU7cG9pbnRlci1ldmVudHM6bm9uZX0KQGtleWZyYW1lcyBwdWxzZXt0b3t0cmFuc2Zvcm06c2NhbGUoLjg0KTtvcGFjaXR5Oi4yNX19Ci5zaWRlLXN0YXRle2Rpc3BsYXk6Z3JpZDtnYXA6MTBweH0uc3RhdGUtYm94e2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7YmFja2dyb3VuZDojMGExNzI3O2JvcmRlci1yYWRpdXM6MTJweDtwYWRkaW5nOjExcHh9LnN0YXRlLWJveCBie2Rpc3BsYXk6YmxvY2s7Y29sb3I6dmFyKC0tY3lhbik7Zm9udC1zaXplOjEycHg7bGV0dGVyLXNwYWNpbmc6LjA0ZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlfS5zdGF0ZS12YWx1ZXtmb250LXdlaWdodDo3NTA7Zm9udC1zaXplOjE2cHg7bWFyZ2luLXRvcDoycHh9LnN0YXRlLXZhbHVlLm9re2NvbG9yOnZhcigtLWdyZWVuKX0uc3RhdGUtdmFsdWUud2Fybntjb2xvcjp2YXIoLS1hbWJlcil9LnN0YXRlLXZhbHVlLnVua25vd257Y29sb3I6dmFyKC0tcmVkKX0KLmNvbnRyb2xze21hcmdpbi10b3A6MTRweH0uY29udHJvbHMgYnV0dG9ue2N1cnNvcjpwb2ludGVyO2NvbG9yOnZhcigtLWluayk7YmFja2dyb3VuZDojMTIyYjQ1O2JvcmRlcjoxcHggc29saWQgIzM2NTg3ODtib3JkZXItcmFkaXVzOjlweDtwYWRkaW5nOjdweCAxMHB4fS5jb250cm9scyBidXR0b246aG92ZXIsLmNvbnRyb2xzIGJ1dHRvbjpmb2N1cy12aXNpYmxle2JvcmRlci1jb2xvcjp2YXIoLS1jeWFuKTtvdXRsaW5lOm5vbmV9LmNvbnRyb2xzIHNlbGVjdHtjb2xvcjp2YXIoLS1pbmspO2JhY2tncm91bmQ6IzBjMWMyZjtib3JkZXI6MXB4IHNvbGlkICMzNjU4Nzg7Ym9yZGVyLXJhZGl1czo5cHg7cGFkZGluZzo3cHh9Ci5wcm9ncmVzc3toZWlnaHQ6NnB4O2JhY2tncm91bmQ6IzA3MTIxZjtib3JkZXItcmFkaXVzOjk5cHg7bWFyZ2luOjE0cHggMCA4cHg7b3ZlcmZsb3c6aGlkZGVufS5wcm9ncmVzcz5pe2Rpc3BsYXk6YmxvY2s7aGVpZ2h0OjEwMCU7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoOTBkZWcsdmFyKC0tY3lhbiksdmFyKC0tZ3JlZW4pKTt3aWR0aDowO3RyYW5zaXRpb246d2lkdGggLjNzfQouc3RlcC1jb3VudGVye2NvbG9yOnZhcigtLW11dGVkKTtmb250LXNpemU6MTJweH0KLmV4cGxhaW57bWluLWhlaWdodDoxMTZweH0uc3RlcC10aXRsZXtmb250LXNpemU6MjBweDtmb250LXdlaWdodDo4MDA7bWFyZ2luLWJvdHRvbTo0cHh9LnN0ZXAtYm9keXtjb2xvcjojZDFlMWYxfS5ldmlkZW5jZXtkaXNwbGF5OmlubGluZS1ibG9jazttYXJnaW4tdG9wOjhweDtib3JkZXItcmFkaXVzOjhweDtwYWRkaW5nOjNweCA4cHg7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO2JhY2tncm91bmQ6IzEyMzQ0YTtjb2xvcjp2YXIoLS1jeWFuKX0KLmZsb3d7ZGlzcGxheTpncmlkO2dhcDo3cHg7bWFyZ2luLXRvcDoxNHB4fS5ub2Rle3Bvc2l0aW9uOnJlbGF0aXZlO2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7Ym9yZGVyLXJhZGl1czoxMXB4O3BhZGRpbmc6OXB4IDExcHg7YmFja2dyb3VuZDojMGExNzI3O2NvbG9yOiNhZWJmZDE7dHJhbnNpdGlvbjouMjVzfS5ub2RlOmFmdGVye2NvbnRlbnQ6IuKGkyI7cG9zaXRpb246YWJzb2x1dGU7bGVmdDo1MCU7Ym90dG9tOi0xOHB4O2NvbG9yOiM1Zjc4OTE7ei1pbmRleDoyfS5ub2RlOmxhc3QtY2hpbGQ6YWZ0ZXJ7ZGlzcGxheTpub25lfS5ub2RlLmFjdGl2ZXtib3JkZXItY29sb3I6dmFyKC0tY3lhbik7YmFja2dyb3VuZDojMTUzYjUyO2NvbG9yOndoaXRlO3RyYW5zZm9ybTp0cmFuc2xhdGVYKDVweCk7Ym94LXNoYWRvdzowIDAgMjJweCByZ2JhKDg4LDIxNiwyNTUsLjEzKX0ubm9kZS5kb25le2JvcmRlci1jb2xvcjojMmU2ZDUzO2NvbG9yOiM5ZmU3YmZ9Lm5vZGUuc2tpcHBlZHtvcGFjaXR5Oi40NDt0ZXh0LWRlY29yYXRpb246bGluZS10aHJvdWdofS5ub2RlIC50YWd7ZmxvYXQ6cmlnaHQ7Zm9udC1zaXplOjEwcHg7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxcHggNnB4O2JhY2tncm91bmQ6IzIwMzg1NDtjb2xvcjojYmJkMmU3fQouY2FsbG91dHtib3JkZXItbGVmdDozcHggc29saWQgdmFyKC0tYW1iZXIpO3BhZGRpbmc6MTBweCAxMnB4O2JhY2tncm91bmQ6IzIxMWUxNjtjb2xvcjojZmZlN2FhO2JvcmRlci1yYWRpdXM6MCAxMHB4IDEwcHggMDttYXJnaW4tdG9wOjEycHh9Ci5ncmlkM3tkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCgzLDFmcik7Z2FwOjEycHh9Lm1ldHJpY3tmb250LXNpemU6MjdweDtmb250LXdlaWdodDo4NTA7Y29sb3I6dmFyKC0tY3lhbil9CnRhYmxle2JvcmRlci1jb2xsYXBzZTpjb2xsYXBzZTt3aWR0aDoxMDAlO2JhY2tncm91bmQ6IzBiMTgyODtib3JkZXItcmFkaXVzOjEycHg7b3ZlcmZsb3c6aGlkZGVufXRoLHRke3BhZGRpbmc6MTBweDtib3JkZXItYm90dG9tOjFweCBzb2xpZCB2YXIoLS1saW5lKTt0ZXh0LWFsaWduOmxlZnQ7dmVydGljYWwtYWxpZ246dG9wfXRoe2NvbG9yOnZhcigtLWFtYmVyKTtiYWNrZ3JvdW5kOiMxNDI5NDF9LmJhZHtjb2xvcjp2YXIoLS1yZWQpfS5nb29ke2NvbG9yOnZhcigtLWdyZWVuKX1jb2Rle2JhY2tncm91bmQ6IzA3MTMxZjtjb2xvcjojYWVlZWZmO2JvcmRlci1yYWRpdXM6NXB4O3BhZGRpbmc6MXB4IDRweH0KLmRpZmZpY3VsdHktbWFwe2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIGF1dG8gMWZyIGF1dG8gMWZyO2dhcDo4cHg7YWxpZ24taXRlbXM6c3RyZXRjaH0uZG17Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTtib3JkZXItcmFkaXVzOjEycHg7cGFkZGluZzoxM3B4O2JhY2tncm91bmQ6IzBiMTgyOH0uYXJyb3d7YWxpZ24tc2VsZjpjZW50ZXI7Y29sb3I6dmFyKC0tY3lhbik7Zm9udC1zaXplOjI0cHh9LnVua25vd24tcGFuZWx7Ym9yZGVyLWNvbG9yOiM3MDQ2NTN9LnVua25vd24tcGFuZWwgaDN7Y29sb3I6I2ZmOWNhYX0KLmZvb3R7bWFyZ2luOjM0cHggMCA4cHg7Y29sb3I6dmFyKC0tbXV0ZWQpO2ZvbnQtc2l6ZToxMnB4fQoucGxheS1sYWJ7ZGlzcGxheTpncmlkO2dyaWQtdGVtcGxhdGUtY29sdW1uczptaW5tYXgoMzkwcHgsLjlmcikgbWlubWF4KDMzMHB4LDEuMWZyKTtnYXA6MTZweDthbGlnbi1pdGVtczpzdHJldGNoO21hcmdpbjoxOHB4IDAgMjZweH0KLnBsYXktc3RhZ2V7cG9zaXRpb246cmVsYXRpdmU7bWluLWhlaWdodDo1OTBweDtvdmVyZmxvdzpoaWRkZW47YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoMTQ1ZGVnLCMwYjFjMmUsIzEwMjk0NCA2MiUsIzBhMTcyNyl9Ci5wbGF5LXN0YWdlOmJlZm9yZXtjb250ZW50OiIiO3Bvc2l0aW9uOmFic29sdXRlO3dpZHRoOjI4MHB4O2hlaWdodDoyODBweDtib3JkZXI6MXB4IHNvbGlkIHJnYmEoODgsMjE2LDI1NSwuMTMpO2JvcmRlci1yYWRpdXM6NTAlO3JpZ2h0Oi0xMTBweDt0b3A6LTEzMHB4O2JveC1zaGFkb3c6MCAwIDAgMzVweCByZ2JhKDg4LDIxNiwyNTUsLjAyNSksMCAwIDAgNzBweCByZ2JhKDg4LDIxNiwyNTUsLjAxOCl9Ci5wbGF5LWhlYWR7cG9zaXRpb246cmVsYXRpdmU7ZGlzcGxheTpmbGV4O2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO2FsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7Z2FwOjEycHg7bWFyZ2luLWJvdHRvbToxMnB4fS5wbGF5LWtpY2tlcntmb250OjcwMCAxMXB4LzEuMiBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2U7bGV0dGVyLXNwYWNpbmc6LjEyZW07Y29sb3I6dmFyKC0tY3lhbik7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlfS5wbGF5LXRpdGxle2ZvbnQtc2l6ZToyMnB4O2ZvbnQtd2VpZ2h0Ojg1MDttYXJnaW4tdG9wOjNweH0ucGxheS10dXJue2ZvbnQ6ODAwIDEycHgvMSBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2U7Y29sb3I6dmFyKC0tYW1iZXIpO2JvcmRlcjoxcHggc29saWQgIzY2NTcyZTtiYWNrZ3JvdW5kOiMyMTFmMTY7cGFkZGluZzo4cHggMTBweDtib3JkZXItcmFkaXVzOjEwcHg7d2hpdGUtc3BhY2U6bm93cmFwfQoucGxheS1ib2FyZC1zaGVsbHtwb3NpdGlvbjpyZWxhdGl2ZTt3aWR0aDptYXgtY29udGVudDttYXJnaW46MThweCBhdXRvIDEycHg7cGFkZGluZzoxMHB4O2JvcmRlcjoxcHggc29saWQgIzNkNjM4Mztib3JkZXItcmFkaXVzOjIwcHg7YmFja2dyb3VuZDojMDYxMDFjO2JveC1zaGFkb3c6aW5zZXQgMCAwIDQwcHggcmdiYSgwLDAsMCwuNjUpLDAgMjBweCA0NXB4IHJnYmEoMCwwLDAsLjI1KX0KLnBsYXktcXVldWUtY2FwdGlvbntkaXNwbGF5OmZsZXg7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47YWxpZ24taXRlbXM6Y2VudGVyO2dhcDoxMHB4O21hcmdpbjowIDJweCA3cHg7Zm9udDo3MDAgMTBweC8xLjM1IFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZTtjb2xvcjojOGZiM2NmO2xldHRlci1zcGFjaW5nOi4wNGVtfS5wbGF5LXF1ZXVlLWNhcHRpb24gc3Ryb25ne2NvbG9yOnZhcigtLWFtYmVyKX0KLnBsYXktcXVldWUtdmlzdWFse2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDYsdmFyKC0tY2VsbCkpO2dhcDp2YXIoLS1nYXApO21hcmdpbi1ib3R0b206N3B4fQoucHEtbGFuZXtwb3NpdGlvbjpyZWxhdGl2ZTt3aWR0aDp2YXIoLS1jZWxsKTtoZWlnaHQ6MTEycHg7Ym9yZGVyOjFweCBkYXNoZWQgIzNmNjE3ZTtib3JkZXItcmFkaXVzOjExcHggMTFweCA1cHggNXB4O2JhY2tncm91bmQ6IzA5MTgyNztkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6ZmxleC1lbmQ7cGFkZGluZzoxOXB4IDRweCA5cHg7b3ZlcmZsb3c6aGlkZGVuO3RyYW5zaXRpb246b3BhY2l0eSAuMnMsYm9yZGVyLWNvbG9yIC4yc30ucHEtbGFuZTphZnRlcntjb250ZW50OiLihpMiO3Bvc2l0aW9uOmFic29sdXRlO2JvdHRvbTotMXB4O2NvbG9yOnZhcigtLWN5YW4pO2ZvbnQ6ODAwIDEycHgvMSBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2V9LnBxLWxhbmUuYnlwYXNzZWR7b3BhY2l0eTouMzg7Ym9yZGVyLWNvbG9yOiM3MzUwNWF9LnBxLWxhbmUuYnlwYXNzZWQ6YmVmb3Jle2NvbnRlbnQ6IkJZUEFTUyI7cG9zaXRpb246YWJzb2x1dGU7aW5zZXQ6YXV0byAycHggNDNweDt6LWluZGV4OjM7dHJhbnNmb3JtOnJvdGF0ZSgtMThkZWcpO2NvbG9yOiNmZjlkYWM7YmFja2dyb3VuZDojMzIxYTIzO2JvcmRlcjoxcHggc29saWQgIzgxNDQ1NDtib3JkZXItcmFkaXVzOjRweDt0ZXh0LWFsaWduOmNlbnRlcjtmb250OjgwMCA4cHgvMS41IFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZX0KLnBxLWxhYmVse3Bvc2l0aW9uOmFic29sdXRlO3RvcDo0cHg7bGVmdDowO3JpZ2h0OjA7dGV4dC1hbGlnbjpjZW50ZXI7Y29sb3I6IzcxOTRiMjtmb250OjgwMCA5cHgvMSBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2V9LnBxLXN0YWNre2Rpc3BsYXk6ZmxleDtmbGV4LWRpcmVjdGlvbjpjb2x1bW47YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpmbGV4LWVuZDtnYXA6MnB4fS5wcS10b2tlbntwb3NpdGlvbjpyZWxhdGl2ZTt3aWR0aDoyOXB4O2hlaWdodDoyM3B4O2JvcmRlci1yYWRpdXM6N3B4O2Rpc3BsYXk6Z3JpZDtwbGFjZS1pdGVtczpjZW50ZXI7Y29sb3I6IzA3MTExZjtmb250OjkwMCAxMXB4LzEgU0ZNb25vLVJlZ3VsYXIsTWVubG8sbW9ub3NwYWNlO2JveC1zaGFkb3c6aW5zZXQgMCAtNHB4IDAgcmdiYSgwLDAsMCwuMTYpLDAgMnB4IDdweCByZ2JhKDAsMCwwLC4zNCl9LnBxLXRva2VuLm5leHR7b3V0bGluZToycHggc29saWQgdmFyKC0tYW1iZXIpO3otaW5kZXg6Mn0ucHEtdG9rZW4ubmV4dDpiZWZvcmV7Y29udGVudDoiREVNTyI7cG9zaXRpb246YWJzb2x1dGU7cmlnaHQ6MzFweDtjb2xvcjp2YXIoLS1hbWJlcik7Zm9udDo4MDAgN3B4LzEgU0ZNb25vLVJlZ3VsYXIsTWVubG8sbW9ub3NwYWNlfS5wcS1tb3Jle3Bvc2l0aW9uOmFic29sdXRlO3JpZ2h0OjNweDt0b3A6MjFweDtjb2xvcjojNzU5NGFlO2ZvbnQ6NzAwIDhweC8xIFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZX0ucHEtZW1wdHl7Y29sb3I6IzY2ODQ5Zjtmb250OjgwMCA5cHgvMSBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2U7bWFyZ2luLWJvdHRvbToyOXB4fQoucXVldWUtcnVsZXtkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW50ZXI7Z2FwOjdweDttYXJnaW46MCAycHggOHB4O3BhZGRpbmc6NXB4IDhweDtib3JkZXI6MXB4IHNvbGlkICMyOTQ0NWY7Ym9yZGVyLXJhZGl1czo4cHg7YmFja2dyb3VuZDojMGIxZDJmO2NvbG9yOiNiY2QyZTU7Zm9udC1zaXplOjExcHh9LnF1ZXVlLXJ1bGUgYntjb2xvcjp2YXIoLS1hbWJlcil9Ci5wbGF5LWJvYXJke2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDYsdmFyKC0tY2VsbCkpO2dyaWQtdGVtcGxhdGUtcm93czpyZXBlYXQoNix2YXIoLS1jZWxsKSk7Z2FwOnZhcigtLWdhcCk7dG91Y2gtYWN0aW9uOm5vbmU7dXNlci1zZWxlY3Q6bm9uZX0KLnBsYXktY2VsbHtwb3NpdGlvbjpyZWxhdGl2ZTt3aWR0aDp2YXIoLS1jZWxsKTtoZWlnaHQ6dmFyKC0tY2VsbCk7ZGlzcGxheTpncmlkO3BsYWNlLWl0ZW1zOmNlbnRlcjtib3JkZXItcmFkaXVzOjEzcHg7YmFja2dyb3VuZDojMTIyODNkO2N1cnNvcjpwb2ludGVyO291dGxpbmU6bm9uZTt0cmFuc2l0aW9uOmJhY2tncm91bmQgLjE4cyxib3gtc2hhZG93IC4xOHN9Ci5wbGF5LWNlbGw6aG92ZXIsLnBsYXktY2VsbDpmb2N1cy12aXNpYmxle2JhY2tncm91bmQ6IzE5MzY0ZTtib3gtc2hhZG93Omluc2V0IDAgMCAwIDFweCAjNTA4MmE2fS5wbGF5LWNlbGwuc2VsZWN0ZWR7Ym94LXNoYWRvdzppbnNldCAwIDAgMCAzcHggdmFyKC0tY3lhbiksMCAwIDIwcHggcmdiYSg4OCwyMTYsMjU1LC4yNSl9LnBsYXktY2VsbC5oaW50e2FuaW1hdGlvbjpoaW50UHVsc2UgLjc1cyBpbmZpbml0ZSBhbHRlcm5hdGV9LnBsYXktY2VsbC5tYXRjaGVke2JhY2tncm91bmQ6IzQ5MzgyOTtib3gtc2hhZG93Omluc2V0IDAgMCAwIDJweCB2YXIoLS1hbWJlcil9Ci5wbGF5LXBpZWNle3dpZHRoOjc4JTtoZWlnaHQ6NzglO2Rpc3BsYXk6Z3JpZDtwbGFjZS1pdGVtczpjZW50ZXI7Ym9yZGVyLXJhZGl1czoxN3B4O2NvbG9yOiMwNzExMWY7Zm9udDo5MDAgMTlweC8xIFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZTtib3gtc2hhZG93Omluc2V0IDAgLTdweCAwIHJnYmEoMCwwLDAsLjE3KSxpbnNldCAwIDJweCAwIHJnYmEoMjU1LDI1NSwyNTUsLjMpLDAgN3B4IDE0cHggcmdiYSgwLDAsMCwuMyk7d2lsbC1jaGFuZ2U6dHJhbnNmb3JtLG9wYWNpdHl9LnBsYXktcGllY2UuZHJvcHthbmltYXRpb246ZHJvcEluIC4zOHMgY3ViaWMtYmV6aWVyKC4yLC44LC4yLDEpfS5wbGF5LXBpZWNlLnNwYXdue2FuaW1hdGlvbjpzcGF3bkluIC40MnMgY3ViaWMtYmV6aWVyKC4yLC45LC4yLDEpfS5wbGF5LXBpZWNlLnF1ZXVlLXNwYXdue2FuaW1hdGlvbjpxdWV1ZURyb3AgLjU4cyBjdWJpYy1iZXppZXIoLjEyLC44MiwuMTgsMSl9CkBrZXlmcmFtZXMgaGludFB1bHNle3Rve2JveC1zaGFkb3c6aW5zZXQgMCAwIDAgM3B4IHZhcigtLWFtYmVyKSwwIDAgMjRweCByZ2JhKDI1NSwyMTEsMTA4LC4zOCl9fUBrZXlmcmFtZXMgZHJvcElue2Zyb217dHJhbnNmb3JtOnRyYW5zbGF0ZVkoLTM0cHgpO29wYWNpdHk6LjI1fXRve3RyYW5zZm9ybTpub25lO29wYWNpdHk6MX19QGtleWZyYW1lcyBzcGF3bklue2Zyb217dHJhbnNmb3JtOnRyYW5zbGF0ZVkoLTYycHgpIHNjYWxlKC43Mik7b3BhY2l0eTowfXRve3RyYW5zZm9ybTpub25lO29wYWNpdHk6MX19QGtleWZyYW1lcyBxdWV1ZURyb3B7MCV7dHJhbnNmb3JtOnRyYW5zbGF0ZVkoLTE1MHB4KSBzY2FsZSguNjIpO29wYWNpdHk6LjJ9NDUle29wYWNpdHk6MX04MiV7dHJhbnNmb3JtOnRyYW5zbGF0ZVkoNXB4KSBzY2FsZSgxLjA0KX0xMDAle3RyYW5zZm9ybTpub25lO29wYWNpdHk6MX19Ci5wbGF5LWluc3RydWN0aW9ue3Bvc2l0aW9uOnJlbGF0aXZlO2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47Z2FwOjEwcHg7bWFyZ2luOjEycHggMDtwYWRkaW5nOjEwcHggMTJweDtib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpO2JvcmRlci1yYWRpdXM6MTJweDtiYWNrZ3JvdW5kOiMwODE2MjR9LnBsYXktaW5zdHJ1Y3Rpb24gc3Ryb25ne2NvbG9yOnZhcigtLWFtYmVyKX0KLnBsYXktY29udHJvbHN7cG9zaXRpb246cmVsYXRpdmU7ZGlzcGxheTpmbGV4O2dhcDo4cHg7ZmxleC13cmFwOndyYXB9LnBsYXktY29udHJvbHMgYnV0dG9uLC5tb2RlLWJ0bntjdXJzb3I6cG9pbnRlcjtjb2xvcjp2YXIoLS1pbmspO2JhY2tncm91bmQ6IzExMjk0Mjtib3JkZXI6MXB4IHNvbGlkICMzYjVkN2M7Ym9yZGVyLXJhZGl1czo5cHg7cGFkZGluZzo4cHggMTFweH0ucGxheS1jb250cm9scyBidXR0b246aG92ZXIsLnBsYXktY29udHJvbHMgYnV0dG9uOmZvY3VzLXZpc2libGUsLm1vZGUtYnRuOmhvdmVyLC5tb2RlLWJ0bjpmb2N1cy12aXNpYmxle291dGxpbmU6bm9uZTtib3JkZXItY29sb3I6dmFyKC0tY3lhbil9Lm1vZGUtYnRuLmFjdGl2ZXtib3JkZXItY29sb3I6dmFyKC0tZ3JlZW4pO2JhY2tncm91bmQ6IzEyM2EzMztjb2xvcjojYmRmZmRifQoucGxheS1zdGF0dXN7cG9zaXRpb246cmVsYXRpdmU7bWFyZ2luLXRvcDoxMXB4O21pbi1oZWlnaHQ6NDhweDtwYWRkaW5nOjEwcHggMTJweDtib3JkZXItbGVmdDozcHggc29saWQgdmFyKC0tY3lhbik7YmFja2dyb3VuZDojMDkxODI3O2NvbG9yOiNkNmU5ZmF9LnBsYXktc3RhdHVzLnN1Y2Nlc3N7Ym9yZGVyLWNvbG9yOnZhcigtLWdyZWVuKX0ucGxheS1zdGF0dXMuaW52YWxpZHtib3JkZXItY29sb3I6dmFyKC0tcmVkKX0KLmxlZGdlcnttaW4taGVpZ2h0OjU5MHB4fS5sZWRnZXItaGVhZHtkaXNwbGF5OmZsZXg7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47Z2FwOjEwcHg7YWxpZ24taXRlbXM6ZmxleC1zdGFydDtwYWRkaW5nLWJvdHRvbToxMnB4O2JvcmRlci1ib3R0b206MXB4IHNvbGlkIHZhcigtLWxpbmUpfS5sZWRnZXItaGVhZCBjb2Rle2ZvbnQ6NzAwIDEycHgvMS40IFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZX0ubGVkZ2VyLWxpc3R7bGlzdC1zdHlsZTpub25lO3BhZGRpbmc6MDttYXJnaW46MTJweCAwO2Rpc3BsYXk6Z3JpZDtnYXA6OHB4fS5sZWRnZXItcm93e2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6NTRweCAxZnIgYXV0bztnYXA6OXB4O2FsaWduLWl0ZW1zOnN0YXJ0O3BhZGRpbmc6OXB4IDEwcHg7Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTtib3JkZXItcmFkaXVzOjEwcHg7YmFja2dyb3VuZDojMDkxNzI3fS5sZWRnZXItdGltZXtmb250OjcwMCAxMHB4LzEuNSBTRk1vbm8tUmVndWxhcixNZW5sbyxtb25vc3BhY2U7Y29sb3I6IzZmOGNhOH0ubGVkZ2VyLXJvdyBie2Rpc3BsYXk6YmxvY2s7Zm9udC1zaXplOjEzcHh9LmxlZGdlci1yb3cgcHtmb250LXNpemU6MTJweDtjb2xvcjp2YXIoLS1tdXRlZCk7bWFyZ2luOjJweCAwIDB9LmxlZGdlci1zb3VyY2V7Zm9udDo4MDAgMTBweC8xIFNGTW9uby1SZWd1bGFyLE1lbmxvLG1vbm9zcGFjZTtib3JkZXItcmFkaXVzOjdweDtwYWRkaW5nOjRweCA2cHg7Y29sb3I6dmFyKC0tY3lhbik7YmFja2dyb3VuZDojMTAzMTQ4fS5sZWRnZXItc291cmNlLnF1ZXVle2NvbG9yOnZhcigtLWdyZWVuKTtiYWNrZ3JvdW5kOiMxMjNhMzB9LmxlZGdlci1zb3VyY2UucmFuZG9te2NvbG9yOnZhcigtLWFtYmVyKTtiYWNrZ3JvdW5kOiMzYTMwMTR9LmxlZGdlci1zb3VyY2UuaW52YWxpZHtjb2xvcjojZmY5ZGFjO2JhY2tncm91bmQ6IzNiMWIyNH0KLnNvdXJjZS1zdHJpcHtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmciAxZnI7Z2FwOjhweDttYXJnaW4tdG9wOjEycHh9LnNvdXJjZS1ib3h7Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTtib3JkZXItcmFkaXVzOjExcHg7cGFkZGluZzoxMHB4O2JhY2tncm91bmQ6IzBhMTcyN30uc291cmNlLWJveCBie2Rpc3BsYXk6YmxvY2s7Zm9udDo3NTAgMTFweC8xLjQgU0ZNb25vLVJlZ3VsYXIsTWVubG8sbW9ub3NwYWNlO2NvbG9yOnZhcigtLWN5YW4pfS5zb3VyY2UtYm94IHNwYW57Zm9udC1zaXplOjEycHg7Y29sb3I6dmFyKC0tbXV0ZWQpfQpAbWVkaWEobWF4LXdpZHRoOjkwMHB4KXsuYXBwe2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9LnNjZW5le2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9LnNpZGUtc3RhdGV7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCgyLDFmcil9LmdyaWQze2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9LmRpZmZpY3VsdHktbWFwe2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9LmFycm93e3RyYW5zZm9ybTpyb3RhdGUoOTBkZWcpO2p1c3RpZnktc2VsZjpjZW50ZXJ9LnNjZW5le21pbi1oZWlnaHQ6YXV0b319CkBtZWRpYShtYXgtd2lkdGg6OTAwcHgpey5wbGF5LWxhYntncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyfS5wbGF5LXN0YWdlLC5sZWRnZXJ7bWluLWhlaWdodDphdXRvfX0KQG1lZGlhKG1heC13aWR0aDo1NjBweCl7bWFpbntwYWRkaW5nOjE0cHh9LmNhcmR7cGFkZGluZzoxMnB4fS5zaWRlLXN0YXRle2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9LmJvYXJkLXdyYXB7bWF4LXdpZHRoOjEwMCU7b3ZlcmZsb3cteDphdXRvO2p1c3RpZnktc2VsZjpzdHJldGNofS5ib2FyZCwucXVldWV7d2lkdGg6bWF4LWNvbnRlbnR9LnF1ZXVle3JpZ2h0OmF1dG99LmNvbnRyb2xzIGJ1dHRvbntmbGV4OjF9LnBpZWNle2JvcmRlci1yYWRpdXM6MTJweH0ucGxheS1ib2FyZC1zaGVsbHttYXgtd2lkdGg6MTAwJTtvdmVyZmxvdzphdXRvfS5wbGF5LWhlYWR7YWxpZ24taXRlbXM6Y2VudGVyfS5wbGF5LXRpdGxle2ZvbnQtc2l6ZToxOXB4fS5zb3VyY2Utc3RyaXB7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmcn0ubGVkZ2VyLXJvd3tncmlkLXRlbXBsYXRlLWNvbHVtbnM6NDRweCAxZnJ9LmxlZGdlci1zb3VyY2V7Z3JpZC1jb2x1bW46MjtqdXN0aWZ5LXNlbGY6c3RhcnR9fQpAbWVkaWEocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjpyZWR1Y2Upeyp7YW5pbWF0aW9uOm5vbmUhaW1wb3J0YW50O3RyYW5zaXRpb246bm9uZSFpbXBvcnRhbnQ7c2Nyb2xsLWJlaGF2aW9yOmF1dG8haW1wb3J0YW50fX0KPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KPG1haW4+CiAgPGgxPuS6pOaNouKGkua2iOmZpOKGkuS4i+iQveKGkuihpeajizwvaDE+CiAgPHAgY2xhc3M9ImxlYWQiPui/memHjOWPquS/neeVmeS4u+aKpeWRiuaWh+Wtl+aXoOazleabv+S7o+eahOmDqOWIhu+8muS6suaJi+S6pOaNouS4pOmil+aji++8jOeci+a2iOmZpOOAgemHjeWKm+S4i+iQveWSjOaMieWIl+ihpeaji+OAgjwvcD4KICA8ZGl2IGNsYXNzPSJub3RpY2UiPjxzdHJvbmc+6K+B5o2u6L6555WM77yaPC9zdHJvbmc+6aKE5a6a6Zif5YiX5pWw5a2X5Y+W6IeqIEwxIOWMheS9k+aVsOaNru+8jOS9huWOn+WFs+aYryA5IOWIl++8jOacrOWKqOeUu+S4uuS6huWPr+eOqeaAp+WPquWxleekuiBYMOKAk1g1IOWFreWIl++8jOaji+ebmOW4g+WxgOS5n+S4jeaYr+WOn+S9nOWvueWxgOWbnuaUvuOAgumYn+WIl+iAl+WwveWQjueahOminOiJsueUseaVmeWtpiBSTkcg5aGr5YWF77yMPHN0cm9uZz7kuI3mmK88L3N0cm9uZz7ljIXkvZMgPGNvZGU+U3lzdGVtLlJhbmRvbTwvY29kZT4g57uT5p6c77yb55yf5a6eIEwxNDUxIOS4pOasoSA8Y29kZT5EaWZmaWN1bHR5TmV4dDwvY29kZT4g6KeB5Li75oql5ZGK44CCPC9kaXY+CiAgPGRpdiBjbGFzcz0ibGVnZW5kIiBhcmlhLWxhYmVsPSLor4Hmja7lm77kvosiIGhpZGRlbj4KICAgIDxzcGFuIGNsYXNzPSJjaGlwIGUxIj48aSBjbGFzcz0iZG90Ij48L2k+RTEg6Z2Z5oCBL+WOn+Wni+aXpeW/l+ebtOaOpeS6i+Wunjwvc3Bhbj4KICAgIDxzcGFuIGNsYXNzPSJjaGlwIGUyIj48aSBjbGFzcz0iZG90Ij48L2k+RTIg6YeN5aSN6L+Q6KGM5pe26KeC5rWLPC9zcGFuPgogICAgPHNwYW4gY2xhc3M9ImNoaXAgZCI+PGkgY2xhc3M9ImRvdCI+PC9pPkQg6Kej6YeKPC9zcGFuPgogICAgPHNwYW4gY2xhc3M9ImNoaXAgaCI+PGkgY2xhc3M9ImRvdCI+PC9pPkgg5bCa5pyq6K+B5piOPC9zcGFuPgogIDwvZGl2PgoKICA8aDI+5YWI5Lqy5omL5Lqk5o2i5LiA5qyhPC9oMj4KICA8cCBjbGFzcz0ibGVhZCI+54K55Ye75Lik6aKX55u46YK75qOL5a2Q77yM5oiW55u05o6l5Zyo5qOL5a2Q5LiK5ruR5Yqo44CC5peg5pWI5Lqk5o2i5Lya5YWI5o2i5L2N5YaN5by55Zue77yb5pyJ5pWI5Lqk5o2i5Lya55yf5q2j5pS55Y+Y5qOL55uY5pWw5o2u77yM6ZqP5ZCO5omn6KGM5raI6Zmk44CB5LiL6JC944CB6KGl5qOL5ZKM6L+e6ZSB44CCPC9wPgogIDxzZWN0aW9uIGlkPSJzd2FwLWxhYiIgY2xhc3M9InBsYXktbGFiIiBhcmlhLWxhYmVsPSLlj6/njqnkuqTmjaLlrp7pqowiPgogICAgPGRpdiBjbGFzcz0iY2FyZCBwbGF5LXN0YWdlIj4KICAgICAgPGRpdiBjbGFzcz0icGxheS1oZWFkIj4KICAgICAgICA8ZGl2PjxkaXYgY2xhc3M9InBsYXkta2lja2VyIj5pbnRlcmFjdGl2ZSBzd2FwIGxhYjwvZGl2PjxkaXYgY2xhc3M9InBsYXktdGl0bGUiPuS6pOaNouKGkuWIpOWumuKGkua2iOmZpOKGkuihpeajizwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgaWQ9InBsYXlUdXJuIiBjbGFzcz0icGxheS10dXJuIj5NT1ZFIDAxPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJwbGF5LWluc3RydWN0aW9uIj48c3BhbiBpZD0icGxheUluc3RydWN0aW9uIj48c3Ryb25nPuivleS4gOatpe+8mjwvc3Ryb25nPueCueWHu+S4pOmil+ebuOmCu+aji+WtkDwvc3Bhbj48c3BhbiBjbGFzcz0ic21hbGwiPuaUr+aMgeeCueWHuyAvIOa7keWKqDwvc3Bhbj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0icGxheS1ib2FyZC1zaGVsbCI+CiAgICAgICAgPGRpdiBjbGFzcz0icGxheS1xdWV1ZS1jYXB0aW9uIj48c3Bhbj5MRVZFTCAxIOino+eggeiusOW9lSDCtyA5IOWIl+S4reijgeWJqiBYMOKAk1g1PC9zcGFuPjxzcGFuPjxzdHJvbmc+REVNTyBORVhUPC9zdHJvbmc+IOaVmeWtpumYn+mmljwvc3Bhbj48L2Rpdj4KICAgICAgICA8ZGl2IGlkPSJwbGF5UXVldWVWaXN1YWwiIGNsYXNzPSJwbGF5LXF1ZXVlLXZpc3VhbCIgYXJpYS1sYWJlbD0iWDAg5YiwIFg1IOWFreadoemihOWumuS5ieWIl+mYn+WIlyI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0icXVldWUtcnVsZSI+PGI+5YiX5LiO5YiX5LiN5re355So77yaPC9iPlgyIOmYn+WIl+WPquWhqyBYMiDliJfvvJtMMTQ1MSDlt7Llrp7mnLrpqozor4HphY3nva7liJfooajpobrluo/lh7rpmJ88L2Rpdj4KICAgICAgICA8ZGl2IGlkPSJwbGF5Qm9hcmQiIGNsYXNzPSJwbGF5LWJvYXJkIiByb2xlPSJncmlkIiBhcmlhLWxhYmVsPSLlj6/kuqTkupLnmoQgNiDkuZggNiDkuInmtojmo4vnm5giPjwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0icGxheS1jb250cm9scyI+CiAgICAgICAgPGJ1dHRvbiBpZD0icGxheUhpbnQiIHR5cGU9ImJ1dHRvbiI+5o+Q56S65Y+v5raI5LiA5q2lPC9idXR0b24+CiAgICAgICAgPGJ1dHRvbiBpZD0icGxheVJlc2V0IiB0eXBlPSJidXR0b24iPumHjee9ruaji+ebmDwvYnV0dG9uPgogICAgICAgIDxidXR0b24gY2xhc3M9Im1vZGUtYnRuIGFjdGl2ZSIgZGF0YS1maWxsLW1vZGU9InF1ZXVlIiB0eXBlPSJidXR0b24iPumihOWumuS5ieihpeajizwvYnV0dG9uPgogICAgICAgIDxidXR0b24gY2xhc3M9Im1vZGUtYnRuIiBkYXRhLWZpbGwtbW9kZT0icmFuZG9tIiB0eXBlPSJidXR0b24iPuaVmeWtpuWbnumAgO+8iOmdnuWunuacuuminOiJsu+8iTwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBpZD0icGxheVN0YXR1cyIgY2xhc3M9InBsYXktc3RhdHVzIiBhcmlhLWxpdmU9InBvbGl0ZSI+5qOL55uY5bey5bCx57uq44CC5aaC5p6c5LiN56Gu5a6a5Lqk5o2i5ZOq6YeM77yM54K544CM5o+Q56S65Y+v5raI5LiA5q2l44CN44CCCiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8YXNpZGUgY2xhc3M9ImNhcmQgbGVkZ2VyIiBhcmlhLWxhYmVsPSLlrp7ml7bkuovku7botKbmnKwiPgogICAgICA8ZGl2IGNsYXNzPSJsZWRnZXItaGVhZCI+PGRpdj48ZGl2IGNsYXNzPSJwbGF5LWtpY2tlciI+cnVudGltZSB0ZWFjaGluZyBsZWRnZXI8L2Rpdj48ZGl2IGNsYXNzPSJwbGF5LXRpdGxlIj7ov5nkuIDmraXnnJ/mraPlj5HnlJ/kuobku4DkuYg8L2Rpdj48L2Rpdj48Y29kZSBpZD0icGxheVBoYXNlIj5SRUFEWTwvY29kZT48L2Rpdj4KICAgICAgPG9sIGlkPSJwbGF5TGVkZ2VyIiBjbGFzcz0ibGVkZ2VyLWxpc3QiPjwvb2w+CiAgICAgIDxkaXYgY2xhc3M9InNvdXJjZS1zdHJpcCI+CiAgICAgICAgPGRpdiBjbGFzcz0ic291cmNlLWJveCI+PGI+UFJFREVGSU5FRCBRVUVVRTwvYj48c3BhbiBpZD0icGxheVF1ZXVlU3RhdGUiPkwxIOijgeWJqumYn+WIlzwvc3Bhbj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJzb3VyY2UtYm94Ij48Yj5ERU1PIEZBTExCQUNLPC9iPjxzcGFuIGlkPSJwbGF5Um5nU3RhdGUiPuacrOi9riAwIOmilzwvc3Bhbj48L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImNhbGxvdXQiPuS6pOaNouOAgeS4iei/nuOAgemHjeWKm+WSjOaMieWIl+WHuumYn+aYr+WPr+aJp+ihjOaooeWei+OAgkwxIOmYn+WIl+WAvOadpeiHquino+WMhe+8m+aji+ebmOW4g+WxgOS4jumYn+WIl+iAl+WwveWQjueahOminOiJsuWPqueUqOS6juaVmeWtpu+8jOS4jeS9nOS4uuWunuacuuivgeaNruOAgjwvZGl2PgogICAgPC9hc2lkZT4KICA8L3NlY3Rpb24+CgogIDxkaXYgaGlkZGVuIGFyaWEtaGlkZGVuPSJ0cnVlIj4KICA8c2VjdGlvbiBjbGFzcz0iYXBwIiBhcmlhLWxhYmVsPSLkuqTkupLooaXmo4vliqjnlLsiPgogICAgPGRpdiBjbGFzcz0iY2FyZCI+CiAgICAgIDxkaXYgY2xhc3M9InNjZW5hcmlvLXRhYnMiIHJvbGU9InRhYmxpc3QiIGFyaWEtbGFiZWw9IuWcuuaZr+mAieaLqSI+CiAgICAgICAgPGJ1dHRvbiBjbGFzcz0ic2NlbmFyaW8gYWN0aXZlIiBkYXRhLXNjZW5hcmlvPSJxdWV1ZSIgcm9sZT0idGFiIiBhcmlhLXNlbGVjdGVkPSJ0cnVlIj7lnLrmma8gQe+8mumihOWumuS5iemYn+WIl+aciei0pzwvYnV0dG9uPgogICAgICAgIDxidXR0b24gY2xhc3M9InNjZW5hcmlvIiBkYXRhLXNjZW5hcmlvPSJmYWxsYmFjayIgcm9sZT0idGFiIiBhcmlhLXNlbGVjdGVkPSJmYWxzZSI+5Zy65pmvIELvvJrpmJ/liJfogJflsL3lkI7lm57pgIA8L2J1dHRvbj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNjZW5lIj4KICAgICAgICA8ZGl2IGNsYXNzPSJib2FyZC13cmFwIj4KICAgICAgICAgIDxkaXYgaWQ9InF1ZXVlIiBjbGFzcz0icXVldWUiIGFyaWEtbGFiZWw9Iuavj+WIl+mihOWumuS5iemYn+WIlyI+PC9kaXY+CiAgICAgICAgICA8ZGl2IGlkPSJib2FyZCIgY2xhc3M9ImJvYXJkIiBhcmlhLWxhYmVsPSI2IOS5mCA2IOaVmeWtpuaji+ebmCI+PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ic2lkZS1zdGF0ZSI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJzdGF0ZS1ib3giPjxiPuW9k+WJjeWhq+WFheWIlzwvYj48ZGl2IGlkPSJjb2x1bW5TdGF0ZSIgY2xhc3M9InN0YXRlLXZhbHVlIj5YID0gMjwvZGl2PjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ic3RhdGUtYm94Ij48Yj5Ub3AtYm9hcmQgcm91dGU8L2I+PGRpdiBpZD0idG9wU3RhdGUiIGNsYXNzPSJzdGF0ZS12YWx1ZSB1bmtub3duIj7mvJTnpLrkuK3ml6DmnaXmupA8L2Rpdj48L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InN0YXRlLWJveCI+PGI+UHJlZGVmaW5lZCBxdWV1ZTwvYj48ZGl2IGlkPSJxdWV1ZVN0YXRlIiBjbGFzcz0ic3RhdGUtdmFsdWUgb2siPuaciei0pyBbNCwgMiwgMV08L2Rpdj48L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InN0YXRlLWJveCI+PGI+RGlmZmljdWx0eU5leHQ8L2I+PGRpdiBpZD0icm5nU3RhdGUiIGNsYXNzPSJzdGF0ZS12YWx1ZSI+MCDmrKE8L2Rpdj48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImNvbnRyb2xzIiBhcmlhLWxhYmVsPSLliqjnlLvmjqfliLYiPgogICAgICAgIDxidXR0b24gaWQ9InByZXYiIHRpdGxlPSLkuIrkuIDmraUiPuKGkCDkuIrkuIDmraU8L2J1dHRvbj4KICAgICAgICA8YnV0dG9uIGlkPSJwbGF5Ij7ilrYg5pKt5pS+PC9idXR0b24+CiAgICAgICAgPGJ1dHRvbiBpZD0ibmV4dCIgdGl0bGU9IuS4i+S4gOatpSI+5LiL5LiA5q2lIOKGkjwvYnV0dG9uPgogICAgICAgIDxidXR0b24gaWQ9InJlc2V0Ij7ph43nva48L2J1dHRvbj4KICAgICAgICA8bGFiZWwgY2xhc3M9InNtYWxsIj7pgJ/luqYgPHNlbGVjdCBpZD0ic3BlZWQiPjxvcHRpb24gdmFsdWU9IjE4MDAiPuaFojwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjExMDAiIHNlbGVjdGVkPuato+W4uDwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjY1MCI+5b+rPC9vcHRpb24+PC9zZWxlY3Q+PC9sYWJlbD4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InByb2dyZXNzIiBhcmlhLWhpZGRlbj0idHJ1ZSI+PGkgaWQ9ImJhciI+PC9pPjwvZGl2PgogICAgICA8ZGl2IGlkPSJjb3VudGVyIiBjbGFzcz0ic3RlcC1jb3VudGVyIj48L2Rpdj4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9ImNhcmQiPgogICAgICA8ZGl2IGNsYXNzPSJleHBsYWluIiBhcmlhLWxpdmU9InBvbGl0ZSI+CiAgICAgICAgPGRpdiBpZD0ic3RlcFRpdGxlIiBjbGFzcz0ic3RlcC10aXRsZSI+PC9kaXY+CiAgICAgICAgPGRpdiBpZD0ic3RlcEJvZHkiIGNsYXNzPSJzdGVwLWJvZHkiPjwvZGl2PgogICAgICAgIDxzcGFuIGlkPSJldmlkZW5jZSIgY2xhc3M9ImV2aWRlbmNlIj48L3NwYW4+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGlkPSJmbG93IiBjbGFzcz0iZmxvdyIgYXJpYS1sYWJlbD0i6KGl5qOL5Yaz562W5rWB56iLIj48L2Rpdj4KICAgICAgPGRpdiBpZD0iY2FsbG91dCIgY2xhc3M9ImNhbGxvdXQiPjwvZGl2PgogICAgPC9kaXY+CiAgPC9zZWN0aW9uPgoKICA8aDI+5Lik5Liq5Zy65pmv55qE5pys6LSo5Yy65YirPC9oMj4KICA8ZGl2IGNsYXNzPSJncmlkMyI+CiAgICA8ZGl2IGNsYXNzPSJjYXJkIj48ZGl2IGNsYXNzPSJtZXRyaWMiPjYxIC8gNjY8L2Rpdj48aDM+6aKE5a6a5LmJ6Zif5YiXPC9oMz48cD7pgInlrprmoLfmnKzkuK3vvIw2MSDkuKrmlrDmo4vlrZDnlLHlhbPljaHkvZzogIXpooTlrprkuYnnmoTliJfpmJ/liJfnm7TmjqXlh7rpmJ/jgILov5nph4zmsqHmnInop4LmtYvliLAgPGNvZGU+RGlmZmljdWx0eU5leHQ8L2NvZGU+44CCPC9wPjwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2FyZCI+PGRpdiBjbGFzcz0ibWV0cmljIj41IC8gNjY8L2Rpdj48aDM+TGV2ZWxTZXQg5Zue6YCAPC9oMz48cD7pmJ/liJfnqbrlkI7vvIw1IOS4quagt+acrOi/m+WFpSA8Y29kZT5HZXRSYW5kb21GaWxsSXRlbTwvY29kZT4g5ZKMIDxjb2RlPkxldmVsU2V0LkdldFJhbmRvbUl0ZW08L2NvZGU+44CC6L+Z5LiN5Luj6KGo5YWo5ri45oiP55qE6ZW/5pyf5q+U5L6L44CCPC9wPjwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2FyZCI+PGRpdiBjbGFzcz0ibWV0cmljIj4yIMOXIDUgPSAxMDwvZGl2PjxoMz7pmr7luqbpmo/mnLrmir3moLc8L2gzPjxwPuS4peagvOmZkOWumuWcqCA1IOasoSA8Y29kZT5HZXRSYW5kb21GaWxsSXRlbTwvY29kZT4g6LCD55So5YaF77yM5q+P5qyh6YO95pyJIDIg5qyhIDxjb2RlPkRpZmZpY3VsdHlOZXh0PC9jb2RlPu+8jOaAu+aVsOaYryAxMO+8jOS4jeaYr+WOn+aKpeWRiueahCA444CCPC9wPjwvZGl2PgogIDwvZGl2PgoKICA8aDI+5Yqo5oCB6Zq+5bqm5Yiw5bqV5o+S5Zyo5ZOq6YeM77yfPC9oMj4KICA8ZGl2IGNsYXNzPSJkaWZmaWN1bHR5LW1hcCI+CiAgICA8ZGl2IGNsYXNzPSJkbSI+PGgzPjEuIOWwneivlee0ouW8lTwvaDM+PHA+PGNvZGU+dHJ5Q291bnQ8L2NvZGU+IOaIluWFtuS7luaMgeS5heeKtuaAgeeUqOadpemAieS4gOS4quehruWumuaApyBkaWZmaWN1bHR5IHNlZWTjgILljp/ml6Xlv5fkuK3lh7rnjrDov4flhpnlhaXlh73mlbDvvIzkvYblvZPliY0gc3VtbWFyeSDplJnor6/lnLDlhpnmiJAgMCDmrKHjgII8L3A+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJhcnJvdyI+4oaSPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJkbSI+PGgzPjIuIOeLrOeri+mavuW6piBSTkc8L2gzPjxwPjxjb2RlPmRpZmZpY3VsdHlTZWVkPC9jb2RlPiDliJ3lp4vljJYgPGNvZGU+ZGlmZmljdWx0eVJhbmRvbTwvY29kZT7jgILmjaIgc2VlZCDog73kvb/lkI7nu63mir3moLfluo/liJfmlLnlj5jvvIzkvYbmnKzouqvkuI3or4HmmI7mlrnlkJHkuIDlrprmm7TnroDljZXjgII8L3A+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJhcnJvdyI+4oaSPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJkbSI+PGgzPjMuIOWPquWcqOeJueWumuWIhuaUr+iiq+WSqOivojwvaDM+PHA+6YCJ5a6a5qC35pys5Lit77yM6aKE5a6a5LmJ6Zif5YiX55u05Ye65LiN5p+l5a6D77yb5Zue6YCA5YiwIExldmVsU2V0IOaXtuaJjeeUqOWug+mAiembhuWQiC/pgInmo4vlrZDjgII8L3A+PC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0ibm90aWNlIj48c3Ryb25nPuS4jeiDvei3s+eahOmAu+i+ke+8mjwvc3Ryb25nPuOAjOWQjuS4gOasoeWwneivleS9v+eUqOS6huS4jeWQjCBzZWVk44CNIOKJoCDjgIzns7vnu5/lt7Looqvor4HmmI7kuLrnjqnlrrbmlL7msLTjgI3jgILopoHor4HmmI7lkI7ogIXvvIzlv4XpobvlnKjlj5fmjqfmnaHku7bkuIvmtYvlj6/op6PnjofjgIHnm67moIfmo4vokL3ngrnlkoznu5PmnpzliIbluIPjgII8L2Rpdj4KCiAgPGgyPuWOn+aKpeWRiuWcqOWTqumHjOiusumUmeS6hjwvaDI+CiAgPHRhYmxlPgogICAgPHRoZWFkPjx0cj48dGg+5Y6f6K+05rOVPC90aD48dGg+6K+B5o2u6Zeu6aKYPC90aD48dGg+57qg5q2j6K+05rOVPC90aD48L3RyPjwvdGhlYWQ+CiAgICA8dGJvZHk+CiAgICAgIDx0cj48dGQgY2xhc3M9ImJhZCI+NjEg5qyhIHRvcF9ib2FyZF9xdWV1ZTwvdGQ+PHRkPmhvb2sg55qE5pivIDxjb2RlPlByZWRlZmluZWRJdGVtQ29udGFpbmVyLkdldFByZWRlZmluZWRJdGVtPC9jb2RlPu+8jOayoeaciSBob29rIDxjb2RlPkdldFF1ZXVlZEl0ZW1Gcm9tVG9wQm9hcmQ8L2NvZGU+44CCPC90ZD48dGQgY2xhc3M9Imdvb2QiPjYxIOasoSBwcmVkZWZpbmVkX3F1ZXVl77yb55yfIHRvcC1ib2FyZCDpopHnjofmnKrop4LmtYvjgII8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImJhZCI+NSDmrKHlm57pgIDlhbEgOCDmrKEgRGlmZmljdWx0eU5leHQ8L3RkPjx0ZD7lrr3ml7bpl7Tnqpflj6PkvJrmvI/nrpfmiJbmt7flhaXlhbbku5bosIPnlKjjgII8L3RkPjx0ZCBjbGFzcz0iZ29vZCI+5Lul5q+P5qyhIDxjb2RlPkdldFJhbmRvbUZpbGxJdGVtPC9jb2RlPiBlbnRlcuKGkmxlYXZlIOS4uui+ueeVjO+8mjLjgIEy44CBMuOAgTLjgIEy77yM5ZCI6K6hIDEw44CCPC90ZD48L3RyPgogICAgICA8dHI+PHRkIGNsYXNzPSJiYWQiPkluY3JlbWVudFRyeUNvdW50IC8gVXBkYXRlVHJ5Q291bnQg5YWo56iLIDAg5qyhPC90ZD48dGQ+cmF3IHJ1bnRpbWUgbG9nIOWtmOWcqOi/meS6m+S6i+S7tu+8jOS4juiBmuWQiOaKpeWRiuebtOaOpeefm+ebvuOAgjwvdGQ+PHRkIGNsYXNzPSJnb29kIj7lhpnlhaXlh73mlbDnoa7lrp7lh7rnjrDov4fvvJvnsr7noa7op6blj5Hml7bmnLrpnIDph43lu7rogZrlkIjlkI7lho3lrprjgII8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImJhZCI+6YeN6L+b5Y+Y5b6X5pu05a655piTPC90ZD48dGQ+5bey6KeC5rWLIHNlZWQg5Y+Y5YyW77yM5pyq5YGa57uT5p6c5pa55ZCR55qE5Zug5p6c5qOA6aqM44CCPC90ZD48dGQgY2xhc3M9Imdvb2QiPumHjei/m+S8muS9v+mDqOWIhumaj+acuui3r+W+hOWPmOWMlu+8m+aYr+WQpuWumuWQkemZjemavuW6puacquivgeaYjuOAgjwvdGQ+PC90cj4KICAgIDwvdGJvZHk+CiAgPC90YWJsZT4KCiAgPGgyPuWTquS6m+i/mOaYr+m7keeusTwvaDI+CiAgPGRpdiBjbGFzcz0iZ3JpZDMiPgogICAgPGRpdiBjbGFzcz0iY2FyZCB1bmtub3duLXBhbmVsIj48aDM+6aG26YOo5qOL55uY6Zif5YiXPC9oMz48cD7pnZnmgIHosIPnlKjlrZjlnKjvvIzkvYbmnKzova7msqHnm7TmjqUgaG9va+OAguWug+WcqOecn+WunuWkmuaji+ebmOWFs+WNoeS4reWkmuW4uOinge+8jOS7jeacquefpeOAgjwvcD48L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNhcmQiPjxoMz5MMTQ1MSDpobrluo/lt7Lpl63njq88L2gzPjxwPuWunuacuui/nue7reWPluWHuiBYPTMg55qEIDxjb2RlPjMg4oaSIDIg4oaSIDMg4oaSIDQg4oaSIDM8L2NvZGU+77yM5LiO6Kej56CB5YiX6KGo5Y6f6aG65bqP5LiA6Ie077yb56ysIDYg5qyh56uL5Y2z6L2s5YWlIExldmVsU2V0IOWbnumAgOOAgkxldmVsIDEg5Yqo55S75LuN5piv5pWZ5a2m5qOL55uY77yM5LiN5piv5a6D55qE6YCQ5bin5a6e5py65b2V5YOP44CCPC9wPjwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2FyZCB1bmtub3duLXBhbmVsIj48aDM+5pyN5Yqh56uv6KaG55uWPC9oMz48cD7lrqLmiLfnq6/ooajlkozmnLrlmajnoIHkuI3og73mjpLpmaTmnI3liqHnq68gQUIg5YiG57uE44CB6L+c56iL5p2D6YeN5oiW5rS75Yqo5pyf5Y+C5pWw44CCPC9wPjwvZGl2PgogIDwvZGl2PgogIDwvZGl2PgogIDxwIGNsYXNzPSJmb290Ij7mlbDmja7ovrnnlYzvvJpSb3lhbCBNYXRjaCBBbmRyb2lkIGJ1aWxkIDM4MTc044CC6Zif5YiX5YC85piv5YyF5L2T55u05o6l5LqL5a6e77yb5Y+v546p5qOL55uY5ZKM5pWZ5a2m5Zue6YCA6aKc6Imy5Y+q5piv5Lqk5LqS5ryU56S644CCPC9wPgo8L21haW4+CjxzY3JpcHQ+CigoKSA9PiB7CiAgY29uc3QgaW5pdGlhbCA9IFsKICAgIFsxLDIsMyw0LDUsMV0sWzIsMyw0LDUsMSwyXSxbMyw0LDUsMSwyLDNdLAogICAgWzQsNSwyLDIsMyw0XSxbNSwxLDIsMyw0LDVdLFsxLDMsMiw0LDUsMV0KICBdOwogIGNvbnN0IGZsb3dOb2RlcyA9IFsKICAgIFsncmVhZHknLCfnqbrmoLzlj6/loavlhYUnXSxbJ3RvcCcsJ0dldFF1ZXVlZEl0ZW1Gcm9tVG9wQm9hcmQnXSxbJ3ByZScsJ0dldFByZWRlZmluZWRJdGVtIC8gRGVxdWV1ZSddLAogICAgWyd0YXJnZXQnLCdIYXNUYXJnZXQgLyBUYXJnZXRDb2x1bW4nXSxbJ2ZpbGwnLCdHZXRSYW5kb21GaWxsSXRlbSddLFsncGljaycsJ0dldFR1bmVkSXRlbSDmiJYgTGV2ZWxTZXQuR2V0UmFuZG9tSXRlbSddLAogICAgWydjb2xvcicsJ0dldFJhbmRvbUNvbG9yIOWFnOW6lSddLFsnY3JlYXRlJywn5bu656uL5qOL5a2QIC8gT25OZXdJdGVtQ3JlYXRlZCddLFsnc2NhbicsJ+mHjeaWsOaJq+aPj+WMuemFjeS4jui/numUgSddCiAgXTsKICBjb25zdCBjb21tb25TdGFydCA9IFsKICAgIHt0aXRsZTon5LiA5qyh5LiJ5raI5Yia5Y+R55SfJyxib2R5Oifok53oibIgMiDlnKggWD0yIOWIl+W6lemDqOiiq+a2iOmZpO+8jOaji+ebmOWHuueOsOepuuagvOOAguihpeaji+WPqui0n+i0o+Whq+epuu+8jOS4jeaYr+aVtOebmOmHjeaKveOAgicsZTonRCDmlZnlrabliIbop6MnLGFjdGl2ZToncmVhZHknLG1vZGU6J2NsZWFyJ30sCiAgICB7dGl0bGU6J+WFiOS4i+iQve+8jOWGjeihpemhtumDqOepuuagvCcsYm9keTon5ZCM5YiX5LiK5pa555qE5pen5qOL5a2Q5YWI5ZCR5LiL6JC944CC5ryU56S65Lit6K+l5YiX55WZ5Ye6IDMg5Liq6aG26YOo56m65qC877yM57O757uf5byA5aeL5Li65YW25Lit5LiA5qC85Yaz5a6a5paw5qOL5a2Q44CCJyxlOidEIOaVmeWtpuWHoOS9lScsYWN0aXZlOidyZWFkeScsbW9kZTonZmFsbCd9LAogICAge3RpdGxlOifkvJjlhYjpl67vvJrmnInmsqHmnInkuIrmlrnmo4vnm5jmtYHlhaXvvJ8nLGJvZHk6J+acuuWZqOeggeWFiOiwg+eUqCBHZXRRdWV1ZWRJdGVtRnJvbVRvcEJvYXJk44CC5pys5Zy65pmv5YGH5a6a5a6D5rKh6L+U5Zue5qOL5a2Q77yM5omN57un57ut5b6A5LiL5p+l44CC5pys6L2u5pel5b+X5rKh5pyJ55u05o6lIGhvb2sg6K+l5Ye95pWw44CCJyxlOidFMSDpnZnmgIHosIPnlKjvvJtIIOacrOWcuuaZr+i/lOWbnuWAvCcsYWN0aXZlOid0b3AnLG1vZGU6J2ZhbGwnLHRvcDon5pyq55u05o6l6KeC5rWLJ30KICBdOwogIGNvbnN0IHNjZW5hcmlvcyA9IHsKICAgIHF1ZXVlOnsKICAgICAgbmFtZTon5Zy65pmvIEHvvJrpooTlrprkuYnpmJ/liJfmnInotKcnLHF1ZXVlOls0LDIsMV0sCiAgICAgIHN0ZXBzOlsuLi5jb21tb25TdGFydCwKICAgICAgICB7dGl0bGU6J+aMieWIlyBYIOaJvuWIsOS9nOiAhemihOWumuS5iemYn+WIlycsYm9keTonUHJlZGVmaW5lZEl0ZW1Db250YWluZXIg5Li65b2T5YmN5YiX5om+5YiwIEl0ZW1Nb2RlbFF1ZXVl44CC6L+Z5piv5YWz5Y2h6YWN572u6aKE5YWI6KeE5a6a55qE5Ye65a2Q5bqP5YiX77yM5LiN5piv5LiK5pa55qOL55uY6Zif5YiX44CCJyxlOidFMSDpnZnmgIEgKyBFMiDljp/lp4sgaG9vaycsYWN0aXZlOidwcmUnLG1vZGU6J2ZhbGwnLHF1ZXVlU3RhdGU6J+aciei0pyBbNCwgMiwgMV0nfSwKICAgICAgICB7dGl0bGU6J0lzRW1wdHkgPSAw77yM55u05o6lIERlcXVldWUnLGJvZHk6J+mYn+WIl+aciei0p+aXtuWPluWHuuS4i+S4gOmil++8iOa8lOekuuS4uiA077yJ44CC6YCJ5a6a5pel5b+X6YeM77yM6L+Z56eN6Lev5b6E5rKh5pyJ5Ye6546wIERpZmZpY3VsdHlOZXh044CCJyxlOidFMu+8mjYxIC8gNjYg6YCJ5a6a6KGl5qOL5LqL5Lu2JyxhY3RpdmU6J3ByZScsbW9kZTonZGVxdWV1ZScscXVldWVTdGF0ZTon5Ye66ZifIDTvvIzliakgWzIsIDFdJ30sCiAgICAgICAge3RpdGxlOiflu7rnq4vmo4vlrZDlubbmlL7lhaXnqbrmoLwnLGJvZHk6J+WPluWHuueahOaji+WtkOexu+Wei+S6pOe7meWIm+W7uui3r+W+hO+8jOmaj+WQjuinpuWPkSBPbk5ld0l0ZW1DcmVhdGVk44CC6L+Z5LiA6aKX55qE57G75Z6L5p2l6Ieq6aKE5a6a5LmJ6Zif5YiX77yM5LiN5piv6Zq+5bqmIFJORyDnjrDlnLrmir3nmoTjgIInLGU6J0UxL0UyJyxhY3RpdmU6J2NyZWF0ZScsbW9kZTonZmlsbGVkJyxxdWV1ZVN0YXRlOifliankvZkgWzIsIDFdJ30sCiAgICAgICAge3RpdGxlOifph43mlrDmiavmj4/vvIzlpoLmnInmlrDmtojpmaTliJnov57plIEnLGJvZHk6J+aji+WtkOW7uueri+WQju+8jOa4uOaIj+e7p+e7reajgOafpeWMuemFjeOAguiLpeS7jeacieepuuagvO+8jOWQjOagt+eahOS8mOWFiOe6p+S8muWGjeaJp+ihjOOAgicsZTonRO+8jOWfuuS6juW3suivgeWunuiwg+eUqOmqqOaeticsYWN0aXZlOidzY2FuJyxtb2RlOidmaWxsZWQnLHF1ZXVlU3RhdGU6J+WJqeS9mSBbMiwgMV0nfQogICAgICBdCiAgICB9LAogICAgZmFsbGJhY2s6ewogICAgICBuYW1lOiflnLrmma8gQu+8mumYn+WIl+iAl+WwveWQjuWbnumAgCcscXVldWU6W10sCiAgICAgIHN0ZXBzOlsuLi5jb21tb25TdGFydCwKICAgICAgICB7dGl0bGU6J+mihOWumuS5iemYn+WIl+W3suepuicsYm9keTonR2V0UHJlZGVmaW5lZEl0ZW0g6L+b5YWl6K+l5YiX55qEIEl0ZW1Nb2RlbFF1ZXVl77yM5L2GIElzRW1wdHkgPSAx77yM5Zug5q2k6L+U5ZueIDDvvIzpnIDopoHnu6fnu63mn6XlkI7lpIfmnaXmupDjgIInLGU6J0UyIOmAieWumuWOn+WniyBob29rJyxhY3RpdmU6J3ByZScsbW9kZTonZmFsbCcscXVldWVTdGF0ZTonSXNFbXB0eSA9IDEnfSwKICAgICAgICB7dGl0bGU6J+acrOagt+acrOayoeacieebruagh+WIl+S7u+WKoScsYm9keTonVGFyZ2V0Q29sdW1uU2V0Q29udGFpbmVyLkhhc1RhcmdldCDov5Tlm54gMO+8jOWboOatpOayoei1sCBHZXRSYW5kb21UYXJnZXRDb2x1bW5JdGVt44CC5YW25LuW5YWz5Y2h5Y+v5Lul6LWw6L+Z5p2h5YiG5pSv44CCJyxlOidFMiDpgInlrprmoLfmnKzvvIzkuI3mmK/lhajlsYDpopHnjocnLGFjdGl2ZTondGFyZ2V0Jyxtb2RlOidmYWxsJyxxdWV1ZVN0YXRlOiflt7LnqbonfSwKICAgICAgICB7dGl0bGU6J+i/m+WFpeaZrumAmiBMZXZlbFNldCDlm57pgIAnLGJvZHk6J0dldFJhbmRvbUZpbGxJdGVtIOWFiOagueaNruWPr+eUqOmbhuWQiOOAgeeUn+aIkOavlOS+i+OAgeS4iumZkOWSjOW9k+WJjeaji+ebmOeKtuaAgeetm+mAieOAguesrCAxIOasoSBEaWZmaWN1bHR5TmV4dCDlh7rnjrDlnKjov5nkuKrosIPnlKjlhoXjgIInLGU6J0UxIOmdmeaAgSArIEUyIOi/kOihjOaXticsYWN0aXZlOidmaWxsJyxtb2RlOidmYWxsJyxxdWV1ZVN0YXRlOiflt7LnqbonLHJuZzoxfSwKICAgICAgICB7dGl0bGU6J+WcqOmAieWumiBMZXZlbFNldCDlhoXmjJHmo4vlrZAnLGJvZHk6J+iLpSBsb3ctbWF0Y2gg6LCD6IqC5byA5ZCv77yM5Y+v6LWwIEdldFR1bmVkSXRlbe+8m+WQpuWImei1sCBMZXZlbFNldC5HZXRSYW5kb21JdGVt44CC6YCJ5a6a5qC35pys5piv5ZCO6ICF77yM5YaF6YOo5Ye6546w56ysIDIg5qyhIERpZmZpY3VsdHlOZXh044CCJyxlOidFMS9FMu+8m+avj+asoemAieWumuWbnumAgOS4peagvOiuoeaVsOS4uiAyJyxhY3RpdmU6J3BpY2snLG1vZGU6J2ZhbGwnLHF1ZXVlU3RhdGU6J+W3suepuicscm5nOjJ9LAogICAgICAgIHt0aXRsZTon5bu656uL5oq95Lit55qE5qOL5a2QJyxib2R5OifmvJTnpLrkuK0gTGV2ZWxTZXQg6L+U5ZueIDTvvIzpmo/lkI7lu7rnq4vmlrDmo4vlrZDlubbosIPnlKggT25OZXdJdGVtQ3JlYXRlZOOAgui/memil+aji+WtkOaJjeaYr+acrOagt+acrOS4reWPl+mavuW6piBSTkcg5bqP5YiX5b2x5ZON55qE6KGl5qOL44CCJyxlOidFMu+8mjUgLyA2NiDpgInlrprooaXmo4vkuovku7YnLGFjdGl2ZTonY3JlYXRlJyxtb2RlOidmaWxsZWQnLHF1ZXVlU3RhdGU6J+W3suepuicscm5nOjJ9LAogICAgICAgIHt0aXRsZTon6YeN5paw5omr5o+P5Yy56YWN5LiO6L+e6ZSBJyxib2R5Oifov5nkuIDpopfnmoTpgInmi6nlrozmiJDjgILlj6blpJbnmoTnqbrmoLzkvJrlho3lkIToh6rnu4/ov4flkIzmoLfnmoTmnaXmupDkvJjlhYjnuqfjgIInLGU6J0Qg5pWZ5a2m5YiG6KejJyxhY3RpdmU6J3NjYW4nLG1vZGU6J2ZpbGxlZCcscXVldWVTdGF0ZTon5bey56m6Jyxybmc6Mn0KICAgICAgXQogICAgfQogIH07CgogIGNvbnN0IGVscyA9IE9iamVjdC5mcm9tRW50cmllcyhbJ2JvYXJkJywncXVldWUnLCdmbG93Jywnc3RlcFRpdGxlJywnc3RlcEJvZHknLCdldmlkZW5jZScsJ2NvdW50ZXInLCdiYXInLCdjYWxsb3V0JywncXVldWVTdGF0ZScsJ3RvcFN0YXRlJywncm5nU3RhdGUnLCdwbGF5JywncHJldicsJ25leHQnLCdyZXNldCcsJ3NwZWVkJ10ubWFwKGlkPT5baWQsZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWQpXSkpOwogIGxldCBzY2VuYXJpb0tleT0ncXVldWUnLCBzdGVwPTAsIHRpbWVyPW51bGw7CgogIGZ1bmN0aW9uIGNsb25lQm9hcmQoKXtyZXR1cm4gaW5pdGlhbC5tYXAocj0+ci5zbGljZSgpKX0KICBmdW5jdGlvbiBib2FyZEZvcihtb2RlKXsKICAgIGNvbnN0IGI9Y2xvbmVCb2FyZCgpLCBjPTI7CiAgICBpZihtb2RlPT09J2NsZWFyJyl7WzMsNCw1XS5mb3JFYWNoKHI9PmJbcl1bY109bnVsbCl9CiAgICBpZihbJ2ZhbGwnLCdkZXF1ZXVlJywnZmlsbGVkJ10uaW5jbHVkZXMobW9kZSkpewogICAgICBjb25zdCBvbGQ9W2luaXRpYWxbMF1bY10saW5pdGlhbFsxXVtjXSxpbml0aWFsWzJdW2NdXTsKICAgICAgZm9yKGxldCByPTA7cjwzO3IrKyliW3JdW2NdPW51bGw7CiAgICAgIGZvcihsZXQgcj0zO3I8NjtyKyspYltyXVtjXT1vbGRbci0zXTsKICAgIH0KICAgIGlmKFsnZGVxdWV1ZScsJ2ZpbGxlZCddLmluY2x1ZGVzKG1vZGUpKSBiWzJdW2NdPTQ7CiAgICByZXR1cm4gYjsKICB9CiAgZnVuY3Rpb24gcmVuZGVyQm9hcmQobW9kZSl7CiAgICBjb25zdCBiPWJvYXJkRm9yKG1vZGUpO2Vscy5ib2FyZC50ZXh0Q29udGVudD0nJzsKICAgIGIuZm9yRWFjaCgocm93LHIpPT5yb3cuZm9yRWFjaCgodixjKT0+ewogICAgICBjb25zdCBjZWxsPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO2NlbGwuY2xhc3NOYW1lPSdjZWxsJysoYz09PTI/JyBmb2N1cyc6JycpOwogICAgICBjZWxsLnNldEF0dHJpYnV0ZSgnYXJpYS1sYWJlbCcsYHJvdyAke3J9LCBjb2x1bW4gJHtjfSwgJHt2PT09bnVsbD8n56m65qC8Jzon5qOL5a2QICcrdn1gKTsKICAgICAgaWYodiE9PW51bGwpe2NvbnN0IHA9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7cC5jbGFzc05hbWU9YHBpZWNlIHAke3Z9YDtwLnRleHRDb250ZW50PXY7Y2VsbC5hcHBlbmRDaGlsZChwKX0KICAgICAgaWYobW9kZT09PSdjbGVhcicgJiYgYz09PTIgJiYgcj49Myl7Y29uc3QgYnVyc3Q9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnaScpO2J1cnN0LmNsYXNzTmFtZT0nYnVyc3QnO2NlbGwuYXBwZW5kQ2hpbGQoYnVyc3QpfQogICAgICBlbHMuYm9hcmQuYXBwZW5kQ2hpbGQoY2VsbCk7CiAgICB9KSkKICB9CiAgZnVuY3Rpb24gcmVuZGVyUXVldWUodmFsdWVzLCBzdGF0dXMpewogICAgZWxzLnF1ZXVlLnRleHRDb250ZW50PScnOwogICAgZm9yKGxldCBjPTA7Yzw2O2MrKyl7CiAgICAgIGNvbnN0IGxhbmU9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7bGFuZS5jbGFzc05hbWU9J3F1ZXVlLWxhbmUnKyhjPT09Mj8nIGFjdGl2ZSc6JycpOwogICAgICBpZihjPT09Mil7CiAgICAgICAgY29uc3Qgc2hvd249c3RhdHVzJiZzdGF0dXMuaW5jbHVkZXMoJ+WJqScpP3ZhbHVlcy5zbGljZSgxKTp2YWx1ZXM7CiAgICAgICAgaWYoIXNob3duLmxlbmd0aCkgbGFuZS50ZXh0Q29udGVudD0n56m6JzsKICAgICAgICBzaG93bi5zbGljZSgwLDMpLnJldmVyc2UoKS5mb3JFYWNoKHY9Pntjb25zdCB0PWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO3QuY2xhc3NOYW1lPWBxdWV1ZS10b2tlbiBwJHt2fWA7dC50ZXh0Q29udGVudD12O2xhbmUuYXBwZW5kQ2hpbGQodCl9KTsKICAgICAgfSBlbHNlIGxhbmUudGV4dENvbnRlbnQ9YFgke2N9YDsKICAgICAgZWxzLnF1ZXVlLmFwcGVuZENoaWxkKGxhbmUpOwogICAgfQogIH0KICBmdW5jdGlvbiByZW5kZXJGbG93KGFjdGl2ZSl7CiAgICBjb25zdCBvcmRlcj1mbG93Tm9kZXMubWFwKG49Pm5bMF0pLCBpZHg9b3JkZXIuaW5kZXhPZihhY3RpdmUpO2Vscy5mbG93LnRleHRDb250ZW50PScnOwogICAgZmxvd05vZGVzLmZvckVhY2goKFtpZCxsYWJlbF0saSk9PnsKICAgICAgY29uc3QgZGl2PWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO2Rpdi5jbGFzc05hbWU9J25vZGUnKyhpZD09PWFjdGl2ZT8nIGFjdGl2ZSc6aTxpZHg/JyBkb25lJzonJyk7CiAgICAgIGlmKHNjZW5hcmlvS2V5PT09J3F1ZXVlJyAmJiBbJ3RhcmdldCcsJ2ZpbGwnLCdwaWNrJywnY29sb3InXS5pbmNsdWRlcyhpZCkgJiYgaWR4Pj0yKSBkaXYuY2xhc3NMaXN0LmFkZCgnc2tpcHBlZCcpOwogICAgICBpZihzY2VuYXJpb0tleT09PSdmYWxsYmFjaycgJiYgaWQ9PT0nY29sb3InICYmIGlkeD49NSkgZGl2LmNsYXNzTGlzdC5hZGQoJ3NraXBwZWQnKTsKICAgICAgZGl2LmlubmVySFRNTD1gPHNwYW4gY2xhc3M9InRhZyI+JHtpZH08L3NwYW4+JHtsYWJlbH1gO2Vscy5mbG93LmFwcGVuZENoaWxkKGRpdik7CiAgICB9KQogIH0KICBmdW5jdGlvbiByZW5kZXIoKXsKICAgIGNvbnN0IHM9c2NlbmFyaW9zW3NjZW5hcmlvS2V5XSwgaXRlbT1zLnN0ZXBzW3N0ZXBdOwogICAgcmVuZGVyQm9hcmQoaXRlbS5tb2RlKTtyZW5kZXJRdWV1ZShzLnF1ZXVlLGl0ZW0ucXVldWVTdGF0ZSk7cmVuZGVyRmxvdyhpdGVtLmFjdGl2ZSk7CiAgICBlbHMuc3RlcFRpdGxlLnRleHRDb250ZW50PWl0ZW0udGl0bGU7ZWxzLnN0ZXBCb2R5LnRleHRDb250ZW50PWl0ZW0uYm9keTtlbHMuZXZpZGVuY2UudGV4dENvbnRlbnQ9aXRlbS5lOwogICAgZWxzLmNvdW50ZXIudGV4dENvbnRlbnQ9YCR7cy5uYW1lfSDCtyDnrKwgJHtzdGVwKzF9IC8gJHtzLnN0ZXBzLmxlbmd0aH0g5q2lYDsKICAgIGVscy5iYXIuc3R5bGUud2lkdGg9YCR7KChzdGVwKzEpL3Muc3RlcHMubGVuZ3RoKSoxMDB9JWA7CiAgICBlbHMucXVldWVTdGF0ZS50ZXh0Q29udGVudD1pdGVtLnF1ZXVlU3RhdGUgfHwgKHMucXVldWUubGVuZ3RoPyfmnInotKcgWzQsIDIsIDFdJzon5bey56m6Jyk7CiAgICBlbHMucXVldWVTdGF0ZS5jbGFzc05hbWU9J3N0YXRlLXZhbHVlICcrKHMucXVldWUubGVuZ3RoJiYhaXRlbS5xdWV1ZVN0YXRlPy5pbmNsdWRlcygn56m6Jyk/J29rJzond2FybicpOwogICAgZWxzLnRvcFN0YXRlLnRleHRDb250ZW50PWl0ZW0udG9wIHx8ICfmvJTnpLrkuK3ml6DmnaXmupAnOwogICAgZWxzLnJuZ1N0YXRlLnRleHRDb250ZW50PWAke2l0ZW0ucm5nfHwwfSDmrKFgOwogICAgZWxzLnJuZ1N0YXRlLmNsYXNzTmFtZT0nc3RhdGUtdmFsdWUgJysoKGl0ZW0ucm5nfHwwKT4wPyd3YXJuJzonJyk7CiAgICBlbHMuY2FsbG91dC50ZXh0Q29udGVudD1zY2VuYXJpb0tleT09PSdxdWV1ZScKICAgICAgPyfmoLjlv4PvvJrpooTlrprkuYnpmJ/liJfmmK/lhbPljaHkvZzogIXnmoTmmL7lvI/lh7rlrZDpobrluo/jgILlnKjpgInlrprmoLfmnKzkuK3vvIzov5nmnaHot6/lvoTnu5Xov4fkuobpmr7luqYgUk5H44CCJwogICAgICA6J+aguOW/g++8muWPquacieW9k+abtOmrmOS8mOWFiOe6p+adpea6kOayoee7meWHuuaji+WtkOaXtu+8jOaJjeWcqOacrOagt+acrOS4rei9rOWIsCBMZXZlbFNldCDpmo/mnLrlm57pgIDjgIInOwogICAgZWxzLnByZXYuZGlzYWJsZWQ9c3RlcD09PTA7ZWxzLm5leHQuZGlzYWJsZWQ9c3RlcD09PXMuc3RlcHMubGVuZ3RoLTE7CiAgfQogIGZ1bmN0aW9uIHN0b3AoKXtpZih0aW1lcil7Y2xlYXJJbnRlcnZhbCh0aW1lcik7dGltZXI9bnVsbH1lbHMucGxheS50ZXh0Q29udGVudD0n4pa2IOaSreaUvid9CiAgZnVuY3Rpb24gcGxheSgpewogICAgaWYodGltZXIpe3N0b3AoKTtyZXR1cm59CiAgICBpZihzdGVwPT09c2NlbmFyaW9zW3NjZW5hcmlvS2V5XS5zdGVwcy5sZW5ndGgtMSlzdGVwPTA7CiAgICBlbHMucGxheS50ZXh0Q29udGVudD0n4o+4IOaaguWBnCc7cmVuZGVyKCk7CiAgICB0aW1lcj1zZXRJbnRlcnZhbCgoKT0+e2NvbnN0IG1heD1zY2VuYXJpb3Nbc2NlbmFyaW9LZXldLnN0ZXBzLmxlbmd0aC0xO2lmKHN0ZXA+PW1heCl7c3RvcCgpO3JldHVybn1zdGVwKys7cmVuZGVyKCl9LE51bWJlcihlbHMuc3BlZWQudmFsdWUpKTsKICB9CiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnNjZW5hcmlvJykuZm9yRWFjaChidG49PmJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsKCk9PnsKICAgIHN0b3AoKTtzY2VuYXJpb0tleT1idG4uZGF0YXNldC5zY2VuYXJpbztzdGVwPTA7CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuc2NlbmFyaW8nKS5mb3JFYWNoKGI9Pntjb25zdCBvbj1iPT09YnRuO2IuY2xhc3NMaXN0LnRvZ2dsZSgnYWN0aXZlJyxvbik7Yi5zZXRBdHRyaWJ1dGUoJ2FyaWEtc2VsZWN0ZWQnLFN0cmluZyhvbikpfSk7cmVuZGVyKCk7CiAgfSkpOwogIGVscy5wcmV2LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywoKT0+e3N0b3AoKTtzdGVwPU1hdGgubWF4KDAsc3RlcC0xKTtyZW5kZXIoKX0pOwogIGVscy5uZXh0LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywoKT0+e3N0b3AoKTtzdGVwPU1hdGgubWluKHNjZW5hcmlvc1tzY2VuYXJpb0tleV0uc3RlcHMubGVuZ3RoLTEsc3RlcCsxKTtyZW5kZXIoKX0pOwogIGVscy5yZXNldC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsKCk9PntzdG9wKCk7c3RlcD0wO3JlbmRlcigpfSk7ZWxzLnBsYXkuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLHBsYXkpOwogIGVscy5zcGVlZC5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCgpPT57aWYodGltZXIpe3N0b3AoKTtwbGF5KCl9fSk7CiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsZT0+e2lmKGUua2V5PT09J0Fycm93TGVmdCcpZWxzLnByZXYuY2xpY2soKTtpZihlLmtleT09PSdBcnJvd1JpZ2h0JyllbHMubmV4dC5jbGljaygpO2lmKGUua2V5PT09JyAnJiZlLnRhcmdldD09PWRvY3VtZW50LmJvZHkpe2UucHJldmVudERlZmF1bHQoKTtlbHMucGxheS5jbGljaygpfX0pOwogIHJlbmRlcigpOwp9KSgpOwo8L3NjcmlwdD4KPHNjcmlwdD4KKCgpID0+IHsKICBjb25zdCBTSVpFID0gNjsKICBjb25zdCBpbml0aWFsQm9hcmQgPSBbCiAgICBbNSwxLDEsMiwzLDFdLAogICAgWzQsNCwxLDIsMywxXSwKICAgIFs0LDMsNSw1LDEsNF0sCiAgICBbMSwxLDUsMSwyLDFdLAogICAgWzEsMyw0LDIsMiw1XSwKICAgIFszLDMsMSwyLDMsMV0KICBdOwogIGNvbnN0IHF1ZXVlVGVtcGxhdGUgPSBbCiAgICBbNCwyLDMsMSw0LDMsNCwzLDQsMl0sCiAgICBbNCwzLDEsMiwzLDEsMiwzLDQsMV0sCiAgICBbMiwxLDQsMyw0LDMsMSwyLDEsNF0sCiAgICBbNCwzLDEsMSw0LDIsMSwzLDMsMV0sCiAgICBbMSw0LDIsMywxLDMsNCwyLDIsM10sCiAgICBbNCwyLDMsMiwxLDQsMiwxLDEsM10KICBdOwogIGNvbnN0ICQgPSBpZCA9PiBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChpZCk7CiAgY29uc3QgdWkgPSB7CiAgICBib2FyZDokKCdwbGF5Qm9hcmQnKSxzdGF0dXM6JCgncGxheVN0YXR1cycpLGxlZGdlcjokKCdwbGF5TGVkZ2VyJykscGhhc2U6JCgncGxheVBoYXNlJyksCiAgICBxdWV1ZTokKCdwbGF5UXVldWVTdGF0ZScpLHJuZzokKCdwbGF5Um5nU3RhdGUnKSx0dXJuOiQoJ3BsYXlUdXJuJyksaW5zdHJ1Y3Rpb246JCgncGxheUluc3RydWN0aW9uJyksCiAgICBxdWV1ZVZpc3VhbDokKCdwbGF5UXVldWVWaXN1YWwnKSxoaW50OiQoJ3BsYXlIaW50JykscmVzZXQ6JCgncGxheVJlc2V0JykKICB9OwogIGxldCBib2FyZCwgcXVldWVzLCBzZWxlY3RlZCwgaGludENlbGxzLCBtYXRjaGVkQ2VsbHMsIHJlY2VudFNvdXJjZXMsIGJ1c3ksIGZpbGxNb2RlLCBtb3ZlTm8sIGV2ZW50Tm8sIHJuZ0RyYXdzLCByb3VuZFN0YXJ0LCBzdXBwcmVzc0NsaWNrVW50aWw7CiAgbGV0IHNlZWQgPSAzODE3NDsKCiAgY29uc3Qgc2xlZXAgPSBtcyA9PiBuZXcgUHJvbWlzZShyZXNvbHZlID0+IHNldFRpbWVvdXQocmVzb2x2ZSwgbXMpKTsKICBjb25zdCBrZXkgPSBwID0+IGAke3Aucn0sJHtwLmN9YDsKICBjb25zdCBhZGphY2VudCA9IChhLGIpID0+IE1hdGguYWJzKGEuci1iLnIpK01hdGguYWJzKGEuYy1iLmMpPT09MTsKICBjb25zdCBzd2FwTW9kZWwgPSAoYSxiKSA9PiB7Y29uc3Qgdj1ib2FyZFthLnJdW2EuY107Ym9hcmRbYS5yXVthLmNdPWJvYXJkW2Iucl1bYi5jXTtib2FyZFtiLnJdW2IuY109dn07CiAgY29uc3Qgc2VlZGVkID0gKCkgPT4ge3NlZWQ9KHNlZWQqMTY2NDUyNSsxMDEzOTA0MjIzKT4+PjA7cmV0dXJuIHNlZWQvNDI5NDk2NzI5Nn07CiAgY29uc3QgcmFuZG9tUGllY2UgPSAoKSA9PiAxK01hdGguZmxvb3Ioc2VlZGVkKCkqNSk7CiAgY29uc3QgcGllY2VOYW1lID0gdmFsdWUgPT4gKHsxOicxIOWPt+ePiueRmuajiycsMjonMiDlj7fnkKXnj4Dmo4snLDM6JzMg5Y+357+h57+g5qOLJyw0Oic0IOWPt+a5luiTneajiycsNTonNSDlj7fmmpbmqZnmo4snfSlbdmFsdWVdIHx8ICfnqbonOwoKICBmdW5jdGlvbiBmaW5kTWF0Y2hlcygpewogICAgY29uc3QgZm91bmQ9bmV3IFNldCgpOwogICAgZm9yKGxldCByPTA7cjxTSVpFO3IrKyl7CiAgICAgIGxldCBzdGFydD0wOwogICAgICB3aGlsZShzdGFydDxTSVpFKXtsZXQgZW5kPXN0YXJ0KzE7d2hpbGUoZW5kPFNJWkUmJmJvYXJkW3JdW2VuZF0hPT1udWxsJiZib2FyZFtyXVtlbmRdPT09Ym9hcmRbcl1bc3RhcnRdKWVuZCsrO2lmKGJvYXJkW3JdW3N0YXJ0XSE9PW51bGwmJmVuZC1zdGFydD49Mylmb3IobGV0IGM9c3RhcnQ7YzxlbmQ7YysrKWZvdW5kLmFkZChgJHtyfSwke2N9YCk7c3RhcnQ9ZW5kfQogICAgfQogICAgZm9yKGxldCBjPTA7YzxTSVpFO2MrKyl7CiAgICAgIGxldCBzdGFydD0wOwogICAgICB3aGlsZShzdGFydDxTSVpFKXtsZXQgZW5kPXN0YXJ0KzE7d2hpbGUoZW5kPFNJWkUmJmJvYXJkW2VuZF1bY10hPT1udWxsJiZib2FyZFtlbmRdW2NdPT09Ym9hcmRbc3RhcnRdW2NdKWVuZCsrO2lmKGJvYXJkW3N0YXJ0XVtjXSE9PW51bGwmJmVuZC1zdGFydD49Mylmb3IobGV0IHI9c3RhcnQ7cjxlbmQ7cisrKWZvdW5kLmFkZChgJHtyfSwke2N9YCk7c3RhcnQ9ZW5kfQogICAgfQogICAgcmV0dXJuIGZvdW5kOwogIH0KCiAgZnVuY3Rpb24gcmVuZGVyQm9hcmQoZWZmZWN0PScnKXsKICAgIHVpLmJvYXJkLnRleHRDb250ZW50PScnOwogICAgZm9yKGxldCByPTA7cjxTSVpFO3IrKylmb3IobGV0IGM9MDtjPFNJWkU7YysrKXsKICAgICAgY29uc3QgY2VsbD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdidXR0b24nKTsKICAgICAgY2VsbC50eXBlPSdidXR0b24nO2NlbGwuY2xhc3NOYW1lPSdwbGF5LWNlbGwnO2NlbGwuZGF0YXNldC5yPXI7Y2VsbC5kYXRhc2V0LmM9YztjZWxsLnNldEF0dHJpYnV0ZSgncm9sZScsJ2dyaWRjZWxsJyk7CiAgICAgIGNvbnN0IHBvaW50PXtyLGN9LCBrPWtleShwb2ludCk7CiAgICAgIGlmKHNlbGVjdGVkJiZrZXkoc2VsZWN0ZWQpPT09ayljZWxsLmNsYXNzTGlzdC5hZGQoJ3NlbGVjdGVkJyk7CiAgICAgIGlmKGhpbnRDZWxscy5oYXMoaykpY2VsbC5jbGFzc0xpc3QuYWRkKCdoaW50Jyk7CiAgICAgIGlmKG1hdGNoZWRDZWxscy5oYXMoaykpY2VsbC5jbGFzc0xpc3QuYWRkKCdtYXRjaGVkJyk7CiAgICAgIGNvbnN0IHZhbHVlPWJvYXJkW3JdW2NdOwogICAgICBjZWxsLnNldEF0dHJpYnV0ZSgnYXJpYS1sYWJlbCcsYOesrCAke3IrMX0g6KGM56ysICR7YysxfSDliJfvvIwke3BpZWNlTmFtZSh2YWx1ZSl9JHtzZWxlY3RlZCYma2V5KHNlbGVjdGVkKT09PWs/J++8jOW3sumAieS4rSc6Jyd9YCk7CiAgICAgIGlmKHZhbHVlIT09bnVsbCl7CiAgICAgICAgY29uc3QgcD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzcGFuJyk7cC5jbGFzc05hbWU9YHBsYXktcGllY2UgcCR7dmFsdWV9YDsKICAgICAgICBjb25zdCBzb3VyY2U9cmVjZW50U291cmNlcy5nZXQoayk7CiAgICAgICAgaWYoc291cmNlPT09J3F1ZXVlJylwLmNsYXNzTGlzdC5hZGQoJ3F1ZXVlLXNwYXduJyk7CiAgICAgICAgZWxzZSBpZihzb3VyY2U9PT0ncmFuZG9tJylwLmNsYXNzTGlzdC5hZGQoJ3NwYXduJyk7CiAgICAgICAgZWxzZSBpZihlZmZlY3QpcC5jbGFzc0xpc3QuYWRkKGVmZmVjdCk7CiAgICAgICAgcC50ZXh0Q29udGVudD12YWx1ZTtjZWxsLmFwcGVuZENoaWxkKHApOwogICAgICB9CiAgICAgIGNlbGwuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCgpPT57aWYoRGF0ZS5ub3coKTxzdXBwcmVzc0NsaWNrVW50aWwpcmV0dXJuO2Nob29zZShwb2ludCl9KTsKICAgICAgY2VsbC5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVyZG93bicsZT0+YmVnaW5Td2lwZShlLHBvaW50KSk7CiAgICAgIGNlbGwuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcnVwJyxlPT5lbmRTd2lwZShlLHBvaW50KSk7CiAgICAgIHVpLmJvYXJkLmFwcGVuZENoaWxkKGNlbGwpOwogICAgfQogICAgcmVuZGVyUXVldWVWaXN1YWwoKTsKICB9CgogIGZ1bmN0aW9uIHJlbmRlclF1ZXVlVmlzdWFsKCl7CiAgICB1aS5xdWV1ZVZpc3VhbC50ZXh0Q29udGVudD0nJzsKICAgIGZvcihsZXQgYz0wO2M8U0laRTtjKyspewogICAgICBjb25zdCBsYW5lPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO2xhbmUuY2xhc3NOYW1lPSdwcS1sYW5lJysoZmlsbE1vZGU9PT0ncmFuZG9tJz8nIGJ5cGFzc2VkJzonJyk7CiAgICAgIGNvbnN0IGxhYmVsPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NwYW4nKTtsYWJlbC5jbGFzc05hbWU9J3BxLWxhYmVsJztsYWJlbC50ZXh0Q29udGVudD1gWCR7Y31gO2xhbmUuYXBwZW5kQ2hpbGQobGFiZWwpOwogICAgICBjb25zdCB2aXNpYmxlPXF1ZXVlc1tjXS5zbGljZSgwLDQpOwogICAgICBpZih2aXNpYmxlLmxlbmd0aCl7CiAgICAgICAgY29uc3Qgc3RhY2s9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7c3RhY2suY2xhc3NOYW1lPSdwcS1zdGFjayc7CiAgICAgICAgdmlzaWJsZS5tYXAoKHZhbHVlLGluZGV4KT0+KHt2YWx1ZSxpbmRleH0pKS5yZXZlcnNlKCkuZm9yRWFjaCgoe3ZhbHVlLGluZGV4fSk9PnsKICAgICAgICAgIGNvbnN0IHRva2VuPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NwYW4nKTt0b2tlbi5jbGFzc05hbWU9YHBxLXRva2VuIHAke3ZhbHVlfSR7aW5kZXg9PT0wPycgbmV4dCc6Jyd9YDt0b2tlbi50ZXh0Q29udGVudD12YWx1ZTsKICAgICAgICAgIHRva2VuLnNldEF0dHJpYnV0ZSgnYXJpYS1sYWJlbCcsYFgke2N9IOWIl+mYn+WIlyR7aW5kZXg9PT0wPyfnmoTkuIvkuIDpopcnOiflkI7nu63mo4vlrZAnfe+8miR7cGllY2VOYW1lKHZhbHVlKX1gKTtzdGFjay5hcHBlbmRDaGlsZCh0b2tlbik7CiAgICAgICAgfSk7CiAgICAgICAgbGFuZS5hcHBlbmRDaGlsZChzdGFjayk7CiAgICAgICAgaWYocXVldWVzW2NdLmxlbmd0aD40KXtjb25zdCBtb3JlPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NwYW4nKTttb3JlLmNsYXNzTmFtZT0ncHEtbW9yZSc7bW9yZS50ZXh0Q29udGVudD1gKyR7cXVldWVzW2NdLmxlbmd0aC00fWA7bGFuZS5hcHBlbmRDaGlsZChtb3JlKX0KICAgICAgfWVsc2V7CiAgICAgICAgY29uc3QgZW1wdHk9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc3BhbicpO2VtcHR5LmNsYXNzTmFtZT0ncHEtZW1wdHknO2VtcHR5LnRleHRDb250ZW50PSdFTVBUWSc7bGFuZS5hcHBlbmRDaGlsZChlbXB0eSk7CiAgICAgIH0KICAgICAgdWkucXVldWVWaXN1YWwuYXBwZW5kQ2hpbGQobGFuZSk7CiAgICB9CiAgfQoKICBsZXQgc3dpcGVTdGFydD1udWxsOwogIGZ1bmN0aW9uIGJlZ2luU3dpcGUoZSxwb2ludCl7aWYoYnVzeSlyZXR1cm47c3dpcGVTdGFydD17eDplLmNsaWVudFgseTplLmNsaWVudFkscG9pbnR9O2UuY3VycmVudFRhcmdldC5zZXRQb2ludGVyQ2FwdHVyZT8uKGUucG9pbnRlcklkKX0KICBmdW5jdGlvbiBlbmRTd2lwZShlLHBvaW50KXsKICAgIGlmKCFzd2lwZVN0YXJ0fHxidXN5KXJldHVybjsKICAgIGNvbnN0IGR4PWUuY2xpZW50WC1zd2lwZVN0YXJ0LngsZHk9ZS5jbGllbnRZLXN3aXBlU3RhcnQueTtjb25zdCBvcmlnaW49c3dpcGVTdGFydC5wb2ludDtzd2lwZVN0YXJ0PW51bGw7CiAgICBpZihNYXRoLm1heChNYXRoLmFicyhkeCksTWF0aC5hYnMoZHkpKTwyNClyZXR1cm47CiAgICBjb25zdCB0YXJnZXQ9e3I6b3JpZ2luLnIrKE1hdGguYWJzKGR5KT5NYXRoLmFicyhkeCk/TWF0aC5zaWduKGR5KTowKSxjOm9yaWdpbi5jKyhNYXRoLmFicyhkeCk+PU1hdGguYWJzKGR5KT9NYXRoLnNpZ24oZHgpOjApfTsKICAgIGlmKHRhcmdldC5yPDB8fHRhcmdldC5yPj1TSVpFfHx0YXJnZXQuYzwwfHx0YXJnZXQuYz49U0laRSlyZXR1cm47CiAgICBzdXBwcmVzc0NsaWNrVW50aWw9RGF0ZS5ub3coKSszNTA7YXR0ZW1wdFN3YXAob3JpZ2luLHRhcmdldCk7CiAgfQoKICBmdW5jdGlvbiBhZGRMZWRnZXIodGl0bGUsZGV0YWlsLHNvdXJjZT0nbG9naWMnKXsKICAgIGV2ZW50Tm8rKzsKICAgIGNvbnN0IHJvdz1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdsaScpO3Jvdy5jbGFzc05hbWU9J2xlZGdlci1yb3cnOwogICAgY29uc3QgZWxhcHNlZD1TdHJpbmcoTWF0aC5tYXgoMCxNYXRoLnJvdW5kKHBlcmZvcm1hbmNlLm5vdygpLXJvdW5kU3RhcnQpKSkucGFkU3RhcnQoNCwnMCcpOwogICAgY29uc3QgdGltZT1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzcGFuJyk7dGltZS5jbGFzc05hbWU9J2xlZGdlci10aW1lJzt0aW1lLnRleHRDb250ZW50PWBUKyR7ZWxhcHNlZH1gOwogICAgY29uc3QgY29weT1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtjb25zdCBiPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2InKTtiLnRleHRDb250ZW50PXRpdGxlO2NvbnN0IHA9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgncCcpO3AudGV4dENvbnRlbnQ9ZGV0YWlsO2NvcHkuYXBwZW5kKGIscCk7CiAgICBjb25zdCB0YWc9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc3BhbicpO3RhZy5jbGFzc05hbWU9YGxlZGdlci1zb3VyY2UgJHtzb3VyY2V9YDt0YWcudGV4dENvbnRlbnQ9c291cmNlLnRvVXBwZXJDYXNlKCk7CiAgICByb3cuYXBwZW5kKHRpbWUsY29weSx0YWcpO3VpLmxlZGdlci5wcmVwZW5kKHJvdyk7CiAgICB3aGlsZSh1aS5sZWRnZXIuY2hpbGRyZW4ubGVuZ3RoPjgpdWkubGVkZ2VyLmxhc3RFbGVtZW50Q2hpbGQucmVtb3ZlKCk7CiAgfQogIGZ1bmN0aW9uIHNldFN0YXR1cyh0ZXh0LHR5cGU9Jycpe3VpLnN0YXR1cy50ZXh0Q29udGVudD10ZXh0O3VpLnN0YXR1cy5jbGFzc05hbWU9YHBsYXktc3RhdHVzICR7dHlwZX1gLnRyaW0oKX0KICBmdW5jdGlvbiBzZXRQaGFzZSh0ZXh0KXt1aS5waGFzZS50ZXh0Q29udGVudD10ZXh0fQoKICBmdW5jdGlvbiBjaG9vc2UocG9pbnQpewogICAgaWYoYnVzeSlyZXR1cm47CiAgICBoaW50Q2VsbHMuY2xlYXIoKTsKICAgIGlmKCFzZWxlY3RlZCl7c2VsZWN0ZWQ9cG9pbnQ7c2V0U3RhdHVzKGDlt7LpgInkuK3nrKwgJHtwb2ludC5yKzF9IOihjOesrCAke3BvaW50LmMrMX0g5YiX44CC6K+35YaN6YCJ5LiA6aKX55u46YK75qOL5a2Q44CCYCk7cmVuZGVyQm9hcmQoKTtyZXR1cm59CiAgICBpZihrZXkoc2VsZWN0ZWQpPT09a2V5KHBvaW50KSl7c2VsZWN0ZWQ9bnVsbDtzZXRTdGF0dXMoJ+W3suWPlua2iOmAieS4reOAgicpO3JlbmRlckJvYXJkKCk7cmV0dXJufQogICAgaWYoIWFkamFjZW50KHNlbGVjdGVkLHBvaW50KSl7c2VsZWN0ZWQ9cG9pbnQ7c2V0U3RhdHVzKCfkuKTpopfmo4vlrZDlv4XpobvkuIrkuIvmiJblt6blj7Pnm7jpgrvjgILlt7LmlLnpgInlvZPliY3mo4vlrZDjgIInLCdpbnZhbGlkJyk7cmVuZGVyQm9hcmQoKTtyZXR1cm59CiAgICBjb25zdCBhPXNlbGVjdGVkO3NlbGVjdGVkPW51bGw7YXR0ZW1wdFN3YXAoYSxwb2ludCk7CiAgfQoKICBhc3luYyBmdW5jdGlvbiBhbmltYXRlU3dhcChhLGIsdmFsaWQpewogICAgY29uc3QgY2VsbEE9dWkuYm9hcmQucXVlcnlTZWxlY3RvcihgW2RhdGEtcj0iJHthLnJ9Il1bZGF0YS1jPSIke2EuY30iXWApOwogICAgY29uc3QgY2VsbEI9dWkuYm9hcmQucXVlcnlTZWxlY3RvcihgW2RhdGEtcj0iJHtiLnJ9Il1bZGF0YS1jPSIke2IuY30iXWApOwogICAgY29uc3QgcGllY2VBPWNlbGxBPy5xdWVyeVNlbGVjdG9yKCcucGxheS1waWVjZScpLHBpZWNlQj1jZWxsQj8ucXVlcnlTZWxlY3RvcignLnBsYXktcGllY2UnKTsKICAgIGlmKCFwaWVjZUF8fCFwaWVjZUIpcmV0dXJuOwogICAgY29uc3QgcmE9cGllY2VBLmdldEJvdW5kaW5nQ2xpZW50UmVjdCgpLHJiPXBpZWNlQi5nZXRCb3VuZGluZ0NsaWVudFJlY3QoKTtjb25zdCBkeD1yYi5sZWZ0LXJhLmxlZnQsZHk9cmIudG9wLXJhLnRvcDsKICAgIGNvbnN0IHRpbWluZz17ZHVyYXRpb246dmFsaWQ/MjUwOjUwMCxlYXNpbmc6dmFsaWQ/J2N1YmljLWJlemllciguMiwuOCwuMiwxKSc6J2N1YmljLWJlemllciguMzUsLjEsLjI1LDEpJyxmaWxsOnZhbGlkPydmb3J3YXJkcyc6J25vbmUnfTsKICAgIGNvbnN0IGZyYW1lc0E9dmFsaWQ/W3t0cmFuc2Zvcm06J3RyYW5zbGF0ZSgwLDApJ30se3RyYW5zZm9ybTpgdHJhbnNsYXRlKCR7ZHh9cHgsJHtkeX1weClgfV06W3t0cmFuc2Zvcm06J3RyYW5zbGF0ZSgwLDApJ30se3RyYW5zZm9ybTpgdHJhbnNsYXRlKCR7ZHh9cHgsJHtkeX1weClgLG9mZnNldDouNDZ9LHt0cmFuc2Zvcm06J3RyYW5zbGF0ZSgwLDApJ31dOwogICAgY29uc3QgZnJhbWVzQj12YWxpZD9be3RyYW5zZm9ybTondHJhbnNsYXRlKDAsMCknfSx7dHJhbnNmb3JtOmB0cmFuc2xhdGUoJHstZHh9cHgsJHstZHl9cHgpYH1dOlt7dHJhbnNmb3JtOid0cmFuc2xhdGUoMCwwKSd9LHt0cmFuc2Zvcm06YHRyYW5zbGF0ZSgkey1keH1weCwkey1keX1weClgLG9mZnNldDouNDZ9LHt0cmFuc2Zvcm06J3RyYW5zbGF0ZSgwLDApJ31dOwogICAgYXdhaXQgUHJvbWlzZS5hbGwoW3BpZWNlQS5hbmltYXRlKGZyYW1lc0EsdGltaW5nKS5maW5pc2hlZCxwaWVjZUIuYW5pbWF0ZShmcmFtZXNCLHRpbWluZykuZmluaXNoZWRdKTsKICB9CgogIGFzeW5jIGZ1bmN0aW9uIGF0dGVtcHRTd2FwKGEsYil7CiAgICBpZihidXN5fHwhYWRqYWNlbnQoYSxiKSlyZXR1cm47YnVzeT10cnVlO2hpbnRDZWxscy5jbGVhcigpO3JvdW5kU3RhcnQ9cGVyZm9ybWFuY2Uubm93KCk7cm5nRHJhd3M9MDt1aS5ybmcudGV4dENvbnRlbnQ9J+acrOi9riAwIOmilyc7c2V0UGhhc2UoJ1NXQVAnKTsKICAgIGNvbnN0IGF2PWJvYXJkW2Eucl1bYS5jXSxidj1ib2FyZFtiLnJdW2IuY107c3dhcE1vZGVsKGEsYik7Y29uc3QgdmFsaWQ9ZmluZE1hdGNoZXMoKS5zaXplPjA7c3dhcE1vZGVsKGEsYik7CiAgICBhZGRMZWRnZXIoJ+S6pOaNouivt+axgicsYCR7cGllY2VOYW1lKGF2KX0g4oaUICR7cGllY2VOYW1lKGJ2KX3vvIzmo4Dmn6XmmK/lkKblvaLmiJDkuInov55gLCdsb2dpYycpOwogICAgYXdhaXQgYW5pbWF0ZVN3YXAoYSxiLHZhbGlkKTsKICAgIGlmKCF2YWxpZCl7CiAgICAgIHNldFBoYXNlKCdSRUpFQ1RFRCcpO3NldFN0YXR1cygn6L+Z5qyh5Lqk5o2i5rKh5pyJ5Lqn55Sf5LiJ6L+e77yM5omA5Lul5qOL5a2Q5bey57uP5by55Zue5Y6f5L2N44CCJywnaW52YWxpZCcpOwogICAgICBhZGRMZWRnZXIoJ+aXoOaViOS6pOaNou+8jOWbnua7micsJ+S6pOaNouWQjuayoeacieS7u+aEj+aoquWQkS/nurXlkJHov57nu60gMyDpopfvvIzmo4vnm5jmlbDmja7mnKrmlLnlj5gnLCdpbnZhbGlkJyk7CiAgICAgIGJ1c3k9ZmFsc2U7cmVuZGVyQm9hcmQoKTtyZXR1cm47CiAgICB9CiAgICBzd2FwTW9kZWwoYSxiKTtyZW5kZXJCb2FyZCgpO3NldFN0YXR1cygn5pyJ5pWI5Lqk5o2i77ya5qOL55uY5pWw5o2u5bey5o2i5L2N77yM5byA5aeL5aSE55CG5raI6Zmk5ZKM6KGl5qOL44CCJywnc3VjY2VzcycpOwogICAgYWRkTGVkZ2VyKCfmnInmlYjkuqTmjaLmj5DkuqQnLCfkuqTmjaLlkI7kuqfnlJ/oh7PlsJHkuIDnu4TkuInov57vvIzkv53nlZnmlrDmo4vnm5jnirbmgIEnLCdsb2dpYycpOwogICAgYXdhaXQgcmVzb2x2ZUJvYXJkKCk7bW92ZU5vKys7dWkudHVybi50ZXh0Q29udGVudD1gTU9WRSAke1N0cmluZyhtb3ZlTm8pLnBhZFN0YXJ0KDIsJzAnKX1gO2J1c3k9ZmFsc2U7c2V0UGhhc2UoJ1JFQURZJyk7CiAgfQoKICBmdW5jdGlvbiBhcHBseUdyYXZpdHkoKXsKICAgIHJlY2VudFNvdXJjZXMuY2xlYXIoKTsKICAgIGZvcihsZXQgYz0wO2M8U0laRTtjKyspewogICAgICBjb25zdCBrZXB0PVtdO2ZvcihsZXQgcj1TSVpFLTE7cj49MDtyLS0paWYoYm9hcmRbcl1bY10hPT1udWxsKWtlcHQucHVzaChib2FyZFtyXVtjXSk7CiAgICAgIGZvcihsZXQgcj1TSVpFLTEsaT0wO3I+PTA7ci0tLGkrKylib2FyZFtyXVtjXT1pPGtlcHQubGVuZ3RoP2tlcHRbaV06bnVsbDsKICAgIH0KICB9CiAgZnVuY3Rpb24gZmlsbEVtcHR5KCl7CiAgICBsZXQgcXVldWVDb3VudD0wLHJhbmRvbUNvdW50PTA7Y29uc3QgcXVldWVFdmVudHM9W10scmFuZG9tRXZlbnRzPVtdO3JlY2VudFNvdXJjZXMuY2xlYXIoKTsKICAgIGZvcihsZXQgYz0wO2M8U0laRTtjKyspZm9yKGxldCByPVNJWkUtMTtyPj0wO3ItLSlpZihib2FyZFtyXVtjXT09PW51bGwpewogICAgICBpZihmaWxsTW9kZT09PSdxdWV1ZScmJnF1ZXVlc1tjXS5sZW5ndGgpewogICAgICAgIGNvbnN0IHZhbHVlPXF1ZXVlc1tjXS5zaGlmdCgpO2JvYXJkW3JdW2NdPXZhbHVlO3F1ZXVlQ291bnQrKztxdWV1ZUV2ZW50cy5wdXNoKGBYJHtjfToke3ZhbHVlfWApO3JlY2VudFNvdXJjZXMuc2V0KGAke3J9LCR7Y31gLCdxdWV1ZScpOwogICAgICB9ZWxzZXsKICAgICAgICBjb25zdCB2YWx1ZT1yYW5kb21QaWVjZSgpO2JvYXJkW3JdW2NdPXZhbHVlO3JhbmRvbUNvdW50Kys7cmFuZG9tRXZlbnRzLnB1c2goYFgke2N9OiR7dmFsdWV9YCk7cmVjZW50U291cmNlcy5zZXQoYCR7cn0sJHtjfWAsJ3JhbmRvbScpO3JuZ0RyYXdzKys7CiAgICAgIH0KICAgIH0KICAgIHVpLnJuZy50ZXh0Q29udGVudD1g5pys6L2uICR7cm5nRHJhd3N9IOmil2A7CiAgICBjb25zdCByZW1haW5pbmc9cXVldWVzLnJlZHVjZSgoc3VtLHEpPT5zdW0rcS5sZW5ndGgsMCk7CiAgICB1aS5xdWV1ZS50ZXh0Q29udGVudD1maWxsTW9kZT09PSdxdWV1ZSc/YOWPluWHuiAke3F1ZXVlQ291bnR9IOmil++8jOWFreWIl+WFseWJqSAke3JlbWFpbmluZ30g6aKX77yb6ICX5bC95Zue6YCAICR7cmFuZG9tQ291bnR9IOmil2A6YOaVmeWtpuaooeW8j+W8uuWItui3s+i/h+mihOWumuS5iemYn+WIl2A7CiAgICByZXR1cm4ge3F1ZXVlQ291bnQscmFuZG9tQ291bnQscXVldWVFdmVudHMscmFuZG9tRXZlbnRzfTsKICB9CiAgYXN5bmMgZnVuY3Rpb24gcmVzb2x2ZUJvYXJkKCl7CiAgICBsZXQgY2FzY2FkZT0wOwogICAgd2hpbGUoY2FzY2FkZTw4KXsKICAgICAgY29uc3QgZm91bmQ9ZmluZE1hdGNoZXMoKTtpZighZm91bmQuc2l6ZSlicmVhaztjYXNjYWRlKys7bWF0Y2hlZENlbGxzPWZvdW5kO3NldFBoYXNlKGNhc2NhZGU9PT0xPydNQVRDSCc6YENBU0NBREUgJHtjYXNjYWRlfWApO3JlbmRlckJvYXJkKCk7CiAgICAgIGFkZExlZGdlcihjYXNjYWRlPT09MT8n5ZG95Lit5LiJ6L+eJzpg6L+e6ZSBICR7Y2FzY2FkZX1gLGDmnKzova7lkb3kuK0gJHtmb3VuZC5zaXplfSDkuKrmoLzlrZDvvIzlhYjmoIforrDlkI7muIXpmaRgLCdsb2dpYycpO2F3YWl0IHNsZWVwKDM2MCk7CiAgICAgIGZvcihjb25zdCBrIG9mIGZvdW5kKXtjb25zdCBbcixjXT1rLnNwbGl0KCcsJykubWFwKE51bWJlcik7Ym9hcmRbcl1bY109bnVsbH1tYXRjaGVkQ2VsbHM9bmV3IFNldCgpO3JlbmRlckJvYXJkKCk7YXdhaXQgc2xlZXAoMTUwKTsKICAgICAgYXBwbHlHcmF2aXR5KCk7c2V0UGhhc2UoJ0ZBTEwnKTtyZW5kZXJCb2FyZCgnZHJvcCcpO2FkZExlZGdlcign6YeN5Yqb5LiL6JC9Jywn5ZCE5YiX5bey5pyJ5qOL5a2Q5Y6L57Sn5Yiw5bqV6YOo77yM6aG26YOo55WZ5Ye656m65qC8JywnbG9naWMnKTthd2FpdCBzbGVlcCg0MTApOwogICAgICBzZXRQaGFzZSgnUkVGSUxMJyk7Y29uc3QgZmlsbGVkPWZpbGxFbXB0eSgpO3JlbmRlckJvYXJkKCk7CiAgICAgIGlmKGZpbGxlZC5xdWV1ZUNvdW50KWFkZExlZGdlcign6aKE5a6a5LmJ5YiX6Zif5YiX6KGl5qOLJyxgJHtmaWxsZWQucXVldWVFdmVudHMuam9pbignIMK3ICcpfe+8m+avj+mil+WPquWhq+iHquW3seeahCBYIOWIl2AsJ3F1ZXVlJyk7CiAgICAgIGlmKGZpbGxlZC5yYW5kb21Db3VudClhZGRMZWRnZXIoJ+aVmeWtpuWbnumAgOihpeajiycsYCR7ZmlsbGVkLnJhbmRvbUV2ZW50cy5qb2luKCcgwrcgJyl977yb6aKc6Imy55Sx5Yqo55S75YaF5pWZ5a2mIFJORyDkuqfnlJ/vvIzkuI3mmK/ljIXkvZMgU3lzdGVtLlJhbmRvbSDnu5PmnpxgLCdyYW5kb20nKTsKICAgICAgYXdhaXQgc2xlZXAoNDgwKTsKICAgIH0KICAgIGlmKGNhc2NhZGU+PTgpYWRkTGVkZ2VyKCfov57plIHlronlhajkuIrpmZAnLCfmlZnlrabpobXlnKggOCDova7lkI7lgZzmraLoh6rliqjop6PnrpfvvIzpmLLmraLmnoHnq6/pmo/mnLrlvqrnjq8nLCdpbnZhbGlkJyk7CiAgICByZWNlbnRTb3VyY2VzLmNsZWFyKCk7cmVuZGVyQm9hcmQoKTtzZXRTdGF0dXMoYOino+eul+WujOaIkO+8miR7Y2FzY2FkZX0g6L2u5raI6Zmk77yM5YW25LitICR7cm5nRHJhd3N9IOmil+S9v+eUqOaVmeWtpuWbnumAgOminOiJsuOAgmAsJ3N1Y2Nlc3MnKTsKICB9CgogIGZ1bmN0aW9uIHZhbGlkU3dhcHMoKXsKICAgIGNvbnN0IHJlc3VsdD1bXTsKICAgIGZvcihsZXQgcj0wO3I8U0laRTtyKyspZm9yKGxldCBjPTA7YzxTSVpFO2MrKylmb3IoY29uc3QgW2RyLGRjXSBvZiBbWzAsMV0sWzEsMF1dKXsKICAgICAgY29uc3QgYj17cjpyK2RyLGM6YytkY307aWYoYi5yPj1TSVpFfHxiLmM+PVNJWkUpY29udGludWU7Y29uc3QgYT17cixjfTtzd2FwTW9kZWwoYSxiKTtjb25zdCBvaz1maW5kTWF0Y2hlcygpLnNpemU+MDtzd2FwTW9kZWwoYSxiKTtpZihvaylyZXN1bHQucHVzaChbYSxiXSk7CiAgICB9CiAgICByZXR1cm4gcmVzdWx0OwogIH0KICBmdW5jdGlvbiBzaG93SGludCgpewogICAgaWYoYnVzeSlyZXR1cm47Y29uc3Qgb3B0aW9ucz12YWxpZFN3YXBzKCk7aGludENlbGxzLmNsZWFyKCk7CiAgICBpZighb3B0aW9ucy5sZW5ndGgpe3NldFN0YXR1cygn5b2T5YmN5qOL55uY5rKh5pyJ5Y+v5raI5Lqk5o2i77yM6K+36YeN572u5qOL55uY44CCJywnaW52YWxpZCcpO3JldHVybn0KICAgIGNvbnN0IFthLGJdPW9wdGlvbnNbMF07aGludENlbGxzLmFkZChrZXkoYSkpO2hpbnRDZWxscy5hZGQoa2V5KGIpKTtyZW5kZXJCb2FyZCgpOwogICAgc2V0U3RhdHVzKGDmj5DnpLrvvJrkuqTmjaLnrKwgJHthLnIrMX0g6KGM56ysICR7YS5jKzF9IOWIl+S4juesrCAke2IucisxfSDooYznrKwgJHtiLmMrMX0g5YiX44CCYCwnc3VjY2VzcycpOwogIH0KICBmdW5jdGlvbiByZXNldCgpewogICAgYm9hcmQ9aW5pdGlhbEJvYXJkLm1hcChyb3c9PnJvdy5zbGljZSgpKTtxdWV1ZXM9cXVldWVUZW1wbGF0ZS5tYXAocT0+cS5zbGljZSgpKTtzZWxlY3RlZD1udWxsO2hpbnRDZWxscz1uZXcgU2V0KCk7bWF0Y2hlZENlbGxzPW5ldyBTZXQoKTtyZWNlbnRTb3VyY2VzPW5ldyBNYXAoKTtidXN5PWZhbHNlO21vdmVObz0xO2V2ZW50Tm89MDtybmdEcmF3cz0wO3NlZWQ9MzgxNzQ7cm91bmRTdGFydD1wZXJmb3JtYW5jZS5ub3coKTtzdXBwcmVzc0NsaWNrVW50aWw9MDsKICAgIHVpLmxlZGdlci50ZXh0Q29udGVudD0nJzt1aS50dXJuLnRleHRDb250ZW50PSdNT1ZFIDAxJzt1aS5ybmcudGV4dENvbnRlbnQ9J+acrOi9riAwIOmilyc7dWkucXVldWUudGV4dENvbnRlbnQ9ZmlsbE1vZGU9PT0ncXVldWUnPydMMSDoo4HliarpmJ/liJcgWDDigJNYNSc6J+W3sui3s+i/h+mihOWumuS5iemYn+WIlyc7c2V0UGhhc2UoJ1JFQURZJyk7CiAgICBzZXRTdGF0dXMoJ+aji+ebmOW3suWwsee7quOAguWmguaenOS4jeehruWumuS6pOaNouWTqumHjO+8jOeCueOAjOaPkOekuuWPr+a2iOS4gOatpeOAjeOAgicpOwogICAgYWRkTGVkZ2VyKCfmo4vnm5jliJ3lp4vljJYnLCfml6DpooTlrZjkuInov57vvJvkuqTmjaLlv4XpobvkuqfnlJ/ljLnphY3miY3og73mj5DkuqQnLCdsb2dpYycpO3JlbmRlckJvYXJkKCk7CiAgfQogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ1tkYXRhLWZpbGwtbW9kZV0nKS5mb3JFYWNoKGJ1dHRvbj0+YnV0dG9uLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywoKT0+ewogICAgaWYoYnVzeSlyZXR1cm47ZmlsbE1vZGU9YnV0dG9uLmRhdGFzZXQuZmlsbE1vZGU7ZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnW2RhdGEtZmlsbC1tb2RlXScpLmZvckVhY2goYj0+Yi5jbGFzc0xpc3QudG9nZ2xlKCdhY3RpdmUnLGI9PT1idXR0b24pKTsKICAgIHVpLnF1ZXVlLnRleHRDb250ZW50PWZpbGxNb2RlPT09J3F1ZXVlJz8nTDEg6KOB5Ymq6Zif5YiXIFgw4oCTWDUnOiflt7Lot7Pov4fpooTlrprkuYnpmJ/liJcnOwogICAgYWRkTGVkZ2VyKCfooaXmo4vmqKHlvI/liIfmjaInLGZpbGxNb2RlPT09J3F1ZXVlJz8n5YWI5raI6LS55q+P5YiX6aKE5a6a5LmJ6Zif5YiX77yM6ICX5bC95ZCO5L2/55So5pWZ5a2m5Zue6YCA6aKc6ImyJzon5pWZ5a2m5a+554Wn77ya5omA5pyJ56m65qC855u05o6l5L2/55So5Yqo55S75YaF5pWZ5a2mIFJOR++8jOS4jeS7o+ihqOWunuacuuminOiJsicsZmlsbE1vZGU9PT0ncXVldWUnPydxdWV1ZSc6J3JhbmRvbScpOwogICAgcmVuZGVyUXVldWVWaXN1YWwoKTsKICB9KSk7CiAgdWkuaGludC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsc2hvd0hpbnQpO3VpLnJlc2V0LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJyxyZXNldCk7CiAgZmlsbE1vZGU9J3F1ZXVlJztyZXNldCgpOwp9KSgpOwo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==" title="补棋机制可玩实验"></iframe></div></details></section>
+<section id="original-difficulty-next"><div class="section-no">04 / DIFFICULTY NEXT</div><h3><code>DifficultyNext</code> 到底做了什么</h3><p class="lead">五阶段已经讲清整体流程；这一节只回答代码层的问题：谁在调它、传什么范围、返回整数后怎么解释。全 ARM64 可执行段找到 24 个外部直接调用点。</p>
+<div class="split"><div><div class="code-block"><pre>DifficultyNext(min, max)
+  -&gt; 直接跳到 GetDifficultyNext
+
+GetDifficultyNext(min, max)
+  -&gt; difficultySeedGenerationCount += 1
+  -&gt; return difficultyRandom.Next(min, max)</pre></div><p><code>min/max</code> 原样传给 <code>System.Random.Next</code>。函数内部没有当前关卡、TryCount、Easy/Hard JSON、胜率、Moves 或颜色分支。</p></div>
+<div><div class="stat"><b>1 条指令</b><code>DifficultyNext</code> 自身只有一条尾跳转。</div><div class="stat"><b>24 个外部调用点</b>覆盖补棋、LevelSet、洗牌、颜色选择和 booster pattern。</div><div class="stat"><b>0 个直接 Easy/Hard 调用者</b>全量直连扫描里没有 Dynamic Difficulty 家族。</div></div></div>
+<h4>同一个整数，在不同调用者里含义不同</h4><table><thead><tr><th>调用者</th><th>范围</th><th>返回值的业务含义</th></tr></thead><tbody>
+<tr><td><code>GetRandomFillItem</code></td><td><code>0 .. 可用 Set 总权重</code></td><td>选择一个 LevelSet。</td></tr><tr><td><code>LevelSet.GetRandomItem</code></td><td><code>0 .. Set 内总权重</code></td><td>选择一个 <code>LevelSetElement.id</code>。</td></tr><tr><td><code>ShuffleListBasedOnDifficulty</code></td><td>随循环位置变化</td><td>作为交换下标。</td></tr><tr><td><code>GetRandomTargetColumnItem</code></td><td><code>0 .. 当前列可用权重</code></td><td>只在该列允许的集合中选，不是随机决定列。</td></tr></tbody></table>
+<h4>L1451：数字怎样落成颜色</h4><p>L1451 的普通候选顺序是 <code>[3,1,2,4]</code>，且只有一个可用 Set：</p><div class="code-block"><pre>DifficultyNext(0, 1) = 0     # 选唯一的 Set1
+DifficultyNext(0, 4) = 2     # 选候选表第 3 项
+[3, 1, 2, 4][2] = 2          # 实际生成 matchType 2</pre></div>
+<div class="seed-flow" id="original-seed-piece-flow">
+<div class="seed-flow-head"><div><b>L1451：seed 怎样变成补棋顺序</b><br/><span>本局 seed：873</span></div><span>首个随机补棋前，已有 10 次随机调用</span></div>
+<div class="seed-lane"><div class="seed-lane-label">随机数流</div><div aria-label="每颗随机补棋消耗的一对随机数" class="seed-tape">
+<span class="seed-pair" data-step="0"><span class="seed-num">0</span><span>→</span><span class="seed-num">1</span></span><span class="seed-pair" data-step="1"><span class="seed-num">0</span><span>→</span><span class="seed-num">2</span></span><span class="seed-pair" data-step="2"><span class="seed-num">0</span><span>→</span><span class="seed-num">1</span></span><span class="seed-pair" data-step="3"><span class="seed-num">0</span><span>→</span><span class="seed-num">3</span></span><span class="seed-pair" data-step="4"><span class="seed-num">0</span><span>→</span><span class="seed-num">2</span></span><span class="seed-pair" data-step="5"><span class="seed-num">0</span><span>→</span><span class="seed-num">2</span></span></div></div>
+<div class="seed-lane"><div class="seed-lane-label">L1451 候选表</div><div class="seed-map"><span class="seed-map-item"><span class="seed-num">0</span>→<span class="piece-dot piece-red"></span>红 3</span><span class="seed-map-item"><span class="seed-num">1</span>→<span class="piece-dot piece-blue"></span>蓝 1</span><span class="seed-map-item"><span class="seed-num">2</span>→<span class="piece-dot piece-green"></span>绿 2</span><span class="seed-map-item"><span class="seed-num">3</span>→<span class="piece-dot piece-yellow"></span>黄 4</span></div></div>
+<div class="seed-lane"><div class="seed-lane-label">实际推出</div><div aria-label="实机日志中的前六颗随机补棋" class="seed-pieces"><span class="seed-piece" data-step="0"><span class="piece-dot piece-blue"></span>蓝</span><span class="seed-piece" data-step="1"><span class="piece-dot piece-green"></span>绿</span><span class="seed-piece" data-step="2"><span class="piece-dot piece-blue"></span>蓝</span><span class="seed-piece" data-step="3"><span class="piece-dot piece-yellow"></span>黄</span><span class="seed-piece" data-step="4"><span class="piece-dot piece-green"></span>绿</span><span class="seed-piece" data-step="5"><span class="piece-dot piece-green"></span>绿</span></div></div>
+<div aria-live="polite" class="seed-detail" id="original-seed-flow-detail">seed 只初始化随机状态；此时还没有直接生成任何颜色。</div><div class="seed-controls"><button id="original-seed-flow-prev" type="button">上一颗</button><button class="primary" id="original-seed-flow-next" type="button">下一颗</button><span class="seed-progress" id="original-seed-flow-progress">尚未推送</span></div></div>
+<p>首批六颗随机补棋的第二次返回值是 <code>1,2,1,3,2,2</code>，映射后为 <code>1,2,1,4,2,2</code>，与实机生成的六颗棋全部一致。<span class="badge e2">E2 实机</span></p>
+<details><summary>查看 System.Random 的函数地址与边界</summary><div><p>包体内是经典 .NET subtractive RNG：<code>ctor 0x2556934</code>、<code>InternalSample 0x2556B14</code>、<code>Next(min,max) 0x2556C18</code>。具体的 56 格初始化、两游标做差、MBIG 回绕和区间缩放，请直接看上面第 2 阶段的可交互真实计算。</p><p>只知道 seed 仍不够预测第 N 颗棋：还要知道此前所有调用及每次 <code>(min,max)</code>，因为洗牌、初始选色和 booster pattern 也会消耗同一条流。</p></div></details></section></div><script>(() => {
+if (document.getElementById('original-rm-seed-stages')) {
+
+    (() => {
+      const root = document.getElementById('original-rm-seed-stages');
+      if (!root) return;
+      const panels = [...root.querySelectorAll('[data-stage]')];
+      const stageButtons = [...root.querySelectorAll('[data-stage-button]')];
+      const prev = root.querySelector('#original-rm-prev-stage');
+      const next = root.querySelector('#original-rm-next-stage');
+      const status = root.querySelector('#original-rm-stage-status');
+      const name = root.querySelector('#original-rm-stage-name');
+      const stageNames = ['基础 Seed 的来源', '1000 项 Seed 表的生成', '本次尝试取哪个 Seed', 'Seed 如何参与补棋', '失败或过关后的变化'];
+      let current = 0;
+
+      function showStage(index, persist = true) {
+        current = Math.max(0, Math.min(panels.length - 1, index));
+        panels.forEach((panel, i) => { panel.hidden = i !== current; });
+        stageButtons.forEach((button, i) => {
+          const active = i === current;
+          button.setAttribute('aria-pressed', String(active));
+          button.classList.toggle('btn-primary', active);
+        });
+        prev.disabled = current === 0;
+        next.disabled = current === panels.length - 1;
+        status.textContent = `阶段 ${current + 1} / ${panels.length}`;
+        name.textContent = stageNames[current];
+      }
+
+      stageButtons.forEach(button => button.addEventListener('click', () => showStage(Number(button.dataset.stageButton))));
+      prev.addEventListener('click', () => showStage(current - 1));
+      next.addEventListener('click', () => showStage(current + 1));
+
+      const seeds = [882, 809, 741, 977, 579, 456, 634, 696, 713, 354, 67, 604, 493, 162, 329, 873, 52, 666, 360, 698];
+      const MBIG = 2147483647;
+
+      class DotNetRandom {
+        constructor(seed) {
+          this.seedArray = new Array(56).fill(0);
+          const subtraction = seed === -2147483648 ? 2147483647 : Math.abs(seed);
+          let mj = 161803398 - subtraction;
+          if (mj < 0) mj += MBIG;
+          this.seedArray[55] = mj;
+          let mk = 1;
+          for (let i = 1; i < 55; i += 1) {
+            const index = (21 * i) % 55;
+            this.seedArray[index] = mk;
+            mk = mj - mk;
+            if (mk < 0) mk += MBIG;
+            mj = this.seedArray[index];
+          }
+          for (let round = 1; round < 5; round += 1) {
+            for (let i = 1; i < 56; i += 1) {
+              this.seedArray[i] -= this.seedArray[1 + ((i + 30) % 55)];
+              if (this.seedArray[i] < 0) this.seedArray[i] += MBIG;
+            }
+          }
+          this.inext = 0;
+          this.inextp = 21;
+        }
+
+        next(min, max) {
+          const previousInext = this.inext;
+          const previousInextp = this.inextp;
+          let inext = previousInext + 1;
+          let inextp = previousInextp + 1;
+          if (inext >= 56) inext = 1;
+          if (inextp >= 56) inextp = 1;
+          const left = this.seedArray[inext];
+          const right = this.seedArray[inextp];
+          const rawBeforeWrap = left - right;
+          let sample = rawBeforeWrap;
+          if (sample === MBIG) sample -= 1;
+          if (sample < 0) sample += MBIG;
+          this.seedArray[inext] = sample;
+          this.inext = inext;
+          this.inextp = inextp;
+          const unit = sample / MBIG;
+          const range = max - min;
+          const scaled = unit * range;
+          const offset = Math.floor(scaled);
+          return { previousInext, previousInextp, inext, inextp, left, right, rawBeforeWrap, sample, unit, range, scaled, offset, result: min + offset };
+        }
+      }
+
+      function calculateShuffleStep(targetPosition) {
+        const random = new DotNetRandom(-1580803433);
+        const list = Array.from({ length: 1000 }, (_, index) => index);
+        let selected = null;
+        for (let position = 0; position <= targetPosition; position += 1) {
+          const draw = random.next(position, 1000);
+          const beforeLeft = list[position];
+          const beforeRight = list[draw.result];
+          if (position === targetPosition) selected = { position, beforeLeft, beforeRight, ...draw };
+          [list[position], list[draw.result]] = [list[draw.result], list[position]];
+        }
+        return selected;
+      }
+
+      const shuffleRange = root.querySelector('#original-rm-shuffle-position');
+      shuffleRange.value = '0';
+
+      function updateShuffle(persist = true) {
+        const position = Number(shuffleRange.value);
+        const step = calculateShuffleStep(position);
+        const adjusted = step.rawBeforeWrap < 0 || step.rawBeforeWrap === MBIG;
+        root.querySelector('#original-rm-shuffle-output').textContent = String(position);
+        root.querySelector('#original-rm-calc-pointers').textContent = `inext: ${step.previousInext}→${step.inext} · inextp: ${step.previousInextp}→${step.inextp}`;
+        root.querySelector('#original-rm-calc-subtract').textContent = `${step.left} - ${step.right} = ${step.rawBeforeWrap}`;
+        root.querySelector('#original-rm-calc-wrap-label').textContent = adjusted ? '按 MBIG 调整到合法范围' : '结果已经位于合法范围';
+        root.querySelector('#original-rm-calc-wrap').textContent = step.rawBeforeWrap < 0 ? `${step.rawBeforeWrap} + ${MBIG} = ${step.sample}` : step.rawBeforeWrap === MBIG ? `${step.rawBeforeWrap} - 1 = ${step.sample}` : `${step.sample}`;
+        root.querySelector('#original-rm-calc-write').textContent = `seedArray[${step.inext}]`;
+        root.querySelector('#original-rm-calc-unit').textContent = `${step.sample} / ${MBIG} = ${step.unit.toFixed(10)}`;
+        root.querySelector('#original-rm-calc-scale').textContent = `floor(${step.unit.toFixed(10)} × (1000 - ${position})) = ${step.offset}`;
+        root.querySelector('#original-rm-calc-result').textContent = `j = ${position} + ${step.offset} = ${step.result}`;
+        root.querySelector('#original-rm-calc-range').textContent = `${position}–999`;
+        root.querySelector('#original-rm-calc-swap').textContent = `Swap(list[${position}]=${step.beforeLeft}, list[${step.result}]=${step.beforeRight})；位置 ${position} 最终固定为 ${step.beforeRight}`;
+        root.querySelectorAll('.tape-cell').forEach((cell, index) => cell.classList.toggle('selected', index === position));
+      }
+
+      shuffleRange.addEventListener('input', () => updateShuffle());
+      const tryRange = root.querySelector('#original-rm-try-count');
+      tryRange.value = '15';
+
+      function updateTry(persist = true) {
+        const count = Number(tryRange.value);
+        root.querySelector('#original-rm-try-output').textContent = String(count);
+        root.querySelector('#original-rm-try-a').textContent = String(count);
+        root.querySelector('#original-rm-try-index').textContent = `${count} mod 1000 = ${count}`;
+        root.querySelector('#original-rm-try-seed').textContent = `seedList[${count}] = ${seeds[count]}`;
+        root.querySelector('#original-rm-set-seed').textContent = `difficultySeed = ${seeds[count]}`;
+        root.querySelector('#original-rm-new-random').textContent = `difficultyRandom = new Random(${seeds[count]})`;
+      }
+
+      tryRange.addEventListener('input', () => updateTry());
+      updateShuffle(false);
+      updateTry(false);
+      showStage(current, false);
+    })();
+  
+}
+if (document.getElementById('original-seed-piece-flow')) {
+
+(() => {
+  const root = document.getElementById('original-seed-piece-flow');
+  if (!root) return;
+  const rows = [{index:1,color:'蓝 1'},{index:2,color:'绿 2'},{index:1,color:'蓝 1'},{index:3,color:'黄 4'},{index:2,color:'绿 2'},{index:2,color:'绿 2'}];
+  const detail = document.getElementById('original-seed-flow-detail');
+  const progress = document.getElementById('original-seed-flow-progress');
+  const prev = document.getElementById('original-seed-flow-prev');
+  const next = document.getElementById('original-seed-flow-next');
+  let step = -1;
+  function render() {
+    root.querySelectorAll('.seed-pair').forEach((node, i) => { node.classList.toggle('active', i === step); node.classList.toggle('done', i < step); });
+    root.querySelectorAll('.seed-piece').forEach((node, i) => { node.classList.toggle('visible', i <= step); node.classList.toggle('current', i === step); });
+    if (step < 0) { detail.textContent = 'seed 只初始化随机状态；此时还没有直接生成任何颜色。'; progress.textContent = '尚未推送'; }
+    else { const row = rows[step]; detail.textContent = '第 ' + (step + 1) + ' 颗：第一个 0 选中唯一的 Set1；第二个 ' + row.index + ' 查候选表，得到 ' + row.color + '。'; progress.textContent = (step + 1) + ' / ' + rows.length; }
+    prev.disabled = step < 0; next.disabled = step >= rows.length - 1;
+  }
+  prev.addEventListener('click', () => { step = Math.max(-1, step - 1); render(); });
+  next.addEventListener('click', () => { step = Math.min(rows.length - 1, step + 1); render(); });
+  render();
+})();
+
+}
+})();</script>
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2><p>结论：视频只能看到出了什么棋；代码能说明从哪个来源取、怎样过滤、如何按权重抽样。</p><p>速度：减少靠大量录像反推概率的工作，可对固定输入批量复算；完整分支与随机消耗顺序仍要验证。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="fall-rules.html">交换、匹配、下落与多棋盘</a><a href="obstacle-rules.html">障碍、道具、组合技</a><a href="propeller-targeting.html">飞机寻路：目标选择、重选与组合</a><a href="smart-rocket.html">智能火箭：方向与范围收益</a><a href="special-creation.html">特殊块生成位置与激活时机</a><a href="hit-spread-timing.html">命中去重、扩散与连锁节奏</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<footer><a href="../index.html#row-refill">← 返回内容总览</a></footer></main>
+</body></html>

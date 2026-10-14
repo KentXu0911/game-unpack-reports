@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>障碍登场节奏与分类 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-level-config">← 返回内容总览</a></p>
+<h1>障碍登场节奏与分类</h1><p>从早期密集教学到后期200关登场节奏，按玩家要处理的事情分类。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span>研究样本：build 38174</span></div><article class="topic-detail"><div class="topic-body"><section class="level-progression" id="obstacle-progression">
+<h3>障碍在第几关出现，后来怎样复用</h3>
+<p>这里的“出现时间”按关卡进度记录：某种物体或格子层第一次写进关卡配置，是它在本样本中的首现关。它不是发布日期，也不代表当期线上账号的解锁条件。</p>
+<p>前100关登场密集，101–1000关逐渐拉开到20–50关；1001关以后先以100关为常见间隔，2201关以后多数新登场集中到200关段的开头。到了后期，每200关通常才加一批新类型，其余关卡继续复用已出现的类型。</p>
+<div class="data-scroll stage-table"><table><thead><tr><th scope="col">关卡阶段</th><th scope="col">新增配置类型／不同首现关</th><th scope="col">具体登场节奏</th></tr></thead><tbody><tr><th scope="row">L1–L100</th><td>12项／12个首现关</td><td>箱子L1，草地L4，橱柜L11；邮箱L21、蛋L31、药水L41、花瓶L51、蜂蜜L81。前100关已先后放入12项配置类型。</td></tr><tr><th scope="row">L101–L1000</th><td>21项／21个首现关</td><td>鸟L101、彩箱L121、碎冰机L141；从炸药箱L351往后，鸟巢L451、石头L501、钻头L601等多按50关间隔登场。</td></tr><tr><th scope="row">L1001–L3000</th><td>16项／15个首现关</td><td>袋子L1001、灯笼L1101、保龄球L1201，早段大体每100关一项；蜂蜜罐L2201、头盔小猪L2401后转向200关节奏。</td></tr><tr><th scope="row">L3001–L6000</th><td>16项／14个首现关</td><td>磁铁L3201、传送带L3801、藤蔓L5201等多数落在200关段开头；L3401没有新增记录，不能把节奏理解成绝无缺口。</td></tr><tr><th scope="row">L6001–L10000</th><td>21项／19个首现关</td><td>售货机L6201、玩具箱L7201/L7202、力场L7601、密码筒L8601；多种模型有同关或相邻关登场，先合并日期再计算间隔。</td></tr><tr><th scope="row">L10001–L14500</th><td>26项／24个首现关</td><td>传送门L10001、雷达L12001、松鼠L11801、金属板L13401、浴缸L14401等，除L10202的方向模型外，首现关均为200关段首。</td></tr></tbody></table></div>
+<p>例如箱子从L1开始、总共出现在1,704关；草地从L4开始、出现在1,498关；蜂蜜从L81开始、出现在1,134关；传送带从L3801开始、出现在713关。它们的首次出现隔得很远，但后来会与其他已登场物体反复组合；首现时间不能替代每关的组合统计。</p>
+<h4 id="obstacle-categories">按玩家要处理的事情归纳</h4>
+<div class="data-scroll"><table><thead><tr><th scope="col">归纳类别</th><th scope="col">玩家具体要处理什么</th><th scope="col">代表障碍</th></tr></thead><tbody>
+<tr><td>A · 面积／覆盖层</td><td>把一片区域逐步清理干净，消除位置决定覆盖效率。</td><td>草地、蜂蜜、果冻、屋顶、锁链</td></tr>
+<tr><td>B · 点状／多击障碍</td><td>集中处理占位物体，清掉后才释放空间。</td><td>箱子、花瓶、蛋、小猪、保险箱、石头</td></tr>
+<tr><td>C · 生成／投放源</td><td>除眼前目标外，还要处理后续投放出来的东西。</td><td>邮箱、药水、鸟巢、糖果机</td></tr>
+<tr><td>D · 位移／路径规则</td><td>目标的位置或行动路线会改变，需要跟着位置安排消除。</td><td>鸟、传送带、磁铁、飞碟、原木</td></tr>
+<tr><td>E · 条件／优先级机关</td><td>处理顺序受条件限制，要先满足条件再推进其他目标。</td><td>藤蔓、能量块、雷达、松鼠</td></tr>
+</tbody></table></div>
+</section></div></article>
+<nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="level-examples.html">真实棋盘例子</a><a href="tile-codes.html">颜色与道具代码</a><a href="obstacle-first-seen.html">每种障碍首现表</a><a href="level-pressure.html">配置难度曲线</a><a href="level-rhythm.html">尾号与首现压力</a></nav>
+<footer><a href="../index.html#row-level-config">← 返回内容总览</a></footer></main>
+</body></html>

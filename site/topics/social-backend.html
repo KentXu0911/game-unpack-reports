@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>原社交、赛事后台 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-social-backend">← 返回内容总览</a></p>
+<h1>原社交、赛事后台</h1><p>客户端可见协议与结果消费；原匹配、排名校验、奖励核验服务的源实现不在当前样本内。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability unavailable">样本内无原件</span><span>研究样本：build 38174</span></div><section id="social-backend" class="topic-detail" aria-labelledby="title-social-backend"><h2 id="title-social-backend">原社交、赛事后台</h2><div class="topic-body"><h3>客户端证据的上限</h3><p>请求字段、返回结构与UI消费能帮助定义替代服务，但不能确定原服怎样匹配、计算排名、处理作弊或并发发奖。</p><h3>需要什么才可确认</h3><p>原团队资料、服务端代码或相应系统观测才可能说明原实现。多次账号快照可约束假设，仍不保证唯一识别后台决策模型。</p><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>账号状态、调难、后台与原工具边界</h6><p>指定客户端函数与现有样本边界。SemiDynamicDifficulty主线路径回传步数；ProcessKeyValueResponse接收打包long状态。真实账号输入、生效消费者与后台决策仍需验证。远征GetUpdatedSegment 0x37C3704、pending计算0x37C37FC；原后台策略与全服遥测无原件。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/BOUNDARIES.md</code></p></div></details></div></section>
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2><p>结论：能更准确描述客户端需要什么数据，无法据有限结果唯一还原后台算法。</p><p>速度：有助于自建接口与测试桩；不能缩短成“已经拿到原后台”。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="area-tasks.html">装修、章节、解锁</a><a href="activity-defaults.html">活动玩法、默认奖励</a><a href="schedule-boundaries.html">当期活动、排期、排行</a><a href="team-flow.html">团队、社交流程</a><a href="distributed-assets.html">界面、美术、动画、音效</a><a href="source-projects.html">原制作工程</a></nav>
+<footer><a href="../index.html#row-social-backend">← 返回内容总览</a></footer></main>
+</body></html>

@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import sys
 from level_progression import level_progression
+from report_sections import Tree, preserved_chapters
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "content"))
@@ -21,35 +23,57 @@ STATUS = {
 }
 
 
-# Link content items to the relevant full report chapter. New algorithm notes
-# have their own pages; the earlier reports remain the detailed reading surface.
-DESTINATIONS = {
-    'level-config': 'reports/07-rea-recovery.html#level-config',
-    'refill': 'reports/03-mechanism-difficulty.html#seed-lifecycle',
-    'fall-rules': 'reports/07-rea-recovery.html#fall-rules',
-    'obstacle-rules': 'reports/04-gate-resolution.html#gate-matrix',
-    'win-settlement': 'reports/03-mechanism-difficulty.html#adaptation',
-    'level-pressure': 'reports/07-rea-recovery.html#level-difficulty',
-    'production-tools': 'reports/07-rea-recovery.html#production-tools',
-    'area-tasks': 'reports/07-rea-recovery.html#area-tasks',
-    'activity-defaults': 'reports/02-activity-config.html#s2',
-    'schedule-boundaries': 'reports/01-activity-schedule.html#activity-7',
-    'team-flow': 'reports/07-rea-recovery.html#team-flow',
-    'distributed-assets': 'reports/07-rea-recovery.html#distributed-assets',
-    'social-backend': 'reports/07-rea-recovery.html#server-boundary',
-    'source-projects': 'reports/07-rea-recovery.html#source-projects',
-    'failure-product': 'reports/06-commercialization-audit.html#failure-product',
-    'user-tiers': 'reports/06-commercialization-audit.html#user-tiers',
-    'shop-rules': 'reports/06-commercialization-audit.html#product-activities',
-    'passes': 'reports/02-activity-config.html#s2',
-    'account-offers': 'reports/06-commercialization-audit.html#dynamic',
-    'payment': 'reports/06-commercialization-audit.html#payment',
-    'live-price-ads': 'reports/06-commercialization-audit.html#boundaries',
-    'experiments': 'reports/06-commercialization-audit.html#experiments',
-    'commerce-backend': 'reports/06-commercialization-audit.html#gaps',
-}
+# Every overview item has a separate reading page.
 ALGORITHM_KEYS = ['propeller-targeting', 'smart-rocket', 'special-creation', 'hit-spread-timing']
-DESTINATIONS.update({key: f'topics/{key}.html' for key in ALGORITHM_KEYS})
+DESTINATIONS = {topic['key']: f"topics/{topic['key']}.html" for topic in TOPICS}
+LEVEL_PAGES = {
+    'level-examples': ('真实棋盘例子', '对照四个关卡的数字、布局、草地层与目标。'),
+    'tile-codes': ('颜色与道具代码', 'TiledId、GoalType和CellFillType分别对照。'),
+    'obstacle-progression': ('障碍登场节奏与分类', '从早期密集教学到后期200关登场节奏，按玩家要处理的事情分类。'),
+    'obstacle-first-seen': ('每种障碍的首次关卡', '查询首次关卡、之后再次出现的4关与总出现关数。'),
+    'level-rhythm': ('尾号与首现压力', '尾号统计、跨区间重复性与19项首现压力对照。'),
+}
+LEVEL_LINKS = [
+    ('level-examples', '真实棋盘例子'), ('tile-codes', '颜色与道具代码'),
+    ('obstacle-progression', '障碍登场节奏与分类'), ('obstacle-first-seen', '每种障碍首现表'),
+    ('level-pressure', '配置难度曲线'), ('level-rhythm', '尾号与首现压力'),
+]
+LEGACY_CHAPTERS = {
+    'refill': ('03-mechanism-difficulty.html', ['terms', 'seed-lifecycle', 'refill', 'difficulty-next']),
+    'obstacle-rules': ('04-gate-resolution.html', ['gate-matrix']),
+    'win-settlement': ('03-mechanism-difficulty.html', ['adaptation']),
+    'activity-defaults': ('02-activity-config.html', ['s1', 's2']),
+    'passes': ('02-activity-config.html', ['s3']),
+    'schedule-boundaries': ('01-activity-schedule.html', ['activity-2', 'activity-3', 'activity-4', 'activity-5', 'activity-7', 'activity-8']),
+    'failure-product': ('06-commercialization-audit.html', ['failure-product', 'rescue']),
+    'user-tiers': ('06-commercialization-audit.html', ['user-tiers', 'segments']),
+    'shop-rules': ('06-commercialization-audit.html', ['product-activities', 'shelves', 'golden']),
+    'account-offers': ('06-commercialization-audit.html', ['dynamic', 'adaptive-product', 'adaptive']),
+    'payment': ('06-commercialization-audit.html', ['payment']),
+    'live-price-ads': ('06-commercialization-audit.html', ['boundaries']),
+    'experiments': ('06-commercialization-audit.html', ['experiments']),
+    'commerce-backend': ('06-commercialization-audit.html', ['gaps']),
+}
+
+
+def legacy_routes():
+    routes = {}
+    for key, (filename, anchors) in LEGACY_CHAPTERS.items():
+        routes.setdefault(filename, {}).update({anchor: '../' + topic_url(key) for anchor in anchors})
+    routes['03-mechanism-difficulty.html'].update({'curve': '../topics/level-pressure.html', 'colleague': '../topics/level-rhythm.html'})
+    routes['07-rea-recovery.html'] = {key: '../' + topic_url(key) for key in [
+        'level-config', 'fall-rules', 'obstacle-rules', 'area-tasks', 'distributed-assets',
+        'team-flow', 'production-tools', 'social-backend', 'source-projects']}
+    routes['07-rea-recovery.html'].update({
+        'server-boundary': '../topics/social-backend.html',
+        'level-examples-title': '../topics/level-examples.html',
+        'tile-code-dictionary': '../topics/tile-codes.html',
+        'obstacle-progression': '../topics/obstacle-progression.html',
+        'obstacle-categories': '../topics/obstacle-progression.html',
+        'obstacle-first-seen': '../topics/obstacle-first-seen.html',
+        'level-difficulty': '../topics/level-pressure.html', 'level-rhythm': '../topics/level-rhythm.html',
+    })
+    return routes
 
 
 def topic_url(key):
@@ -95,14 +119,11 @@ def profiles():
 def extras(topic):
     key = topic['key']
     if key == 'level-config':
-        return ('<nav class="level-section-nav" aria-label="初始棋盘内容">'
-                '<a href="#level-examples-title">真实棋盘例子</a>'
-                '<a href="#tile-code-dictionary">颜色与道具代码</a>'
-                '<a href="#obstacle-progression">障碍登场节奏</a>'
-                '<a href="#obstacle-first-seen">每种障碍首现表</a>'
-                '<a href="#level-difficulty">配置难度曲线</a>'
-                '<a href="#level-rhythm">尾号与首现压力</a></nav>'
-                + level_examples() + level_progression())
+        return '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
+            f'<a href="{e(key)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>'
+            for key, title in LEVEL_LINKS) + '</nav>'
+    if key == 'level-pressure':
+        return level_page_content('level-pressure')
     if key == 'propeller-targeting':
         return ('<div class="flow" aria-label="已定位的飞机目标处理链">'
                 '<span>寻找候选目标</span><b>→</b><span>检查目标能否命中</span><b>→</b>'
@@ -230,6 +251,25 @@ def level_examples():
             '不模拟开局调色、随机数消费、其他障碍层、动画和实际通关。</p></details></section>')
 
 
+def level_page_content(key):
+    if key in ('level-examples', 'tile-codes'):
+        full = level_examples()
+        before, codes = full.split('<h3 id="tile-code-dictionary">', 1)
+        evidence = '<details class="evidence">' + codes.split('<details class="evidence">', 1)[1]
+        if key == 'level-examples':
+            return before + evidence
+        return '<section class="level-examples"><h3 id="tile-code-dictionary">' + codes
+    full = level_progression()
+    progression, curves = full.split('<section id="level-difficulty"', 1)
+    chronology, first_seen = progression.split('<h4 id="obstacle-first-seen">', 1)
+    if key == 'obstacle-progression':
+        return chronology + '</section>'
+    if key == 'obstacle-first-seen':
+        return '<section class="level-progression"><h3 id="obstacle-first-seen">' + first_seen.replace('</h4>', '</h3>', 1)
+    curve, rhythm = ('<section id="level-difficulty"' + curves).split('<section id="level-rhythm"', 1)
+    return curve if key == 'level-pressure' else '<section id="level-rhythm"' + rhythm
+
+
 REFERENCE_TITLES = {
     'reward-code': '42项奖励代码字典', 'activity-rewards': '默认活动奖励与配置路径',
     'passes': '通行证与阶梯礼包默认明细', 'sku': '金币内容量与SKU清单',
@@ -246,6 +286,8 @@ def detail(topic):
     paragraphs = ''.join(f'<h3>{e(title)}</h3><p>{e(text)}</p>' for title, text in topic['sections'])
     refs = []
     for name in topic['refs']:
+        if topic['key'] == 'level-pressure':
+            continue  # The complete migrated chapter already contains these tables.
         if name not in TABLES:
             continue  # Flow and interactive rule examples are rendered above.
         ref_id = 'gate-matrix' if name == 'gate-matrix' else f'data-{name}'
@@ -258,7 +300,7 @@ def detail(topic):
                         f'<p>{e(source["basis"])}。{e(source["detail"])}</p>'
                         f'<p>取证位置：<code>{e(source["locator"])}</code></p></div>')
     extra = extras(topic)
-    content = extra + paragraphs if topic['key'] == 'level-config' else paragraphs + extra
+    content = extra + paragraphs if topic['key'] in ('level-config', 'level-pressure') else paragraphs + extra
     return (f'<section id="{e(topic["key"])}" class="topic-detail" '
             f'aria-labelledby="title-{e(topic["key"])}">'
             f'<h2 id="title-{e(topic["key"])}">{e(topic["title"])}</h2>'
@@ -267,47 +309,63 @@ def detail(topic):
             '</div></section>')
 
 
-def render_topic_page(topic):
-    group = next(group for group in GROUPS if group[0] == topic['group'])
-    related = ''.join(f'<a href="../{e(topic_url(key))}">{e(next(t["title"] for t in TOPICS if t["key"] == key))}</a>'
-                      for key in ALGORITHM_KEYS if key != topic['key'])
-    comparisons = ''.join(f'<p>{e(text)}</p>' for text in topic['comparison'])
+def reader_page(key, title, summary, body, related='', comparisons='', status=None):
+    availability = (f'<span class="availability {e(status)}">{e(STATUS[status])}</span>' if status else '')
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(topic['title'])} · Royal Match</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} · Royal Match</title>
 <link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
-<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / PLAYER EXPERIENCE</p>
-<p><a class="header-back" href="../index.html#row-{e(topic['key'])}">← 返回内容总览</a> / {e(group[1])}</p>
-<h1>{e(topic['title'])}</h1><p>{e(topic['summary'])}</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability {e(topic['status'])}">{e(STATUS[topic['status']])}</span>
-<span>研究样本：build 38174</span></div>{detail(topic)}
-<section class="method-comparison"><h2>相比人工／实机视频／测评</h2>{comparisons}</section>
-<nav class="related-topics" aria-label="相关算法解读"><h2>相关内容</h2>{related}
-<a href="../reports/03-mechanism-difficulty.html#refill">补棋、Seed与难度完整报告</a>
-<a href="../reports/04-gate-resolution.html#gate-matrix">障碍门控矩阵完整报告</a></nav>
-<footer><a href="../index.html#row-{e(topic['key'])}">← 返回内容总览</a> · 结论限于已取得的build 38174样本。</footer></main>
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-{e(key if key in DESTINATIONS else 'level-config')}">← 返回内容总览</a></p>
+<h1>{e(title)}</h1><p>{e(summary)}</p></div></header>
+<main class="article-wrap"><div class="article-meta">{availability}<span>研究样本：build 38174</span></div>{body}
+{comparisons}<nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2>{related}</nav>
+<footer><a href="../index.html#row-{e(key if key in DESTINATIONS else 'level-config')}">← 返回内容总览</a></footer></main>
 </body></html>'''
 
 
+def render_topic_page(topic):
+    key = topic['key']
+    peers = [t for t in TOPICS if t['group'] == topic['group'] and t['key'] != key]
+    related = ''.join(f'<a href="{e(t["key"])}.html">{e(t["title"])}</a>' for t in peers)
+    if key in ('level-config', 'level-pressure'):
+        related = ''.join(f'<a href="{e(k)}.html">{e(title)}</a>' for k, title in LEVEL_LINKS if k != key) + related
+    comparisons = '<section class="method-comparison"><h2>相比人工／实机视频／测评</h2>' + ''.join(
+        f'<p>{e(text)}</p>' for text in topic['comparison']) + '</section>'
+    body = detail(topic)
+    if key in LEGACY_CHAPTERS:
+        filename, anchors = LEGACY_CHAPTERS[key]
+        routes = {anchor: url.replace('../topics/', '') for anchor, url in legacy_routes()[filename].items()}
+        body += preserved_chapters(ROOT / 'content/report-pages' / filename, anchors, routes)
+    return reader_page(key, topic['title'], topic['summary'], body, related, comparisons, topic['status'])
+
+
+def render_level_page(key, title, summary):
+    related = '<a href="level-config.html">初始棋盘、关卡配置</a>' + ''.join(
+        f'<a href="{e(k)}.html">{e(label)}</a>' for k, label in LEVEL_LINKS if k != key)
+    return reader_page(key, title, summary,
+                       '<article class="topic-detail"><div class="topic-body">' + level_page_content(key) + '</div></article>', related)
+
+
 def render_recovery_report():
-    keys = ['level-config', 'fall-rules', 'obstacle-rules', 'area-tasks', 'distributed-assets',
-            'team-flow', 'production-tools', 'social-backend', 'source-projects']
-    topics = [next(t for t in TOPICS if t['key'] == key) for key in keys]
-    nav = ''.join(f'<a href="#{e(t["key"])}">{e(t["title"])}</a>' for t in topics)
+    # Keep old addresses as a small directory; the routing script opens their page.
+    aliases = set(legacy_routes()['07-rea-recovery.html'])
+    aliases.update(json.loads((ROOT / 'content/legacy-anchors.json').read_text())['07-rea-recovery.html'])
+    aliases.update(f'example-level-{x["level"]}' for x in LEVEL_EXAMPLES['examples'])
+    aliases.update(['level-examples-title', 'tile-code-dictionary', 'gate-matrix'])
+    for topic in TOPICS:
+        aliases.add('title-' + topic['key'])
+        aliases.update('data-' + ref for ref in topic['refs'])
+    aliases.update('obstacle-' + r['key'] for r in json.loads((ROOT / 'content/level-progression.json').read_text())['records'])
+    spans = ''.join(f'<span id="{e(anchor)}"></span>' for anchor in sorted(aliases))
+    links = ''.join(f'<a href="../{e(topic_url(t["key"]))}">{e(t["title"])}</a>' for t in TOPICS if t['group'] == 'replication-core')
+    links += ''.join(f'<a href="../topics/{e(key)}.html">{e(title)}</a>' for key, title in LEVEL_LINKS)
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>客户端内容与复刻边界 · Royal Match</title><link rel="stylesheet" href="../assets/site.css">
-<script defer src="../assets/report-deep-links.js"></script>
-<script defer src="../assets/level-progression.js"></script></head><body class="detail-page">
-<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / CLIENT CONTENT</p>
-<p><a class="header-back" href="../index.html#replication-overview">← 返回内容总览</a></p>
-<h1>客户端内容与复刻边界</h1><p>玩法规则、区域任务、分发资源、团队流程与原制作工程的可得性。研究样本：build 38174。</p></div></header>
-<main class="article-wrap"><nav class="overview-nav" aria-label="报告章节">{nav}</nav>
-{''.join(('<span id="server-boundary"></span>' if t['key'] == 'social-backend' else '') + detail(t) for t in topics)}
-<section class="related-topics"><h2>道具与玩家体验算法</h2>
-{''.join(f'<a href="../{topic_url(key)}">{e(next(t["title"] for t in TOPICS if t["key"] == key))}</a>' for key in ALGORITHM_KEYS)}</section>
-<section id="evidence"><h2>研究方法与范围</h2><p>资源和原生代码说明指定样本的结构与行为。可恢复不等于已经完成规则移植、完整回放或原版对照。</p>
-<a href="05-unpack-methodology.html">解包工具链与可复用方法论完整报告</a></section>
-<footer><a href="../index.html#replication-overview">← 返回内容总览</a></footer></main></body></html>'''
+<title>玩法与客户端内容 · Royal Match</title><link rel="stylesheet" href="../assets/site.css">
+<script defer src="../assets/legacy-report-routes.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><a class="header-back" href="../index.html">← 返回内容总览</a><h1>玩法与客户端内容</h1></div></header>
+<main class="article-wrap">{spans}<nav class="reading-links" aria-label="独立内容页面">{links}</nav></main></body></html>'''
 
 
 
@@ -355,17 +413,51 @@ def render_site():
 自动导出量、函数入口数、局部反编译成功数也不等于语义恢复或可执行复刻完成。</p>
 <p>样本与来源绑定到文件和函数位置；元数据名称不代替行为，资源主题不代替排期，有限响应不代替后台决策公式。</p>
 <p><a href="reports/05-unpack-methodology.html">阅读完整解包方法论：工具链、SOP、常见陷阱与证据分级 →</a></p></details>
-<p class="mobile-hint">表格可左右滑动。点击第一列进入对应报告章节或算法详情页。</p>
+<p class="mobile-hint">表格可左右滑动。点击第一列进入该内容的独立页面。</p>
 {"".join(groups)}
 <footer>研究范围为已取得的 Royal Match build 38174 样本；不代表线上最新游戏版本或当前账号配置。
-<a href="https://github.com/KentXu0911/game-unpack-reports">站点仓库</a> · 各条目链接到对应报告与证据范围。</footer>
+<a href="https://github.com/KentXu0911/game-unpack-reports">站点仓库</a> · 各条目进入独立内容页面。</footer>
 </main></body></html>'''
+
+
+def write_legacy_routes():
+    routes = legacy_routes()
+    for key, (filename, anchors) in LEGACY_CHAPTERS.items():
+        tree = Tree((ROOT / 'content/report-pages' / filename).read_text())
+        for anchor in anchors:
+            for nested in re.findall(r'\bid="([^"]+)"', tree.chapter(anchor)):
+                if nested not in routes[filename]:
+                    routes[filename][nested] = f'../topics/{key}.html#original-{nested}'
+    routes['07-rea-recovery.html']['$default'] = '../topics/level-config.html'
+    routes['07-rea-recovery.html']['evidence'] = '../reports/05-unpack-methodology.html'
+    script = '''(() => {
+  const routes = ROUTES;
+  const page = location.pathname.split('/').pop();
+  const targets = routes[page];
+  if (!targets) return;
+  function navigate() {
+    let key;
+    try { key = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    let target = targets[key] || (!key && targets.$default);
+    if (!target && page === '07-rea-recovery.html') {
+      if (key.startsWith('obstacle-')) target = '../topics/obstacle-first-seen.html#' + encodeURIComponent(key);
+      if (key.startsWith('example-level-')) target = '../topics/level-examples.html#' + encodeURIComponent(key);
+    }
+    if (target) location.replace(target);
+  }
+  window.addEventListener('hashchange', navigate);
+  navigate();
+})();
+'''
+    (ROOT / 'site/assets/legacy-report-routes.js').write_text(
+        script.replace('ROUTES', json.dumps(routes, ensure_ascii=True)))
 
 
 def main():
     keys = [topic['key'] for topic in TOPICS]
     assert len(keys) == len(set(keys)), 'Duplicate topic key'
     assert set(keys) == set(DESTINATIONS), 'Every content item needs a detail page'
+    assert len(set(DESTINATIONS.values())) == len(keys), 'Each topic needs a unique page'
     used_refs = [ref for topic in TOPICS for ref in topic['refs'] if ref in TABLES]
     assert len(used_refs) == len(set(used_refs)), 'Reference table ids must be unique'
     for topic in TOPICS:
@@ -386,23 +478,26 @@ def main():
         (ROOT / 'content/level-progression.json').read_text())
     (ROOT / 'site/index.html').write_text(render_site())
     for source in (ROOT / 'content/report-pages').glob('*.html'):
-        (ROOT / 'site/reports' / source.name).write_text(source.read_text())
+        (ROOT / 'site/reports' / source.name).write_text(source.read_text().replace('</head>', '<script defer src="../assets/legacy-report-routes.js"></script></head>'))
     (ROOT / 'site/reports/07-rea-recovery.html').write_text(render_recovery_report())
     (ROOT / 'site/topics').mkdir(exist_ok=True)
-    for key in ALGORITHM_KEYS:
-        topic = next(t for t in TOPICS if t['key'] == key)
-        (ROOT / f'site/topics/{key}.html').write_text(render_topic_page(topic))
-    redirects = dict(DESTINATIONS, **{'gate-matrix': 'reports/04-gate-resolution.html#gate-matrix'})
+    for topic in TOPICS:
+        (ROOT / f'site/topics/{topic["key"]}.html').write_text(render_topic_page(topic))
+    for key, (title, summary) in LEVEL_PAGES.items():
+        (ROOT / f'site/topics/{key}.html').write_text(render_level_page(key, title, summary))
+    write_legacy_routes()
+    redirects = dict(DESTINATIONS, **{'gate-matrix': 'topics/obstacle-rules.html'})
     for topic in TOPICS:
         for name in topic['refs']:
             if name in TABLES and name != 'gate-matrix':
                 redirects[f'data-{name}'] = topic_url(topic['key'])
+    redirects['data-level-patterns'] = 'topics/level-rhythm.html'
     (ROOT / 'site/assets/overview-links.js').write_text(
         '(() => {\n  const targets = ' + json.dumps(redirects, ensure_ascii=True) + ';\n'
         "  function navigate() {\n    let key;\n    try { key = decodeURIComponent(location.hash.slice(1)); } catch { return; }\n"
         "    if (Object.prototype.hasOwnProperty.call(targets, key)) location.replace(targets[key]);\n"
         "  }\n  window.addEventListener('hashchange', navigate);\n  navigate();\n})();\n")
-    print(f'Built {len(TOPICS)} overview links, 7 full reports and {len(ALGORITHM_KEYS)} algorithm pages')
+    print(f'Built {len(TOPICS)} independent overview pages and {len(LEVEL_PAGES)} level detail pages; preserved legacy reports')
 
 
 if __name__ == '__main__':

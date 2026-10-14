@@ -1,0 +1,539 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>当期活动、排期、排行 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-schedule-boundaries">← 返回内容总览</a></p>
+<h1>当期活动、排期、排行</h1><p>可读解锁、时间字段、互斥槽位和展示流程；当期日期、奖励、对手与排名需服务器数据，未下发的未来安排无法推知。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability framework">需当期外部输入</span><span>研究样本：build 38174</span></div><section id="schedule-boundaries" class="topic-detail" aria-labelledby="title-schedule-boundaries"><h2 id="title-schedule-boundaries">当期活动、排期、排行</h2><div class="topic-body"><h3>已知的客户端规则</h3><p>活动管理器提供解锁条件，event_dependency有10个互斥轮换槽位，客户端具备剩余时间、活动有效状态与排行展示路径。到门槛只表示可参选，不代表当天必开。</p><h3>确实缺少的输入</h3><p>样本内未取得当前账号的活动绝对起止日期、当期奖励覆盖、对手与名次。需对应服务器响应；一次响应只能补已下发内容，不能给出未下发的未来完整排期。</p><h3>解锁表怎样读</h3><p>下表是包内客户端常量与资源映射，不是日历甘特图。图标首次出现、已解锁、后台开期、资源就绪和真正可玩是不同事件；不得合并成同一个开启时间。</p><details class="references" id="data-activity-unlocks"><summary>展开：29活动管理器的资格与资源映射</summary><div class="reference-item"><h6>活动管理器解锁与资源映射</h6><div class="data-scroll" tabindex="0" role="region" aria-label="活动管理器解锁与资源映射"><table><thead><tr><th>活动</th><th>客户端解锁关卡</th><th>互斥槽位</th><th>本地资源组／资源槽数</th></tr></thead><tbody><tr><td>BalloonRise</td><td>39</td><td>G5</td><td>未匹配本地组 / 5</td></tr><tr><td>PinataParty</td><td>39</td><td>G2</td><td>未匹配本地组 / 2</td></tr><tr><td>HiddenTemple</td><td>39</td><td>G4</td><td>hidden_temple / 1</td></tr><tr><td>MagicCauldron</td><td>39</td><td>G8</td><td>未匹配本地组 / 9</td></tr><tr><td>PuzzleBreak</td><td>39</td><td>—</td><td>puzzle_break / 0</td></tr><tr><td>DailyLightningRush</td><td>31</td><td>—</td><td>daily_lightning_rush / 4</td></tr><tr><td>Madness</td><td>28</td><td>G9</td><td>未匹配本地组 / 1</td></tr><tr><td>KingsCup</td><td>25</td><td>G7</td><td>未匹配本地组 / 3</td></tr><tr><td>TeamTournament</td><td>23</td><td>—</td><td>team_tournament / 0</td></tr><tr><td>TeamTreasure</td><td>23</td><td>G1</td><td>未匹配本地组 / 3</td></tr><tr><td>TeamBattle</td><td>22</td><td>—</td><td>未匹配本地组 / 2</td></tr><tr><td>InviteFriends</td><td>80</td><td>—</td><td>invite_friends / 0</td></tr><tr><td>ArcheryArena</td><td>56</td><td>G4</td><td>未匹配本地组 / 4</td></tr><tr><td>SkyRace</td><td>51</td><td>—</td><td>未匹配本地组 / 3</td></tr><tr><td>SpaceMission</td><td>51</td><td>G7</td><td>未匹配本地组 / 7</td></tr><tr><td>RobotRivals</td><td>51</td><td>—</td><td>robot_rivals / 0</td></tr><tr><td>RoyalWorldCup</td><td>61</td><td>—</td><td>royal_world_cup / 4</td></tr><tr><td>AncientAdventure</td><td>66</td><td>—</td><td>ancient_adventure / 0</td></tr><tr><td>LavaQuest</td><td>66</td><td>—</td><td>未匹配本地组 / 6</td></tr><tr><td>DragonNest</td><td>76</td><td>G3</td><td>未匹配本地组 / 40</td></tr><tr><td>ShortExpeditionEvent</td><td>76</td><td>—</td><td>short_expedition_event / 0</td></tr><tr><td>TrainJourney</td><td>76</td><td>—</td><td>train_journey / 0</td></tr><tr><td>DukesFortune</td><td>86</td><td>G7</td><td>未匹配本地组 / 5</td></tr><tr><td>OceanOdyssey</td><td>86</td><td>—</td><td>ocean_odyssey / 0</td></tr><tr><td>MergeSmith</td><td>86</td><td>—</td><td>merge_smith / 0</td></tr><tr><td>ClashOfChampions</td><td>96</td><td>—</td><td>clash_of_champions / 3</td></tr><tr><td>PropellerRush</td><td>96</td><td>—</td><td>propeller_rush / 0</td></tr><tr><td>RoyalPass</td><td>37</td><td>—</td><td>未匹配本地组 / 6</td></tr><tr><td>WeeklyPass</td><td>37</td><td>—</td><td>weekly_pass / 0</td></tr></tbody></table></div></div></details><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>活动资格、默认配置与轮换槽位</h6><p>客户端常量／资源映射／默认配置。29个活动管理器口径的解锁与资源映射；10互斥槽位。资格不等于实际开期，节日主题名不证明日历日期，未匹配本地资源组不等于没有远端或共享资源。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/activity_inventory.csv；decoded/config/event_dependency_default_config.json</code></p></div><div class="evidence-entry"><h6>账号状态、调难、后台与原工具边界</h6><p>指定客户端函数与现有样本边界。SemiDynamicDifficulty主线路径回传步数；ProcessKeyValueResponse接收打包long状态。真实账号输入、生效消费者与后台决策仍需验证。远征GetUpdatedSegment 0x37C3704、pending计算0x37C37FC；原后台策略与全服遥测无原件。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/BOUNDARIES.md</code></p></div></details></div></section><style>@scope (.original-report) {
+
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#1b1e23;
+ font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:0 22px 80px}
+header{background:linear-gradient(135deg,#16233b,#2b4a7d 55%,#2f7ed8);color:#fff;padding:38px 22px 30px;margin-bottom:26px}
+header .inner{max-width:1280px;margin:0 auto}
+h1{font-size:27px;margin:0 0 8px;letter-spacing:.4px}
+header p{margin:0;opacity:.85;font-size:13.5px;max-width:940px}
+.tagline{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.tagline span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+ padding:3px 11px;border-radius:20px;font-size:12px}
+h2{font-size:20px;margin:46px 0 6px;padding-left:12px;border-left:5px solid #2f7ed8}
+h3{font-size:16px;margin:28px 0 8px;color:#16233b}
+h4{font-size:14px;margin:20px 0 6px;color:#3a4351}
+p{margin:9px 0}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.lead{color:#4b5563;font-size:13.5px;margin:4px 0 14px}
+.card{background:#fff;border:1px solid #e2e6eb;border-radius:14px;padding:20px 22px;margin:16px 0;
+ box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.kpi{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 6px}
+.kpi-item{background:#fff;border:1px solid #e2e6eb;border-radius:12px;padding:13px 18px;min-width:124px}
+.kpi-item b{display:block;font-size:23px;line-height:1.15;color:#16233b}
+.kpi-item span{font-size:11.5px;color:#5b6572}
+.kpi-item.good b{color:#2c8a63}.kpi-item.warn b{color:#c0791f}.kpi-item.bad b{color:#c33b3b}
+.note{border-left:4px solid #2f7ed8;background:#f3f8fe;padding:13px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.note.warn{border-color:#e0932e;background:#fdf7ec}
+.note.bad{border-color:#d94a4a;background:#fdf1f1}
+.note.good{border-color:#2c8a63;background:#f1faf6}
+.note.plain{border-color:#7a4fd0;background:#f7f4fd}
+.note.plain .pl{display:inline-block;background:#7a4fd0;color:#fff;font-size:11px;
+ padding:1px 9px;border-radius:20px;margin-right:8px;font-weight:600;vertical-align:1px}
+.note b{color:#16233b}
+table{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff}
+table th{background:#eef1f5;text-align:left;padding:8px 10px;font-weight:600;font-size:12px;
+ border-bottom:1px solid #dde3ea;position:sticky;top:0;z-index:2}
+table td{padding:7px 10px;border-bottom:1px solid #f0f3f6;vertical-align:top}
+table tr:hover td{background:#fafbfc}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace}
+td.c{font-weight:600;color:#16233b}
+.pcdim{color:#9aa3ae;font-weight:400}
+.scroll{overflow:auto;max-height:620px;border:1px solid #e2e6eb;border-radius:12px}
+.chart{width:100%;height:auto;display:block}
+.chart .grid{stroke:#e8ecf1;stroke-width:1}
+.chart .ax{font-size:11px;fill:#77818e;font-family:-apple-system,"PingFang SC",sans-serif}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#5b6572;margin:8px 0 2px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:960px){.two{grid-template-columns:1fr}}
+.chain{font-size:12.5px;line-height:2}
+.chain code{font-size:11.5px}
+footer{margin-top:50px;padding-top:18px;border-top:1px solid #e2e6eb;color:#8b95a1;font-size:12px}
+
+}</style><div class="original-report"><h2 id="original-activity-2">§2 甘特图① · 关卡解锁轴（主图）</h2>
+<p class="lead">纵轴 = 29 个有独立管理器的活动，按解锁关卡升序；横轴 = 玩家关卡 L0–L100。
+灰底 = 未解锁；彩条 = 已解锁后的可见区间。虚线浅条 = 限时轮换类活动
+（能看见 ≠ 当时开着，开放窗口由服务端定）。条尾数字 = 该活动的本地资源包数。</p>
+<div class="card">
+<div class="legend"><span><i style="background:#2c8a63"></i>常驻（15）</span><span><i style="background:#14a0a0"></i>日循环（2）</span><span><i style="background:#2f7ed8"></i>周循环（2）</span><span><i style="background:#7a4fd0"></i>赛季制（5）</span><span><i style="background:#9b6ee0"></i>赛季制 · 换皮（3）</span><span><i style="background:#e0932e"></i>限时轮换（28）</span><span><i style="background:#8b95a1"></i>收尾机制（1）</span><span><i style="background:#8b95a1"></i>预告（1）</span><span><i style="background:#b07d3a"></i>AB 实验（2）</span></div>
+<svg class="chart" viewbox="0 0 1180 792" xmlns="http://www.w3.org/2000/svg">
+<line class="grid" x1="236.0" x2="236.0" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="236.0" y="38">0</text>
+<line class="grid" x1="321.4" x2="321.4" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="321.4" y="38">10</text>
+<line class="grid" x1="406.8" x2="406.8" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="406.8" y="38">20</text>
+<line class="grid" x1="492.2" x2="492.2" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="492.2" y="38">30</text>
+<line class="grid" x1="577.6" x2="577.6" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="577.6" y="38">40</text>
+<line class="grid" x1="663.0" x2="663.0" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="663.0" y="38">50</text>
+<line class="grid" x1="748.4" x2="748.4" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="748.4" y="38">60</text>
+<line class="grid" x1="833.8" x2="833.8" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="833.8" y="38">70</text>
+<line class="grid" x1="919.2" x2="919.2" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="919.2" y="38">80</text>
+<line class="grid" x1="1004.6" x2="1004.6" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="1004.6" y="38">90</text>
+<line class="grid" x1="1090.0" x2="1090.0" y1="46" y2="750"></line>
+<text class="ax" text-anchor="middle" x="1090.0" y="38">100</text>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="423.9" x2="423.9" y1="46" y2="750"></line>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="552.0" x2="552.0" y1="46" y2="750"></line>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="671.5" x2="671.5" y1="46" y2="750"></line>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="799.6" x2="799.6" y1="46" y2="750"></line>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="970.4" x2="970.4" y1="46" y2="750"></line>
+<line stroke="#c8d3e0" stroke-dasharray="3 3" stroke-width="1" x1="1055.8" x2="1055.8" y1="46" y2="750"></line>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="66">TeamBattle</text>
+<rect fill="#f2f4f7" height="15" width="187.9" x="236" y="57"></rect>
+<rect fill="#2c8a63" fill-opacity="0.9" height="15" rx="3" stroke="#2c8a63" stroke-width="1" width="666.1" x="423.9" y="57"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="429.9" y="69">L22</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="69">远程下载 2 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="90">TeamTournament</text>
+<rect fill="#f2f4f7" height="15" width="196.4" x="236" y="81"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="657.6" x="432.4" y="81"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="438.4" y="93">L23</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="93">3 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="114">TeamTreasure</text>
+<rect fill="#f2f4f7" height="15" width="196.4" x="236" y="105"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="657.6" x="432.4" y="105"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="438.4" y="117">L23</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="117">远程下载 3 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="138">KingsCup</text>
+<rect fill="#f2f4f7" height="15" width="213.5" x="236" y="129"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="640.5" x="449.5" y="129"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="455.5" y="141">L25</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="141">远程下载 3 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="162">Madness</text>
+<rect fill="#f2f4f7" height="15" width="239.1" x="236" y="153"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="614.9" x="475.1" y="153"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="481.1" y="165">L28</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="165">远程下载 1 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="186">DailyLightningRush</text>
+<rect fill="#f2f4f7" height="15" width="264.7" x="236" y="177"></rect>
+<rect fill="#14a0a0" fill-opacity="0.9" height="15" rx="3" stroke="#14a0a0" stroke-width="1" width="589.3" x="500.7" y="177"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="506.7" y="189">L31</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="189">5 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="210">RoyalPass</text>
+<rect fill="#f2f4f7" height="15" width="316.0" x="236" y="201"></rect>
+<rect fill="#7a4fd0" fill-opacity="0.9" height="15" rx="3" stroke="#7a4fd0" stroke-width="1" width="538.0" x="552.0" y="201"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="558.0" y="213">L37</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="213">远程下载 6 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="234">WeeklyPass</text>
+<rect fill="#f2f4f7" height="15" width="316.0" x="236" y="225"></rect>
+<rect fill="#2f7ed8" fill-opacity="0.9" height="15" rx="3" stroke="#2f7ed8" stroke-width="1" width="538.0" x="552.0" y="225"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="558.0" y="237">L37</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="237">6 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="258">BalloonRise</text>
+<rect fill="#f2f4f7" height="15" width="333.1" x="236" y="249"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="520.9" x="569.1" y="249"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="575.1" y="261">L39</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="261">远程下载 5 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="282">PinataParty</text>
+<rect fill="#f2f4f7" height="15" width="333.1" x="236" y="273"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="520.9" x="569.1" y="273"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="575.1" y="285">L39</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="285">远程下载 2 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="306">HiddenTemple</text>
+<rect fill="#f2f4f7" height="15" width="333.1" x="236" y="297"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="520.9" x="569.1" y="297"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="575.1" y="309">L39</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="309">12 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="330">MagicCauldron</text>
+<rect fill="#f2f4f7" height="15" width="333.1" x="236" y="321"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="520.9" x="569.1" y="321"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="575.1" y="333">L39</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="333">远程下载 9 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="354">PuzzleBreak</text>
+<rect fill="#f2f4f7" height="15" width="333.1" x="236" y="345"></rect>
+<rect fill="#7a4fd0" fill-opacity="0.9" height="15" rx="3" stroke="#7a4fd0" stroke-width="1" width="520.9" x="569.1" y="345"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="575.1" y="357">L39</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="357">3 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="378">SkyRace</text>
+<rect fill="#f2f4f7" height="15" width="435.5" x="236" y="369"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="418.5" x="671.5" y="369"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="677.5" y="381">L51</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="381">远程下载 3 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="402">SpaceMission</text>
+<rect fill="#f2f4f7" height="15" width="435.5" x="236" y="393"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="418.5" x="671.5" y="393"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="677.5" y="405">L51</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="405">远程下载 7 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="426">RobotRivals</text>
+<rect fill="#f2f4f7" height="15" width="435.5" x="236" y="417"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="418.5" x="671.5" y="417"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="677.5" y="429">L51</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="429">3 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="450">ArcheryArena</text>
+<rect fill="#f2f4f7" height="15" width="478.2" x="236" y="441"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="375.8" x="714.2" y="441"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="720.2" y="453">L56</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="453">远程下载 4 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="474">RoyalWorldCup</text>
+<rect fill="#f2f4f7" height="15" width="520.9" x="236" y="465"></rect>
+<rect fill="#7a4fd0" fill-opacity="0.9" height="15" rx="3" stroke="#7a4fd0" stroke-width="1" width="333.1" x="756.9" y="465"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="762.9" y="477">L61</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="477">7 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="498">AncientAdventure</text>
+<rect fill="#f2f4f7" height="15" width="563.6" x="236" y="489"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="290.4" x="799.6" y="489"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="805.6" y="501">L66</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="501">7 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="522">LavaQuest</text>
+<rect fill="#f2f4f7" height="15" width="563.6" x="236" y="513"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="290.4" x="799.6" y="513"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="805.6" y="525">L66</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="525">远程下载 6 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="546">DragonNest</text>
+<rect fill="#f2f4f7" height="15" width="649.0" x="236" y="537"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="205.0" x="885.0" y="537"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="891.0" y="549">L76</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="549">远程下载 40 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="570">ShortExpeditionEvent</text>
+<rect fill="#f2f4f7" height="15" width="649.0" x="236" y="561"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="205.0" x="885.0" y="561"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="891.0" y="573">L76</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="573">19 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="594">TrainJourney</text>
+<rect fill="#f2f4f7" height="15" width="649.0" x="236" y="585"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="205.0" x="885.0" y="585"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="891.0" y="597">L76</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="597">6 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="618">InviteFriends</text>
+<rect fill="#f2f4f7" height="15" width="683.2" x="236" y="609"></rect>
+<rect fill="#2c8a63" fill-opacity="0.9" height="15" rx="3" stroke="#2c8a63" stroke-width="1" width="170.8" x="919.2" y="609"></rect>
+<text style="font-size:10.5px;fill:#ffffff;font-weight:700" x="925.2" y="621">L80</text>
+<text style="font-size:10px;fill:#ffffff;font-weight:600" text-anchor="end" x="1082.0" y="621">3 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="642">DukesFortune</text>
+<rect fill="#f2f4f7" height="15" width="734.4" x="236" y="633"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="119.6" x="970.4" y="633"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="976.4" y="645">L86</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="645">远程下载 5 槽</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="666">OceanOdyssey</text>
+<rect fill="#f2f4f7" height="15" width="734.4" x="236" y="657"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="119.6" x="970.4" y="657"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="976.4" y="669">L86</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="669">13 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="690">MergeSmith</text>
+<rect fill="#f2f4f7" height="15" width="734.4" x="236" y="681"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="119.6" x="970.4" y="681"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="976.4" y="693">L86</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="693">2 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="714">ClashOfChampions</text>
+<rect fill="#f2f4f7" height="15" width="819.8" x="236" y="705"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="34.2" x="1055.8" y="705"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="1061.8" y="717">L96</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="717">4 包</text>
+<text class="ax" style="font-size:11.5px;fill:#2b3440" text-anchor="end" x="226" y="738">PropellerRush</text>
+<rect fill="#f2f4f7" height="15" width="819.8" x="236" y="729"></rect>
+<rect fill="#e0932e" fill-opacity="0.62" height="15" rx="3" stroke="#e0932e" stroke-dasharray="5 3" stroke-width="1" width="34.2" x="1055.8" y="729"></rect>
+<text style="font-size:10.5px;fill:#4a3208;font-weight:700" x="1061.8" y="741">L96</text>
+<text style="font-size:10px;fill:#4a3208;font-weight:600" text-anchor="end" x="1082.0" y="741">4 包</text>
+<text class="ax" x="236" y="772">← 未解锁（灰）</text>
+<text class="ax" text-anchor="end" x="1090" y="772">实心=有本地/远程资源  ·  虚线浅色=限时轮换活动（开放窗口由服务端定）  →</text>
+</svg>
+</div>
+<div class="note warn"><b>横轴为什么截到 L100？</b>
+因为最有意思的事情全部挤在 <b>L22–L96</b> 这一段：22 / 23 / 25 / 28 / 31 / 37 / 39 / 51 / 56 / 61 / 66 / 76 / 80 / 86 / 96，
+<b>15 个解锁台阶，29 个活动</b>。L100 之后客户端再也没有新的活动解锁门槛
+（<code>OfferManager.OfferUnlockLevel = 100</code> 是最后一个）。这和难度曲线那份报告里
+「L7501–8000 之后配置压力走平」是同一个信号的两面：<b>内容投放集中在前期，后期靠数值堆。</b></div>
+<h3>解锁门槛的分层结构</h3>
+<div class="card">
+<table><thead><tr><th>关卡</th><th class="n">同批解锁</th><th>活动</th><th>这一批在做什么</th></tr></thead><tbody><tr><td class="n">L22</td><td class="n">1</td><td>TeamBattle</td><td class="pcdim">最早的社交玩法入口</td></tr><tr><td class="n">L23</td><td class="n">2</td><td>TeamTournament / TeamTreasure</td><td class="pcdim">把团队玩法做厚</td></tr><tr><td class="n">L25</td><td class="n">1</td><td>KingsCup</td><td class="pcdim">开始上「日循环」竞速</td></tr><tr><td class="n">L28</td><td class="n">1</td><td>Madness</td><td class="pcdim">倍率形态轮换</td></tr><tr><td class="n">L31</td><td class="n">1</td><td>DailyLightningRush</td><td class="pcdim">日循环竞速正式上线</td></tr><tr><td class="n">L37</td><td class="n">2</td><td>RoyalPass / WeeklyPass</td><td class="pcdim"><b>两条付费主线同时开</b></td></tr><tr><td class="n">L39</td><td class="n">5</td><td>BalloonRise / PinataParty / HiddenTemple / MagicCauldron / PuzzleBreak</td><td class="pcdim"><b>最拥挤的一级</b></td></tr><tr><td class="n">L51</td><td class="n">3</td><td>SkyRace / SpaceMission / RobotRivals</td><td class="pcdim">赛季型活动铺开</td></tr><tr><td class="n">L56</td><td class="n">1</td><td>ArcheryArena</td><td class="pcdim">射箭竞技场加入</td></tr><tr><td class="n">L61</td><td class="n">1</td><td>RoyalWorldCup</td><td class="pcdim">世界杯活动加入</td></tr><tr><td class="n">L66</td><td class="n">2</td><td>AncientAdventure / LavaQuest</td><td class="pcdim">剧情型活动起步</td></tr><tr><td class="n">L76</td><td class="n">3</td><td>DragonNest / ShortExpeditionEvent / TrainJourney</td><td class="pcdim"><b>最重的三个内容包</b>同批</td></tr><tr><td class="n">L80</td><td class="n">1</td><td>InviteFriends</td><td class="pcdim">拉新活动</td></tr><tr><td class="n">L86</td><td class="n">3</td><td>DukesFortune / OceanOdyssey / MergeSmith</td><td class="pcdim">后期玩法铺开</td></tr><tr><td class="n">L96</td><td class="n">2</td><td>ClashOfChampions / PropellerRush</td><td class="pcdim">末期解锁</td></tr></tbody></table>
+</div>
+<div class="note"><b>两处「常量 ≠ 反汇编返回值」，必须并报不能只报一个：</b><br/>
+· <code>ArcheryArenaManager</code>：常量 <code>UnlockLevel = 55</code>，<code>GetUnlockLevel()</code> 返回 <b>56</b><br/>
+· <code>DragonNestManager</code>：常量 <code>UnlockLevel = 75</code>，<code>GetUnlockLevel()</code> 返回 <b>76</b><br/>
+其余 27 个两级一致。表格里两列都留了，以 <code>GetUnlockLevel()</code> 为准（那才是 <code>ILockableEvent</code> 的实际门禁）。</div>
+<div class="note plain"><span class="pl">通俗版</span>
+这 29 行可以读成一张「活动什么时候出现在你屏幕上」的清单。比如你刚到 39 关，屏幕上会
+<b>一次冒出 5 个活动图标</b>（气球、皮纳塔、神庙、坩埚、破冰）——这不是巧合，是
+<code>EventLockManager</code> 的 <code>MinLevelToShowIcons = 5</code> 之外，策划把"第 39 关"
+当成了一个集中的内容投放点。而 <code>PartiallyLockedLevelMaxDifference = 4</code> 说明
+还差 4 关以内的活动会以"半锁"状态晃给你看，制造"再打两关就能玩"的钩子。</div>
+
+<h2 id="original-activity-3">§3 甘特图② · 节日主题节奏轴</h2>
+<p class="lead">客户端没有日历，但<b>有节日皮肤</b>。把 <code>Theme</code> 枚举（9 项）和
+<code>FeatureBundleType</code> 里带节日名的资源槽（Halloween / BlackFriday / NewYear3·6 /
+Easter6 / Spring3 / Jungle / RoyalCup3·6 / TravelDeal ×4 城）拼起来，就能反推出
+「这一年要过哪些节」——但<b>只有主题名，没有月份</b>。所以横轴的月份是按节日常识给的
+<b>可读区间</b>，每行标了证据等级，请按等级使用。</p>
+<div class="card"><svg class="chart" viewbox="0 0 1180 462" xmlns="http://www.w3.org/2000/svg">
+<line class="grid" x1="300.0" x2="300.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="335.0" y="36">1月</text>
+<line class="grid" x1="370.0" x2="370.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="405.0" y="36">2月</text>
+<line class="grid" x1="440.0" x2="440.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="475.0" y="36">3月</text>
+<line class="grid" x1="510.0" x2="510.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="545.0" y="36">4月</text>
+<line class="grid" x1="580.0" x2="580.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="615.0" y="36">5月</text>
+<line class="grid" x1="650.0" x2="650.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="685.0" y="36">6月</text>
+<line class="grid" x1="720.0" x2="720.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="755.0" y="36">7月</text>
+<line class="grid" x1="790.0" x2="790.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="825.0" y="36">8月</text>
+<line class="grid" x1="860.0" x2="860.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="895.0" y="36">9月</text>
+<line class="grid" x1="930.0" x2="930.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="965.0" y="36">10月</text>
+<line class="grid" x1="1000.0" x2="1000.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="1035.0" y="36">11月</text>
+<line class="grid" x1="1070.0" x2="1070.0" y1="44" y2="416"></line>
+<text class="ax" text-anchor="middle" x="1105.0" y="36">12月</text>
+<line class="grid" x1="1140.0" x2="1140.0" y1="44" y2="416"></line>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="68">LadderOfferUiSpring3 / Spring3</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="140.0" x="440.0" y="56"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="510.0" y="68">E2</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="94">LadderOfferUiEaster6 / Easter6</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="91.0" x="510.0" y="82"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="555.5" y="94">E2</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="120">LadderOfferUiJungle / Jungle</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="126.0" x="664.0" y="108"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="727.0" y="120">E2</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="146">Theme.Summer / summer_pass</text>
+<rect fill="#2c8a63" fill-opacity="0.78" height="14" rx="4" stroke="#2c8a63" stroke-width="1" width="189.0" x="685.0" y="134"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="779.5" y="146">E1</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="172">Theme.RoyalWorldCup / RoyalCup3·6</text>
+<rect fill="#2c8a63" fill-opacity="0.78" height="14" rx="4" stroke="#2c8a63" stroke-width="1" width="98.0" x="706.0" y="160"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="755.0" y="172">E1</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="198">OfferIconTravelDeal Paris/Rome/London/NY</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="175.0" x="776.0" y="186"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="863.5" y="198">E2</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="224">Theme.Halloween</text>
+<rect fill="#2c8a63" fill-opacity="0.78" height="14" rx="4" stroke="#2c8a63" stroke-width="1" width="70.0" x="972.0" y="212"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="1007.0" y="224">E1</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="250">LadderOfferUiBlackFriday</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="35.0" x="1049.0" y="238"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="1066.5" y="250">E2</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="276">Theme.Holiday / holiday_pass</text>
+<rect fill="#2c8a63" fill-opacity="0.78" height="14" rx="4" stroke="#2c8a63" stroke-width="1" width="105.0" x="1035.0" y="264"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="1087.5" y="276">E1</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="302">Theme.Christmas</text>
+<rect fill="#6f7986" fill-opacity="0.78" height="14" rx="4" stroke="#6f7986" stroke-width="1" width="70.0" x="1070.0" y="290"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="1105.0" y="302">E3</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="328">LadderOfferUiNewYear3 / NewYear6</text>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="21.0" x="1119.0" y="316"></rect>
+<rect fill="#c8842a" fill-opacity="0.78" height="14" rx="4" stroke="#c8842a" stroke-width="1" width="24.5" x="300.0" y="316"></rect>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="354">Theme.ValentinesDay</text>
+<rect fill="#6f7986" fill-opacity="0.78" height="14" rx="4" stroke="#6f7986" stroke-width="1" width="70.0" x="391.0" y="342"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="426.0" y="354">E3</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="380">Theme.Diamond / diamond_pass</text>
+<rect fill="#6f7986" fill-opacity="0.78" height="14" rx="4" stroke="#6f7986" stroke-width="1" width="840.0" x="300.0" y="368"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="720.0" y="380">E3</text>
+<text class="ax" style="font-size:11.3px;fill:#2b3440" text-anchor="end" x="290" y="406">Theme.Default / weekly_pass</text>
+<rect fill="#2c8a63" fill-opacity="0.78" height="14" rx="4" stroke="#2c8a63" stroke-width="1" width="840.0" x="300.0" y="394"></rect>
+<text style="font-size:9.6px;fill:#fff;font-weight:700" text-anchor="middle" x="720.0" y="406">E1</text>
+<text class="ax" x="300" y="436">证据等级：<tspan fill="#2c8a63" font-weight="700">E1</tspan> 枚举+资源双证 · <tspan fill="#e0932e" font-weight="700">E2</tspan> 仅资源槽字面 · <tspan fill="#8b95a1" font-weight="700">E3</tspan> 仅枚举字面 · 窗口月份为按节日常识给的可读区间，非客户端数据 →</text>
+</svg></div>
+<div class="note"><b>证据等级怎么分的：</b><br/>
+<span class="badge" style="background:#2c8a6322;color:#2c8a63">E1</span>
+<code>Theme</code> 枚举字面 + 对应 bundle 组双证（Halloween / Summer / Holiday / RoyalWorldCup / Default）<br/>
+<span class="badge" style="background:#e0932e22;color:#e0932e">E2</span>
+只有 <code>FeatureBundleType</code> 槽位字面，没有对应本地 bundle
+（Jungle / BlackFriday / NewYear3·6 / Easter6 / Spring3 / RoyalCup3·6 / TravelDeal 四城）<br/>
+<span class="badge" style="background:#8b95a122;color:#8b95a1">E3</span>
+只有枚举字面、连资源槽都没有（Christmas / ValentinesDay / Diamond）——
+说明这几个节日的皮可能是<b>运行时远程下载</b>，也可能只是预留位</div>
+<div class="note plain"><span class="pl">通俗版</span>
+这张图回答的是「这游戏一年打算过几个节」。从皮肤名字看至少 12 个：
+万圣节、黑五、圣诞、新年、情人节、复活节、春季、夏季、暑期旅行（巴黎/罗马/伦敦/纽约四站）、
+世界杯、钻石、以及每周的默认皮。但对不上"几月几号"——因为排期表在服务器手上。</div>
+<h3>Pass 家族的换皮同构性（一个强证据）</h3>
+<p class="lead">四个 Pass 皮肤组的 bundle 结构<b>完全同构</b>：6 个槽位、命名规则一模一样。
+这不是四个活动，是<b>同一套 Royal Pass 模板 + 四种皮</b>。这也是"长期活动"最硬的证据。</p>
+<div class="card">
+<table><thead><tr><th>皮肤组</th><th>main</th><th>purchase</th><th>shop</th><th>chat</th><th>icon</th><th>gameplay</th><th class="n">合计</th></tr></thead><tbody>
+<tr><td class="c">weekly_pass</td><td class="n">5643</td><td class="n">2009</td><td class="n">261</td><td class="n">234</td><td class="n">196</td><td class="n">54</td><td class="n">8397</td></tr>
+<tr><td class="c">diamond_pass</td><td class="n">7784</td><td class="n">1332</td><td class="n">281</td><td class="n">222</td><td class="n">192</td><td class="n">50</td><td class="n">9861</td></tr>
+<tr><td class="c">holiday_pass</td><td class="n">6137</td><td class="n">1355</td><td class="n">257</td><td class="n">226</td><td class="n">195</td><td class="n">47</td><td class="n">8217</td></tr>
+<tr><td class="c">summer_pass</td><td class="n">8152</td><td class="n">4660</td><td class="n">317</td><td class="n">234</td><td class="n">195</td><td class="n">50</td><td class="n">13608</td></tr>
+</tbody></table>
+</div>
+<p>目录里还有 <code>episodes_1_2_3_4</code> 与 <code>episodes_161_162_163_164</code> 两套剧集包——
+配合 <code>royal_league_episode</code> TextAsset，说明联赛也是<b>按"集"分批投放</b>的。</p>
+
+<h2 id="original-activity-4">§4 甘特图③ · 互斥轮换槽位</h2>
+<p class="lead"><code>event_dependency_default_config.json</code> 是整个包体里唯一一份
+直接描述「哪些活动不能同时开」的文件：10 个 group，组内活动互斥。
+橙色 = 组内有多个候选（真轮换），灰色 = 独占（占着位等下一个同名活动周期）。</p>
+<div class="card"><svg class="chart" viewbox="0 0 1180 390" xmlns="http://www.w3.org/2000/svg">
+<text class="ax" style="font-size:11.5px;font-weight:700;fill:#3a4351" x="96" y="32">每个槽位 = 一个轮换位；槽内活动互斥，同一时刻只开一个（event_dependency_default_config.json）</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="65">G1</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="50"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="52"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="66">TeamTreasure</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="66">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="95">G2</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="80"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="82"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="96">PinataParty</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="96">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="125">G3</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="110"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="112"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="126">DragonNest</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="126">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="155">G4</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="140"></rect>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="142"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="156">HiddenTemple</text>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="451.3" y="142"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="623.0" y="156">ArcheryArena</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="185">G5</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="170"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="172"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="186">BalloonRise</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="186">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="215">G6</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="200"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="202"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="216">BookOfTreasure</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="216">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="245">G7</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="230"></rect>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="232"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="246">SpaceMission</text>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="451.3" y="232"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="623.0" y="246">KingsCup</text>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="802.7" y="232"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="974.3" y="246">DukesFortune</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="275">G8</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="260"></rect>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="262"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="276">Area</text>
+<rect fill="#e0932e" fill-opacity="0.82" height="14" rx="4" width="343.3" x="451.3" y="262"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="623.0" y="276">MagicCauldron</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="305">G9</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="290"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="292"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="306">PropellerMadness</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="306">独占，无轮换候选</text>
+<text class="ax" style="font-size:12px;font-weight:700;fill:#16233b" text-anchor="end" x="86" y="335">G10</text>
+<rect fill="#f4f6f9" height="18" rx="6" width="1054" x="96" y="320"></rect>
+<rect fill="#8b95a1" fill-opacity="0.82" height="14" rx="4" width="343.3" x="100.0" y="322"></rect>
+<text style="font-size:11px;fill:#fff;font-weight:700" text-anchor="middle" x="271.7" y="336">WeeklyLeaderboard</text>
+<text style="font-size:10px;fill:#8b95a1" text-anchor="end" x="1142.0" y="336">独占，无轮换候选</text>
+<text class="ax" style="font-size:10.5px" x="96" y="370">G1–G10 共覆盖 14 个 EventType（全部落在 id 0–16 的旧活动家族）；id 17+ 的新活动（SkyRace / TeamTournament / LavaQuest / TrainJourney / OceanOdyssey …）不在该表 → 轮换由服务端另一套配置管</text>
+</svg></div>
+<div class="note warn"><b>这张表的价值和它的边界都要说清：</b>
+10 个槽位只覆盖 <b>14 个 EventType（id 0–16）</b>，全落在旧活动家族。
+id 17 以后的新活动（SkyRace / TeamTournament / MissionPursuit / MissionControl /
+LavaQuest / TrainJourney / OceanOdyssey / AncientAdventure / RobotRivals / MergeSmith /
+ClashOfChampions / PropellerRush / WeeklyPass / RoyalWorldCup / ShortExpedition / DailyRewards）
+<b>一个都不在里面</b>。两种解释：①新活动的互斥规则搬到了服务端；
+②新活动之间本来就不互斥。客户端的证据<b>支持不了任何一个</b>，需要抓包
+<code>GetUpcomingEventsInfoResponse</code> 才能定。</div>
+<div class="note"><b>另一个配套机制：跨活动 eventId 链。</b>
+几份配置里有成组的 <code>*LastEventId</code> 字段，用来把一串活动串起来：<br/>
+· <code>train_journey</code>：<code>ttoLastEventId / mcLastEventId / srLastEventId / kcLastEventId /
+ppLastEventId / madnessLastEventId / mcoLastEventId / smLastEventId / mpLastEventId = 100000</code>（全部占位）<br/>
+· <code>dragon_nest</code>：同名 6 个字段全部 <code>= 0</code><br/>
+这是「上一个同类活动结束 → 下一个接上」的接力棒，值就是被接的那个活动的 eventId。
+<code>100000</code> 是"还没接过任何一次"的哨兵。</div>
+<div class="note plain"><span class="pl">通俗版</span>
+把活动想成 10 个"摊位"。G4、G7、G8 这三个摊位有 2–3 个摊主排队轮着上；
+剩下 7 个摊位是专属摊位。而 <code>*LastEventId</code> 是摊主之间的交接单——
+"我这次收摊后，接我班的是谁"。这份配置只写了<b>谁能和谁不能同时在</b>，
+没写<b>谁哪天上</b>。</div>
+
+<h2 id="original-activity-5">§5 活动总清单（59 条，含非活动类资源组）</h2>
+<p class="lead">按解锁关卡升序，无解锁关卡的排在后面。资源槽列 =
+<code>FeatureBundleType</code> 里属于该活动的槽位数，也就是它能解出多少类内容。</p>
+<div class="scroll"><table>
+<thead><tr><th>活动</th><th>EventType</th><th>解锁</th><th>槽</th><th>节奏</th>
+<th>资源组</th><th class="n">bundle</th><th class="n">字节</th>
+<th class="n">资源槽</th><th class="n">配置B</th><th>节奏判定依据</th></tr></thead>
+<tbody><tr><td class="c">TeamBattle</td><td class="pcdim">25:TeamBattle</td><td class="n"><b>L22</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">2</td><td class="n"></td><td class="pcdim" style="max-width:280px">解锁 L22，不在 event_dependency 内，无独占槽位</td></tr><tr><td class="c">TeamTournament</td><td class="pcdim">18:TeamTournament</td><td class="n"><b>L23</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">team_tournament</td><td class="n">3</td><td class="n">19094</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">团队锦标赛，有 reactivation flow</td></tr><tr><td class="c">TeamTreasure</td><td class="pcdim">14:TeamTreasure</td><td class="n"><b>L23</b></td><td>G1</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">3</td><td class="n">2159</td><td class="pcdim" style="max-width:280px">槽位 G1，独占；segments[6] 分段</td></tr><tr><td class="c">KingsCup</td><td class="pcdim">13:KingsCup</td><td class="n"><b>L25</b></td><td>G7</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">3</td><td class="n"></td><td class="pcdim" style="max-width:280px">槽位 G7 与 SpaceMission/DukesFortune 互斥</td></tr><tr><td class="c">Madness</td><td class="pcdim">6:PropellerMadness</td><td class="n"><b>L28</b></td><td>G9</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">1</td><td class="n">2730</td><td class="pcdim" style="max-width:280px">Propeller/TNT/LightBall/Book 四种形态轮换</td></tr><tr><td class="c">DailyLightningRush</td><td class="pcdim">28:DailyLightningRush</td><td class="n"><b>L31</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#14a0a022;color:#14a0a0">日循环</span></td><td class="pcdim">daily_lightning_rush</td><td class="n">5</td><td class="n">7383</td><td class="n">4</td><td class="n">644</td><td class="pcdim" style="max-width:280px">名称 Daily + TwentyMinutesInSec=1200 三局 30s</td></tr><tr><td class="c">RoyalPass</td><td class="pcdim">9:RoyalPassFree</td><td class="n"><b>L37</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">6</td><td class="n">9829</td><td class="pcdim" style="max-width:280px">32 级阶梯，ImplementedThemes 换皮</td></tr><tr><td class="c">WeeklyPass</td><td class="pcdim">40:WeeklyPassFree</td><td class="n"><b>L37</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2f7ed822;color:#2f7ed8">周循环</span></td><td class="pcdim">weekly_pass</td><td class="n">6</td><td class="n">8397</td><td class="n"></td><td class="n">2366</td><td class="pcdim" style="max-width:280px">名称 Weekly + 9 级阶梯，ImplementedThemes 换皮</td></tr><tr><td class="c">BalloonRise</td><td class="pcdim">1:BalloonRise</td><td class="n"><b>L39</b></td><td>G5</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">5</td><td class="n">1440</td><td class="pcdim" style="max-width:280px">在 event_dependency 槽位 G5，独占一个轮换位</td></tr><tr><td class="c">PinataParty</td><td class="pcdim">0:PinataParty</td><td class="n"><b>L39</b></td><td>G2</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">2</td><td class="n">1417</td><td class="pcdim" style="max-width:280px">槽位 G2，独占；分段 segments[6]</td></tr><tr><td class="c">HiddenTemple</td><td class="pcdim">3:HiddenTemple</td><td class="n"><b>L39</b></td><td>G4</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">hidden_temple</td><td class="n">12</td><td class="n">39528</td><td class="n">1</td><td class="n">2095</td><td class="pcdim" style="max-width:280px">槽位 G4 与 ArcheryArena 互斥</td></tr><tr><td class="c">MagicCauldron</td><td class="pcdim">4:MagicCauldron</td><td class="n"><b>L39</b></td><td>G8</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">9</td><td class="n">964</td><td class="pcdim" style="max-width:280px">槽位 G8 与 Area 互斥</td></tr><tr><td class="c">PuzzleBreak</td><td class="pcdim">29:PuzzleBreak</td><td class="n"><b>L39</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td><td class="pcdim">puzzle_break</td><td class="n">3</td><td class="n">11398</td><td class="n"></td><td class="n">2329</td><td class="pcdim" style="max-width:280px">seasonConfigs 明写 season id=6 / 18 张卡</td></tr><tr><td class="c">SkyRace</td><td class="pcdim">17:SkyRace</td><td class="n"><b>L51</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">3</td><td class="n">1081</td><td class="pcdim" style="max-width:280px">EntranceLevel=51，有排名奖励</td></tr><tr><td class="c">SpaceMission</td><td class="pcdim">16:SpaceMission</td><td class="n"><b>L51</b></td><td>G7</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">7</td><td class="n">1213</td><td class="pcdim" style="max-width:280px">槽位 G7 三选一</td></tr><tr><td class="c">RobotRivals</td><td class="pcdim">37:RobotRivals</td><td class="n"><b>L51</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">robot_rivals</td><td class="n">3</td><td class="n">24473</td><td class="n"></td><td class="n">473</td><td class="pcdim" style="max-width:280px">有 reactivation flow</td></tr><tr><td class="c">ArcheryArena</td><td class="pcdim">7:ArcheryArena</td><td class="n"><b>L56</b> <span class="pcdim">(常量 55)</span></td><td>G4</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">4</td><td class="n"></td><td class="pcdim" style="max-width:280px">槽位 G4 与 HiddenTemple 互斥</td></tr><tr><td class="c">RoyalWorldCup</td><td class="pcdim">42:RoyalWorldCup</td><td class="n"><b>L61</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td><td class="pcdim">royal_world_cup</td><td class="n">7</td><td class="n">15505</td><td class="n">4</td><td class="n">6869</td><td class="pcdim" style="max-width:280px">Theme.RoyalWorldCup=8，有独立活动皮与专属礼包</td></tr><tr><td class="c">AncientAdventure</td><td class="pcdim">36:AncientAdventure</td><td class="n"><b>L66</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">ancient_adventure</td><td class="n">7</td><td class="n">37745</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">3 段 stage 剧情包，活动期内容</td></tr><tr><td class="c">LavaQuest</td><td class="pcdim">24:LavaQuest</td><td class="n"><b>L66</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">6</td><td class="n">85</td><td class="pcdim" style="max-width:280px">配置极小(85B)，回归型短活动</td></tr><tr><td class="c">DragonNest</td><td class="pcdim">15:DragonNest</td><td class="n"><b>L76</b> <span class="pcdim">(常量 75)</span></td><td>G3</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">40</td><td class="n">5458</td><td class="pcdim" style="max-width:280px">槽位 G3，独占；跨活动 LastEventId 链</td></tr><tr><td class="c">ShortExpeditionEvent</td><td class="pcdim">43:ShortExpeditionEvent</td><td class="n"><b>L76</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">short_expedition_event</td><td class="n">19</td><td class="n">142372</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">19 个 bundle、142KB，最重的剧情远征</td></tr><tr><td class="c">TrainJourney</td><td class="pcdim">26:TrainJourney</td><td class="n"><b>L76</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">train_journey</td><td class="n">6</td><td class="n">32834</td><td class="n"></td><td class="n">9441</td><td class="pcdim" style="max-width:280px">grandPrize + 16 条 eventRewardOverride</td></tr><tr><td class="c">InviteFriends</td><td class="pcdim"></td><td class="n"><b>L80</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">invite_friends</td><td class="n">3</td><td class="n">2354</td><td class="n"></td><td class="n">2673</td><td class="pcdim" style="max-width:280px">解锁 L80，邀请制，不参与轮换</td></tr><tr><td class="c">DukesFortune</td><td class="pcdim">8:DukesFortune</td><td class="n"><b>L86</b></td><td>G7</td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim"></td><td class="n"></td><td class="n"></td><td class="n">5</td><td class="n">3622</td><td class="pcdim" style="max-width:280px">槽位 G7 三选一</td></tr><tr><td class="c">OceanOdyssey</td><td class="pcdim">27:OceanOdyssey</td><td class="n"><b>L86</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">ocean_odyssey</td><td class="n">13</td><td class="n">17774</td><td class="n"></td><td class="n">5056</td><td class="pcdim" style="max-width:280px">12 种海怪 + 20 stage 段位</td></tr><tr><td class="c">MergeSmith</td><td class="pcdim">38:MergeSmith</td><td class="n"><b>L86</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">merge_smith</td><td class="n">2</td><td class="n">12713</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">合成玩法，活动期开放</td></tr><tr><td class="c">ClashOfChampions</td><td class="pcdim">39:ClashOfChampions</td><td class="n"><b>L96</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">clash_of_champions</td><td class="n">4</td><td class="n">7584</td><td class="n">3</td><td class="n"></td><td class="pcdim" style="max-width:280px">多人对战，有 quit_ego_warning</td></tr><tr><td class="c">PropellerRush</td><td class="pcdim">34:PropellerRush</td><td class="n"><b>L96</b></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">propeller_rush</td><td class="n">4</td><td class="n">8598</td><td class="n"></td><td class="n">1261</td><td class="pcdim" style="max-width:280px">多个 s2D20/s3D30 段位组</td></tr><tr><td class="c">RoyalPassDiamondSkin</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#9b6ee022;color:#9b6ee0">赛季制 · 换皮</span></td><td class="pcdim">diamond_pass</td><td class="n">6</td><td class="n">9861</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">与 weekly_pass 同构 6 槽位(main/purchase/shop/chat/icon/gameplay) → Royal Pass 的 Diamond 皮</td></tr><tr><td class="c">RoyalPassHolidaySkin</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#9b6ee022;color:#9b6ee0">赛季制 · 换皮</span></td><td class="pcdim">holiday_pass</td><td class="n">6</td><td class="n">8217</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">同构 6 槽位 → Royal Pass 的 Holiday 皮</td></tr><tr><td class="c">RoyalPassSummerSkin</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#9b6ee022;color:#9b6ee0">赛季制 · 换皮</span></td><td class="pcdim">summer_pass</td><td class="n">6</td><td class="n">13608</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">同构 6 槽位，purchase 包 4660B 最大 → Summer 皮并带独立购买页</td></tr><tr><td class="c">MissionControl</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">mission_control</td><td class="n">3</td><td class="n">6795</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">EventType 22；4 stage、每 stage 4 task；有独立 dialog</td></tr><tr><td class="c">MissionPursuit</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">mission_pursuit</td><td class="n">3</td><td class="n">8794</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">EventType 19；5 stage；alternativeIds 分支</td></tr><tr><td class="c">MultiplierToken</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">multiplier_token</td><td class="n">1</td><td class="n">2778</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">倍率道具资源</td></tr><tr><td class="c">NewRoyalLeagueLeaderboard</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td><td class="pcdim">new_royal_league_leaderboard</td><td class="n">1</td><td class="n">1316</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">联赛排行榜，与 new_royal_league 配套</td></tr><tr><td class="c">DailyRewards</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#14a0a022;color:#14a0a0">日循环</span></td><td class="pcdim">daily_rewards</td><td class="n">1</td><td class="n">1824</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">解锁即为常驻签到</td></tr><tr><td class="c">NewRoyalLeague</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td><td class="pcdim">new_royal_league</td><td class="n">5</td><td class="n">53869</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">联赛房间 emerald/gold/diamond 三档</td></tr><tr><td class="c">CoinShop</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">coin_shop</td><td class="n">7</td><td class="n">1721</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">金币商店，随关卡换货架</td></tr><tr><td class="c">JourneyOffer</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">journey_offer</td><td class="n">4</td><td class="n">2555</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">旅程礼包，配 favor 机制</td></tr><tr><td class="c">MultiplierSelection</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">multiplier_selection</td><td class="n">5</td><td class="n">5219</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">关卡倍率选择，prelevel 弹窗</td></tr><tr><td class="c">MissionEventsCommon</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">mission_events_common</td><td class="n">4</td><td class="n">2505</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">任务事件公共资源</td></tr><tr><td class="c">RemainingCollectablesConversion</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#8b95a122;color:#8b95a1">收尾机制</span></td><td class="pcdim">remaining_collectables_conversion</td><td class="n">1</td><td class="n">493</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">活动剩余代币换算，活动结束触发</td></tr><tr><td class="c">UpcomingEvents</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#8b95a122;color:#8b95a1">预告</span></td><td class="pcdim">upcoming_events</td><td class="n">1</td><td class="n">40</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">仅 40B tooltip，即将开始的活动预告位</td></tr><tr><td class="c">RoyalBoostBundleOffer</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">royal_boost_bundle_offer</td><td class="n">1</td><td class="n">617</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">增益礼包</td></tr><tr><td class="c">Ads</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">ads</td><td class="n">3</td><td class="n">1222</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">广告位资源</td></tr><tr><td class="c">DirectPayment</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">direct_payment</td><td class="n">1</td><td class="n">627</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">直付通道</td></tr><tr><td class="c">ExtremelyHardLevelOffer</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td><td class="pcdim">extremely_hard_level_offer</td><td class="n">1</td><td class="n">684</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">极难关卡礼包</td></tr><tr><td class="c">PortalItem</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">portal_item</td><td class="n">1</td><td class="n">2130</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">传送门道具</td></tr><tr><td class="c">Supercharge</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">supercharge</td><td class="n">1</td><td class="n">3032</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">超级充能道具</td></tr><tr><td class="c">TableGame</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">table_game</td><td class="n">1</td><td class="n">4654</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">桌面小游戏（kw_level_1..16）</td></tr><tr><td class="c">RemotePuzzles</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">remote_puzzles</td><td class="n">52</td><td class="n">20407</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">52 个远程棋局包</td></tr><tr><td class="c">MagicDuke</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#b07d3a22;color:#b07d3a">AB 实验</span></td><td class="pcdim">magic_duke</td><td class="n">1</td><td class="n">1983</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">abMap 明写 abCode→configId</td></tr><tr><td class="c">SuperDuke</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#b07d3a22;color:#b07d3a">AB 实验</span></td><td class="pcdim">super_duke</td><td class="n">1</td><td class="n">5459</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">Duke 家族高级版资源</td></tr><tr><td class="c">Item</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">item</td><td class="n">4</td><td class="n">5964</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">通用道具资源</td></tr><tr><td class="c">HardLevelBackgrounds</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">hard_level_backgrounds</td><td class="n">1</td><td class="n">23065</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">难关专用背景</td></tr><tr><td class="c">HardLevelMusic</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">hard_level_music</td><td class="n">1</td><td class="n">4419</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">难关专用音乐</td></tr><tr><td class="c">ExtremeLevel</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td><td class="pcdim">extreme_level</td><td class="n">1</td><td class="n">4028</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">极限关卡</td></tr><tr><td class="c">WeeklyPassCommon</td><td class="pcdim"></td><td class="n"><span class="pcdim">—</span></td><td><span class="pcdim">—</span></td><td><span class="badge" style="background:#2f7ed822;color:#2f7ed8">周循环</span></td><td class="pcdim">weekly_pass_common</td><td class="n">1</td><td class="n">202</td><td class="n"></td><td class="n"></td><td class="pcdim" style="max-width:280px">周通行证公共资源</td></tr></tbody></table></div>
+
+<h2 id="original-activity-7">§7 排期机制：谁在什么时候说了算</h2>
+<h3>7.1 客户端侧（可验证）</h3>
+<div class="card"><div class="chain">
+<b>① 门禁</b>：<code>ILockableEvent.GetUnlockLevel()</code> → 关卡门槛（§2 的 15 个台阶）<br/>
+<b>② 图标显隐</b>：<code>EventLockManager.MinLevelToShowIcons = 5</code>；
+<code>PartiallyLockedLevelMaxDifference = 4</code>（差 ≤4 关时显示"半锁"图标诱导）；
+<code>LockableEventBundleAbOverrideMinLevel = 1</code><br/>
+<b>③ 互斥</b>：<code>EventDependencyManager</code> + <code>EventGroups</code>（§4 的 10 槽）；
+字段 <code>isEventBlockedByEventDependency</code> / <code>shouldForceClaimByEventDependency</code><br/>
+<b>④ 优先级排序</b>：<code>ExtraEnteredEventPriority=10000</code> /
+<code>ExtraReadyToJoinPriority=20000</code> / <code>ExtraLockedEventPriority=30000</code>
+（已在玩 &gt; 可加入 &gt; 被锁）；<code>MaxPrelevelShownEvents = 3</code>（关前最多挂 3 个活动）<br/>
+<b>⑤ 回流</b>：<code>EventsReactivationManager.ReactivationMinLevel = 101</code>；
+<code>reactivation_levels_config.json</code> 给了 <b>90 个回流关</b>，呈两段结构——
+<b>L231–L1005 密集段 30 关</b>（231–235 / 261–265 / 301–303 / 351–355 / 401·402·405 / 451 / 501 / 551 / 601 / 655 / 751 / 801 / 851 / 901 / 1005）
++ <b>L1201 起每 200 关取 x01、x05 共 60 关</b>（1201 / 1401 / 1501 / 1605 / 1801 … / 12805）<br/>
+<b>⑥ 冷却</b>：<code>NecessaryTimeToJoinSecondEvent = 1800000</code>（进第二个活动前需 ≥30 分钟剩余）
+</div></div>
+<h3>7.2 服务端侧（客户端只能看到接收端）</h3>
+<div class="card"><div class="chain">
+每个活动管理器都有一个 <code>UpdateUserEventInfo(...)</code> 或 <code>UserEventInfoReceived(...)</code>，
+形参就是服务端下发的载荷：<br/>
+<code>BalloonRiseManager.UpdateUserEventInfo(int requestedEventId, GetBalloonRiseInfoResponse response, bool isSuccess)</code><br/>
+<code>DailyLightningRushManager.UserEventInfoReceived(Nullable&lt;DailyLightningRushInfo&gt; info, ...)</code><br/>
+<code>LavaQuestManager.UpdateServerEventInfo(Nullable&lt;LavaQuestInfo&gt; info)</code><br/>
+<code>DynamicOfferManager</code>：<code>EventId / RemainingTimeInMs / IsRemainingTimeFinished / Segment / MatchedEventId / IsDisabledByBackend</code><br/>
+请求入口：<code>GetUpcomingEventsInfoCommand</code>（RequestType/ResponseType 成对）→
+<b>"接下来开什么"是问服务器的</b>
+</div></div>
+<div class="note bad"><b>结论（限 build 38174 的已扫描客户端表面）：</b>
+包体可以证明客户端具备哪些活动结构、本地依赖和部分解锁/互斥基线；
+<code>GetUpcomingEventsInfoResponse</code> 等接口说明实时开关、时间窗和分组至少有服务端输入。
+但本次没找到绝对时间戳，不等于证明“全部活动纯服务端排期”；
+也不能用这个包体保证覆盖新版本或实时下发的每一个活动。
+要确认具体起止日期和当前活动，需抓取该账号的响应体，或做连续时序观测。</div>
+
+<h2 id="original-activity-8">§8 长期活动 vs 限时活动</h2>
+<p class="lead">判定规则：<b>能拿到的硬证据只有三条</b>——① 是否在 event_dependency 互斥槽里
+（在 → 轮换位 → 限时）；② 名称/配置里是否明写周期（Daily / Weekly / season）；③ 是否与
+<code>Theme</code> 皮肤绑定（绑定 → 季节性）。三条都不沾的，标为「常驻」但证据等级较低。</p>
+<div class="card">
+<table><thead><tr><th>类型</th><th class="n">数量</th><th>成员</th><th>判定依据</th></tr></thead><tbody>
+<tr><td><span class="badge" style="background:#2c8a6322;color:#2c8a63">常驻</span></td>
+<td class="n">15</td>
+<td>TeamBattle / InviteFriends / DailyRewards / CoinShop / Ads / DirectPayment / PortalItem / Supercharge / TableGame / RemotePuzzles / Item / HardLevelBackgrounds / HardLevelMusic / ExtremeLevel / MissionEventsCommon</td>
+<td>暂未见互斥/周期证据；“常驻”为低信心分类，不是排期实测</td></tr>
+<tr><td><span class="badge" style="background:#14a0a022;color:#14a0a0">日循环</span></td>
+<td class="n">2</td><td>DailyLightningRush / DailyRewards</td>
+<td>名称 Daily；<code>TwentyMinutesInSec=1200</code>、<code>stageDurations=[30,30,30]</code></td></tr>
+<tr><td><span class="badge" style="background:#2f7ed822;color:#2f7ed8">周循环</span></td>
+<td class="n">2</td><td>WeeklyPass / WeeklyLeaderboard / WeeklyPassCommon</td>
+<td>名称 Weekly；<code>royal_pass</code> 32 级 vs <code>weekly_pass</code> 9 级（周版更短）</td></tr>
+<tr><td><span class="badge" style="background:#7a4fd022;color:#7a4fd0">赛季制</span></td>
+<td class="n">5</td><td>RoyalPass / PuzzleBreak / RoyalWorldCup / NewRoyalLeague / NewRoyalLeagueLeaderboard</td>
+<td><code>seasonConfigs.id=6</code>；<code>Theme.RoyalWorldCup=8</code>；联赛分 emerald/gold/diamond 三房</td></tr>
+<tr><td><span class="badge" style="background:#e0932e22;color:#e0932e">限时轮换</span></td>
+<td class="n">28</td>
+<td>BalloonRise / PinataParty / HiddenTemple / MagicCauldron / KingsCup / TeamTreasure /
+TeamTournament / ArcheryArena / SkyRace / SpaceMission / RobotRivals / AncientAdventure /
+LavaQuest / DragonNest / ShortExpeditionEvent / TrainJourney / DukesFortune / OceanOdyssey /
+MergeSmith / ClashOfChampions / PropellerRush / Madness / MissionControl / MissionPursuit /
+JourneyOffer / MultiplierSelection / RoyalBoostBundleOffer / ExtremelyHardLevelOffer</td>
+<td>22/29 个管理器实现 <code>IEventManagerWithReactivationFlow</code>（回流流程）；
+12 个在互斥槽内；状态机有 <code>IsLastSessionOfEvent</code> / <code>HasEnoughTimeToJoinEvent</code></td></tr>
+</tbody></table>
+</div>
+<div class="note warn"><b>这份分类的诚实边界：</b>
+「限时轮换」的判定很硬（互斥槽 + 回流流程 + <code>IsLastSessionOfEvent</code> 三重证据），
+但「常驻」里除了 TeamBattle / InviteFriends / NewRoyalLeague，其余都是
+<b>因为找不到限时证据</b>才归到常驻——这是"证据不足"而不是"证据表明常驻"。
+尤其 <code>CoinShop / JourneyOffer / ExtremelyHardLevelOffer</code> 这类付费位，
+实际上几乎肯定是限时轮换的，只是配置里没留痕。</div>
+</div>
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2><p>结论：能区分客户端解锁资格、轮换约束与实际日历；资源主题名不能推出日期。</p><p>速度：直接列出解锁门槛，减少从首次看到反推解锁的偏差；真实轮换周期仍需持续记录响应。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="area-tasks.html">装修、章节、解锁</a><a href="activity-defaults.html">活动玩法、默认奖励</a><a href="team-flow.html">团队、社交流程</a><a href="distributed-assets.html">界面、美术、动画、音效</a><a href="social-backend.html">原社交、赛事后台</a><a href="source-projects.html">原制作工程</a></nav>
+<footer><a href="../index.html#row-schedule-boundaries">← 返回内容总览</a></footer></main>
+</body></html>

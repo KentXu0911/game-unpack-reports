@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>胜负、结算与难度适应 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-win-settlement">← 返回内容总览</a></p>
+<h1>胜负、结算与难度适应</h1><p>客户端胜负与结算路径可继续恢复；指定主线路径未支持“连败自动加初始步数”，不构成全局排除。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="win-settlement" class="topic-detail" aria-labelledby="title-win-settlement"><h2 id="title-win-settlement">胜负、结算与难度适应</h2><div class="topic-body"><h3>胜负判断与表现分别验收</h3><p>目标、剩余步数、在途操作、结算和奖励处理都有客户端消费者。完整事件顺序和所有关型仍需逐项恢复；局部目标评分证据不能拿来证明玩家计分或金币结算公式。</p><h3>主线连败是否免费加步</h3><p>所审查SemiDynamicDifficulty.OnLevelFail、SetLevelNumber为空返回，GetSection／GetGroupMove返回0；GetUpdatedMoveCount主线路径回传输入，League分支另有加步。可以确认这些函数的行为，不能据此排除所有其他入口、配置与账号输入。</p><h3>难度相关状态的准确边界</h3><p>ProcessKeyValueResponse会把一个long交给UpdateDynamicDifficultyInventory保存；它是被TryCount、DeltaMove等方法读写的打包状态，不能按名字解释成道具背包。尚未取得足以确认实际账号输入、服务器决策及其在本版本主线生效的完整证据。</p><h3>真实胜率</h3><p>关卡配置压力、特定机器人策略的模拟胜率、真实玩家胜率是不同指标。玩家胜率需要对应人群、版本、尝试口径和遥测；既有配置评分不能当作官方玩家数据。</p><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>账号状态、调难、后台与原工具边界</h6><p>指定客户端函数与现有样本边界。SemiDynamicDifficulty主线路径回传步数；ProcessKeyValueResponse接收打包long状态。真实账号输入、生效消费者与后台决策仍需验证。远征GetUpdatedSegment 0x37C3704、pending计算0x37C37FC；原后台策略与全服遥测无原件。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/BOUNDARIES.md</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>随机调用、候选与Seed生命周期</h6><p>静态调用点／受控运行记录。DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s</code></p></div></details></div></section><style>@scope (.original-report) {
+
+.original-report{--paper:#F6F7F2;--ink:#172033;--muted:#5F6875;--line:#D7DCD5;--teal:#0F766E;--amber:#B45309;--red:#B42318;--white:#FFF}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--paper)}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Noto Sans SC","PingFang SC",sans-serif;line-height:1.72}
+a{color:var(--teal);text-underline-offset:3px}code,pre,.mono{font-family:"IBM Plex Mono","SFMono-Regular",monospace}
+.shell{display:grid;grid-template-columns:240px minmax(0,1080px);gap:42px;max-width:1400px;margin:auto;padding:24px 28px 80px}.rail{position:sticky;top:18px;align-self:start;height:calc(100vh - 36px);border-right:1px solid var(--line);padding:22px 24px 20px 0;overflow:auto}
+.kicker,.section-no{color:var(--red);font:700 12px/1.4 "IBM Plex Mono",monospace}.rail h1{margin:10px 0 18px;font:700 25px/1.28 "Noto Serif SC",serif}.rail nav a{display:block;padding:7px 0;color:var(--muted);text-decoration:none;font-size:14px}.rail nav a:hover{color:var(--teal)}.meta{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}main{min-width:0}
+.hero{padding:54px 0 38px;border-bottom:3px solid var(--ink)}.hero h2{margin:12px 0 16px;max-width:920px;font:800 clamp(38px,6vw,76px)/1.08 "Noto Serif SC",serif}.hero p{max-width:800px;margin:0;font-size:18px;color:var(--muted)}
+.verdicts,.term-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:28px;background:var(--line);border:1px solid var(--line)}.verdict,.term{background:var(--white);padding:20px;min-height:160px}.verdict b,.term b{display:block;margin-bottom:8px;font:700 20px/1.35 "Noto Serif SC",serif}.verdict span{color:var(--muted);font-size:14px}
+section{padding:48px 0;border-bottom:1px solid var(--line);scroll-margin-top:18px}h3{margin:8px 0 12px;font:750 34px/1.25 "Noto Serif SC",serif}h4{margin:30px 0 10px;font:700 20px/1.4 "Noto Serif SC",serif}.lead{max-width:850px;margin:0 0 24px;font-size:18px;color:#354052}
+.plain,.warning,.negative{padding:18px 20px;border-left:4px solid var(--teal);background:#EEF5F1;margin:18px 0}.warning{border-color:var(--amber);background:#FBF2E6}.negative{border-color:var(--red);background:#F9EBE8}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);margin:28px 0;border:1px solid var(--line)}.flow>div{min-height:150px;padding:18px 20px;background:var(--white);border-right:1px solid var(--line)}.flow>div:last-child{border:0}.flow strong{display:block;margin-bottom:8px;color:var(--teal)}.flow small{color:var(--muted)}
+.refill-decision{margin:28px 0;background:var(--white);border:1px solid var(--line)}.refill-decision svg{display:block;width:100%;height:auto}.decision-action{fill:#EEF5F1;stroke:#9BBEB5;stroke-width:1.5}.decision-random{fill:#FBF2E6;stroke:#D2A669;stroke-width:1.5}.decision-question{fill:#FFF;stroke:var(--teal);stroke-width:1.5;stroke-dasharray:7 5}.decision-line{fill:none;stroke:var(--teal);stroke-width:2;marker-end:url(#refill-arrow)}.decision-merge{fill:none;stroke:#8C958D;stroke-width:1.5}.decision-label{fill:var(--ink);font:700 17px "Noto Sans SC",sans-serif}.decision-sub{fill:var(--muted);font:13px "IBM Plex Mono",monospace}.decision-branch{fill:#7A3B06;font:700 12px "IBM Plex Mono",monospace}.refill-decision figcaption{padding:12px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.flow-mobile{display:none;padding:4px 18px 18px}.flow-mobile ol{margin:0;padding:0;list-style:none;counter-reset:refill}.flow-mobile li{counter-increment:refill;position:relative;margin-left:14px;padding:14px 4px 14px 38px;border-left:2px solid var(--teal)}.flow-mobile li::before{content:counter(refill);position:absolute;left:-15px;top:15px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--teal);color:#FFF;font:700 12px "IBM Plex Mono",monospace}.flow-mobile b{display:block;margin-bottom:3px}.flow-mobile span{display:block;color:var(--muted);font-size:13px}.branch-tag{display:inline-block!important;width:auto;margin:5px 6px 0 0;padding:2px 6px;border:1px solid #D2A669;border-radius:3px;color:#7A3B06!important;background:#FBF2E6;font:700 11px "IBM Plex Mono",monospace}
+.term-grid{grid-template-columns:repeat(2,1fr)}.term{min-height:170px}.term .name{color:var(--red);font:700 13px/1.4 "IBM Plex Mono",monospace}.term-example{margin-top:14px;padding:10px 12px;border-left:3px solid var(--teal);background:#F1F5F1;color:#354052;font-size:13px;line-height:1.6}.term-example b{display:inline!important;margin:0!important;color:var(--teal);font:700 12px/1.4 "IBM Plex Mono",monospace!important}
+.chain{display:flex;align-items:stretch;overflow-x:auto;margin:26px 0;padding-bottom:8px}.node{flex:0 0 176px;padding:16px;border:1px solid var(--line);background:var(--white)}.arrow{flex:0 0 36px;align-self:center;text-align:center;color:var(--teal);font:700 22px monospace}
+.seed-flow{margin:22px 0 28px;padding:22px;border:1px solid var(--line);background:var(--white)}.seed-flow-head{display:flex;justify-content:space-between;gap:18px;align-items:start;margin-bottom:18px}.seed-flow-head b{font:700 18px/1.4 "Noto Serif SC",serif}.seed-flow-head span{color:var(--muted);font-size:13px}.seed-lane{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}.seed-lane-label{color:var(--muted);font:700 12px/1.4 "IBM Plex Mono",monospace}.seed-tape,.seed-map,.seed-pieces{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.seed-pair,.seed-map-item{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;background:#EEF1ED;border:1px solid transparent;border-radius:4px}.seed-pair{opacity:.38;transition:opacity .18s,transform .18s,border-color .18s}.seed-pair.active{opacity:1;transform:translateY(-2px);border-color:var(--amber)}.seed-pair.done{opacity:.72}.seed-num{min-width:25px;text-align:center;font:700 13px/1.4 "IBM Plex Mono",monospace}.seed-piece{display:inline-flex;align-items:center;gap:6px;opacity:.22;transition:opacity .18s,transform .18s}.seed-piece.visible{opacity:1}.seed-piece.current{transform:translateY(-3px);font-weight:700}.piece-dot{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 -3px 0 #0002}.piece-red{background:#E85D5D}.piece-blue{background:#4387D9}.piece-green{background:#4E9E67}.piece-yellow{background:#E8B84B}.seed-detail{min-height:52px;margin-top:8px;padding:13px 0;border-top:1px solid var(--line);color:#354052}.seed-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.seed-controls button{min-width:86px;padding:8px 12px;border:1px solid var(--line);border-radius:4px;background:var(--white);color:var(--ink);font:700 13px/1.4 "Noto Sans SC",sans-serif;cursor:pointer}.seed-controls button.primary{border-color:var(--teal);background:var(--teal);color:#FFF}.seed-controls button:disabled{opacity:.35;cursor:not-allowed}.seed-progress{margin-left:auto;color:var(--muted);font:12px "IBM Plex Mono",monospace}
+.split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:28px;align-items:start}.code-block{margin:22px 0;padding:18px 20px;overflow:auto;color:#E8F0EA;background:#172033;border-radius:4px;font-size:13px;line-height:1.75}.code-block pre{margin:0}.stat{padding:18px 0;border-top:1px solid var(--line)}.stat b{display:block;font:750 30px/1.2 "Noto Serif SC",serif;color:var(--teal)}
+table{width:100%;border-collapse:collapse;margin:22px 0;background:var(--white)}th,td{padding:12px 14px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:#E9EEEA;font-size:13px}td{font-size:14px}.badge{display:inline-block;padding:2px 7px;border-radius:3px;font:700 11px/1.5 "IBM Plex Mono",monospace}.badge.e1{color:#075E58;background:#D9EEE7}.badge.e2{color:#7A3B06;background:#F9E5C7}.badge.h2{color:#8B1B13;background:#F6D8D3}
+.chart-wrap{padding:14px;background:var(--white);border:1px solid var(--line);overflow:auto}.chart{display:block;min-width:650px;width:100%;height:auto}.grid{stroke:#E1E5E0}.axis{fill:#66717D;font:11px "IBM Plex Mono",monospace}.axis-title{fill:#172033;font:700 14px "Noto Sans SC",sans-serif}.axis-box{fill:#FFF;stroke:#D7DCD5}.pressure-line{fill:none;stroke:#0F766E;stroke-width:3}.pressure-dot{fill:#B42318}.mean-line{stroke:#B45309;stroke-width:1.5;stroke-dasharray:5 4}.down{color:var(--teal);font-weight:700}.up{color:var(--red);font-weight:700}
+details{margin:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#ffffff94}summary{cursor:pointer;padding:14px 4px;font-weight:700}details>div{padding:0 4px 20px}.scroll{overflow:auto;max-height:480px}.animation-frame{width:100%;height:760px;border:1px solid var(--line);background:#FFF}.evidence{display:grid;grid-template-columns:180px 1fr;border-top:1px solid var(--line)}.evidence dt,.evidence dd{margin:0;padding:12px 0;border-bottom:1px solid var(--line)}.evidence dt{font:12px "IBM Plex Mono",monospace;color:var(--red)}footer{padding:36px 0;color:var(--muted);font-size:12px}
+.section-divider{margin:42px 0;border:0;border-top:1px solid var(--line)}
+@media(max-width:980px){.shell{grid-template-columns:1fr;padding:16px 20px 60px}.rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 0 18px}.rail nav{display:flex;gap:14px;overflow-x:auto}.rail nav a{white-space:nowrap}.verdicts,.term-grid,.split{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow>div{min-height:0;border-right:0;border-bottom:1px solid var(--line)}.hero h2{font-size:42px}}
+@media(max-width:700px){body{overflow-x:hidden}.shell{max-width:100%}.refill-decision .decision-desktop{display:none}.flow-mobile{display:block}table{display:block;max-width:100%;overflow-x:auto}.evidence{grid-template-columns:100px minmax(0,1fr)}.evidence dd,td,code{overflow-wrap:anywhere}}
+@media(max-width:520px){.shell{padding:10px 14px 48px}.hero{padding-top:36px}.hero h2{font-size:34px}h3{font-size:27px}.lead{font-size:16px}.animation-frame{height:660px}.seed-flow{padding:15px}.seed-flow-head,.seed-lane{display:grid;grid-template-columns:1fr}.seed-progress{width:100%;margin-left:0}}
+
+
+    #rm-seed-stages {
+      --foreground: var(--ink); --muted-foreground: #5F6875; --card: var(--white);
+      --card-foreground: var(--ink); --border: var(--line); --muted: #EEF1ED;
+      --primary: var(--teal); --primary-foreground: #FFF;
+      --viz-series-1: #0F766E; --viz-series-2: #B45309;
+      --viz-series-3: #25636B; --viz-series-4: #B42318;
+      color: var(--foreground); margin-top: 24px;
+    }
+    #rm-seed-stages * { box-sizing: border-box; }
+    #rm-seed-stages .stage-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 16px; }
+    #rm-seed-stages .stage-head h2 { margin: 0; font: 750 28px/1.25 "Noto Serif SC",serif; }
+    #rm-seed-stages .stage-status { color: var(--muted-foreground); white-space: nowrap; }
+    #rm-seed-stages .stage-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding-bottom: 4px; }
+    #rm-seed-stages .btn { flex: 0 0 auto; min-height: 38px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--foreground); font: 700 13px/1.4 "Noto Sans SC",sans-serif; cursor: pointer; }
+    #rm-seed-stages .btn:hover { border-color: var(--primary); }
+    #rm-seed-stages .btn-primary { border-color: var(--primary); background: var(--primary); color: var(--primary-foreground); }
+    #rm-seed-stages .btn:disabled { opacity: .38; cursor: not-allowed; }
+    #rm-seed-stages .text-small { font-size: 13px; line-height: 1.65; }
+    #rm-seed-stages .text-muted { color: var(--muted-foreground); }
+    #rm-seed-stages .form-range { width: 100%; accent-color: var(--primary); }
+    #rm-seed-stages code { font-size: .92em; }
+    #rm-seed-stages .stage-panel[hidden] { display: none; }
+    #rm-seed-stages .stage-kicker { color: var(--muted-foreground); margin-bottom: 6px; }
+    #rm-seed-stages .diagram { display: grid; gap: 12px; padding: 8px 0; }
+    #rm-seed-stages .flow-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: stretch; }
+    #rm-seed-stages .flow-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #rm-seed-stages .flow-row.one { grid-template-columns: minmax(0, 1fr); }
+    #rm-seed-stages .flow-node { position: relative; min-width: 0; padding: 14px; background: color-mix(in srgb, var(--card) 92%, transparent); border: 1px solid var(--border); border-radius: 6px; color: var(--card-foreground); }
+    #rm-seed-stages .flow-node.source { background: color-mix(in srgb, var(--viz-series-1) 12%, var(--card)); }
+    #rm-seed-stages .flow-node.process { background: color-mix(in srgb, var(--viz-series-2) 12%, var(--card)); }
+    #rm-seed-stages .flow-node.output { background: color-mix(in srgb, var(--viz-series-3) 14%, var(--card)); }
+    #rm-seed-stages .flow-node.branch { background: color-mix(in srgb, var(--viz-series-4) 12%, var(--card)); }
+    #rm-seed-stages .flow-node strong { display: block; margin-bottom: 5px; font-weight: 500; }
+    #rm-seed-stages .flow-node code { overflow-wrap: anywhere; }
+    #rm-seed-stages .flow-node .sub { display: block; margin-top: 5px; color: var(--muted-foreground); }
+    #rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2192"; position: absolute; right: -22px; top: 50%; transform: translateY(-50%); color: var(--muted-foreground); }
+    #rm-seed-stages .down { text-align: center; color: var(--muted-foreground); padding: 1px 0; }
+    #rm-seed-stages .sum { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    #rm-seed-stages .sum + .sum { margin-top: 8px; }
+    #rm-seed-stages .sum-value { font-variant-numeric: tabular-nums; text-align: right; }
+    #rm-seed-stages .tape { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+    #rm-seed-stages .tape-cell { padding: 8px 4px; text-align: center; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; font-variant-numeric: tabular-nums; }
+    #rm-seed-stages .tape-cell.selected { color: var(--primary-foreground); background: var(--primary); }
+    #rm-seed-stages .try-control { margin: 12px 0; }
+    #rm-seed-stages .try-line { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    #rm-seed-stages .shuffle-control { margin: 12px 0 16px; }
+    #rm-seed-stages .calc-value { display: inline-block; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    #rm-seed-stages .calc-final { color: var(--foreground); }
+    #rm-seed-stages .try-result { display: grid; grid-template-columns: auto 1fr auto 1fr auto; gap: 10px; align-items: center; text-align: center; margin-top: 14px; }
+    #rm-seed-stages .try-result .flow-node { min-height: 78px; }
+    #rm-seed-stages .try-result .arrow { color: var(--muted-foreground); }
+    #rm-seed-stages .branch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+    #rm-seed-stages .branch-lane { display: grid; gap: 10px; align-content: start; }
+    #rm-seed-stages .lane-label { color: var(--muted-foreground); }
+    #rm-seed-stages .vertical-arrow { text-align: center; color: var(--muted-foreground); }
+    #rm-seed-stages .detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    #rm-seed-stages .detail-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #rm-seed-stages .detail-item { min-width: 0; padding: 10px 0; border-top: 1px solid var(--border); }
+    #rm-seed-stages .detail-item strong { display: block; margin-bottom: 4px; font-weight: 500; }
+    #rm-seed-stages .detail-item span { color: var(--muted-foreground); }
+    #rm-seed-stages .micro-flow { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-top: 10px; }
+    #rm-seed-stages .micro-step { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--primary-foreground); background: var(--primary); font-variant-numeric: tabular-nums; }
+    #rm-seed-stages .micro-copy { min-width: 0; padding-bottom: 9px; border-bottom: 1px solid var(--border); }
+    #rm-seed-stages .micro-copy strong { display: block; font-weight: 500; }
+    #rm-seed-stages .micro-copy span { display: block; margin-top: 3px; color: var(--muted-foreground); }
+    #rm-seed-stages .state-line { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 10px; }
+    #rm-seed-stages .state-line .state { padding: 9px; background: var(--muted); color: var(--muted-foreground); border-radius: 4px; overflow-wrap: anywhere; }
+    #rm-seed-stages .state-line .state-arrow { color: var(--muted-foreground); text-align: center; }
+    #rm-seed-stages .truth-line { padding: 10px 0; border-top: 1px solid var(--border); color: var(--muted-foreground); }
+    #rm-seed-stages .truth-line strong { color: var(--foreground); font-weight: 500; }
+    #rm-seed-stages .legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted-foreground); margin-top: 14px; }
+    #rm-seed-stages .legend span { display: inline-flex; gap: 6px; align-items: center; }
+    #rm-seed-stages .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    #rm-seed-stages .swatch.e1 { background: var(--viz-series-1); }
+    #rm-seed-stages .swatch.e2 { background: var(--viz-series-2); }
+    #rm-seed-stages .swatch.e3 { background: var(--viz-series-3); }
+    #rm-seed-stages .swatch.e4 { background: var(--viz-series-4); }
+    #rm-seed-stages .controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
+    #rm-seed-stages .controls-right { display: flex; gap: 8px; }
+    #rm-seed-stages .nowrap { white-space: nowrap; }
+    @media (max-width: 620px) {
+      #rm-seed-stages .stage-head { display: grid; }
+      #rm-seed-stages .stage-nav .btn { flex: 1 1 calc(33.333% - 8px); }
+      #rm-seed-stages .flow-row, #rm-seed-stages .flow-row.two, #rm-seed-stages .branch-grid, #rm-seed-stages .detail-grid, #rm-seed-stages .detail-grid.two { grid-template-columns: 1fr; gap: 20px; }
+      #rm-seed-stages .flow-row .flow-node:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+      #rm-seed-stages .tape { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      #rm-seed-stages .try-result { grid-template-columns: 1fr; }
+      #rm-seed-stages .try-result .arrow { transform: rotate(90deg); }
+      #rm-seed-stages .state-line { grid-template-columns: 1fr; }
+      #rm-seed-stages .state-line .state-arrow { transform: rotate(90deg); }
+      #rm-seed-stages .controls { align-items: stretch; display: grid; }
+      #rm-seed-stages .controls-right { flex: 1; }
+      #rm-seed-stages .controls-right .btn { flex: 1; }
+    }
+  
+}</style><div class="original-report"><section id="original-adaptation"><div class="section-no">05 / ADAPTATION</div><h3>关卡难度到底由什么决定</h3><p class="lead">LevelSet是关卡自带的静态候选规则。已检查的随机数与主线调用链没有证据表明连败会提高某一颜色的生成概率；随机流消费顺序仍会影响单局结果。</p>
+<h4>先用三层模型理清</h4><table><thead><tr><th>层次</th><th>包含什么</th><th>玩家体感为什么会变</th><th>审计结论</th></tr></thead><tbody>
+<tr><td><b>静态关卡设计</b></td><td>Moves、目标种类与数量、障碍/层数/位置、棋盘形状、颜色池、每列预定队列、LevelSet 候选/权重/列限制。</td><td>它定义“这关原本有多紧、能生成什么”。</td><td><span class="badge e1">E1 包体</span></td></tr>
+<tr><td><b>每局确定性随机</b></td><td>本次 LevelTryCount 选中的 seed、System.Random 当前状态、前面已消耗的随机调用、当前棋盘和候选范围。</td><td>同一关每局可以出现不同补棋和连锁，但相同输入可复现。</td><td><span class="badge e2">E1+E2</span></td></tr>
+<tr><td><b>玩家/账号适应层</b></td><td>Super Light Ball、付费续关加步、回流关替换；另有 Skill/TryCount 等画像或分析字段。</td><td>通过可见道具、当局续关或替换关卡改变体验。</td><td>未证明普通主线连败会暗改颜色概率</td></tr></tbody></table>
+<div class="plain"><b>所以更准确的一句话是：</b>静态难度由关卡配置决定；每次开局换 seed 会换一条随机轨迹，但这不等于“连败后系统给某个颜色加权”。</div>
+<h4>每关都有 LevelSet 吗</h4><p>有。对 <code>indices/level_sets.jsonl</code> 的 14,500 关全量统计：<code>0</code> 关缺失 LevelSet，<code>0</code> 个 Set 候选表为空。<span class="badge e1">E1 包体</span></p>
+<table><thead><tr><th>每关 LevelSet 数</th><th>关卡数</th><th>怎么理解</th></tr></thead><tbody>
+<tr><td>1 个</td><td>13,884</td><td>绝大多数关只有一套普通候选规则。</td></tr>
+<tr><td>2 个</td><td>515</td><td rowspan="4">多个 Set 可以用权重、目标列、生成条件等区分用途。</td></tr>
+<tr><td>3 个</td><td>88</td></tr><tr><td>4 个</td><td>11</td></tr><tr><td>5 个</td><td>2</td></tr>
+</tbody></table>
+<div class="warning"><b>有 LevelSet ≠ 每颗补棋都用 LevelSet。</b>列预定队列或 Top-board 来源先命中时，那颗棋直接来自固定来源；只有回退到随机补棋分支时，才用 seed 通过 LevelSet 选颜色。</div>
+<h4>L39 连续重开：后面的 seed 会不会抬高某种颜色</h4><p>选 L39 是为了隔离变量：它没有预定补棋，只有一个 LevelSet，候选顺序为 <code>[1,3,4,2]</code>，四色都由 <code>Next(0,4)</code> 等概率选中。模拟器实抓的 TryCount 18–28 对应 seed，与包体算法复原的 1000 项顺序 <b>11/11 一致</b>。<span class="badge e2">E2 seed</span></p>
+<table><thead><tr><th>TryCount</th><th>seed</th><th>蓝 1</th><th>绿 2</th><th>红 3</th><th>黄 4</th></tr></thead><tbody><tr><td>18</td><td>579</td><td>47</td><td>43</td><td>52</td><td>58</td></tr><tr><td>19</td><td>436</td><td>50</td><td>53</td><td>45</td><td>52</td></tr><tr><td>20</td><td>408</td><td>56</td><td>54</td><td>41</td><td>49</td></tr><tr><td>21</td><td>993</td><td>46</td><td>50</td><td>47</td><td>57</td></tr><tr><td>22</td><td>209</td><td>56</td><td>54</td><td>49</td><td>41</td></tr><tr><td>23</td><td>660</td><td>52</td><td>48</td><td>45</td><td>55</td></tr><tr><td>24</td><td>413</td><td>53</td><td>49</td><td>45</td><td>53</td></tr><tr><td>25</td><td>697</td><td>46</td><td>57</td><td>55</td><td>42</td></tr><tr><td>26</td><td>272</td><td>43</td><td>44</td><td>54</td><td>59</td></tr><tr><td>27</td><td>393</td><td>51</td><td>54</td><td>63</td><td>32</td></tr><tr><td>28</td><td>879</td><td>38</td><td>51</td><td>58</td><td>53</td></tr></tbody></table>
+<p>表中每行都是用该 seed 按 L39 真实调用方式生成 200 颗普通随机补棋的确定性复现。单个 seed 会偏一点，例如 seed 579 的黄棋是 58/200，seed 209 的黄棋是 41/200；但它们没有随 TryCount 递增而单调上升。<span class="badge h2">H1 控制复现</span></p>
+<h4>逐颗 Frida 实抓：五次连续失败</h4><p>2026-09-23 用 <code>spawn → attach → resume</code> 修复了晚期附加失败。L39 强制为 8 步，真实完成交换、补棋和失败；下表是 <code>CreateItemForFillingCellAt</code> 实际返回的棋子。<span class="badge e2">E2 实机</span></p>
+<div class="scroll"><table><thead><tr><th>TryCount</th><th>seed</th><th>实抓数</th><th>蓝 1</th><th>绿 2</th><th>红 3</th><th>黄 4</th></tr></thead><tbody><tr><td>24</td><td>413</td><td>147</td><td>40</td><td>36</td><td>34</td><td>37</td></tr><tr><td>25</td><td>697</td><td>50</td><td>12</td><td>10</td><td>15</td><td>13</td></tr><tr><td>26</td><td>272</td><td>52</td><td>10</td><td>14</td><td>12</td><td>16</td></tr><tr><td>27</td><td>393</td><td>62</td><td>17</td><td>21</td><td>16</td><td>8</td></tr><tr><td>28</td><td>879</td><td>69</td><td>20</td><td>21</td><td>16</td><td>12</td></tr><tr><td><b>合计</b></td><td>-</td><td><b>380</b></td><td><b>99</b></td><td><b>102</b></td><td><b>93</b></td><td><b>86</b></td></tr></tbody></table></div>
+<div class="split"><div class="stat"><b>380 / 380 映射一致</b><span>每颗棋都能由同一次 <code>DifficultyNext(0,4)</code> 的返回值，通过 <code>[1,3,4,2]</code> 解释；0 个不一致。</span></div><div class="stat"><b>没有颜色随五次失败持续上升</b><span>合并占比为 26.05%、26.84%、24.47%、22.63%；单局波动明显，但不呈持续单调变化。</span></div></div>
+<div class="split"><div class="stat"><b>1000 个官方尝试 seed 全部遍历</b><span>每个 seed 生成 200 颗，每 100 个连续 TryCount 合并 20,000 颗，四色均围绕 25%。</span></div><div class="stat"><b>没有连败偏色趋势</b><span>五个随机流偏移下，TryCount 与颜色占比的最大 <code>|r|=0.0503</code>；百次分组最大色差 1.415 个百分点。</span></div></div>
+<div class="plain"><b>本轮结论：</b>不同 seed 会造成短期颜色连串和小样本波动，但完整 1000 项尝试顺序不支持“越连败，某个颜色概率越高”。LevelSet 的颜色和权重也没有随失败次数改写。</div>
+<div class="warning"><b>证据边界：</b>五局实抓用来验证“真实调用链和短期现象”，不能单独当作概率趋势估计；每局的连锁和补棋数不同。“没有系统偏色”主要依据仍是完整 1000 个官方 seed 的控制复现，实抓是独立交叉验证。</div>
+<h4>Hard / Easy 表到底有没有接代码</h4><p>两份 TextAsset 确实在包体，有 43 个关卡段，覆盖 L1–L1100，字段只是关卡范围和 Easy/Hard 尝试次数区间。它们不含 seed、颜色、LevelSet、Moves 或每个 seed 的难度分。本轮不只查了直接调用，还补查了元数据、资源装载、Unity 序列化引用、TextAsset/JSON 解析、策略实现和实机运行。</p>
+<table><thead><tr><th>审计面</th><th>找到什么</th><th>这意味着什么</th></tr></thead><tbody>
+<tr><td><b>资产本身</b></td><td><code>DynamicDifficultyEasy.json</code> 和 <code>DynamicDifficultyHard.json</code> 存在；Path ID 分别为 15925 和 13895。</td><td>只能证明打包进了 APK，不能单独证明正在运行。 <span class="badge e1">E1</span></td></tr>
+<tr><td><b>IL2CPP 元数据/字符串</b></td><td>未找到两个资源名、四个 min/max 字段名，也没有对应的配置类。</td><td>没有找到强类型反序列化或按名读取的入口。 <span class="badge e1">E1 阴性</span></td></tr>
+<tr><td><b>Resources / TextAsset / JSON</b></td><td>无 <code>Resources.Load&lt;TextAsset&gt;</code> 专门化；59 个 <code>TextAsset.get_text</code> 直接调用者和 JSON 解析调用者中都没有这条难度链。</td><td>未找到运行时打开并解析这两份表的代码。 <span class="badge e1">E1 阴性</span></td></tr>
+<tr><td><b>Unity 序列化引用</b></td><td>MonoBehaviour 记录和全 <code>datapack.unity3d</code> PPtr 扫描对 Path ID 13895/15925 均为 0 引用。</td><td>没有本地序列化对象持有这两份 TextAsset。 <span class="badge e1">E1 阴性</span></td></tr>
+<tr><td><b>真正的难度策略</b></td><td><code>LevelEpisodeHelper</code> 确实实例化 <code>SemiDynamicDifficulty</code>，但 <code>OnLevelFail</code>、<code>SetTryCount</code>、<code>SetLevelNumber</code> 等是空实现；<code>GetSection</code>/<code>GetGroupMove</code> 固定返回 0。</td><td>接口壳子仍在，普通主线的关键动态调节实现已被削空或旁路。 <span class="badge e1">E1</span></td></tr>
+<tr><td><b>L101 实机</b></td><td>TryCount 18/19/20 分别选到 seed 895/429/174，最终 Moves 始终 25；TryCount2、DeltaMove、DynamicDifficultyInventory、DynaDiff 全部 0 命中。</td><td>Hard 数值首次出现的关卡段里，表仍未进入已测 seed 或 Moves 路径。 <span class="badge e2">E2</span></td></tr>
+</tbody></table>
+<div class="warning"><b>审计结论：</b>不能绝对声称它们“和任何代码永远毫无关联”；但对 build 38174 当前普通主线，多个独立静态和运行时证据都指向“未接入”。最合理解释是旧版系统遗留、停用实验或构建未清理资产。 <span class="badge e1">H1</span></div>
+<div class="split"><div class="plain"><b>seed 链：</b><code>LevelTryCount → seedList[index] → System.Random → DifficultyNext → LevelSet</code>。已由反汇编和 L1451 实机闭合。</div><div class="warning"><b>门槛表的现状：</b><code>关卡段 → Easy/Hard min/maxTryCount</code> 只能在资产内部读通；向 seed、颜色、LevelSet 或基础 Moves 的运行接线未找到。</div></div>
+<h4>L101 为什么是关键样本</h4><p>L101 是 Hard 数值开始出现的第一段。三次真实开局：</p><table><thead><tr><th>开局</th><th>TryCount</th><th>本局 seed</th><th>最终 Moves</th></tr></thead><tbody><tr><td>1</td><td>18</td><td>895</td><td>25</td></tr><tr><td>2</td><td>19</td><td>429</td><td>25</td></tr><tr><td>3</td><td>20</td><td>174</td><td>25</td></tr></tbody></table>
+<p>同一观察窗里 <code>TryCount2 / DeltaMove / DynamicDifficultyInventory / DynaDiff</code> 全部 0 命中；普通关卡 <code>GetUpdatedMoveCount</code> 没改 Moves。<span class="badge e2">E2 L101</span></p><div class="negative"><b>不能下的结论：</b>“超过 Hard 门槛后，系统会把 seed 排成更容易的一档。”当前没有评分、排序或接线证据。</div>
+<details><summary>查看 43 段完整 Easy / Hard 门槛表</summary><div class="scroll"><table><thead><tr><th>段</th><th>关卡</th><th>Easy 区间</th><th>Hard 区间</th></tr></thead><tbody><tr><td>1</td><td>L1-L5</td><td>-1 - 5</td><td>未配置</td></tr><tr><td>2</td><td>L6-L10</td><td>-1 - 5</td><td>未配置</td></tr><tr><td>3</td><td>L11-L15</td><td>-1 - 7</td><td>未配置</td></tr><tr><td>4</td><td>L16-L20</td><td>7 - 9</td><td>未配置</td></tr><tr><td>5</td><td>L21-L25</td><td>7 - 10</td><td>未配置</td></tr><tr><td>6</td><td>L26-L30</td><td>8 - 12</td><td>未配置</td></tr><tr><td>7</td><td>L31-L35</td><td>6 - 10</td><td>未配置</td></tr><tr><td>8</td><td>L36-L40</td><td>8 - 14</td><td>未配置</td></tr><tr><td>9</td><td>L41-L45</td><td>7 - 12</td><td>未配置</td></tr><tr><td>10</td><td>L46-L50</td><td>9 - 15</td><td>未配置</td></tr><tr><td>11</td><td>L51-L55</td><td>7 - 12</td><td>未配置</td></tr><tr><td>12</td><td>L56-L60</td><td>7 - 14</td><td>未配置</td></tr><tr><td>13</td><td>L61-L65</td><td>6 - 10</td><td>未配置</td></tr><tr><td>14</td><td>L66-L70</td><td>7 - 13</td><td>未配置</td></tr><tr><td>15</td><td>L71-L75</td><td>8 - 13</td><td>未配置</td></tr><tr><td>16</td><td>L76-L80</td><td>8 - 16</td><td>未配置</td></tr><tr><td>17</td><td>L81-L85</td><td>7 - 12</td><td>未配置</td></tr><tr><td>18</td><td>L86-L90</td><td>9 - 17</td><td>未配置</td></tr><tr><td>19</td><td>L91-L95</td><td>6 - 12</td><td>未配置</td></tr><tr><td>20</td><td>L96-L100</td><td>8 - 15</td><td>未配置</td></tr><tr><td>21</td><td>L101-L120</td><td>34 - 60</td><td>21 - 26</td></tr><tr><td>22</td><td>L121-L140</td><td>36 - 66</td><td>21 - 26</td></tr><tr><td>23</td><td>L141-L160</td><td>42 - 81</td><td>22 - 30</td></tr><tr><td>24</td><td>L161-L180</td><td>49 - 97</td><td>25 - 35</td></tr><tr><td>25</td><td>L181-L200</td><td>63 - 120</td><td>30 - 45</td></tr><tr><td>26</td><td>L201-L230</td><td>107 - 199</td><td>52 - 78</td></tr><tr><td>27</td><td>L231-L260</td><td>113 - 201</td><td>55 - 84</td></tr><tr><td>28</td><td>L261-L300</td><td>151 - 256</td><td>80 - 116</td></tr><tr><td>29</td><td>L301-L350</td><td>205 - 343</td><td>110 - 158</td></tr><tr><td>30</td><td>L351-L400</td><td>204 - 329</td><td>115 - 161</td></tr><tr><td>31</td><td>L401-L450</td><td>209 - 331</td><td>120 - 166</td></tr><tr><td>32</td><td>L451-L500</td><td>220 - 347</td><td>128 - 176</td></tr><tr><td>33</td><td>L501-L550</td><td>208 - 327</td><td>120 - 165</td></tr><tr><td>34</td><td>L551-L600</td><td>212 - 333</td><td>124 - 170</td></tr><tr><td>35</td><td>L601-L650</td><td>223 - 344</td><td>131 - 179</td></tr><tr><td>36</td><td>L651-L700</td><td>220 - 338</td><td>131 - 177</td></tr><tr><td>37</td><td>L701-L750</td><td>210 - 322</td><td>124 - 169</td></tr><tr><td>38</td><td>L751-L800</td><td>210 - 322</td><td>124 - 169</td></tr><tr><td>39</td><td>L801-L850</td><td>220 - 332</td><td>130 - 177</td></tr><tr><td>40</td><td>L851-L900</td><td>213 - 329</td><td>124 - 171</td></tr><tr><td>41</td><td>L901-L950</td><td>225 - 342</td><td>131 - 180</td></tr><tr><td>42</td><td>L951-L1000</td><td>217 - 327</td><td>128 - 175</td></tr><tr><td>43</td><td>L1001-L1100</td><td>450 - 650</td><td>270 - 370</td></tr></tbody></table></div></details><hr class="section-divider"/>
+<h4>胜负之后，真正会变的东西</h4><table><thead><tr><th>机制</th><th>玩家实际看到什么</th><th>与 seed / 补棋的关系</th></tr></thead><tbody>
+<tr><td><b>下一次开局换 seed</b></td><td>胜、负或退出后，只要再次 <code>StartGame</code>，<code>LevelTryCount</code> 都会推进。</td><td>随机轨迹变了；没有证据保证失败后更容易。</td></tr>
+<tr><td><b>付费续关加量</b></td><td>L39 连续失败样本中，900 金币对应 5、10、15、20、25、30、35、35 步。</td><td>这是“这局花钱继续”的商品，不是下一局免费加初始步数。</td></tr>
+<tr><td><b>Super Light Ball</b></td><td>满足解锁/实验条件后，累计合格胜利可让下一局带强化光球；激活后失败会失去状态。</td><td>可见强力道具，不等于暗改普通棋子概率。</td></tr>
+<tr><td><b>回流关替换</b></td><td>达到 L231 的回流玩家可能从 90 个专用模板中取关：72 普通、18 困难，并记录已玩模板。</td><td>“给回流玩家换一张关卡”的独立系统，不是每次补棋调概率。</td></tr></tbody></table>
+<div class="plain"><b>一句话：</b>失败后确定发生的是“下一次开局换随机轨迹”；已证实的放宽主要在续关商品。连胜的已证实优势是 Super Light Ball。两者都不能自动推导出普通补棋颜色被暗改。</div></section></div>
+<section class="method-comparison"><h2>相比人工／实机视频／测评</h2><p>结论：能区分换Seed、付费续关加步、局前强化与主线初始步数，避免把体感变易归为同一机制。</p><p>速度：代码能缩小实机实验问题；账号外部输入是否生效、自然通关率仍需对应响应和遥测。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">交换、匹配、下落与多棋盘</a><a href="obstacle-rules.html">障碍、道具、组合技</a><a href="propeller-targeting.html">飞机寻路：目标选择、重选与组合</a><a href="smart-rocket.html">智能火箭：方向与范围收益</a><a href="special-creation.html">特殊块生成位置与激活时机</a><a href="hit-spread-timing.html">命中去重、扩散与连锁节奏</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<footer><a href="../index.html#row-win-settlement">← 返回内容总览</a></footer></main>
+</body></html>
