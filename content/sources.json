@@ -1,0 +1,92 @@
+{
+  "native": {
+    "title": "原生机制与状态审查",
+    "basis": "ARM64机器码与元数据／静态代码证据",
+    "locator": "research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md",
+    "detail": "绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。"
+  },
+  "crosscheck": {
+    "title": "关键函数与原字节交叉核对",
+    "basis": "原字节／反编译控制流交叉核对",
+    "locator": "research/rm-reunpack-2026-10-14/native-gap/REA-CROSSCHECK.md",
+    "detail": "核对目标列抽样、斜落、伤害去重、切板四个函数。伪代码参数与返回类型有推断误差，规则以原机器码和元数据为准；不是原源码或整库语义认证。"
+  },
+  "resources": {
+    "title": "资源读取与内容校验",
+    "basis": "包内对象／配置内容与字节校验",
+    "locator": "research/rm-reunpack-2026-10-14/resources/report.md",
+    "detail": "24个Unity bundle；14,991份TextAsset无损读取；165区域配置、1,634任务；5,103文案词条；1,374动画；697原始音频。7组件解析残留、粒子仍以索引为主；未下发场景需要对应资源包。"
+  },
+  "gap": {
+    "title": "系统可得性与验收边界",
+    "basis": "配置／代码／外部输入边界归纳",
+    "locator": "research/rm-reunpack-2026-10-14/GAP-VERDICT.md",
+    "detail": "14,500关成品已取得；客户端实现可继续恢复与完整可执行复刻分开。缺少当期响应不能解释为客户端完全没有数据，包内无原后台也不能靠有限结果唯一恢复。"
+  },
+  "boundaries": {
+    "title": "账号状态、调难、后台与原工具边界",
+    "basis": "指定客户端函数与现有样本边界",
+    "locator": "research/rm-reunpack-2026-10-14/BOUNDARIES.md",
+    "detail": "SemiDynamicDifficulty主线路径回传步数；ProcessKeyValueResponse接收打包long状态。真实账号输入、生效消费者与后台决策仍需验证。远征GetUpdatedSegment 0x37C3704、pending计算0x37C37FC；原后台策略与全服遥测无原件。"
+  },
+  "rng": {
+    "title": "随机调用、候选与Seed生命周期",
+    "basis": "静态调用点／受控运行记录",
+    "locator": "royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s",
+    "detail": "DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。"
+  },
+  "color-runtime": {
+    "title": "L39受控补棋采集",
+    "basis": "受控实机观测／局部映射验证",
+    "locator": "royal-match-apk-audit-38174/outputs/runtime_L39_difficulty_ego_validation.jsonl",
+    "detail": "五局强制步数样本共380颗，候选表与对应随机返回映射一致。用于验证消费链；不是自然难度、全账号统计或全局确定性回放认证。"
+  },
+  "gates": {
+    "title": "障碍门控与继承定义者索引",
+    "basis": "静态指令形态与继承回溯",
+    "locator": "royal-match-apk-audit-38174/indices/gate_resolution_full.csv",
+    "detail": "30目标×19门控=570格；157动态、33虚委派。CanBeDamaged、IsValidTarget、DoesBlock、Redirect等分别解释；未声明不是玩法不支持。形态归类不等于完整行为证明。"
+  },
+  "special": {
+    "title": "特殊块生成、方向与组合",
+    "basis": "ARM64／ARMv7静态规则",
+    "locator": "royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv",
+    "detail": "SelectSmartRocket 0x20EDA34；横评分0x20EDAF4、纵评分0x20EDB94；生成选格0x1378554；创建协程0x20EE048；组合分派0x26AD2C4。静态已确认方向比较与局部创建阶段，完整帧边界待实机。"
+  },
+  "propeller": {
+    "title": "飞机目标与命中链",
+    "basis": "静态入口、调用链与目标模型接口",
+    "locator": "royal-match-apk-audit-38174/outputs/royal_match_obstacle_booster_cascade_rules_2026-09-16.md；indices/gate_resolution_full.csv",
+    "detail": "FindTarget 0x26A313C；IsTargetValid 0x26A1BDC；TryExplode 0x26A3704；TryExplodeItem 0x26A3750。配合GetScore缓存与目标派生策略，支持决策链解读；完整分值表、重选、同分与飞行曲线未闭合。"
+  },
+  "curve": {
+    "title": "关卡配置统计与研究者压力模型",
+    "basis": "包内批量数据／研究者模型",
+    "locator": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv；indices/article_difficulty_distribution_audit.csv",
+    "detail": "保留配置字段、研究者权重、尾号与机制首现统计。R为研究者定义的配置压力指数，非官方难度标签、玩家分数或胜率；首现只指该配置扫描。"
+  },
+  "activity": {
+    "title": "活动资格、默认配置与轮换槽位",
+    "basis": "客户端常量／资源映射／默认配置",
+    "locator": "royal-match-apk-audit-38174/indices/activity_inventory.csv；decoded/config/event_dependency_default_config.json",
+    "detail": "29个活动管理器口径的解锁与资源映射；10互斥槽位。资格不等于实际开期，节日主题名不证明日历日期，未匹配本地资源组不等于没有远端或共享资源。"
+  },
+  "rewards": {
+    "title": "奖励代码与默认奖励路径",
+    "basis": "配置内容／正反向转换表",
+    "locator": "royal-match-apk-audit-38174/indices/reward_code_map.csv；indices/activity_reward_detail.csv",
+    "detail": "42项奖励代码正反对应；29活动784奖励节点。下方明细保留默认配置路径与数值，不代表当前账号实际下发版本。"
+  },
+  "commercial": {
+    "title": "商业化资格、分层与购买消费者",
+    "basis": "客户端方法证据／状态机／商品表",
+    "locator": "royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv；indices/commercialization_coverage_matrix.csv",
+    "detail": "支持入口、资格、优先级、分组消费、历史最高档、价格实验、Native／Xsolla与广告调用解读。后台赋值公式、当期流量和真实货币价格需外部输入；不能用SKU推金额。"
+  },
+  "continue-runtime": {
+    "title": "L39首档续关受控记录",
+    "basis": "受控实机观测／客户端商品规则",
+    "locator": "royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.csv；outputs/runtime_L39_difficulty_ego_validation.jsonl",
+    "detail": "八局每局只看首档、拒绝购买后重开，900金币给步5→35。没有第2–5档真付费逐档认证，不能当作自然账号长期实验结果。"
+  }
+}

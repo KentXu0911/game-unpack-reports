@@ -23,8 +23,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: python3 scripts/build_site.py
+      - run: git diff --exit-code -- site
       - run: python3 scripts/check_site.py
-      - run: node --check site/assets/report-deep-links.js
+      - run: for script in site/assets/*.js; do node --check "$script" || exit 1; done
 
   deploy:
     needs: validate
