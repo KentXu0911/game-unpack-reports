@@ -5,6 +5,7 @@ from html import escape
 import json
 from pathlib import Path
 import sys
+from level_progression import level_progression
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "content"))
@@ -28,7 +29,7 @@ DESTINATIONS = {
     'fall-rules': 'reports/07-rea-recovery.html#fall-rules',
     'obstacle-rules': 'reports/04-gate-resolution.html#gate-matrix',
     'win-settlement': 'reports/03-mechanism-difficulty.html#adaptation',
-    'level-pressure': 'reports/03-mechanism-difficulty.html#curve',
+    'level-pressure': 'reports/07-rea-recovery.html#level-difficulty',
     'production-tools': 'reports/07-rea-recovery.html#production-tools',
     'area-tasks': 'reports/07-rea-recovery.html#area-tasks',
     'activity-defaults': 'reports/02-activity-config.html#s2',
@@ -94,7 +95,14 @@ def profiles():
 def extras(topic):
     key = topic['key']
     if key == 'level-config':
-        return level_examples()
+        return ('<nav class="level-section-nav" aria-label="初始棋盘内容">'
+                '<a href="#level-examples-title">真实棋盘例子</a>'
+                '<a href="#tile-code-dictionary">颜色与道具代码</a>'
+                '<a href="#obstacle-progression">障碍登场节奏</a>'
+                '<a href="#obstacle-first-seen">每种障碍首现表</a>'
+                '<a href="#level-difficulty">配置难度曲线</a>'
+                '<a href="#level-rhythm">尾号与首现压力</a></nav>'
+                + level_examples() + level_progression())
     if key == 'propeller-targeting':
         return ('<div class="flow" aria-label="已定位的飞机目标处理链">'
                 '<span>寻找候选目标</span><b>→</b><span>检查目标能否命中</span><b>→</b>'
@@ -288,7 +296,8 @@ def render_recovery_report():
     nav = ''.join(f'<a href="#{e(t["key"])}">{e(t["title"])}</a>' for t in topics)
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>客户端内容与复刻边界 · Royal Match</title><link rel="stylesheet" href="../assets/site.css">
-<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<script defer src="../assets/report-deep-links.js"></script>
+<script defer src="../assets/level-progression.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / CLIENT CONTENT</p>
 <p><a class="header-back" href="../index.html#replication-overview">← 返回内容总览</a></p>
 <h1>客户端内容与复刻边界</h1><p>玩法规则、区域任务、分发资源、团队流程与原制作工程的可得性。研究样本：build 38174。</p></div></header>
@@ -330,7 +339,7 @@ def render_site():
 </head><body>
 <header><div class="header-inner"><div><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <h1>从具体内容，读懂游戏规则</h1><p>三消玩法、外围 Meta 与商业化的统一结论。点击内容名称，进入独立报告页，阅读机制、体验影响、数据与证据。</p></div>
-<div class="edition"><b>{len(TOPICS)} 个内容项</b><span>研究样本：build 38174</span><span>内容核对：2026-10-14</span></div></div></header>
+<div class="edition"><b>{len(TOPICS)} 个内容项</b><span>研究样本：build 38174</span><span>内容核对：2026-10-15</span></div></div></header>
 <main class="wrap" id="replication-overview"><div class="intro"><div><h2>能拿到什么，能解释到哪里</h2>
 <p>“具体内容可恢复”表示客户端中存在数据或实现，实际取得与验证进度写在每项中；不表示完整复刻已完成。</p>
 <p>新列分别比较结论深度与研究速度。没有同口径耗时记录，不给出提速倍数；实际体验仍要通过实机与用户观察验证。</p></div>
@@ -373,6 +382,8 @@ def main():
         'build': LEVEL_EXAMPLES['build'], 'enums': LEVEL_EXAMPLES['enums'],
         'source': LEVEL_EXAMPLES['enum_source'], 'sha256': LEVEL_EXAMPLES['enum_sha256'],
     }, ensure_ascii=False, indent=2) + '\n')
+    (ROOT / 'site/assets/level-progression.json').write_text(
+        (ROOT / 'content/level-progression.json').read_text())
     (ROOT / 'site/index.html').write_text(render_site())
     for source in (ROOT / 'content/report-pages').glob('*.html'):
         (ROOT / 'site/reports' / source.name).write_text(source.read_text())
