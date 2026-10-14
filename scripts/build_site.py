@@ -12,6 +12,7 @@ from topics import GROUPS, TOPICS  # noqa: E402
 
 SOURCES = json.loads((ROOT / "content/sources.json").read_text())
 TABLES = json.loads((ROOT / "content/reference-tables.json").read_text())
+LEVEL_EXAMPLES = json.loads((ROOT / "content/level-examples.json").read_text())
 STATUS = {
     "available": "具体内容可恢复",
     "framework": "需当期外部输入",
@@ -92,6 +93,8 @@ def profiles():
 
 def extras(topic):
     key = topic['key']
+    if key == 'level-config':
+        return level_examples()
     if key == 'propeller-targeting':
         return ('<div class="flow" aria-label="已定位的飞机目标处理链">'
                 '<span>寻找候选目标</span><b>→</b><span>检查目标能否命中</span><b>→</b>'
@@ -109,6 +112,114 @@ def extras(topic):
     if key == 'shop-rules':
         return profiles()
     return ''
+
+
+def level_examples():
+    labels = {0: '无物体', 1: '蓝', 2: '绿', 3: '红', 4: '黄', 5: '粉', 6: '橙',
+              10: '飞机', 20: '竖火箭', 30: '横火箭', 40: 'TNT', 50: '光球',
+              60: '金币', 11: '补入', 13: '空', 14: '随机', 15: '随机', 16: '随机',
+              21: '箱1', 22: '箱2', 23: '箱3', 24: '箱4', 31: '草1', 32: '草2'}
+    descriptions = {
+        1: ('固定颜色与箱子', '9列×8行，30步。物体层有36个21（Box1）和36颗固定颜色棋子。'
+            '配置的y=0–3四排都是箱子，y=4–7四排是颜色棋；例如(x=0,y=4)是1，即蓝棋。'),
+        4: ('棋子和草地可以在同一格', '9列×9行，30步。物体层全部是固定颜色，包含1–5五种颜色。'
+            '49格还叠有Grass=31的草地，目标表要求清除49格草地。只读物体数组，会漏掉这层草地。'),
+        15: ('14表示从颜色池选，不是一种颜色', '9列×9行，23步。物体层包含36个箱子、38个14（Set1）和7颗固定颜色棋。'
+             '本关Set1候选是1、3、4、2，即蓝、红、黄、绿。图中的14保留原配置标记；实际开局颜色还取决于种子和生成过程。'
+             '另有36格Grass=32的草地层，不能把物体层当作完整棋盘。'),
+        20: ('开局就放好TNT', '9列×9行，20步。物体层有79个60（Coin）和2个40（Tnt）。'
+             '两个TNT分别在(x=4,y=4)与(x=4,y=5)，不是由随机颜色格生成的。'
+             '目标记录是Goal=21（Coin）、Count=0；这里如实保留原字段，不把0解释成“没有金币目标”。'),
+    }
+    goal_names = {'Box': '箱子', 'Grass': '草地', 'Coin': '金币'}
+    cards = []
+    for item in LEVEL_EXAMPLES['examples']:
+        number, width, height = item['level'], item['width'], item['height']
+        title, description = descriptions[number]
+        rows = []
+        cells = item['cells']
+        for y in reversed(range(height)):
+            columns = [f'<th scope="row" class="board-axis">{y}</th>']
+            for x in range(width):
+                index = y * width + x
+                value = item['items'][index]
+                grass = cells[index].get('Grass', 0) if cells else 0
+                grass_class = f' grass-{grass}' if grass else ''
+                title_text = f'x={x}, y={y}：{value} {labels.get(value, "物体")}'
+                if grass:
+                    title_text += f'；草地层 Grass={grass}'
+                symbol = labels.get(value, str(value))
+                columns.append(f'<td class="tile tile-{value}{grass_class}" title="{e(title_text)}" '
+                               f'aria-label="{e(title_text)}"><span>{value}</span><small>{e(symbol)}</small></td>')
+            rows.append('<tr>' + ''.join(columns) + '</tr>')
+        axis = '<tr><th scope="col" class="board-axis">y／x</th>' + ''.join(
+            f'<th scope="col" class="board-axis">{x}</th>' for x in range(width)) + '</tr>'
+        goals = []
+        for goal in item['goals']:
+            name = LEVEL_EXAMPLES['enums']['GoalType'][str(goal['Goal'])]
+            goals.append(f'<code>Goal={goal["Goal"]}</code>（{e(goal_names.get(name, name))}），'
+                         f'<code>Count={goal["Count"]}</code>')
+        source_name = f'level-{number:04d}-example.json'
+        cards.append(f'<article class="level-example" id="example-level-{number}">'
+                     f'<h4>第{number}关 · {e(title)}</h4><p>{e(description)}</p>'
+                     f'<div class="board-scroll" tabindex="0" role="region" aria-label="第{number}关配置棋盘">'
+                     f'<table class="config-board" aria-label="第{number}关物体代码与草地层"><thead>{axis}</thead>'
+                     f'<tbody>{"".join(rows)}</tbody></table></div>'
+                     f'<p class="board-caption">通关目标字段：{"；".join(goals)}。</p>'
+                     f'<p class="example-download"><a href="../assets/level-examples/{source_name}" download>'
+                     '下载本例配置JSON（含物体、格子层、目标与颜色池）</a></p></article>')
+    enums = LEVEL_EXAMPLES['enums']
+
+    def code_table(title, codes, include_goal=False):
+        rows = []
+        for code in codes:
+            symbol = enums['TiledId'][str(code)]
+            text = labels.get(code, symbol)
+            if 14 <= code <= 16:
+                text = f'第{code - 13}个颜色／物体候选池标记'
+            elif code == 11:
+                text = '填充标记；按对应生成流程解释'
+            elif code == 0:
+                text = '无物体标记；格子是否存在须结合格子配置'
+            elif code == 13:
+                text = 'Empty空标记；不是一种颜色'
+            elif code in (21, 22, 23, 24):
+                text = f'箱子{code - 20}层'
+            elif code in (31, 32):
+                text = f'草地{code - 30}层；可写在Cells.Grass中'
+            row = f'<td><code>{code}</code></td><td><code>{e(symbol)}</code></td><td>{e(text)}</td>'
+            if include_goal:
+                goal_code = next(k for k, v in enums['GoalType'].items() if v == symbol)
+                row += f'<td><code>{goal_code}</code></td>'
+            rows.append('<tr>' + row + '</tr>')
+        last_header = '<th scope="col">目标代码 GoalType</th>' if include_goal else ''
+        return (f'<h4>{e(title)}</h4><div class="data-scroll"><table><thead><tr>'
+                '<th scope="col">棋盘代码 TiledId</th><th scope="col">原枚举名</th>'
+                f'<th scope="col">对应颜色／物体</th>{last_header}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>')
+
+    booster_table = code_table('道具代码', [10, 20, 30, 40, 50])
+    # Rocket has a single goal type regardless of orientation.
+    booster_table += '<p>目标表把横、竖火箭合为 <code>GoalType.Rocket=7</code>；飞机为8，TNT为9，光球为10。棋盘里金币为 <code>TiledId.Coin=60</code>，目标表里金币为 <code>GoalType.Coin=21</code>。</p>'
+    return ('<section class="level-examples" aria-labelledby="level-examples-title">'
+            '<h3 id="level-examples-title">四个真实关卡，直接对照数字与棋盘</h3>'
+            '<p>下面直接读取build 38174的关卡配置。颜色、数字和草地边框是便于阅读的配置示意，'
+            '不是原版实机截图；随机格保留候选池代码。每格大数字是物体层的TiledId。</p>'
+            '<p class="board-legend">坐标从左下角开始：x向右、y向上。绿色边框表示另有草地层，双边框表示Grass=32。'
+            '例如索引36在9列棋盘中对应x=0、y=4；读取位置是 <code>Items[y×Width+x]</code>。</p>'
+            f'<div class="level-example-grid">{"".join(cards)}</div>'
+            '<h3 id="tile-code-dictionary">颜色、道具和配置标记的代码</h3>'
+            '<p>棋盘物体用 <code>TiledId</code>，通关目标用 <code>GoalType</code>，'
+            '格子的补入类别用 <code>CellFillType</code>。三套枚举分别读取，不能拿同一个数字互相套用。</p>'
+            f'{code_table("颜色代码", [1, 2, 3, 4, 5, 6], True)}{booster_table}'
+            f'{code_table("例子中的障碍与生成标记", [0, 11, 13, 14, 15, 16, 21, 22, 23, 24, 31, 32])}'
+            '<p><code>CellFillType</code>的编号为：None=0、Fill=1、Fill1=2、Fill2=3、Fill3=4。'
+            '它描述格子的补入类别，不是棋子颜色；例如第4关同一格可以同时有Items中的颜色编号和Cells.Grass中的31。</p>'
+            '<p><a href="../assets/level-examples/code-dictionary.json" download>下载完整代码字典JSON：TiledId、GoalType、CellFillType</a></p>'
+            '<details class="evidence"><summary>例子来源与原始字节校验</summary>'
+            '<p>四个例子来自无损读取的datapack.unity3d关卡资源，按原客户端FlatBuffers字段签名解码，'
+            '物体数组与批量关卡索引交叉核对。下载JSON附原文件位置与SHA-256。'
+            '枚举直接取自build 38174 ARM64元数据：TiledId、GoalType、CellFillType。图只展示物体与草地层，'
+            '不模拟开局调色、随机数消费、其他障碍层、动画和实际通关。</p></details></section>')
 
 
 REFERENCE_TITLES = {
@@ -138,10 +249,12 @@ def detail(topic):
         evidence.append(f'<div class="evidence-entry"><h6>{e(source["title"])}</h6>'
                         f'<p>{e(source["basis"])}。{e(source["detail"])}</p>'
                         f'<p>取证位置：<code>{e(source["locator"])}</code></p></div>')
+    extra = extras(topic)
+    content = extra + paragraphs if topic['key'] == 'level-config' else paragraphs + extra
     return (f'<section id="{e(topic["key"])}" class="topic-detail" '
             f'aria-labelledby="title-{e(topic["key"])}">'
             f'<h2 id="title-{e(topic["key"])}">{e(topic["title"])}</h2>'
-            f'<div class="topic-body">{paragraphs}{extras(topic)}{"".join(refs)}'
+            f'<div class="topic-body">{content}{"".join(refs)}'
             f'<details class="evidence"><summary>证据依据与验证范围</summary>{"".join(evidence)}</details>'
             '</div></section>')
 
@@ -249,6 +362,17 @@ def main():
     for topic in TOPICS:
         assert topic['status'] in STATUS and len(topic['comparison']) == 2
         assert all(key in SOURCES for key in topic['sources'])
+    examples_dir = ROOT / 'site/assets/level-examples'
+    examples_dir.mkdir(exist_ok=True)
+    for example in LEVEL_EXAMPLES['examples']:
+        assert len(example['items']) == example['width'] * example['height']
+        assert not example['cells'] or len(example['cells']) == len(example['items'])
+        (examples_dir / f'level-{example["level"]:04d}-example.json').write_text(
+            json.dumps(dict(build=LEVEL_EXAMPLES['build'], **example), ensure_ascii=False, indent=2) + '\n')
+    (examples_dir / 'code-dictionary.json').write_text(json.dumps({
+        'build': LEVEL_EXAMPLES['build'], 'enums': LEVEL_EXAMPLES['enums'],
+        'source': LEVEL_EXAMPLES['enum_source'], 'sha256': LEVEL_EXAMPLES['enum_sha256'],
+    }, ensure_ascii=False, indent=2) + '\n')
     (ROOT / 'site/index.html').write_text(render_site())
     for source in (ROOT / 'content/report-pages').glob('*.html'):
         (ROOT / 'site/reports' / source.name).write_text(source.read_text())

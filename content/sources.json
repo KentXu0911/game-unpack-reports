@@ -88,5 +88,11 @@
     "basis": "受控实机观测／客户端商品规则",
     "locator": "royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.csv；outputs/runtime_L39_difficulty_ego_validation.jsonl",
     "detail": "八局每局只看首档、拒绝购买后重开，900金币给步5→35。没有第2–5档真付费逐档认证，不能当作自然账号长期实验结果。"
+  },
+  "level-examples": {
+    "title": "真实关卡配置与颜色／道具代码",
+    "basis": "原资源字节、FlatBuffers字段签名、元数据枚举与批量索引交叉核对",
+    "locator": "research/rm-reunpack-2026-10-14/resources/textasset_inventory.csv；royal-match-apk-audit-38174/indices/level_boards_fbs.csv；royal-match-apk-audit-38174/tools/il2cppdumper/output-arm64/dump.cs",
+    "detail": "第1／4／15／20关取原文件SHA-256一致的无损字节，解码物体、格子层、目标与候选池。图按x向右、y向上显示代码；保留随机占位，非原版实机或全初始化模拟。TiledId与GoalType独立对应，不能混用。"
   }
 }

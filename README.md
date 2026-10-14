@@ -9,6 +9,7 @@
 - `content/topics.py`：条目摘要、机制解读、体验影响、对比列与证据引用。
 - `content/reference-tables.json`：按条目整理的数据表，共51张。
 - `content/sources.json`：来源依据与验证范围。
+- `content/level-examples.json`：第1／4／15／20关的真实配置与三套枚举。下载文件附原文件路径、SHA-256；棋盘图保留随机占位、叠加草地层，非实机截图。
 - `content/report-pages/*.html`：六份完整报告模板，保留有效正文、图表、交互与方法论；第七份客户端边界报告由主题内容生成。
 - `scripts/build_site.py`：生成四列总览、完整报告与独立算法页。
 - `site/assets/site.css`、`site/assets/topic-reader.js`：样式与交互。
