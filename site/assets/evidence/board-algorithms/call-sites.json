@@ -1,0 +1,121 @@
+{
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "scope": "Direct BL/B immediates in executable PT_LOAD segments; virtual, interface, delegate and register-indirect calls not covered. Callers named by preceding metadata method start.",
+  "targets": {
+    "0x20eda34": "SpecialItemCreator.SelectSmartRocket",
+    "0x13784f0": "MatchGroup.GetSpecialItemCell",
+    "0x1378554": "MatchGroup.SelectItemCreationCell",
+    "0x2758ec4": "CellGridManager.ChangeBoard",
+    "0x2758f3c": "CellGridManager.ChangeBoard (overload)",
+    "0x2758f7c": "CellGridManager.ChangeBoard (overload)",
+    "0x2756448": "BoardManager.ChangeBoard",
+    "0x26b3fe0": "GridPositioner.AnimateToNextBoard",
+    "0x2755b48": "BoardManager.StartChangingBoard",
+    "0x2a2c350": "FallManager.ShouldFindCross"
+  },
+  "calls": {
+    "SpecialItemCreator.SelectSmartRocket": [
+      {
+        "site": "0x1864710",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Ui.Cloche.ClocheView.<Play>d__20$$MoveNext"
+      },
+      {
+        "site": "0x2165ff8",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Items.SlotMachineItem.View.SlotMachineItemView$$PlayThrowAnimations"
+      },
+      {
+        "site": "0x243a8fc",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Levels.Units.Booster.BoosterManager.<CreateSpecialItem>d__52$$MoveNext"
+      }
+    ],
+    "MatchGroup.GetSpecialItemCell": [
+      {
+        "site": "0xcdaca4",
+        "kind": "b",
+        "caller": "?"
+      },
+      {
+        "site": "0x137ce9c",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$CreateCollectData"
+      },
+      {
+        "site": "0x137cff4",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$CreateSpecialItemData"
+      }
+    ],
+    "MatchGroup.SelectItemCreationCell": [
+      {
+        "site": "0xcdacac",
+        "kind": "b",
+        "caller": "?"
+      },
+      {
+        "site": "0x1378540",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Matches.MatchGroup$$GetSpecialItemCell"
+      }
+    ],
+    "CellGridManager.ChangeBoard": [
+      {
+        "site": "0x110c3b8",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Items.StaticItems.WaterItem.WaterItemHelper.<BoardChangeRoutine>d__54$$MoveNext"
+      }
+    ],
+    "CellGridManager.ChangeBoard (overload)": [
+      {
+        "site": "0x1c0e438",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Items.PortalDoorItem.View.PortalDoorItemView$$ForceFinishAnimation"
+      },
+      {
+        "site": "0x1c0fa3c",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Mechanics.Items.PortalDoorItem.View.PortalDoorItemView.<ExplodeRoutine>d__92$$MoveNext"
+      },
+      {
+        "site": "0x2758f54",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Levels.Units.CellGridManager$$ChangeBoard"
+      },
+      {
+        "site": "0x2759068",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Levels.Units.CellGridManager$$ChangeBoardWithoutAnimation"
+      }
+    ],
+    "BoardManager.ChangeBoard": [
+      {
+        "site": "0x2758fb4",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Levels.Units.CellGridManager$$ChangeBoard"
+      }
+    ],
+    "GridPositioner.AnimateToNextBoard": [
+      {
+        "site": "0x2758f74",
+        "kind": "b",
+        "caller": "Royal.Scenes.Game.Levels.Units.CellGridManager$$ChangeBoard"
+      }
+    ],
+    "BoardManager.StartChangingBoard": [
+      {
+        "site": "0x26b4058",
+        "kind": "b",
+        "caller": "Royal.Scenes.Game.Levels.Units.CellGridPositioner.GridPositioner$$AnimateToNextBoard"
+      }
+    ],
+    "FallManager.ShouldFindCross": [
+      {
+        "site": "0x2a2be60",
+        "kind": "bl",
+        "caller": "Royal.Scenes.Game.Levels.Units.FallManager$$FindTargetItemOrFillingCell"
+      }
+    ]
+  }
+}

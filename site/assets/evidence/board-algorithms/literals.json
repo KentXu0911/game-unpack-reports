@@ -1,0 +1,21 @@
+{
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "literals": {
+    "0x3E73808": {
+      "bytes": "713d0a3e",
+      "float32": [
+        0.13500000536441803
+      ],
+      "use": "SwapAction.PlayValidSwapAnimation swap move duration (read at 0x2A3AEF8 and 0x2A3B0AC)"
+    },
+    "0x3EF26A8": {
+      "bytes": "cdcc4c3e9a99593f",
+      "float32": [
+        0.20000000298023224,
+        0.8500000238418579
+      ],
+      "use": "MatchItemView..cctor 0x1E975D4 copies these two float32 into its statics; SpecialItemCreator..cctor 0x20EDE50 multiplies them once into CreationDelay",
+      "float32Product": 0.17000000178813934
+    }
+  }
+}
