@@ -5,7 +5,7 @@
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-fall-rules">← 返回内容总览</a></p>
-<h1>交换、匹配、下落与多棋盘</h1><p>给出交换试判、匹配形状优先级、自动消除等待、直落与斜落、冻结计数和切板公式的代码解读与具体例子。完整动态帧序仍需实机核对。</p></div></header>
+<h1>交换、匹配、下落与多棋盘</h1><p>给出交换试判、匹配形状优先级、自动消除等待、直落与斜落检查、冻结计数和多棋盘切换流程的代码解读与具体例子。完整动态帧序仍需实机核对。</p></div></header>
 <main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="fall-rules" class="topic-detail" aria-labelledby="title-fall-rules"><h2 id="title-fall-rules">交换、匹配、下落与多棋盘</h2><div class="topic-body"><h3>棋盘先处理登记与规则，再推进画面</h3><p>一次交换不只是换两颗棋的坐标：程序先试换逻辑位置、识别匹配组，再结合准备状态决定消除；下落先分配目标，再推进移动。下面按原代码的关键判断解释每一步。</p><p class="flow-note">下列伪代码根据build 38174的ARM64机器码与元数据整理，保留本节关键分支，省略类型转换、日志和无关调用；不是原始C#源码，也不能直接代替完整运行实现。例子是按代码构造的局面。</p>
 
 <section aria-labelledby="cell-registrations">
@@ -132,58 +132,143 @@ for source in destination上方逐格:
 </section>
 
 <section aria-labelledby="cross-fall">
-<h3 id="cross-fall">斜落先筛候选，再决定左边还是右边</h3>
-<p>斜落只处理普通格、已标记需要寻找斜落、没有Target且不属于下层棋盘的格子。构建候选时沿上方检查冻结、可通行、多个可下落物体瞄准，以及boardId一致；遇到不满足条件就停止向上收集。非空白格还会把对应访问位置压入左右候选栈，之后逐个验证对角来源。<small>［B7］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="斜落左右候选选择伪代码"><code>while 左栈非空 or 右栈非空:
-    chosen = null
-    if 左栈非空:
-        chosen = 验证左栈弹出的对角来源
-        if chosen != null and not chosen.IsSpecialItem():
-            SetTargetItem(destination, chosen)
-            return
+<h3 id="cross-fall">斜落：先检查落点，再检查通路和来源棋子</h3>
+<p>斜落就是上方的棋子从侧面滑进空位。程序会先规划直落，再处理需要斜落的格子；它不会看到左上或右上有棋就立即搬过来。一次斜落要依次通过<strong>落点资格、向上搜索、对角来源、左右选择</strong>四层检查。<small>［B7］</small></p>
+<h4>1. 这个空位是否需要斜落</h4>
+<p><code>CalculateCrossFalls</code>只处理普通格，而且必须已被标记为需要寻找斜落来源、没有Target、也不属于下层棋盘。Target表示已经分配的下落目标关系：即使画面还是空的，只要直落规划已把A分给这个位置，就不再让B斜着抢进来。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="斜落落点资格伪代码"><code>for destination in 待处理格子:
+    if not destination.IsNormalCell(): continue
+    if not destination.shouldFindCross: continue
+    if destination.Target != null: continue
+    if destination.IsInBelowBoards(): continue
+    FindCrossItem(destination)</code></pre>
+<h4>2. 沿上方建立左右待检查位置，遇到阻断就停</h4>
+<p><code>FindCrossItem</code>从落点开始逐格向上走。每到一个位置，依次检查：是否冻结、能否通行、是否被多个可下落物体瞄准、boardId是否仍与落点相同。任意一项失败，就停止继续向上收集。能否通行还会询问当前物体的<code>IsAvailableForFall</code>，所以不能只根据“这格有没有棋子”判断。</p>
+<p>在非空白格，程序分别检查紧邻的左格和右格。某侧邻格被冻结，就停止收集这一侧；另一侧仍可继续。其余情况下把<strong>当前访问位置</strong>压入对应栈，后面再取它的左上或右上来源验证。栈里保存的是待查位置，尚未确认那里有可用棋子；左右两侧都停止后，向上搜索也结束。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="斜落向上搜索伪代码"><code>清空左栈、右栈
+leftOpen = rightOpen = true
+visited = destination
+while visited存在 and (leftOpen or rightOpen):
+    if visited.IsFallFrozen(): break
+    if not IsFallPossibleFromCellToCell(visited, null): break
+    if visited.IsCellTargetedByMultipleFallableItem(): break
+    if visited.boardId != destination.boardId: break
 
-    if 右栈非空:
-        right = 验证右栈弹出的对角来源
-        if right != null: chosen = right
+    if not visited.IsBlankCell():
+        对左、右两侧分别处理:
+            if 本侧已停止: 跳过本侧
+            if 本侧紧邻格存在且被冻结: 停止本侧
+            else: 把visited压入本侧栈
+    visited = visited.上邻格</code></pre>
+<p>位置是边向上走边压栈、之后再弹出，因此验证顺序还取决于压栈过程，不能直接理解为“从空位旁边最近的棋子开始找”。<code>IsBlankCell</code>是代码中的格子类型判断，也不能直接替换成“没有Current棋子”。</p>
+<h4>3. 从待查位置取对角来源，检查它是否真的能动</h4>
+<p><code>FindTargetItemFromCrossCell</code>先检查落点缓存的下方关联格。如果它存在、非空白且没有下落阻挡，就读取该格Target棋子的NextCell和CurrentCell：至少有一个存在，且Y小于本次访问位置的Y，才继续探对角来源；否则本次候选失败。下方关联格不存在、为空白或有阻挡时，跳过这一项检查。这里比较的是代码坐标和在途登记，不能简化成“下方有空位就能斜落”。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="斜落来源棋子验证伪代码"><code>below = destination.缓存的下方关联格
+if below存在 and not below.IsBlankCell() and not below.IsFallBlocked():
+    moving = below.Target
+    next = moving?.NextCell
+    current = moving?.CurrentCell
+    if not ((next存在 and next.Y &lt; visited.Y)
+         or (current存在 and current.Y &lt; visited.Y)):
+        return null
 
-    if chosen != null:
+source = visited.左上邻格或右上邻格
+if source不存在: return null
+item = source.Current
+if item不存在: return null
+if not item.IsAvailableForFall(null): return null
+if not item.CanFallCross(): return null
+if source.IsFallFrozen(): return null
+if item.TargetCell存在 and item.TargetCell != item.CurrentCell:
+    return null
+return item</code></pre>
+<p><strong>例子：</strong>空位C的左上有A，但A所在格被冻结，A就不能成为斜落来源。即使A没有冻结，如果它已被分配到另一个目标D，也不能再让C领取它。玩家看见的是“旁边有颗棋没滑下来”，程序检查的则是“它现在有没有资格被这个空位使用”。</p>
+<h4>4. 合法候选之间怎样选左边或右边</h4>
+<p>通过资格检查之后，才进入左右挑选。左栈弹出的来源若是合法普通棋，立即选它；若是合法特殊道具，则还会检查右栈，合法的右侧候选可以替换它。右侧失败时，左侧特殊道具仍可使用。两边都没找到就继续弹栈，找到后先登记Target，实际移动由后续更新推进。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="斜落左右选择伪代码"><code>while 左栈非空 or 右栈非空:
+    chosen = 验证左栈弹出的对角来源（栈空则为null）
+    if chosen存在 and not chosen.IsSpecialItem():
+        SetTargetItem(destination, chosen)
+        return
+    right = 验证右栈弹出的对角来源（栈空则为null）
+    if right存在: chosen = right
+    if chosen存在:
         SetTargetItem(destination, chosen)
         return</code></pre>
-<p><strong>例1：</strong>左侧得到合法普通颜色棋，右侧也有棋——这轮直接使用左侧，不再探右侧。<strong>例2：</strong>左侧得到合法特殊道具，右侧也得到合法候选——继续探右侧，右侧可以替代左侧。<strong>例3：</strong>左侧特殊道具合法、右侧没有合法候选——左侧仍可使用。</p>
-<p>这不是“左右各50%随机”，也不是“左侧永远优先”。这里解释的是两栈已建立之后的挑选段；栈中先验证哪个高度，还取决于之前的构建与压栈顺序。</p>
-<p>对角来源还要通过可下落、可斜落、未冻结、目标未被另行分配等检查，并查看落点下方首个普通格的Target及其CurrentCell／NextCell高度关系。看起来左右都能滑入，不代表两者都已经通过完整资格检查。特殊接口和多格障碍的全部组合仍需逐类验证。</p>
+<p><strong>构造例子：</strong>左边是合法红棋、右边是合法蓝棋，这轮直接选左边；左边是合法火箭、右边是合法蓝棋，这轮选右边；左边是合法火箭、右边无合法候选，则仍选火箭。这段选择没有左右各50%的随机，也没有按剩余关卡任务评分。</p>
 </section>
 
 <section aria-labelledby="freeze-counter">
-<h3 id="freeze-counter">冻结用计数，避免一个动画提前放开另一个动画占用的格子</h3>
-<p>这部分可以直接对应到很短的原始指令。FreezeFall将格子偏移0x28的计数加1，IsFallFrozen返回计数是否大于0；解除时减1，负数会记录错误。斜落另有冻结字段，不能把所有阻止移动的状态合成一个布尔值。<small>［B8］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="冻结计数原始ARM64指令节选"><code>// FreezeFall原指令节选
-02ac9ba0: ldr w9, [x0, #0x28]
-02ac9bac: add w9, w9, #1
-02ac9bb0: str w9, [x8, #0x28]
+<h3 id="freeze-counter">冻结：格子暂时不参与新的下落规划</h3>
+<p>这里的冻结是<strong>程序暂时占住格子的下落资格</strong>。例如交换已找到一组可以消除的棋，但交换表现还没结束，就先保护相关格子；下落搜索遇到冻结检查时，不能继续按普通格处理它们。这样可以避免已经认定的匹配被另一颗落子提前改写。它指的是运行状态，不是关卡里的冰块障碍。<small>［B8］</small></p>
+<h4>冻结次数大于0，就仍有人占用</h4>
+<p>同一个格子可能同时被多个操作占用，所以<code>FreezeFall</code>用计数而非开关：冻结一次加1，释放一次减1；<code>IsFallFrozen</code>只问计数是否大于0。两次冻结需要两次释放，先结束的操作只能撤回自己那一次。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="格子冻结计数伪代码"><code>FreezeFall():
+    freezeCount += 1
+    OperationStart(1)
 
-// 等价的关键判断
-FreezeFall:   count += 1; OperationStart(1)
-UnFreezeFall: count -= 1; OperationFinish(1)
-IsFallFrozen: return count &gt; 0</code></pre>
-<p><strong>例子：</strong>交换占用一次、消除表现又占用一次，计数从0到2。交换结束只减到1，仍不能落下；第二项也释放后才到0。如果用“任一动画结束就设false”，会让尚未处理完的棋子提前下落。</p>
+UnFreezeFall():
+    freezeCount -= 1
+    OperationFinish(1)
+    if freezeCount &lt; 0:
+        记录错误
+
+IsFallFrozen():
+    return freezeCount &gt; 0</code></pre>
+<div class="data-scroll" tabindex="0" role="region" aria-label="冻结叠加与释放例子"><table><thead><tr><th>构造过程</th><th>计数</th><th>下落冻结检查</th></tr></thead><tbody>
+<tr><td>没有操作占用</td><td>0</td><td>通过此项检查</td></tr>
+<tr><td>操作A冻结这个格子</td><td>1</td><td>仍冻结</td></tr>
+<tr><td>操作B也冻结同一格</td><td>2</td><td>仍冻结</td></tr>
+<tr><td>A结束，释放自己的一次</td><td>1</td><td>B还没结束，仍冻结</td></tr>
+<tr><td>B结束，再释放一次</td><td>0</td><td>通过此项检查，继续检查其他下落条件</td></tr>
+</tbody></table></div>
+<h4>释放冻结不等于立即移动</h4>
+<p>计数回到0，只表示这一项限制已解除。下落还要检查阻挡、来源、Target和Next预订等条件；也不能据此断言已在播放的移动动画会被取消。若多释放一次导致负数，当前指令会记录错误，没有看到自动把负数改回0的处理。斜落还存在独立的冻结字段，不能把所有限制移动的状态都并为这一个计数。</p>
 </section>
 
 <section aria-labelledby="multiple-boards">
-<h3 id="multiple-boards">多棋盘切换：先锁操作，再按高度差安排过渡</h3>
-<p><code>StartChangingBoard</code>设置切换状态、开始operation13并禁用触摸，再安排开始／结束回调和完成等待。时间计算是<strong>0.3＋√heightDiff×0.32×speed</strong>；0.3是最后加上的常量，不与speed一起相乘。<small>［B9］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="棋盘切换核心伪代码"><code>IsChanging = true
-OperationStart(13)
-DisableTouch()
-duration = 0.3 + sqrt(heightDiff) * 0.32 * speed
-安排起始回调、过渡与结束回调
-启动等待过渡完成的协程
+<h3 id="multiple-boards">多棋盘：同一关内，从一段棋盘切到另一段</h3>
+<p>多棋盘是<strong>一关里有多段棋盘</strong>，当前只操作其中一段，流程推进时视图转到另一段继续玩。例如可以把它想成一张分段展示的长棋盘：前一段结束后画面移到下一段，仍在同一关里。程序用<code>boards[]</code>保存各段，用<code>CurrentBoardId</code>记录当前段；这也解释了为什么下落搜索必须检查boardId，不能只按画面上的上下左右取棋。这个例子说明结构，不代表某一实机关卡的切换条件。<small>［B9］</small></p>
+<h4>进入切换流程后，先锁输入，再移动棋盘</h4>
+<p><code>StartChangingBoard</code>把IsChanging设为true，登记编号13的进行中操作，并禁用触摸。随后计算过渡时长，在时间0安排移动回调、在结束时间安排收尾回调，同时启动完成等待协程。起始回调用<code>DOMove</code>把棋盘移向传入的新位置，并使用传入的动画曲线；背景也有对应的滚动分支。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换启动伪代码"><code>StartChangingBoard(newPosition, boardCurve, backgroundCurve, speed):
+    IsChanging = true
+    OperationStart(13)
+    heightDiff = CalculateHeightDiffBetweenBoards()
+    DisableTouch()
+    duration = 0.3 + sqrt(heightDiff) * 0.32 * speed
 
-// ChangeBoard内的局部推进
-if CurrentBoardId != 0:
-    CurrentBoardId -= 1</code></pre>
-<p><strong>计算例子：</strong>只为展示公式，设heightDiff=9、speed=1，得到1.26秒；heightDiff=16时得到1.58秒。这些是给定输入的计算结果，不是某关实测时长。heightDiff单位与speed的完整输入来源、回调中何时恢复全部操作，仍需沿调用链核对，不能把speed直接当成玩家倍速。</p>
-<p>【体验解读】匹配等待、冻结释放和切板禁触共同决定玩家什么时候能继续操作。只对上最终棋盘，仍可能出现连锁过早、棋子抢位或镜头尚未结束就能误触。它们与道具目标预订是不同系统：<a href="obstacle-rules.html">道具寻优页</a>另行解释攻击选点、目标重选与在途攻击。</p>
+    在时间0执行: 按boardCurve移动棋盘到newPosition
+    在时间duration执行: 切换动画收尾回调
+    启动WaitForCompletion(isWater=false)
+
+// 当前段编号的推进另在ChangeBoard中处理
+ChangeBoard():
+    if CurrentBoardId != 0:
+        CurrentBoardId -= 1</code></pre>
+<p>这里的boardId是内部排列编号，减1表示转到下一段内部记录，不能理解成玩家关卡号倒退。<code>ChangeBoard</code>与画面移动是不同的方法；只移动视图而不更新当前段，或只改编号却不处理输入与在途落子，都不足以复现切换。</p>
+<h4>画面移动结束，与切换状态结束，是两个时点</h4>
+<p>结束回调先检查当前棋盘是否还有正在进入的物体；没有时调用<code>AllowRefillOnNewBoard</code>，允许新棋盘补入。随后结束编号13的操作、重新启用触摸，并通知切换完成事件。另一个协程持续检查<code>HasAnyOperation</code>：只有没有任何进行中操作时，才调用<code>CompleteChangingBoard</code>清除IsChanging，并恢复对应的镜头方向控制。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换收尾与等待伪代码"><code>切换动画收尾回调():
+    if not AreThereIncomingItemsToCurrentBoard():
+        AllowRefillOnNewBoard(CurrentBoardId)
+    OperationFinish(13)
+    EnableTouch()
+    若有订阅者，通知OnBoardChangeCompleted
+
+WaitForCompletion(isWater=false):
+    while gameState.HasAnyOperation():
+        等到下一帧再检查
+    CompleteChangingBoard(isWater)
+
+CompleteChangingBoard(isWater):
+    IsChanging = false
+    恢复对应的镜头方向控制
+    if isWater: 另行通知完成事件</code></pre>
+<p><strong>构造例子：</strong>棋盘移动到位时，如果另一个操作仍未结束，收尾回调已经可以重新启用触摸，但IsChanging仍会保持true，直到等待协程看到所有操作结束。能否实际接受某次交换还取决于其他输入门槛，不能把EnableTouch直接等同于“所有操作立即可用”。切换状态也不能简单在固定秒数后无条件清掉。</p>
+<h4>高度差影响移动时长，触发切换的条件要分开看</h4>
+<p>公式是<strong>0.3＋√heightDiff×0.32×speed</strong>。例如给定heightDiff=9、speed=1，得到1.26秒；heightDiff=16时为1.58秒。这是给定输入的计算例子，不是某关实测；speed是传入参数，不能直接当成玩家倍速。高度差、动画结束、其他操作结束分别控制不同环节。</p>
+<p>上述代码说明的是进入切换函数之后如何处理。究竟哪类目标、在什么局面下发起切换，仍要沿各调用入口核对；当前证据不足以统一写成“清完本屏所有目标就切换”。</p>
 </section>
 
 <details class="evidence" id="board-code-evidence"><summary>原方法、原始字节与解释范围</summary>
@@ -195,13 +280,13 @@ if CurrentBoardId != 0:
 <tr><td>B4</td><td><code>CanAutoExplode 0x1378824</code>；<code>AllCellsReadyForExplode 0x13788A4</code>；<code>IsReadyForAutoExplode 0x1E92F0C</code>；<code>ShouldWaitForFallingMatchItems 0x1E92FD8</code></td><td>组准备与上方Target；0x1E93004跳到0x1E99A0C的8字节续段已另外保留。正文时间例子限定正常有限值；原FCMP/CSET LE也接受无序比较</td></tr>
 <tr><td>B5</td><td><code>AutoExplodeManager.ManualUpdate 0x20EE59C</code>；<code>LevelContext..ctor 0x2752E84</code>；<code>ContextContainer.ManualUpdate 0x3DEE708</code></td><td>默认注册与更新路径；不等于完整Unity脚本执行顺序或全部动态插入路径</td></tr>
 <tr><td>B6</td><td><code>FindTargetItemOrFillingCell 0x2A2BA0C</code>；<code>GetNextItemOfCell 0x2A2C1B4</code></td><td>普通直落核心；顶部队列、补入口与跨板分支未在伪代码中展开</td></tr>
-<tr><td>B7</td><td><code>CalculateCrossFalls 0x2A2B6EC</code>；<code>FindCrossItem 0x2A2C058</code>；<code>FindCrossItemInLeftOrRightColumn 0x2A2C7F8</code>；<code>FindTargetItemFromCrossCell 0x2A2C918</code></td><td>候选资格、左右栈及对角检查。0x2A2C87C读取虚槽66，对应ItemModel.IsSpecialItem</td></tr>
+<tr><td>B7</td><td><code>CalculateCrossFalls 0x2A2B6EC</code>；<code>FindCrossItem 0x2A2C058</code>；<code>FindCrossItemInLeftOrRightColumn 0x2A2C7F8</code>；<code>FindTargetItemFromCrossCell 0x2A2C918</code></td><td>落点资格、向上通路、左右栈、在途登记与对角来源检查。0x2A2C87C读取虚槽66，对应ItemModel.IsSpecialItem</td></tr>
 <tr><td>B8</td><td><code>FreezeFall 0x2AC9B9C</code>；<code>UnFreezeFall 0x2AC9BCC</code>；<code>IsFallFrozen 0x2AC9D1C</code></td><td>格子计数与operation1；不是所有冻结来源、计时协程均已展开</td></tr>
-<tr><td>B9</td><td><code>StartChangingBoard 0x2755B48</code>；<code>ChangeBoard 0x2756448</code></td><td>状态、operation13、禁触、过渡公式与局部boardId推进；全部胜利触发和恢复回调仍需追踪</td></tr>
+<tr><td>B9</td><td><code>StartChangingBoard 0x2755B48</code>；<code>ChangeBoard 0x2756448</code>；起止回调<code>0x27565D0 / 0x2756644</code>；等待协程<code>0x2756838</code>；<code>CompleteChangingBoard 0x2756320</code></td><td>状态、operation13、禁触与恢复、移动和结束回调、等待全部操作、过渡公式与局部boardId推进；各类切换触发入口仍待追踪</td></tr>
 </tbody></table></div>
-<p><a href="../assets/evidence/board-algorithms/manifest.json">43份方法快照、续段、元数据与转换表JSON</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；相邻元数据入口只用于截取跨度，不证明完整控制流或异常清理。</p>
+<p><a href="../assets/evidence/board-algorithms/manifest.json">49份方法快照、续段、元数据与转换表JSON</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；相邻元数据入口只用于截取跨度，不证明完整控制流或异常清理。</p>
 </details>
-<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>交换、匹配、重力与智能方向的原字节快照</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读数据表交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4；匹配0x137AAA0/0x137AE2C/0x137B8CC；自动等待0x1E92FD8含0x1E99A0C续段；直斜落0x2A2BA0C/0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；智能方向0x20EDA34。伪代码为可读整理并标明省略范围，构造局面不是原端实机记录；未认证完整帧调度或整局回放。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/manifest.json与对应43份方法快照</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>关键函数与原字节交叉核对</h6><p>原字节／反编译控制流交叉核对。核对目标列抽样、斜落、伤害去重、切板四个函数。伪代码参数与返回类型有推断误差，规则以原机器码和元数据为准；不是原源码或整库语义认证。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/REA-CROSSCHECK.md</code></p></div></details></div></section>
+<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>交换、匹配、重力与智能方向的原字节快照</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读数据表交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4；匹配0x137AAA0/0x137AE2C/0x137B8CC；自动等待0x1E92FD8含0x1E99A0C续段；直斜落0x2A2BA0C/0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；智能方向0x20EDA34。伪代码为可读整理并标明省略范围，构造局面不是原端实机记录；未认证完整帧调度或整局回放。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/manifest.json与对应49份方法快照</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>关键函数与原字节交叉核对</h6><p>原字节／反编译控制流交叉核对。核对目标列抽样、斜落、伤害去重、切板四个函数。伪代码参数与返回类型有推断误差，规则以原机器码和元数据为准；不是原源码或整库语义认证。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/REA-CROSSCHECK.md</code></p></div></details></div></section>
 <section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能用慢放和受控局面归纳交换、匹配、下落与切板规律，也能测量可见节奏。不同内部状态可能产生相似画面，复杂边界需专门构造。</p><p>解包增量：能把试换、形状组装与优先级、上方同色等待、直斜落候选、在途登记和冻结计数落到具体代码。正文区分简化伪代码、构造例子和待验证路径；不等于整局一比一回放。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="propeller-targeting.html">飞机选点：评分、随机与目标重选</a><a href="smart-rocket.html">智能火箭：方向与范围收益</a><a href="special-creation.html">特殊块生成位置与激活时机</a><a href="hit-spread-timing.html">命中去重、扩散与连锁节奏</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-fall-rules">← 返回内容总览</a></footer></main>
 </body></html>

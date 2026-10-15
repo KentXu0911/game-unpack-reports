@@ -433,11 +433,71 @@
       "sha256": "53c8ab5013d9981c117d7b43c8bd38a86e5c2aee465423e84b48f7818fa5f3d4",
       "file": "03dee708.s",
       "listingSha256": "432b7391b555ee252bc4f8aeeac0aa4e870d6abd85d852dba78960934b81ce21"
+    },
+    {
+      "address": "0x2756098",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager$$AreThereIncomingItemsToCurrentBoard"
+      ],
+      "end": "0x27560b0",
+      "sha256": "41e47e64f5c3817d8539f5d0503a51493e89db7111a91fd6f6f934a8b9cdb17b",
+      "file": "02756098.s",
+      "listingSha256": "0653bc619e1dd6141e9b4ad49e44f2295e3d3c56ee532b8942c74bdc78c8563a"
+    },
+    {
+      "address": "0x27560b0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager$$BoardChangeCompleted"
+      ],
+      "end": "0x27560cc",
+      "sha256": "a8eceb22c943fc2fc1729f5fcdb845fbaef34fc7bfcfca9a448e82850eaa37ba",
+      "file": "027560b0.s",
+      "listingSha256": "82a8c0b78e24dc5cdb8a07e2d038d7f23d20358ac52a8b8ab9ab2f999274fcbb"
+    },
+    {
+      "address": "0x2756320",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager$$CompleteChangingBoard"
+      ],
+      "end": "0x27563b4",
+      "sha256": "2bd1d434555ddb858bd62d4b689744a472239df2a7ef42e3cefdfdf9c38a4773",
+      "file": "02756320.s",
+      "listingSha256": "c690a17755a1ad4fb89718686cf2a3485193030c78e0e90abae3a7735647904b"
+    },
+    {
+      "address": "0x27565d0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager.<>c__DisplayClass44_0$$<StartChangingBoard>b__0"
+      ],
+      "end": "0x2756644",
+      "sha256": "30b3ff38bd2156d0288771f6c2b5a9b9f109d5a5090bf8dfb724fe583f016923",
+      "file": "027565d0.s",
+      "listingSha256": "c6f2fb30154b45549b0ad9c9102a3b89c32fed0b04c3addc8f396fde0615f0b7"
+    },
+    {
+      "address": "0x2756644",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager.<>c__DisplayClass44_0$$<StartChangingBoard>b__1"
+      ],
+      "end": "0x27566cc",
+      "sha256": "0fd2c7b0e468d82bc71edabd8f8cb4eaced1509da767308b27d63272f914f1b1",
+      "file": "02756644.s",
+      "listingSha256": "614f39bd94bb9fc65bd40465c0fc5b3d813c59b0caef9f856c5c6f2e01708274"
+    },
+    {
+      "address": "0x2756838",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager.<WaitForCompletion>d__50$$MoveNext"
+      ],
+      "end": "0x27568b0",
+      "sha256": "b482e928f26a55943089fd30ecf9616767345fd35829354b0f98d969f781126e",
+      "file": "02756838.s",
+      "listingSha256": "4a2c5f2b80b4a956f1760fac4966321f3ec3f0ba1715daff377114486da2ec17"
     }
   ],
   "metadata": {
     "file": "metadata-excerpts.json",
-    "sha256": "e146cd20ddcfd87695a49481518b168535c1cf8279b69d93a4b2f5b27d210b41"
+    "sha256": "ac03123925fde9d9c9030fa67b01fa6a5ab558e7bf541c13f24471dc7d0644c2"
   },
   "patternToTiledId": {
     "address": "0x3ef395c",
