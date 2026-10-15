@@ -3,7 +3,7 @@
 - 本仓库是“小游戏解包审计报告集”的 GitHub Pages 维护入口。
 - 用户要求修改“解包报告站点”“WorkBuddy 迁移站点”时，修改本仓库的 `site/`。
 - 内容源是 `content/topics.py`、`content/reference-tables.json`、`content/sources.json`、`content/level-examples.json` 和 `content/report-pages/`；用 `python3 scripts/build_site.py` 生成首页、完整报告和算法页。编辑正文优先改内容源，避免再次生成时覆盖。
-- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。27个条目必须有27个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列仍是具体内容、可取得内容、可得性、相较人工／实机视频／测评的结论与速度变化。
+- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。27个条目必须有27个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列仍是具体内容、可取得内容、可得性、人工／实机能否做到及解包增加什么。
 - `content/report-pages/` 保存六份经核对的完整报告模板。`scripts/report_sections.py` 把相关原章节、样式和交互带入独立页面；章节及控件DOM ID与交互引用同步加 `original-` 前缀。旧报告文件保留，07为兼容目录，`legacy-report-routes.js` 将原章节地址跳转到对应独立页。保留有效分析、图表、交互与方法论；首页不添加冗余报告卡片。
 - `site/assets/site.css` 控制总览与算法页样式；`topic-reader.js` 控制火箭演示；`overview-links.js` 兼容旧首页深链；`report-deep-links.js` 控制报告章节定位。
 - 保持相对资源路径，兼容 `/game-unpack-reports/` 项目子路径。
@@ -15,6 +15,6 @@
 - 初始棋盘例子绑定原字节SHA-256与批量索引，随机格保留候选池标记。物体TiledId、目标GoalType和补入CellFillType是独立枚举，编号不得混用；物体层与草地等格子层须分别说明。
 - 初始棋盘中的障碍登场统计源为 `content/level-progression.json`，可用 `scripts/extract_level_progression.py --source-root ../royal-match-apk-audit-38174` 只读复算；CI只消费仓库内快照。每类每关只计一次，首现间隔按不同关卡去重；模型族数不等于独立机制数，初始配置不涵盖运行时生成。
 - 初始棋盘主页面用卡片进入六个独立内容页：`level-examples.html`、`tile-codes.html`、`obstacle-progression.html`、`obstacle-first-seen.html`、`level-pressure.html`、`level-rhythm.html`，不能用页内滚动替代。完整配置曲线、七轴、尾号与19项首现压力源保存在 `content/level-difficulty.html`；分别渲染到曲线页和尾号页。旧报告 `#curve`、`#colleague` 跳转到独立页。压力模型空颜色池按4色回退；所有轴截断到0–1。障碍分类直接说明玩家要处理的事情，页面不加入参考公众号文章的介绍或其样本比例。
-- 效率列只作有依据的方法对比；没有同口径人时记录，不给提速倍数。设计解读、示意数字与原版实测分开标记。
+- 第四列逐项说明人工／实机（含视频、测评）原本能做到的范围和解包的具体增量；对原本已能取得的信息及解包仍无法取得的后台、实时结果须明确说明；没有同口径人时记录，不给提速倍数。设计解读、示意数字与原版实测分开标记。
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。

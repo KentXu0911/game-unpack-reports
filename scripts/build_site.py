@@ -331,7 +331,7 @@ def render_topic_page(topic):
     related = ''.join(f'<a href="{e(t["key"])}.html">{e(t["title"])}</a>' for t in peers)
     if key in ('level-config', 'level-pressure'):
         related = ''.join(f'<a href="{e(k)}.html">{e(title)}</a>' for k, title in LEVEL_LINKS if k != key) + related
-    comparisons = '<section class="method-comparison"><h2>相比人工／实机视频／测评</h2>' + ''.join(
+    comparisons = '<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2>' + ''.join(
         f'<p>{e(text)}</p>' for text in topic['comparison']) + '</section>'
     body = detail(topic)
     if key in LEGACY_CHAPTERS:
@@ -387,11 +387,11 @@ def render_site():
                       f'<table class="overview-table" aria-label="{title}具体内容与研究方式比较">'
                       '<colgroup><col><col><col><col></colgroup><thead><tr>'
                       '<th scope="col">具体内容</th><th scope="col">目前能拿到什么</th>'
-                      '<th scope="col">可得性</th><th scope="col">相比人工／实机视频／测评：结论与速度</th>'
+                      '<th scope="col">可得性</th><th scope="col">人工／实机能否做到，解包增加什么</th>'
                       f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div></section>')
     return f'''<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Royal Match客户端规则与玩家体验解读：棋盘、飞机目标、智能火箭、补棋、活动与商业化，逐项说明证据和研究效率变化。">
+<meta name="description" content="Royal Match客户端规则与玩家体验解读：棋盘、飞机目标、智能火箭、补棋、活动与商业化，逐项比较人工／实机能力与解包带来的新增信息。">
 <title>Royal Match · 玩法、体验算法与研发可得性</title>
 <link rel="stylesheet" href="assets/site.css"><script defer src="assets/overview-links.js"></script>
 </head><body>
@@ -400,7 +400,7 @@ def render_site():
 <div class="edition"><b>{len(TOPICS)} 个内容项</b><span>研究样本：build 38174</span><span>内容核对：2026-10-15</span></div></div></header>
 <main class="wrap" id="replication-overview"><div class="intro"><div><h2>能拿到什么，能解释到哪里</h2>
 <p>“具体内容可恢复”表示客户端中存在数据或实现，实际取得与验证进度写在每项中；不表示完整复刻已完成。</p>
-<p>新列分别比较结论深度与研究速度。没有同口径耗时记录，不给出提速倍数；实际体验仍要通过实机与用户观察验证。</p></div>
+<p>第四列说明人工／实机原本能做到哪一步，以及解包增加了哪些数据、规则或覆盖范围；人工包括视频整理与测评。</p></div>
 <div class="legend"><p><span class="availability available">具体内容可恢复</span> 包内数据或客户端实现</p>
 <p><span class="availability framework">需当期外部输入</span> 缺实际账号／平台响应</p>
 <p><span class="availability unavailable">样本内无原件</span> 原工具、后台或制作工程</p></div></div>
@@ -409,7 +409,7 @@ def render_site():
 <details class="research-method" id="research-method"><summary>阅读口径：代码能解释原因，实机与测评验证实际发生了什么</summary>
 <p>包内配置证明样本包含的内容；原生代码证明指定分支的计算与状态转移；受控实机记录证明该测试条件下的结果。
 本页将设计解读和教学示意明确标出，未验证的分支保持未验证。实机视频和测评继续用于核对画面、节奏、输入感受与自然玩家体验。</p>
-<p>研究效率变化为方法比较：批量读取减少逐项抄录，调用链定位减少盲试；没有成对的人时、样本量、验证标准记录，不能量化净提速。
+<p>解包可以减少逐项抄录、帮助定位待测分支；当前价格、实际投放和玩家体验仍需对应响应或实机记录。没有同口径耗时记录，不给提速倍数。
 自动导出量、函数入口数、局部反编译成功数也不等于语义恢复或可执行复刻完成。</p>
 <p>样本与来源绑定到文件和函数位置；元数据名称不代替行为，资源主题不代替排期，有限响应不代替后台决策公式。</p>
 <p><a href="reports/05-unpack-methodology.html">阅读完整解包方法论：工具链、SOP、常见陷阱与证据分级 →</a></p></details>
