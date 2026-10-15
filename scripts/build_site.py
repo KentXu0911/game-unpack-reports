@@ -15,6 +15,8 @@ from topics import GROUPS, TOPICS  # noqa: E402
 
 SOURCES = json.loads((ROOT / "content/sources.json").read_text())
 TABLES = json.loads((ROOT / "content/reference-tables.json").read_text())
+OVERVIEW_INCREMENTS = json.loads((ROOT / "content/overview-increments.json").read_text())
+assert set(OVERVIEW_INCREMENTS) == {topic['key'] for topic in TOPICS}
 LEVEL_EXAMPLES = json.loads((ROOT / "content/level-examples.json").read_text())
 STATUS = {
     "available": "具体内容可恢复",
@@ -380,7 +382,7 @@ def render_site():
         rows = []
         for topic in topics:
             key = e(topic['key'])
-            comparison = ''.join(f'<p>{e(p)}</p>' for p in topic['comparison'])
+            comparison = f'<p>{e(OVERVIEW_INCREMENTS[topic["key"]])}</p>'
             rows.append(f'<tr class="overview-item"><th scope="row" id="row-{key}">'
                         f'<a class="topic-link" href="{e(topic_url(topic["key"]))}">'
                         f'{e(topic["title"])}<span class="action">查看详情 →</span></a></th>'
@@ -391,7 +393,7 @@ def render_site():
                       f'<table class="overview-table" aria-label="{title}具体内容与研究方式比较">'
                       '<colgroup><col><col><col><col></colgroup><thead><tr>'
                       '<th scope="col">具体内容</th><th scope="col">目前能拿到什么</th>'
-                      '<th scope="col">可得性</th><th scope="col">人工／实机能否做到，解包增加什么</th>'
+                      '<th scope="col">可得性</th><th scope="col">解包增量</th>'
                       f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div></section>')
     return f'''<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -404,7 +406,7 @@ def render_site():
 <div class="edition"><b>{len(TOPICS)} 个内容项</b><span>研究样本：build 38174</span><span>内容核对：2026-10-15</span></div></div></header>
 <main class="wrap" id="replication-overview"><div class="intro"><div><h2>能拿到什么，能解释到哪里</h2>
 <p>“具体内容可恢复”表示客户端中存在数据或实现，实际取得与验证进度写在每项中；不表示完整复刻已完成。</p>
-<p>第四列说明人工／实机原本能做到哪一步，以及解包增加了哪些数据、规则或覆盖范围；人工包括视频整理与测评。</p></div>
+<p>“解包增量”简述相较人工、实机、视频与测评新增的信息；完整说明见详情页。</p></div>
 <div class="legend"><p><span class="availability available">具体内容可恢复</span> 包内数据或客户端实现</p>
 <p><span class="availability framework">需当期外部输入</span> 缺实际账号／平台响应</p>
 <p><span class="availability unavailable">样本内无原件</span> 原工具、后台或制作工程</p></div></div>

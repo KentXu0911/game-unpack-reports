@@ -3,7 +3,7 @@
 - 本仓库是“小游戏解包审计报告集”的 GitHub Pages 维护入口。
 - 用户要求修改“解包报告站点”“WorkBuddy 迁移站点”时，修改本仓库的 `site/`。
 - 内容源是 `content/topics.py`、`content/reference-tables.json`、`content/sources.json`、`content/level-examples.json`、`content/booster-targeting.html` 和 `content/report-pages/`；用 `python3 scripts/build_site.py` 生成首页、完整报告和算法页。编辑正文优先改内容源，避免再次生成时覆盖。
-- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。27个条目必须有27个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列仍是具体内容、可取得内容、可得性、人工／实机能否做到及解包增加什么。
+- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。27个条目必须有27个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列为具体内容、可取得内容、可得性、解包增量。第四列精简文案在 `content/overview-increments.json`，完整比较保留于详情页。
 - `content/report-pages/` 保存六份经核对的完整报告模板。`scripts/report_sections.py` 把相关原章节、样式和交互带入独立页面；章节及控件DOM ID与交互引用同步加 `original-` 前缀。旧报告文件保留，07为兼容目录，`legacy-report-routes.js` 将原章节地址跳转到对应独立页。保留有效分析、图表、交互与方法论；首页不添加冗余报告卡片。
 - `site/assets/site.css` 控制总览与算法页样式；`topic-reader.js` 控制火箭演示；`overview-links.js` 兼容旧首页深链；`report-deep-links.js` 控制报告章节定位。
 - 保持相对资源路径，兼容 `/game-unpack-reports/` 项目子路径。
