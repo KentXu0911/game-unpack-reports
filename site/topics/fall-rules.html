@@ -1,12 +1,12 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>交换、匹配、下落与多棋盘 · Royal Match</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>棋盘状态机 · Royal Match</title>
 <link rel="stylesheet" href="../assets/site.css?v=e9b72bb321"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-fall-rules">← 返回内容总览</a></p>
-<h1>交换、匹配、下落与多棋盘</h1><p>给出交换试判、匹配形状优先级、自动消除等待、直落与斜落检查、冻结计数和多棋盘切换流程的代码解读与具体例子。完整动态帧序仍需实机核对。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="fall-rules" class="topic-detail" aria-labelledby="title-fall-rules"><h2 id="title-fall-rules">交换、匹配、下落与多棋盘</h2><div class="topic-body"><h3>棋盘先处理登记与规则，再推进画面</h3><p>一次交换不只是换两颗棋的坐标：程序先试换逻辑位置、识别匹配组，再结合准备状态决定消除；下落先分配目标，再推进移动。下面按原代码的关键判断解释每一步。</p><p class="flow-note">下列伪代码根据build 38174的ARM64机器码与元数据整理，保留本节关键分支，省略类型转换、日志和无关调用；不是原始C#源码，也不能直接代替完整运行实现。例子是按代码构造的局面。</p>
+<h1>棋盘状态机</h1><p>可依据现有算法复刻交换判定、匹配与道具生成、命中去重、直落／斜落、冻结和多棋盘切换流程。完整连锁帧序与部分特殊分支仍需实机对齐。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="fall-rules" class="topic-detail" aria-labelledby="title-fall-rules"><h2 id="title-fall-rules">棋盘状态机</h2><div class="topic-body"><h3>按现有算法复刻棋盘流程</h3><p>一次交换会改变逻辑登记，进入匹配判定、消除或特殊块生成；命中、下落、冻结和切板又各有自己的条件与回调。可以据此实现各环节的判断与状态转移，再把画面和操作时机接上；这些环节可能交错执行，需要保留在途登记与等待条件。</p><h3>已有规则支持复刻哪些部分</h3><p>交换试判、匹配组优先级、自动消除等待、直斜落检查、冻结计数、切板禁触与收尾，以及特殊块生成和命中去重，都已有可供实现的算法依据。特殊块同分坐标规则、蘑菇扩散的完整排序及复杂连锁的逐帧顺序仍需核对。</p><p class="flow-note">下列伪代码根据build 38174的ARM64机器码与元数据整理，保留本节关键分支，省略类型转换、日志和无关调用；不是原始C#源码，也不能直接代替完整运行实现。例子是按代码构造的局面。</p>
 
 <section aria-labelledby="cell-registrations">
 <h3 id="cell-registrations">一个格子不只记录“现在有什么”</h3>
@@ -286,7 +286,43 @@ CompleteChangingBoard(isWater):
 </tbody></table></div>
 <p><a href="../assets/evidence/board-algorithms/manifest.json">49份方法快照、续段、元数据与转换表JSON</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；相邻元数据入口只用于截取跨度，不证明完整控制流或异常清理。</p>
 </details>
-<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>交换、匹配、重力与智能方向的原字节快照</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读数据表交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4；匹配0x137AAA0/0x137AE2C/0x137B8CC；自动等待0x1E92FD8含0x1E99A0C续段；直斜落0x2A2BA0C/0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；智能方向0x20EDA34。伪代码为可读整理并标明省略范围，构造局面不是原端实机记录；未认证完整帧调度或整局回放。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/manifest.json与对应49份方法快照</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>关键函数与原字节交叉核对</h6><p>原字节／反编译控制流交叉核对。核对目标列抽样、斜落、伤害去重、切板四个函数。伪代码参数与返回类型有推断误差，规则以原机器码和元数据为准；不是原源码或整库语义认证。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/REA-CROSSCHECK.md</code></p></div></details></div></section>
-<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能用慢放和受控局面归纳交换、匹配、下落与切板规律，也能测量可见节奏。不同内部状态可能产生相似画面，复杂边界需专门构造。</p><p>解包增量：能把试换、形状组装与优先级、上方同色等待、直斜落候选、在途登记和冻结计数落到具体代码。正文区分简化伪代码、构造例子和待验证路径；不等于整局一比一回放。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="propeller-targeting.html">飞机选点：评分、随机与目标重选</a><a href="smart-rocket.html">智能火箭：方向与范围收益</a><a href="special-creation.html">特殊块生成位置与激活时机</a><a href="hit-spread-timing.html">命中去重、扩散与连锁节奏</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<section aria-labelledby="title-special-creation" id="special-creation">
+<h3 id="title-special-creation">特殊块生成位置与激活时机</h3>
+
+<h4>先从匹配格中挑出生成位置</h4>
+<p>匹配成功后，程序先打乱候选格顺序，再去掉空对象和不允许参与的特定静态物，逐个比较候选分数，留下更优的格子。同分时还会比较坐标字段；具体按哪种方向决定先后尚未全部确认，所以不能简单理解成总留在手指落点或完全随机。</p>
+
+<h4>生成格留下，其余匹配格清掉</h4>
+<p>选定位置后，这一格会从普通销毁和收集列表中排除，其余匹配格继续进入清除流程。特殊块因此能留在选定格，成为下一手可使用的道具。生成位置不是等整组清空后，再由画面层随意补出来的。</p>
+
+<h4>等创建阶段结束，再恢复落子</h4>
+<p>程序先等待一段创建延迟，再激活特殊块的画面、粒子和状态，最后解除相关格子的冻结。具体延迟值和全部分支的帧边界仍待验证。画面已经开始播放，不代表棋盘已经可以继续下落，也不能直接用动画总长当作解冻时刻。</p>
+
+<h4>位置和时机会改变组合机会</h4>
+<p>特殊块留在哪格，决定下一手能否接上其他道具；何时激活、何时恢复下落，决定连锁是否清楚和操作是否及时。复现时要把生成位置、显示、可操作和恢复下落分别对齐。</p>
+
+</section>
+
+<section aria-labelledby="title-hit-spread-timing" id="hit-spread-timing">
+<h3 id="title-hit-spread-timing">命中去重、扩散与连锁节奏</h3>
+
+<h4>同一轮爆炸只登记一次命中</h4>
+<p>每轮爆炸都有自己的编号。物体收到伤害时，先查这个编号是否已处理：处理过就退出，没处理过就登记，再尝试受击。这样，同一轮爆炸从多个入口碰到同一物体时，不会反复扣层。它按爆炸编号去重，不是每帧只能受伤一次；不同编号以及多格物体的特殊路径需要分别检查。</p>
+
+<h4>蘑菇扩散要等操作条件满足</h4>
+<p>蘑菇不会只看棋盘上有没有空位。扩散前会检查是否允许扩散、是否还有待处理操作，以及特定操作是否存在。若上一手销毁了蘑菇或土壤，已检查的流程会清理并退出；满足条件、有土壤和候选格后，才继续分组、排序和随机选格。全部候选排序规则仍未恢复。</p>
+
+<h4>移动中的格子也会影响扩散</h4>
+<p>候选格必须是允许使用的普通格，还要避开阻挡触摸的物体和预留格。程序同时检查土壤、棋子当前位置、下一位置、下落目标以及冻结状态。看起来空着的格子，可能已经被正在下落的棋子占用，不能只按一张静止截图判断。</p>
+
+<h4>伤害、下落和特效有各自的时刻</h4>
+<p>自动引爆、下落、胜负判断和洗牌有管理器执行顺序，运行时还可能插入或替换步骤。局部代码中，草地出现0.025–0.125秒的多种延迟，飞机组合出现0.02秒额外等待；这些只属于对应分支，不能当作所有动画的统一时长。</p>
+
+<h4>连锁的力度与节奏由这些规则共同决定</h4>
+<p>一次爆炸扣几层、蘑菇是否等落子结束再长出、下一轮引爆什么时候接上，都会改变玩家看到的连锁结果。复现时既要对齐伤害和棋盘状态，也要对齐特效与回调；只复制画面，可能仍会得到不同的玩法节奏。</p>
+
+</section>
+<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>交换、匹配、重力与智能方向的原字节快照</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读数据表交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4；匹配0x137AAA0/0x137AE2C/0x137B8CC；自动等待0x1E92FD8含0x1E99A0C续段；直斜落0x2A2BA0C/0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；智能方向0x20EDA34。伪代码为可读整理并标明省略范围，构造局面不是原端实机记录；未认证完整帧调度或整局回放。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/manifest.json与对应49份方法快照</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>关键函数与原字节交叉核对</h6><p>原字节／反编译控制流交叉核对。核对目标列抽样、斜落、伤害去重、切板四个函数。伪代码参数与返回类型有推断误差，规则以原机器码和元数据为准；不是原源码或整库语义认证。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/REA-CROSSCHECK.md</code></p></div><div class="evidence-entry"><h6>特殊块生成、方向与组合</h6><p>ARM64／ARMv7静态规则。SelectSmartRocket 0x20EDA34；横评分0x20EDAF4、纵评分0x20EDB94；生成选格0x1378554；创建协程0x20EE048；组合分派0x26AD2C4。静态已确认方向比较与局部创建阶段，完整帧边界待实机。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv</code></p></div></details></div></section>
+<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能归纳交换、生成、扣层、落子和切板结果，测量可见节奏；内部预订、冻结叠加和同轮命中关系需要专门构造局面验证。</p><p>解包增量：提供状态登记、判断分支和执行先后，可据此编写棋盘状态机，复刻已确认的规则并构造边界用例。完整同分选址、扩散排序与动态连锁帧序仍需补齐和实机对照。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="propeller-targeting.html">飞机选点：评分、随机与目标重选</a><a href="smart-rocket.html">智能火箭：方向与范围收益</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-fall-rules">← 返回内容总览</a></footer></main>
 </body></html>

@@ -28,8 +28,11 @@ STATUS = {
 
 
 # Every overview item has a separate reading page.
-ALGORITHM_KEYS = ['propeller-targeting', 'smart-rocket', 'special-creation', 'hit-spread-timing']
 DESTINATIONS = {topic['key']: f"topics/{topic['key']}.html" for topic in TOPICS}
+MERGED_BOARD_TOPICS = {
+    'special-creation': 'special-creation',
+    'hit-spread-timing': 'hit-spread-timing',
+}
 LEVEL_PAGES = {
     'level-examples': ('真实棋盘例子', '对照四个关卡的数字、布局、草地层与目标。'),
     'tile-codes': ('颜色与道具代码', 'TiledId、GoalType和CellFillType分别对照。'),
@@ -77,6 +80,9 @@ def legacy_routes():
         'obstacle-first-seen': '../topics/obstacle-first-seen.html',
         'level-difficulty': '../topics/level-pressure.html', 'level-rhythm': '../topics/level-rhythm.html',
     })
+    for key, anchor in MERGED_BOARD_TOPICS.items():
+        target = f'../topics/fall-rules.html#{anchor}'
+        routes['07-rea-recovery.html'].update({key: target, f'title-{key}': target})
     return routes
 
 
@@ -129,7 +135,8 @@ def extras(topic):
     if key == 'level-pressure':
         return level_page_content('level-pressure')
     if key == 'fall-rules':
-        return (ROOT / 'content/board-algorithms.html').read_text()
+        return ((ROOT / 'content/board-algorithms.html').read_text() +
+                (ROOT / 'content/board-state-events.html').read_text())
     if key == 'obstacle-rules':
         return (ROOT / 'content/booster-targeting.html').read_text()
     if key == 'propeller-targeting':
@@ -359,6 +366,14 @@ def render_level_page(key, title, summary):
                        '<article class="topic-detail"><div class="topic-body">' + level_page_content(key) + '</div></article>', related)
 
 
+def render_merged_board_page(anchor):
+    target = f'fall-rules.html#{anchor}'
+    return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>棋盘状态机 · Royal Match</title>
+<link rel="canonical" href="fall-rules.html"><script defer src="../assets/merged-board-routes.js"></script>
+</head><body><p><a href="{e(target)}">进入棋盘状态机 →</a></p></body></html>'''
+
+
 def render_recovery_report():
     # Keep old addresses as a small directory; the routing script opens their page.
     aliases = set(legacy_routes()['07-rea-recovery.html'])
@@ -381,6 +396,7 @@ def render_recovery_report():
 
 
 def render_site():
+    overview_version = sha256(json.dumps([DESTINATIONS, MERGED_BOARD_TOPICS], sort_keys=True).encode()).hexdigest()[:10]
     groups = []
     for group_id, title, desc in GROUPS:
         topics = [topic for topic in TOPICS if topic['group'] == group_id]
@@ -404,7 +420,7 @@ def render_site():
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Royal Match客户端规则与玩家体验解读：棋盘、飞机目标、智能火箭、补棋、活动与商业化，逐项比较人工／实机能力与解包带来的新增信息。">
 <title>Royal Match · 玩法、体验算法与研发可得性</title>
-<link rel="stylesheet" href="assets/site.css?v={CSS_VERSION}"><script defer src="assets/overview-links.js"></script>
+<link rel="stylesheet" href="assets/site.css?v={CSS_VERSION}"><script defer src="assets/overview-links.js?v={overview_version}"></script>
 </head><body>
 <header><div class="header-inner"><div><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <h1>从具体内容，读懂游戏规则</h1><p>三消玩法、外围 Meta 与商业化的统一结论。点击内容名称，进入独立报告页，阅读机制、体验影响、数据与证据。</p></div>
@@ -494,10 +510,15 @@ def main():
     (ROOT / 'site/topics').mkdir(exist_ok=True)
     for topic in TOPICS:
         (ROOT / f'site/topics/{topic["key"]}.html').write_text(render_topic_page(topic))
+    for key, anchor in MERGED_BOARD_TOPICS.items():
+        (ROOT / f'site/topics/{key}.html').write_text(render_merged_board_page(anchor))
     for key, (title, summary) in LEVEL_PAGES.items():
         (ROOT / f'site/topics/{key}.html').write_text(render_level_page(key, title, summary))
     write_legacy_routes()
     redirects = dict(DESTINATIONS, **{'gate-matrix': 'topics/obstacle-rules.html'})
+    for key, anchor in MERGED_BOARD_TOPICS.items():
+        redirects[key] = f'topics/fall-rules.html#{anchor}'
+        redirects[f'row-{key}'] = 'index.html#row-fall-rules'
     for topic in TOPICS:
         for name in topic['refs']:
             if name in TABLES and name != 'gate-matrix':
