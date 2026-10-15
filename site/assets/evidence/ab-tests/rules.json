@@ -1,0 +1,5096 @@
+{
+ "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+ "method": "Original ARM64 bytes emulated with Unicorn; get_Item stubbed per ID with group values 0-10 (one ID set at a time, others 0); other external calls return 0; extra parameters 0.",
+ "limits": [
+  "Group values above 10 are not probed.",
+  "Other AbTestHelper methods are executed; only calls outside AbTestHelper are stubbed.",
+  "Only one ID is set per run; combinations of NewUser and OldUser IDs are not enumerated.",
+  "Calls outside AbTestHelper are stubbed to return 0; when such calls occur the table is re-run with them returning 1 and both results are kept.",
+  "Callers are direct BL/B only."
+ ],
+ "rules": [
+  {
+   "method": "IsRemainingCollectablesConversionAbEnabled",
+   "rva": "0x24596e0",
+   "signature": "public bool IsRemainingCollectablesConversionAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Session.PinataPartyLevelData.Init",
+    "Player.Context.Units.HiddenTempleManager.get_ShouldIncreaseAxeCount",
+    "Player.Context.Units.RemainingCollectablesConversionManager.get_IsRemainingCollectablesConversionEnabled",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleDialog.PickaxeClicked",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleDialogPickaxeCountView.UpdatePickaxeCount"
+   ],
+   "ids": [
+    224,
+    225
+   ],
+   "idNames": {
+    "224": "NextEventCollectibleNewUserAbId",
+    "225": "NextEventCollectibleOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "224": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "225": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "224": [
+     2
+    ],
+    "225": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsNewUserEventFlowChangeEnabled",
+   "rva": "0x2462df0",
+   "signature": "public bool IsNewUserEventFlowChangeEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.RequeueRoyalBundlesForNewUserFlowChange",
+    "Player.Context.Units.EventLockManager.GetLockableEventMinLevel",
+    "Player.Context.Units.EventLockManager.UpdateAbGroups"
+   ],
+   "ids": [
+    201
+   ],
+   "idNames": {
+    "201": "NewUserEventFlowChangeAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "201": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "201": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsCorruptedDbFixEnabled",
+   "rva": "0x2463130",
+   "signature": "public bool IsCorruptedDbFixEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Services.Storage.DatabaseService.TryCleanCorruption"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "no-ab-read",
+   "value": 1
+  },
+  {
+   "method": "IsOneMoveRemoveAbEnabled",
+   "rva": "0x2463250",
+   "signature": "public bool IsOneMoveRemoveAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperDukeManager.ShouldRemoveOneMove"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsSuperDukeVisibleMinusMoveEnabled",
+   "rva": "0x2463258",
+   "signature": "private bool IsSuperDukeVisibleMinusMoveEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsButlersGiftMultiplierRewardAbEnabled",
+   "rva": "0x2463260",
+   "signature": "public bool IsButlersGiftMultiplierRewardAbEnabled()",
+   "calls": [
+    "IsMultiplierRewardReductionAbEnabled"
+   ],
+   "callers": [
+    "Player.Context.Data.Persistent.DukesFortuneProgress.EnterEvent",
+    "Player.Context.Data.Persistent.OceanOdysseyProgress.EnterEvent",
+    "Player.Context.Data.Persistent.PinataProgress.ResetProgressForNewEvent",
+    "Player.Context.Data.Persistent.TeamTournamentProgress.TeamEnteredEvent",
+    "Player.Context.Units.ClocheManager.IsMultiplierClocheAbEnabled",
+    "Player.Context.Units.EventRewardOverrider.GetOverriddenOceanOdysseyReward",
+    "Player.Context.Units.MadnessConfig.get_SelectedSteps",
+    "Player.Context.Units.MissionControlManager.TryEnterEvent",
+    "Player.Context.Units.MissionPursuitManager.TryEnterEvent",
+    "Scenes.Home.Ui.Dialogs.ArcheryArena.Scripts.ArcheryArenaConfig.get_SelectedSteps",
+    "Scenes.Home.Ui.Dialogs.BalloonRise.BalloonRiseConfig.get_SelectedTargets",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleConfig.get_currentStages",
+    "Scenes.Home.Ui.Dialogs.OceanOdyssey.Scripts.OceanOdysseyConfigHelper.GetStages",
+    "Scenes.Home.Ui.Dialogs.RoyalPass.RoyalPassConfig.get_SelectedSteps"
+   ],
+   "ids": [
+    79,
+    80,
+    128,
+    129
+   ],
+   "idNames": {
+    "79": "ButlersGiftMultiplierRewardV2NewUser",
+    "80": "ButlersGiftMultiplierRewardV2OldUser",
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "79": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "80": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "128": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "129": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "79": [
+     2
+    ],
+    "80": [
+     2
+    ],
+    "128": [
+     5
+    ],
+    "129": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsMultiplierRewardReductionAbEnabled",
+   "rva": "0x24632a4",
+   "signature": "private bool IsMultiplierRewardReductionAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsButlersGiftMultiplierRewardAbEnabled"
+   ],
+   "ids": [
+    128,
+    129
+   ],
+   "idNames": {
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "128": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "129": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "128": [
+     5
+    ],
+    "129": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsMultiplierDynamicOfferAbEnabled",
+   "rva": "0x24632e0",
+   "signature": "public bool IsMultiplierDynamicOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.DynamicOfferEventHelper.GetCanSeeOfferABStatus"
+   ],
+   "ids": [
+    79,
+    80
+   ],
+   "idNames": {
+    "79": "ButlersGiftMultiplierRewardV2NewUser",
+    "80": "ButlersGiftMultiplierRewardV2OldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "79": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "80": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "79": [
+     3
+    ],
+    "80": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsMultiplierBundleOfferAbEnabled",
+   "rva": "0x246331c",
+   "signature": "public bool IsMultiplierBundleOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Game.Ui.Dialogs.LevelFail.EgoDialog.Awake",
+    "Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy.GetLongList",
+    "Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy.GetShortList"
+   ],
+   "ids": [
+    79,
+    80
+   ],
+   "idNames": {
+    "79": "ButlersGiftMultiplierRewardV2NewUser",
+    "80": "ButlersGiftMultiplierRewardV2OldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "79": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "80": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "79": [
+     4
+    ],
+    "80": [
+     4
+    ]
+   }
+  },
+  {
+   "method": "IsPriceChange10MovesAbEnabled",
+   "rva": "0x2463358",
+   "signature": "public bool IsPriceChange10MovesAbEnabled()",
+   "calls": [
+    "Is1200CoinAbEnabled",
+    "Is1500CoinAbEnabled",
+    "Is1900CoinAbEnabled"
+   ],
+   "callers": [
+    "Player.Context.Units.EgoExtraMovesHelper.CalculateAdditionalMoves",
+    "Scenes.Game.Levels.Units.Ego.EgoManager.GetMoveCount"
+   ],
+   "ids": [
+    51,
+    52
+   ],
+   "idNames": {
+    "51": "EgoPriceChangeAbNewUser",
+    "52": "EgoPriceChangeAbOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "51": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "52": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "51": [
+     3,
+     4,
+     5
+    ],
+    "52": [
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "Is1200CoinAbEnabled",
+   "rva": "0x246338c",
+   "signature": "public bool Is1200CoinAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsPriceChange10MovesAbEnabled"
+   ],
+   "ids": [
+    51,
+    52
+   ],
+   "idNames": {
+    "51": "EgoPriceChangeAbNewUser",
+    "52": "EgoPriceChangeAbOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "51": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "52": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "51": [
+     3
+    ],
+    "52": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "Is1500CoinAbEnabled",
+   "rva": "0x24633c8",
+   "signature": "public bool Is1500CoinAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsPriceChange10MovesAbEnabled"
+   ],
+   "ids": [
+    51,
+    52
+   ],
+   "idNames": {
+    "51": "EgoPriceChangeAbNewUser",
+    "52": "EgoPriceChangeAbOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "51": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "52": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "51": [
+     4
+    ],
+    "52": [
+     4
+    ]
+   }
+  },
+  {
+   "method": "Is1900CoinAbEnabled",
+   "rva": "0x2463404",
+   "signature": "public bool Is1900CoinAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsPriceChange10MovesAbEnabled"
+   ],
+   "ids": [
+    51,
+    52
+   ],
+   "idNames": {
+    "51": "EgoPriceChangeAbNewUser",
+    "52": "EgoPriceChangeAbOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "51": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "52": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "51": [
+     5
+    ],
+    "52": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "Is990CoinAbEnabled",
+   "rva": "0x2463440",
+   "signature": "public bool Is990CoinAbEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    51,
+    52
+   ],
+   "idNames": {
+    "51": "EgoPriceChangeAbNewUser",
+    "52": "EgoPriceChangeAbOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "51": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "52": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "51": [
+     2
+    ],
+    "52": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsSaveProgressReminderAbGroupEnabled",
+   "rva": "0x246347c",
+   "signature": "public bool IsSaveProgressReminderAbGroupEnabled()",
+   "calls": [
+    "IsSaveProgressReminderAlternativeAbGroupEnabled"
+   ],
+   "callers": [
+    "Scenes.Home.Context.Units.HomeSceneFlow.AddLevelWinFlowActions"
+   ],
+   "ids": [
+    59,
+    60
+   ],
+   "idNames": {
+    "59": "AndroidProgressTransferNewUser",
+    "60": "AndroidProgressTransferOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "59": {
+     "0": 1,
+     "1": 1,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 1,
+     "9": 1,
+     "10": 1
+    },
+    "60": {
+     "0": 1,
+     "1": 1,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 1,
+     "9": 1,
+     "10": 1
+    }
+   },
+   "trueWhen": {
+    "59": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "60": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ]
+   },
+   "externalCalls": [
+    "Infrastructure.Utils.Native.DeviceHelper.get_IsAndroid"
+   ],
+   "byIdWhenExternalTrue": {
+    "59": {
+     "0": 1,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "60": {
+     "0": 1,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhenExternalTrue": {
+    "59": [
+     0,
+     2,
+     3,
+     5
+    ],
+    "60": [
+     0,
+     2,
+     3,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsSaveProgressReminderAlternativeAbGroupEnabled",
+   "rva": "0x24634fc",
+   "signature": "public bool IsSaveProgressReminderAlternativeAbGroupEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsSaveProgressReminderAbGroupEnabled",
+    "Scenes.Home.Ui.Dialogs.ProgressSave.SaveProgressReminderDialog.ArrangeDialog"
+   ],
+   "ids": [
+    59,
+    60
+   ],
+   "idNames": {
+    "59": "AndroidProgressTransferNewUser",
+    "60": "AndroidProgressTransferOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "59": {
+     "0": 1,
+     "1": 1,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 1,
+     "9": 1,
+     "10": 1
+    },
+    "60": {
+     "0": 1,
+     "1": 1,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 1,
+     "9": 1,
+     "10": 1
+    }
+   },
+   "trueWhen": {
+    "59": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "60": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ]
+   },
+   "externalCalls": [
+    "Infrastructure.Utils.Native.DeviceHelper.get_IsAndroid"
+   ],
+   "byIdWhenExternalTrue": {
+    "59": {
+     "0": 1,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "60": {
+     "0": 1,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhenExternalTrue": {
+    "59": [
+     0,
+     3
+    ],
+    "60": [
+     0,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsDmaConsentRequestEnabled",
+   "rva": "0x2463574",
+   "signature": "public bool IsDmaConsentRequestEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    67,
+    68
+   ],
+   "idNames": {
+    "67": "DmaConsentRequestNewUserAbId",
+    "68": "DmaConsentRequestOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "67": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "68": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "67": [
+     2
+    ],
+    "68": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsSuperDukeAbEnabled",
+   "rva": "0x24635b0",
+   "signature": "public bool IsSuperDukeAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperDukeManager.SetAbValues"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsSuperDukeVisibleEnabled",
+   "rva": "0x24635b8",
+   "signature": "public bool IsSuperDukeVisibleEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperDukeManager.SetAbValues"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsSuperDukeNonVisibleEnabled",
+   "rva": "0x24635c0",
+   "signature": "private bool IsSuperDukeNonVisibleEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsHomeSectionTouchLockAbEnabled",
+   "rva": "0x24635c8",
+   "signature": "public bool IsHomeSectionTouchLockAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.AEventManager.get_ShouldAutoDialogLockHomeSection"
+   ],
+   "ids": [
+    85,
+    86
+   ],
+   "idNames": {
+    "85": "HomeSectionTouchLockNewUserAbId",
+    "86": "HomeSectionTouchLockOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "85": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "86": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "85": [
+     2
+    ],
+    "86": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsPreselectedBoosterAbEnabled",
+   "rva": "0x2463604",
+   "signature": "public bool IsPreselectedBoosterAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.Prelevel.PrelevelBoosterButton.PreselectBooster",
+    "Scenes.Home.Ui.Dialogs.Prelevel.PrelevelBoosterButton.ToggleSelection"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsOffersHomeSceneIconHideAbEnabled",
+   "rva": "0x246360c",
+   "signature": "public bool IsOffersHomeSceneIconHideAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Services.Notification.GameNotificationService.SetUpLadderOfferNotifications",
+    "Player.Context.Units.DynamicOfferManager.TryAddStartDialog",
+    "Player.Context.Units.DynamicOfferManager.TryConsumeDynamicOfferDeeplink",
+    "Player.Context.Units.LadderOfferManager.TryAddStartDialog",
+    "Player.Context.Units.OfferManager.TryAddDeeplinkDialog",
+    "Player.Context.Units.OfferManager.TryAddStartDialog",
+    "Player.Context.Units.TeamOfferManager.TryAddDeeplinkDialog",
+    "Player.Context.Units.TeamOfferManager.TryAddStartDialog",
+    "Scenes.Home.Ui.Dialogs.LadderOffer.LadderOfferIcon.UpdateIcon",
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.Views.DynamicOfferIcon.UpdateIcon",
+    "Scenes.Home.Ui.Dialogs.Offer.OfferIcon.UpdateIcon",
+    "Scenes.Home.Ui.Dialogs.TeamOffer.TeamOfferIcon.UpdateIcon"
+   ],
+   "ids": [
+    91,
+    92
+   ],
+   "idNames": {
+    "91": "OffersHomeSceneIconHideNewUserAbId",
+    "92": "OffersHomeSceneIconHideOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "91": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "92": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "91": [
+     2,
+     3
+    ],
+    "92": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsOffersHomeSceneIconHideExceptLadderOfferAbEnabled",
+   "rva": "0x2463670",
+   "signature": "public bool IsOffersHomeSceneIconHideExceptLadderOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Services.Notification.GameNotificationService.SetUpLadderOfferNotifications",
+    "Player.Context.Units.LadderOfferManager.TryAddStartDialog",
+    "Scenes.Home.Ui.Dialogs.LadderOffer.LadderOfferIcon.UpdateIcon"
+   ],
+   "ids": [
+    91,
+    92
+   ],
+   "idNames": {
+    "91": "OffersHomeSceneIconHideNewUserAbId",
+    "92": "OffersHomeSceneIconHideOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "91": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "92": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "91": [
+     3
+    ],
+    "92": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgePopupV1Enabled",
+   "rva": "0x24636ac",
+   "signature": "public bool IsAgePopupV1Enabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgePopupEnabled"
+   ],
+   "ids": [
+    101,
+    102
+   ],
+   "idNames": {
+    "101": "AgePopupNewUserAbId",
+    "102": "AgePopupOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "101": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "102": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "101": [
+     2
+    ],
+    "102": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsNoOfferAbEnabled",
+   "rva": "0x24636e8",
+   "signature": "public bool IsNoOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DynamicOfferManager.UpdateInfo",
+    "Player.Context.Units.TeamOfferManager.get_ShouldShowIcon",
+    "Scenes.Game.Ui.Dialogs.LevelFail.RoyalFavorOfferSliderView.AddItemsToSliderAndPrepare",
+    "Scenes.Home.Ui.Sections.Social.Chat.ChatView.AddMessage"
+   ],
+   "ids": [
+    105,
+    106
+   ],
+   "idNames": {
+    "105": "NoOfferNewUserAbId",
+    "106": "NoOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "105": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "106": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "105": [
+     2
+    ],
+    "106": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsAncientAdventureOneStaged",
+   "rva": "0x2463724",
+   "signature": "public bool IsAncientAdventureOneStaged()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.AncientAdventureManager.TryEnterEvent"
+   ],
+   "ids": [
+    146,
+    147
+   ],
+   "idNames": {
+    "146": "AncientAdventureNewUserAbId",
+    "147": "AncientAdventureOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "146": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "147": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "146": [
+     2,
+     3
+    ],
+    "147": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAncientAdventureHeistEnabled",
+   "rva": "0x2463788",
+   "signature": "public bool IsAncientAdventureHeistEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.AncientAdventureManager.TryEnterEvent"
+   ],
+   "ids": [
+    146,
+    147,
+    152,
+    153
+   ],
+   "idNames": {
+    "146": "AncientAdventureNewUserAbId",
+    "147": "AncientAdventureOldUserAbId",
+    "152": "AncientAdventureV2NewUserAbId",
+    "153": "AncientAdventureV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "146": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "147": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "152": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "153": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "146": [
+     3,
+     5
+    ],
+    "147": [
+     3,
+     5
+    ],
+    "152": [
+     2,
+     3
+    ],
+    "153": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsMergeSmithEnabled",
+   "rva": "0x246383c",
+   "signature": "public bool IsMergeSmithEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.MissionEventsCommon.Tasks.MergeSmithStepTask.IsAbEnabled"
+   ],
+   "ids": [
+    189,
+    190
+   ],
+   "idNames": {
+    "189": "MergeSmithNewUserAbId",
+    "190": "MergeSmithOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "189": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "190": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "189": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "190": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ]
+   }
+  },
+  {
+   "method": "GetMergeSmithAb",
+   "rva": "0x2463940",
+   "signature": "public int GetMergeSmithAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MergeSmithManager.TryEnterEvent"
+   ],
+   "ids": [
+    189,
+    190
+   ],
+   "idNames": {
+    "189": "MergeSmithNewUserAbId",
+    "190": "MergeSmithOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "189": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "190": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsAgePopupV2Enabled",
+   "rva": "0x2463970",
+   "signature": "public bool IsAgePopupV2Enabled()",
+   "calls": [
+    "IsAgeYearDropdownEnabled",
+    "IsAgeSliderEnabled",
+    "IsAgeRangeButtonEnabled"
+   ],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgePopupEnabled"
+   ],
+   "ids": [
+    116,
+    117
+   ],
+   "idNames": {
+    "116": "AgeConsentV2NewUserAbId",
+    "117": "AgeConsentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "116": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "117": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "116": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "117": [
+     2,
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsAgeYearDropdownEnabled",
+   "rva": "0x24639cc",
+   "signature": "public bool IsAgeYearDropdownEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsAgePopupV2Enabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.OnContinueButtonClicked",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.SelectAgeSelectionView"
+   ],
+   "ids": [
+    116,
+    117
+   ],
+   "idNames": {
+    "116": "AgeConsentV2NewUserAbId",
+    "117": "AgeConsentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "116": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "117": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "116": [
+     3
+    ],
+    "117": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeSliderEnabled",
+   "rva": "0x2463a08",
+   "signature": "public bool IsAgeSliderEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsAgePopupV2Enabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.OnContinueButtonClicked",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.SelectAgeSelectionView"
+   ],
+   "ids": [
+    116,
+    117
+   ],
+   "idNames": {
+    "116": "AgeConsentV2NewUserAbId",
+    "117": "AgeConsentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "116": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "117": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "116": [
+     4
+    ],
+    "117": [
+     4
+    ]
+   }
+  },
+  {
+   "method": "IsAgeRangeButtonEnabled",
+   "rva": "0x2463a44",
+   "signature": "public bool IsAgeRangeButtonEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsAgePopupV2Enabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.OnContinueButtonClicked",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.SelectAgeSelectionView"
+   ],
+   "ids": [
+    116,
+    117
+   ],
+   "idNames": {
+    "116": "AgeConsentV2NewUserAbId",
+    "117": "AgeConsentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "116": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "117": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "116": [
+     5
+    ],
+    "117": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV3Enabled",
+   "rva": "0x2463a80",
+   "signature": "public bool IsAgeConsentV3Enabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgePopupEnabled",
+    "Infrastructure.Services.Helpshift.HelpshiftManager.GetConversationConfig",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.OnContinueButtonClicked",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.SelectAgeSelectionView"
+   ],
+   "ids": [
+    185,
+    186
+   ],
+   "idNames": {
+    "185": "AgeConsentV3NewUserAbId",
+    "186": "AgeConsentV3OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "185": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "186": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "185": [
+     2,
+     3
+    ],
+    "186": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV3NewRestrictionsEnabled",
+   "rva": "0x2463ae4",
+   "signature": "public bool IsAgeConsentV3NewRestrictionsEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgeConsentV3NewRestrictionsEnabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.IsSelectionValid"
+   ],
+   "ids": [
+    185,
+    186
+   ],
+   "idNames": {
+    "185": "AgeConsentV3NewUserAbId",
+    "186": "AgeConsentV3OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "185": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "186": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "185": [
+     3
+    ],
+    "186": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV4Enabled",
+   "rva": "0x2463b20",
+   "signature": "public bool IsAgeConsentV4Enabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgePopupEnabled",
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.get_CanRequestDeclaredAgeRange",
+    "Infrastructure.Services.Helpshift.HelpshiftManager.GetConversationConfig"
+   ],
+   "ids": [
+    197,
+    198
+   ],
+   "idNames": {
+    "197": "AgeConsentV4NewUserAbId",
+    "198": "AgeConsentV4OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "197": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "198": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "197": [
+     2,
+     3
+    ],
+    "198": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV4NewRestrictionsEnabled",
+   "rva": "0x2463b84",
+   "signature": "public bool IsAgeConsentV4NewRestrictionsEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgeConsentV4NewRestrictionsEnabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.IsSelectionValid"
+   ],
+   "ids": [
+    197,
+    198
+   ],
+   "idNames": {
+    "197": "AgeConsentV4NewUserAbId",
+    "198": "AgeConsentV4OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "197": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "198": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "197": [
+     3
+    ],
+    "198": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV5Enabled",
+   "rva": "0x2463bc0",
+   "signature": "public bool IsAgeConsentV5Enabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgePopupEnabled",
+    "Infrastructure.Services.Helpshift.HelpshiftManager.GetConversationConfig"
+   ],
+   "ids": [
+    209,
+    210
+   ],
+   "idNames": {
+    "209": "AgeConsentV5NewUserAbId",
+    "210": "AgeConsentV5OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "209": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "210": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "209": [
+     2,
+     3
+    ],
+    "210": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsAgeConsentV5NewRestrictionsEnabled",
+   "rva": "0x2463c24",
+   "signature": "public bool IsAgeConsentV5NewRestrictionsEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.IsAgeConsentV5NewRestrictionsEnabled",
+    "Scenes.Home.Ui.Dialogs.AgeSelection.Scripts.EnterAgeDialog.IsSelectionValid"
+   ],
+   "ids": [
+    209,
+    210
+   ],
+   "idNames": {
+    "209": "AgeConsentV5NewUserAbId",
+    "210": "AgeConsentV5OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "209": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "210": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "209": [
+     3
+    ],
+    "210": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "AreRushEventsReplayable",
+   "rva": "0x2463c60",
+   "signature": "public bool AreRushEventsReplayable()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DailyLightningRushManager.CanJoinEvent",
+    "Player.Context.Units.DailyLightningRushManager.GetNextStepToEnter",
+    "Player.Context.Units.DailyLightningRushManager.ShouldGiveLifeReward",
+    "Player.Context.Units.PropellerRushManager.get_ReplayableAbEnabled",
+    "Scenes.Home.Ui.Dialogs.DailyLightningRush.Scripts.DailyLightningRushListPopup.Claim"
+   ],
+   "ids": [
+    192,
+    191
+   ],
+   "idNames": {
+    "192": "RushEventsReplayableOldUserAbId",
+    "191": "RushEventsReplayableNewUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "192": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "191": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "192": [
+     2
+    ],
+    "191": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsRobotRivalsEventEnabled",
+   "rva": "0x2463c9c",
+   "signature": "public bool IsRobotRivalsEventEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.RobotRivalsManager.get_CanSeeEvent"
+   ],
+   "ids": [
+    158,
+    159
+   ],
+   "idNames": {
+    "158": "RobotRivalsNewUserAbId",
+    "159": "RobotRivalsOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "158": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "159": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "158": [
+     2,
+     3,
+     4
+    ],
+    "159": [
+     2,
+     3,
+     4
+    ]
+   }
+  },
+  {
+   "method": "IsSkyRaceAndSpaceMissionEventsInLessRewardAb",
+   "rva": "0x2463d28",
+   "signature": "public bool IsSkyRaceAndSpaceMissionEventsInLessRewardAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SpaceMissionManager.EnteredEvent",
+    "Player.Context.Units.SpaceMissionManager.GetRewardsForTooltip",
+    "Scenes.Home.Ui.Dialogs.SkyRace.SkyRaceConfigHelper.GetSkyRaceRewards",
+    "Scenes.Home.Ui.Dialogs.SkyRace.SkyRacePrelevel.EnterSkyRaceResponseReceived",
+    "Scenes.Home.Ui.Dialogs.SkyRace.SkyRaceStartDialog.EnterSkyRaceResponseReceived"
+   ],
+   "ids": [
+    158,
+    159,
+    164,
+    165
+   ],
+   "idNames": {
+    "158": "RobotRivalsNewUserAbId",
+    "159": "RobotRivalsOldUserAbId",
+    "164": "DailySkyRaceSpaceMissionNewUserAbId",
+    "165": "DailySkyRaceSpaceMissionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "158": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "159": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "164": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "165": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "158": [
+     3
+    ],
+    "159": [
+     3
+    ],
+    "164": [
+     2,
+     3
+    ],
+    "165": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsDailySkyRaceSpaceMissionEnabled",
+   "rva": "0x2463db4",
+   "signature": "public bool IsDailySkyRaceSpaceMissionEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SkyRaceData.Update",
+    "Player.Context.Units.SkyRaceManager.Update",
+    "Player.Context.Units.SkyRaceManager.get_DailyAbEnabled",
+    "Player.Context.Units.SpaceMissionManager.get_IsUserInNonReplayableAbGroup",
+    "Scenes.Home.Ui.Dialogs.SkyRace.SkyRaceScenePopup.Init",
+    "Scenes.Home.Ui.Dialogs.SkyRace.SkyRaceStartDialog.GetInfoText"
+   ],
+   "ids": [
+    164,
+    165
+   ],
+   "idNames": {
+    "164": "DailySkyRaceSpaceMissionNewUserAbId",
+    "165": "DailySkyRaceSpaceMissionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "164": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "165": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "164": [
+     3
+    ],
+    "165": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsClashOfChampionsReplayableEnabled",
+   "rva": "0x2463df0",
+   "signature": "public bool IsClashOfChampionsReplayableEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.ClashOfChampionsManager.get_CanReplayEvent"
+   ],
+   "ids": [
+    180,
+    179
+   ],
+   "idNames": {
+    "180": "ClashOfChampionsOldUserAbId",
+    "179": "ClashOfChampionsNewUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "180": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "179": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "180": [
+     2,
+     3
+    ],
+    "179": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsClashOfChampionsLowRewardReplayableEnabled",
+   "rva": "0x2463e54",
+   "signature": "public bool IsClashOfChampionsLowRewardReplayableEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.ClashOfChampionsManager.ShouldGetLowRewards"
+   ],
+   "ids": [
+    180,
+    179
+   ],
+   "idNames": {
+    "180": "ClashOfChampionsOldUserAbId",
+    "179": "ClashOfChampionsNewUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "180": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "179": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "180": [
+     3
+    ],
+    "179": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "GetMagicDukeAb",
+   "rva": "0x2463e90",
+   "signature": "public int GetMagicDukeAb()",
+   "calls": [],
+   "callers": [
+    "Scenes.Game.MagicDuke.Charger.ChargerManager.CacheChargerConfig"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsMagicDukeEnabled",
+   "rva": "0x2463e98",
+   "signature": "public bool IsMagicDukeEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MagicDukeManager.SetAbValues"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsMagicDuke5Enabled",
+   "rva": "0x2463ea0",
+   "signature": "public bool IsMagicDuke5Enabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MagicDukeManager.SetMaxProgressBasedOnAb",
+    "Player.Context.Units.MagicDukeManager.TryMigrateBetweenAbVersions"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsMagicDuke15Enabled",
+   "rva": "0x2463ea8",
+   "signature": "public bool IsMagicDuke15Enabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MagicDukeManager.TryMigrateBetweenAbVersions"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "IsRewardReductionAbEnabled",
+   "rva": "0x2463eb0",
+   "signature": "public bool IsRewardReductionAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.WeeklyLeaderboardManager.IsThereRewardReductionAb"
+   ],
+   "ids": [
+    128,
+    129
+   ],
+   "idNames": {
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "128": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "129": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "128": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "129": [
+     2,
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsLevelEndRewardReductionAbEnabled",
+   "rva": "0x2463f64",
+   "signature": "public bool IsLevelEndRewardReductionAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Game.Levels.Units.RemainingMoves.RemainingMovesManager.GetInitialCoinAmount",
+    "Scenes.Game.Ui.Dialogs.LevelFail.LevelFailDialog.UpdateCoinRewardValue",
+    "Scenes.Home.Ui.Dialogs.Madness.Multiplier.MultiplierRewardTag.UpdateCoinRewardValue",
+    "Scenes.Home.Ui.Dialogs.Prelevel.PrelevelDialog.UpdateCoinRewardValue"
+   ],
+   "ids": [
+    128,
+    129
+   ],
+   "idNames": {
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "128": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "129": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "128": [
+     2,
+     4,
+     5
+    ],
+    "129": [
+     2,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsEventRewardReductionAbEnabled",
+   "rva": "0x2463ff0",
+   "signature": "public bool IsEventRewardReductionAbEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    128,
+    129
+   ],
+   "idNames": {
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "128": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "129": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "128": [
+     3,
+     4,
+     5
+    ],
+    "129": [
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "GetRewardReductionAb",
+   "rva": "0x246407c",
+   "signature": "public int GetRewardReductionAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DragonNestManager.TryEnterEvent",
+    "Player.Context.Units.SeasonalCardCollectionManager.EnterSeason"
+   ],
+   "ids": [
+    128,
+    129
+   ],
+   "idNames": {
+    "128": "RewardReductionNewUserAbId",
+    "129": "RewardReductionOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "128": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "129": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsPrivacySettingsRedesignEnabled",
+   "rva": "0x24640ac",
+   "signature": "public bool IsPrivacySettingsRedesignEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.PrivacySettings.PrivacySettingsDialog.ArrangeButtons",
+    "Scenes.Home.Ui.Dialogs.PrivacySettings.PrivacySettingsDialog.OnCloseClick",
+    "Scenes.Home.Ui.Sections.Home.Settings.SettingsContent.ArrangeBlocks",
+    "Scenes.Home.Ui.Sections.Home.Settings.SettingsContent.ArrangeProgressAndSupportButtons",
+    "Scenes.Home.Ui.Sections.Home.Settings.SettingsContent.ShowTermsAndPrivacyButton",
+    "Scenes.Home.Ui.Sections.Home.Settings.SettingsContent.UpdateSocialBlocksForTeamStatus"
+   ],
+   "ids": [
+    126,
+    127
+   ],
+   "idNames": {
+    "126": "PrivacySettingsRedesignNewUser",
+    "127": "PrivacySettingsRedesignOldUser"
+   },
+   "kind": "bool",
+   "byId": {
+    "126": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "127": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "126": [
+     2
+    ],
+    "127": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsRoyalPassNextStageLessPricingEnabled",
+   "rva": "0x24640e8",
+   "signature": "public bool IsRoyalPassNextStageLessPricingEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy.GetStagedRoyalPassStage2Config"
+   ],
+   "ids": [
+    134,
+    135
+   ],
+   "idNames": {
+    "134": "RoyalPassNextStageNewUserAbId",
+    "135": "RoyalPassNextStageOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "134": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "135": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "134": [
+     2
+    ],
+    "135": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsNewRoyalLeagueAbEnabled",
+   "rva": "0x2464124",
+   "signature": "public bool IsNewRoyalLeagueAbEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-true",
+   "value": 1
+  },
+  {
+   "method": "IsLeagueRowChangeAbEnabled",
+   "rva": "0x246412c",
+   "signature": "public bool IsLeagueRowChangeAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.LeagueManager.ValidateBundles"
+   ],
+   "ids": [],
+   "idNames": {},
+   "kind": "hardcoded-false",
+   "value": 0
+  },
+  {
+   "method": "GetSeasonalCardCollectionImprovementAb",
+   "rva": "0x2464134",
+   "signature": "public int GetSeasonalCardCollectionImprovementAb()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.ProbabilityDisclosure.ProbabilityDisclosureDialog.OnLearnMoreInfoClick"
+   ],
+   "ids": [
+    148,
+    149
+   ],
+   "idNames": {
+    "148": "SeasonalCardCollectionImprovementNewUserAbId",
+    "149": "SeasonalCardCollectionImprovementOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "148": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "149": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "GetMultiplierTokenAb",
+   "rva": "0x2464164",
+   "signature": "public int GetMultiplierTokenAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MultiplierTokenManager.SetAbValues"
+   ],
+   "ids": [
+    151,
+    150
+   ],
+   "idNames": {
+    "151": "MultiplierTokentOldUserAbId",
+    "150": "MultiplierTokentNewUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "151": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "150": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "GetMultiplierTokenV2Ab",
+   "rva": "0x246418c",
+   "signature": "public int GetMultiplierTokenV2Ab()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MultiplierTokenManager.SetAbValues"
+   ],
+   "ids": [
+    161,
+    160
+   ],
+   "idNames": {
+    "161": "MultiplierTokenV2OldUserAbId",
+    "160": "MultiplierTokenV2NewUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "161": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "160": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsShopRedesignEnabled",
+   "rva": "0x24641b4",
+   "signature": "public bool IsShopRedesignEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Services.Native.Purchase.PurchaseManager.SetShopRedesignEnabled"
+   ],
+   "ids": [
+    166,
+    167
+   ],
+   "idNames": {
+    "166": "ShopRedesignNewUserAbId",
+    "167": "ShopRedesignOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "166": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "167": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "166": [
+     2
+    ],
+    "167": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsEarlyKingNightmareAbEnabled",
+   "rva": "0x24641f0",
+   "signature": "public bool IsEarlyKingNightmareAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.KingNightmareManager.OnNightmareLevelWin",
+    "Player.Context.Units.KingNightmareManager.TryUpdateConfigForEarlyNightmareAb",
+    "Scenes.Game.Levels.Units.LevelTutorials.LevelTutorialManager.CreateTutorialForLevel",
+    "Scenes.Home.Ui.Dialogs.Area.AreaDialog.PrepareDialogTaskListWithAnimation"
+   ],
+   "ids": [
+    215,
+    230
+   ],
+   "idNames": {
+    "215": "EarlyKingsNightmareNewUserAbId",
+    "230": "TableGameAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "215": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "230": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "215": [
+     2
+    ],
+    "230": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsTableGameAbEnabled",
+   "rva": "0x246422c",
+   "signature": "public bool IsTableGameAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.KingNightmareManager.TryUpdateConfigForEarlyNightmareAb",
+    "Player.Context.Units.KingWorkshopManager.RefreshTableGameEnabled"
+   ],
+   "ids": [
+    230
+   ],
+   "idNames": {
+    "230": "TableGameAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "230": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "230": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "GetTableGameAb",
+   "rva": "0x2464248",
+   "signature": "public int GetTableGameAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.KingWorkshopManager.TryAssignTableGameCampaign",
+    "Player.Context.Units.KingWorkshopManager.TryGetPendingCampaignAb"
+   ],
+   "ids": [
+    230
+   ],
+   "idNames": {
+    "230": "TableGameAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "230": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsNotificationReductionEnabled",
+   "rva": "0x2464250",
+   "signature": "public bool IsNotificationReductionEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.AncientAdventureManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.ArcheryArenaManager.UpdateInfo",
+    "Player.Context.Units.ArcheryArenaManager.get_ShowIconRedNotification",
+    "Player.Context.Units.BalloonRiseManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.CoinShopManager.ShowNewEventNotification",
+    "Player.Context.Units.DailyLightningRushManager.StartDialogOpened",
+    "Player.Context.Units.LadderOfferManager.HasActiveShopCardNotification",
+    "Player.Context.Units.LavaQuestManager.get_ShowIconNotification",
+    "Player.Context.Units.MagicCauldronManager.DialogOpened",
+    "Player.Context.Units.MagicCauldronManager.TryEnterEvent",
+    "Player.Context.Units.MagicCauldronManager.get_ShowIconNotification",
+    "Player.Context.Units.MergeSmithManager.ShouldShowIconNotification",
+    "Player.Context.Units.MissionControlManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.MissionPursuitManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.OceanOdysseyManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.PropellerRushManager.StartDialogOpened",
+    "Player.Context.Units.PuzzleBreakManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.ShortExpeditionEventManager.ShouldShowIconNotification",
+    "Player.Context.Units.SkyRaceManager.FillFromLocal",
+    "Player.Context.Units.SkyRaceManager.TryAddStartDialog",
+    "Player.Context.Units.SkyRaceManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.SpaceMissionManager.get_ShouldShowIconNotification",
+    "Player.Context.Units.TeamBattleManager.SetNotificationActive",
+    "Player.Context.Units.TeamBattleManager.TryAddStartDialog",
+    "Player.Context.Units.TeamTreasureManager.TeamTreasureLocalData.get_ShouldShowIconNotification",
+    "Player.Context.Units.TeamTreasureManager.get_ShouldShowIconNotification",
+    "Scenes.Home.Ui.Dialogs.ArcheryArena.Scripts.ArcheryArenaUIDataHelper.StartDialogOpened",
+    "Scenes.Home.Ui.Dialogs.Area.ShowAreaDialogAction.Execute",
+    "Scenes.Home.Ui.Dialogs.BalloonRise.BalloonRiseData.EnterEvent",
+    "Scenes.Home.Ui.Dialogs.BalloonRise.BalloonRiseData.ResetAndSaveData",
+    "Scenes.Home.Ui.Dialogs.ClashOfChampions.Scripts.ClashOfChampionsUIDataHelper.get_ShouldShowIconNotification",
+    "Scenes.Home.Ui.Dialogs.DailyLightningRush.Scripts.DailyLightningRushStepPrelevelPanel.JoinButtonClick",
+    "Scenes.Home.Ui.Dialogs.DailyLightningRush.Scripts.DailyLightningRushUiDataHelper.get_ShouldShowIconNotification",
+    "Scenes.Home.Ui.Dialogs.DragonNest.Scripts.DragonNestIcon.SetAvatarInfo",
+    "Scenes.Home.Ui.Dialogs.DragonNest.Scripts.DragonNestIcon.UpdateNotification",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleData.ResetLocalDataForNewEvent",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleDialog.Init",
+    "Scenes.Home.Ui.Dialogs.HiddenTemple.HiddenTempleIcon.SetNotificationState",
+    "Scenes.Home.Ui.Dialogs.JourneyOffer.Scripts.JourneyOfferIcon.UpdateNotification",
+    "Scenes.Home.Ui.Dialogs.KingsCup.KingsCupIcon.SetNotificationState",
+    "Scenes.Home.Ui.Dialogs.LadderOffer.LadderOfferIcon.SetNotificationState",
+    "Scenes.Home.Ui.Dialogs.MagicCauldron.MagicCauldronIcon.OnClick",
+    "Scenes.Home.Ui.Dialogs.MagicCauldron.MagicCauldronIcon.UpdateNotification",
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.Views.DynamicOfferIcon.UpdateIcon",
+    "Scenes.Home.Ui.Dialogs.PinataParty.PinataPartyIcon.SetNotificationState",
+    "Scenes.Home.Ui.Dialogs.PropellerRush.Scripts.PropellerRushPrelevelPanel.JoinButtonClick",
+    "Scenes.Home.Ui.Dialogs.PropellerRush.Scripts.PropellerRushPrelevelPanel.PreparePanel",
+    "Scenes.Home.Ui.Dialogs.PropellerRush.Scripts.PropellerRushUiDataHelper.get_ShouldShowIconNotification",
+    "Scenes.Home.Ui.Dialogs.RobotRivals.Scripts.RobotRivalsUIDataHelper.ShouldIconShowRedNotification",
+    "Scenes.Home.Ui.Dialogs.TeamTournament.Scripts.TeamTournamentIcon.get_ShouldSetRedNotification",
+    "Scenes.Home.Ui.Dialogs.TrainJourney.Scripts.TrainJourneyIcon.SetIconState",
+    "Scenes.Home.Ui.Dialogs.TrainJourney.Scripts.TrainJourneyIcon.UpdateCardView",
+    "Scenes.Home.Ui.Sections.Home.Buttons.LeagueInfoButton.Activate",
+    "Scenes.Home.Ui.Sections.Home.Buttons.LeagueInfoButton.InitNotification",
+    "Scenes.Home.Ui.Sections.Home.HomeSection.ActivateTaskButton",
+    "Scenes.Home.Ui.Sections.Home.HomeSection.ArrangeTasksButtonAnimation",
+    "Scenes.Home.Ui.Sections.Home.InventoryPanel.LifeInfoView.ArrangeInboxBadge",
+    "Scenes.Home.Ui.Sections.Home.InventoryPanel.LifeInfoView.Awake",
+    "Scenes.Home.Ui.Sections.Home.InventoryPanel.LifeInfoView.CalculateLivesAndTimerToShow",
+    "Scenes.Home.Ui.Sections.Leaderboard.LeaderboardTabNotification.ShowRedNotification",
+    "Scenes.Home.Ui.Sections.Leaderboard.LeaderboardTabNotification.ShowRedNotificationWithAnimation",
+    "Scenes.Home.Ui.Sections.Social.Chat.ChatScrollContent.AddDragonNestTeamInviteMessage",
+    "Scenes.Home.Ui.Sections.Social.Chat.ChatScrollContent.AddTrainJourneyTeamInviteRequestMessage"
+   ],
+   "ids": [
+    177,
+    178
+   ],
+   "idNames": {
+    "177": "NotificationReductionNewUserAbId",
+    "178": "NotificationReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "177": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "178": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "177": [
+     2
+    ],
+    "178": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsPrivacySettingsKoreaEnabled",
+   "rva": "0x246428c",
+   "signature": "public bool IsPrivacySettingsKoreaEnabled()",
+   "calls": [],
+   "callers": [
+    "Infrastructure.Contexts.Units.App.ApplicationPrivacyManager.TryShowPrivacyKoreaDialog"
+   ],
+   "ids": [
+    175,
+    176
+   ],
+   "idNames": {
+    "175": "PrivacySettingsKoreaNewUserAbId",
+    "176": "PrivacySettingsKoreaOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "175": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "176": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "175": [
+     2
+    ],
+    "176": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentEnabled",
+   "rva": "0x24642c8",
+   "signature": "public bool IsExternalPaymentEnabled()",
+   "calls": [
+    "IsExternalPaymentV1Enabled",
+    "IsExternalPaymentV2Enabled"
+   ],
+   "callers": [
+    "Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager.OnUserChanged",
+    "Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager.TryInitialize",
+    "Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager.get_XsollaPaymentReadyAndAvailable"
+   ],
+   "ids": [
+    181,
+    182,
+    222,
+    223
+   ],
+   "idNames": {
+    "181": "ExternalPaymentNewUserAbId",
+    "182": "ExternalPaymentOldUserAbId",
+    "222": "ExternalPaymentV2NewUserAbId",
+    "223": "ExternalPaymentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "181": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "182": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "222": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "223": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "181": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "182": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "222": [
+     2,
+     3
+    ],
+    "223": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentV1Enabled",
+   "rva": "0x24642f0",
+   "signature": "private bool IsExternalPaymentV1Enabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsExternalPaymentEnabled"
+   ],
+   "ids": [
+    181,
+    182
+   ],
+   "idNames": {
+    "181": "ExternalPaymentNewUserAbId",
+    "182": "ExternalPaymentOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "181": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "182": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "181": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "182": [
+     2,
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentV2Enabled",
+   "rva": "0x24643a4",
+   "signature": "private bool IsExternalPaymentV2Enabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Data.Persistent.AbTestHelper.IsExternalPaymentEnabled"
+   ],
+   "ids": [
+    222,
+    223
+   ],
+   "idNames": {
+    "222": "ExternalPaymentV2NewUserAbId",
+    "223": "ExternalPaymentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "222": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "223": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "222": [
+     2,
+     3
+    ],
+    "223": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentLessCoinBonusEnabled",
+   "rva": "0x2464408",
+   "signature": "public bool IsExternalPaymentLessCoinBonusEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetBonusAmount",
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetPaymentCoinBonus"
+   ],
+   "ids": [
+    181,
+    182
+   ],
+   "idNames": {
+    "181": "ExternalPaymentNewUserAbId",
+    "182": "ExternalPaymentOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "181": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "182": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "181": [
+     2,
+     4
+    ],
+    "182": [
+     2,
+     4
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentSimpleDialogEnabled",
+   "rva": "0x246446c",
+   "signature": "public bool IsExternalPaymentSimpleDialogEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Sections.Shop.ShowPaymentSelectionDialogAction.Execute"
+   ],
+   "ids": [
+    181,
+    182
+   ],
+   "idNames": {
+    "181": "ExternalPaymentNewUserAbId",
+    "182": "ExternalPaymentOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "181": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "182": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "181": [
+     4,
+     5
+    ],
+    "182": [
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsExternalPaymentV2DefaultBonusEnabled",
+   "rva": "0x24644d0",
+   "signature": "public bool IsExternalPaymentV2DefaultBonusEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetBonusAmount",
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetPaymentCoinBonus",
+    "Scenes.Home.Ui.Sections.Shop.ShowPaymentSelectionDialogAction.Execute"
+   ],
+   "ids": [
+    222,
+    223
+   ],
+   "idNames": {
+    "222": "ExternalPaymentV2NewUserAbId",
+    "223": "ExternalPaymentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "222": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "223": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "222": [
+     2
+    ],
+    "223": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "GetExternalPaymentAbGroup",
+   "rva": "0x246450c",
+   "signature": "private AbTestUserGroup GetExternalPaymentAbGroup()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    181,
+    182
+   ],
+   "idNames": {
+    "181": "ExternalPaymentNewUserAbId",
+    "182": "ExternalPaymentOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "181": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "182": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "GetExternalPaymentV2AbGroup",
+   "rva": "0x246453c",
+   "signature": "private AbTestUserGroup GetExternalPaymentV2AbGroup()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    222,
+    223
+   ],
+   "idNames": {
+    "222": "ExternalPaymentV2NewUserAbId",
+    "223": "ExternalPaymentV2OldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "222": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "223": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsExternalPaymentV2BonusEnabled",
+   "rva": "0x246456c",
+   "signature": "public bool IsExternalPaymentV2BonusEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.ExternalPaymentFirstPurchaseBonusHelper.get_ShouldPlayTutorial",
+    "Scenes.Home.Ui.Sections.Shop.FirstPurchaseBonus.FirstPurchaseBonusHelper.IsFirstPurchaseBonusEnabled",
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetBonusAmount",
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.GetPaymentCoinBonus",
+    "Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig.SetCoinBonusEnabled"
+   ],
+   "ids": [
+    222,
+    223
+   ],
+   "idNames": {
+    "222": "ExternalPaymentV2NewUserAbId",
+    "223": "ExternalPaymentV2OldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "222": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "223": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "222": [
+     3
+    ],
+    "223": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsBoosterRewardReductionEnabled",
+   "rva": "0x24645a8",
+   "signature": "public bool IsBoosterRewardReductionEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.TeamBattleManager.CacheBoosterRewardReductionAb",
+    "Player.Context.Units.WeeklyLeaderboardManager.IsThereRewardReductionAb",
+    "Scenes.Home.Context.Units.Area.AreaManager.GetAreaChestRewards",
+    "Scenes.Home.Ui.Dialogs.EpisodeChest.EpisodeChestRewards.PrepareBoosterReductionAbArrangement"
+   ],
+   "ids": [
+    183,
+    184
+   ],
+   "idNames": {
+    "183": "BoosterRewardReductionNewUserAbId",
+    "184": "BoosterRewardReductionOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "183": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "184": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "183": [
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "184": [
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   }
+  },
+  {
+   "method": "GetBoosterRewardReductionAb",
+   "rva": "0x2464684",
+   "signature": "public int GetBoosterRewardReductionAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.KingsCupManager.CacheBoosterRewardReductionAb",
+    "Scenes.Home.Context.Units.Area.AreaManager.GetAreaChestRewards",
+    "Scenes.Home.Ui.Dialogs.EpisodeChest.EpisodeChestRewards.PrepareBoosterReductionAbArrangement"
+   ],
+   "ids": [
+    183,
+    184
+   ],
+   "idNames": {
+    "183": "BoosterRewardReductionNewUserAbId",
+    "184": "BoosterRewardReductionOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "183": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "184": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsWeeklyPassEnabled",
+   "rva": "0x24646b4",
+   "signature": "public bool IsWeeklyPassEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.RoyalPassManager.IsEventReadyToLock",
+    "Player.Context.Units.WeeklyPassManager.IsEventReadyToLock"
+   ],
+   "ids": [
+    187,
+    188
+   ],
+   "idNames": {
+    "187": "WeeklyPassNewUserAbId",
+    "188": "WeeklyPassOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "187": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "188": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "187": [
+     3,
+     4,
+     5
+    ],
+    "188": [
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsWeeklyPassMorePricingEnabled",
+   "rva": "0x2464740",
+   "signature": "public bool IsWeeklyPassMorePricingEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy.GetWeeklyPassConfig"
+   ],
+   "ids": [
+    187,
+    188
+   ],
+   "idNames": {
+    "187": "WeeklyPassNewUserAbId",
+    "188": "WeeklyPassOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "187": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "188": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "187": [
+     5
+    ],
+    "188": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsSuperchargeOfferAbEnabled",
+   "rva": "0x246477c",
+   "signature": "public bool IsSuperchargeOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperBoosterManager.IsSuperchargeOfferAbEnabled"
+   ],
+   "ids": [
+    193,
+    194
+   ],
+   "idNames": {
+    "193": "SuperchargeOfferNewUserAbId",
+    "194": "SuperchargeOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "193": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "194": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "193": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "194": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ]
+   }
+  },
+  {
+   "method": "IsSuperchargeOfferNoPopupAbEnabled",
+   "rva": "0x2464880",
+   "signature": "public bool IsSuperchargeOfferNoPopupAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperBoosterManager.IsSuperchargeOfferNoPopupAbEnabled"
+   ],
+   "ids": [
+    193,
+    194
+   ],
+   "idNames": {
+    "193": "SuperchargeOfferNewUserAbId",
+    "194": "SuperchargeOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "193": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "194": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "193": [
+     4
+    ],
+    "194": [
+     4
+    ]
+   }
+  },
+  {
+   "method": "GetSuperchargeOfferAbGroup",
+   "rva": "0x24648bc",
+   "signature": "public int GetSuperchargeOfferAbGroup()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperBoosterManager.GetAbCoinPrice"
+   ],
+   "ids": [
+    193,
+    194
+   ],
+   "idNames": {
+    "193": "SuperchargeOfferNewUserAbId",
+    "194": "SuperchargeOfferOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "193": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "194": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsExtremelyHardLevelOfferAbEnabled",
+   "rva": "0x24648ec",
+   "signature": "public bool IsExtremelyHardLevelOfferAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper.get_CanShowExtremelyHardLevelOffer"
+   ],
+   "ids": [
+    195,
+    196
+   ],
+   "idNames": {
+    "195": "ExtremelyHardLevelOfferNewUserAbId",
+    "196": "ExtremelyHardLevelOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "195": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "196": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "195": [
+     2,
+     3
+    ],
+    "196": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsExtremelyHardLevelOfferBiLevelAbEnabled",
+   "rva": "0x2464950",
+   "signature": "public bool IsExtremelyHardLevelOfferBiLevelAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper.FinishPurchase",
+    "Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper.MarkShownAtHomeScene",
+    "Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper.ShouldShowAtFail",
+    "Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper.TryConsumeBiLevelSkip"
+   ],
+   "ids": [
+    195,
+    196
+   ],
+   "idNames": {
+    "195": "ExtremelyHardLevelOfferNewUserAbId",
+    "196": "ExtremelyHardLevelOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "195": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "196": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "195": [
+     3
+    ],
+    "196": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "GetLimitedInGameAdsAbGroup",
+   "rva": "0x246498c",
+   "signature": "public AbTestUserGroup GetLimitedInGameAdsAbGroup()",
+   "calls": [],
+   "callers": [
+    "Scenes.Start.Context.Units.Ads.AdManager.GetInGameAdsAbGroup"
+   ],
+   "ids": [
+    205,
+    206
+   ],
+   "idNames": {
+    "205": "LimitedInGameAdsNewUserAbId",
+    "206": "LimitedInGameAdsOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "205": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "206": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled",
+   "rva": "0x24649bc",
+   "signature": "public bool IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DynamicOfferManager.CreateActiveOffer",
+    "Player.Context.Units.DynamicOfferManager.LoadOffersFromTable",
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.MultiplePurchaseDynamicOffer.get_MaxPurchaseCount"
+   ],
+   "ids": [
+    199,
+    200
+   ],
+   "idNames": {
+    "199": "MultiplePurchaseDynamicOfferNewUserAbId",
+    "200": "MultiplePurchaseDynamicOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "199": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "200": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 1,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "199": [
+     4
+    ],
+    "200": [
+     4
+    ]
+   }
+  },
+  {
+   "method": "IsMultiplePurchaseEnabled",
+   "rva": "0x24649f8",
+   "signature": "public bool IsMultiplePurchaseEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DynamicOfferManager.CreateActiveOffer",
+    "Player.Context.Units.DynamicOfferManager.LoadOffersFromTable"
+   ],
+   "ids": [
+    199,
+    200
+   ],
+   "idNames": {
+    "199": "MultiplePurchaseDynamicOfferNewUserAbId",
+    "200": "MultiplePurchaseDynamicOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "199": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "200": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 1,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "199": [
+     5
+    ],
+    "200": [
+     5
+    ]
+   }
+  },
+  {
+   "method": "IsLowDiscountEnabledAsAlternative",
+   "rva": "0x2464a34",
+   "signature": "public bool IsLowDiscountEnabledAsAlternative()",
+   "calls": [],
+   "callers": [
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.DynamicOffer.GetPrefabSelector",
+    "Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.DynamicOffer.GetSegmentConfig"
+   ],
+   "ids": [
+    199,
+    200
+   ],
+   "idNames": {
+    "199": "MultiplePurchaseDynamicOfferNewUserAbId",
+    "200": "MultiplePurchaseDynamicOfferOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "199": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "200": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 1,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "199": [
+     3
+    ],
+    "200": [
+     3
+    ]
+   }
+  },
+  {
+   "method": "IsNewUserEventFlowChangePartiallyLockEnabled",
+   "rva": "0x2464a70",
+   "signature": "public bool IsNewUserEventFlowChangePartiallyLockEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.EventLockManager.UpdateAbGroups"
+   ],
+   "ids": [
+    201
+   ],
+   "idNames": {
+    "201": "NewUserEventFlowChangeAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "201": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "201": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "GetSlbLevelChangeAbGroup",
+   "rva": "0x2464a8c",
+   "signature": "public int GetSlbLevelChangeAbGroup()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.SuperBoosterManager.SetAbValues"
+   ],
+   "ids": [
+    226,
+    227,
+    203,
+    204
+   ],
+   "idNames": {
+    "226": "SuperLightballLevelChangeV2NewUserAbId",
+    "227": "SuperLightballLevelChangeV2OldUserAbId",
+    "203": "SuperLightballLevelChangeNewUserAbId",
+    "204": "SuperLightballLevelChangeOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "226": {
+     "0": 0,
+     "1": 1,
+     "2": 6,
+     "3": 7,
+     "4": 8,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "227": {
+     "0": 0,
+     "1": 1,
+     "2": 6,
+     "3": 7,
+     "4": 8,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "203": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "204": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsLadderOfferShopCardEnabled",
+   "rva": "0x2464b18",
+   "signature": "public bool IsLadderOfferShopCardEnabled()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.LadderOfferManager.get_ShouldShowShopCard"
+   ],
+   "ids": [
+    207,
+    208
+   ],
+   "idNames": {
+    "207": "LadderOfferShopCardNewUserAbId",
+    "208": "LadderOfferShopCardOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "207": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "208": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "207": [
+     2
+    ],
+    "208": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "GetMultiplierSelectionAb",
+   "rva": "0x2464b54",
+   "signature": "public int GetMultiplierSelectionAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.MultiplierSelectionManager.InitMultiplierSelection"
+   ],
+   "ids": [
+    213,
+    214
+   ],
+   "idNames": {
+    "213": "MultiplierLevelTypeNewUserAbId",
+    "214": "MultiplierLevelTypeOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "213": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "214": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsTeamBattleRewardScoreThresholdEnabled",
+   "rva": "0x2464b84",
+   "signature": "public bool IsTeamBattleRewardScoreThresholdEnabled()",
+   "calls": [],
+   "callers": [],
+   "ids": [
+    216,
+    217
+   ],
+   "idNames": {
+    "216": "TeamBattleContributionLimitNewUserAbId",
+    "217": "TeamBattleContributionLimitOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "216": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "217": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "216": [
+     2
+    ],
+    "217": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "GetShortExpeditionEventAb",
+   "rva": "0x2464bc0",
+   "signature": "public int GetShortExpeditionEventAb()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.ShortExpeditionEventManager.TryEnterEvent"
+   ],
+   "ids": [
+    218,
+    219
+   ],
+   "idNames": {
+    "218": "ShortExpeditionEventNewUserAbId",
+    "219": "ShortExpeditionEventOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "218": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "219": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  },
+  {
+   "method": "IsEgoRewardedFirstStepOnlyAbEnabled",
+   "rva": "0x2464bf0",
+   "signature": "public bool IsEgoRewardedFirstStepOnlyAbEnabled()",
+   "calls": [],
+   "callers": [
+    "Scenes.Game.Ui.Dialogs.LevelFail.EgoDialog.EnableRewardedAdButton"
+   ],
+   "ids": [
+    220,
+    221
+   ],
+   "idNames": {
+    "220": "EgoRewardedFirstStepOnlyNewUserAbId",
+    "221": "EgoRewardedFirstStepOnlyOldUserAbId"
+   },
+   "kind": "bool",
+   "byId": {
+    "220": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    },
+    "221": {
+     "0": 0,
+     "1": 0,
+     "2": 1,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 0,
+     "9": 0,
+     "10": 0
+    }
+   },
+   "trueWhen": {
+    "220": [
+     2
+    ],
+    "221": [
+     2
+    ]
+   }
+  },
+  {
+   "method": "GetDailyRewardsAbGroup",
+   "rva": "0x2464c2c",
+   "signature": "public AbTestUserGroup GetDailyRewardsAbGroup()",
+   "calls": [],
+   "callers": [
+    "Player.Context.Units.DailyRewardsManager.TryApplyServerConfig",
+    "Player.Context.Units.DailyRewardsManager.TryIncrementStreaks"
+   ],
+   "ids": [
+    228,
+    229
+   ],
+   "idNames": {
+    "228": "DailyRewardsNewUserAbId",
+    "229": "DailyRewardsOldUserAbId"
+   },
+   "kind": "value",
+   "byId": {
+    "228": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    },
+    "229": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 5,
+     "6": 6,
+     "7": 7,
+     "8": 8,
+     "9": 9,
+     "10": 10
+    }
+   }
+  }
+ ],
+ "directGetItemOutsideHelper": []
+}

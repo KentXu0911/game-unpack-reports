@@ -136,6 +136,59 @@ def rocket_demo():
             '横分12大于竖分8：选择横向火箭（30）。</output></div>')
 
 
+
+def ab_page():
+    """A/B page: prose from content/ab-tests.html, tables from the rules snapshot."""
+    themes = json.loads((ROOT / 'content/ab-test-themes.json').read_text())
+    rules = json.loads((ROOT / 'site/assets/evidence/ab-tests/rules.json').read_text())['rules']
+    by_id = {}
+    for theme in themes['themes']:
+        for gid in theme['ids']:
+            by_id[gid] = theme['theme']
+    stats = {t['theme']: {'functions': 0, 'calls': 0} for t in themes['themes']}
+    for rule in rules:
+        owners = {by_id[g] for g in rule.get('ids', []) if g in by_id}
+        primary = by_id.get(rule['ids'][0]) if rule.get('ids') else None
+        if primary:
+            stats[primary]['functions'] += 1
+            stats[primary]['calls'] += len([c for c in rule['callers'] if not c.startswith('Player.Context.Data.Persistent.AbTestHelper.')])
+    known = {g for r in rules for g in r.get('ids', [])}
+    for theme in themes['themes']:
+        assert theme['status'] == 'unread' or set(theme['ids']) & known, theme['theme']
+        assert theme['status'] != 'unread' or not set(theme['ids']) & known, theme['theme']
+    rows = []
+    for area in themes['areas']:
+        items = [t for t in themes['themes'] if t['area'] == area]
+        live = [t for t in items if t['status'] != 'unread']
+        rows.append(f'<tr><td>{e(area)}</td><td>{len(live)}</td>'
+                    f'<td>{sum(stats[t["theme"]]["functions"] for t in live)}</td>'
+                    f'<td>{sum(stats[t["theme"]]["calls"] for t in live)}</td>'
+                    f'<td>{e("、".join(t["zh"] for t in live[:6]) + ("等" if len(live) > 6 else ""))}</td></tr>')
+    summary = ('<div class="data-scroll" tabindex="0" role="region" aria-label="实验按系统分布"><table><thead><tr>'
+               '<th>系统</th><th>有分支的主题</th><th>判断函数</th><th>调用点</th><th>主要主题</th></tr></thead><tbody>'
+               + ''.join(rows) + '</tbody></table></div>')
+    status = {'bool': '开关／分支', 'value': '返回组值', 'unread': '客户端未读'}
+    parts = []
+    for area in themes['areas']:
+        items = [t for t in themes['themes'] if t['area'] == area]
+        body = ''.join(
+            f'<tr><td>{e(t["zh"])}<small>{e(t["theme"])}</small></td><td>{e("／".join(map(str, t["ids"])))}</td>'
+            f'<td>{e(status[t["status"]])}</td><td>{e(t["rule"])}</td><td>{e(t["uses"])}</td></tr>' for t in items)
+        parts.append(f'<h4>{e(area)}</h4><div class="data-scroll" tabindex="0" role="region" aria-label="{e(area)}实验明细">'
+                     '<table class="ab-themes"><thead><tr><th>主题</th><th>ID</th><th>类型</th><th>规则</th><th>用在哪里</th></tr></thead>'
+                     f'<tbody>{body}</tbody></table></div>')
+    hard = ('<div class="data-scroll" tabindex="0" role="region" aria-label="写死的判断函数"><table><thead><tr>'
+            '<th>判断函数</th><th>原来测什么</th><th>固定返回</th><th>仍在调用的地方</th></tr></thead><tbody>' +
+            ''.join(f'<tr><td><code>{e(h["method"])}</code></td><td>{e(h["zh"])}</td><td>{e(h["value"])}</td><td>{e(h["uses"])}</td></tr>'
+                    for h in themes['hardcoded']) + '</tbody></table></div>')
+    fixed = [r['method'] for r in rules if r['kind'].startswith('hardcoded')]
+    listed = sum(len(h['method'].split('／')) for h in themes['hardcoded'])
+    assert listed == len(fixed), (listed, len(fixed))
+    page = (ROOT / 'content/ab-tests.html').read_text()
+    return (page.replace('<!--AB_AREA_SUMMARY-->', summary)
+                .replace('<!--AB_THEME_TABLE-->', ''.join(parts))
+                .replace('<!--AB_HARDCODED_TABLE-->', hard))
+
 def extras(topic):
     key = topic['key']
     if key == 'passes':
@@ -159,7 +212,7 @@ def extras(topic):
                 (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>' +
                 (ROOT / 'content/booster-targeting-end.html').read_text() + '</div>')
     if key == 'experiments':
-        return (ROOT / 'content/ab-tests.html').read_text()
+        return ab_page()
     if key in ('shop-rules', 'user-tiers', 'payment', 'commerce-backend'):
         alias = '<span id="data-commercial-moments" class="legacy-anchor"></span>' if key == 'shop-rules' else ''
         return alias + (ROOT / f'content/commerce-{key}.html').read_text()

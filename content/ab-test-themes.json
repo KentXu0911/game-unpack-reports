@@ -1,0 +1,709 @@
+{
+ "areas": [
+  "局内与关卡",
+  "续关与失败",
+  "商品与价格",
+  "活动与赛事",
+  "奖励发放",
+  "支付与广告",
+  "隐私与合规",
+  "系统与通知"
+ ],
+ "themes": [
+  {
+   "theme": "SuperLightballLevelChange",
+   "ids": [
+    203,
+    204
+   ],
+   "area": "局内与关卡",
+   "zh": "超级光球关卡改动",
+   "uses": "SuperBoosterManager.SetAbValues：开局超级道具配置",
+   "rule": "返回组值，由道具管理器缓存；与V2共用一个读取函数",
+   "status": "value"
+  },
+  {
+   "theme": "SuperLightballLevelChangeV2",
+   "ids": [
+    226,
+    227
+   ],
+   "area": "局内与关卡",
+   "zh": "超级光球关卡改动V2",
+   "uses": "同上",
+   "rule": "V2有值时优先；V2的组2／3／4换算成6／7／8返回，其他组值原样返回；V2为0才读V1",
+   "status": "value"
+  },
+  {
+   "theme": "EarlyKingsNightmare",
+   "ids": [
+    215
+   ],
+   "area": "局内与关卡",
+   "zh": "提前开放国王噩梦关",
+   "uses": "LevelTutorialManager.CreateTutorialForLevel、KingNightmareManager、区域任务对话框",
+   "rule": "215＝2，或桌游实验230＝2，即开启",
+   "status": "bool"
+  },
+  {
+   "theme": "TableGameAbId",
+   "ids": [
+    230
+   ],
+   "area": "局内与关卡",
+   "zh": "国王工坊桌游",
+   "uses": "KingWorkshopManager：开关与分组；KingNightmareManager",
+   "rule": "230＝3开启桌游；230＝2同时开启提前噩梦关。唯一由客户端主动请求分组（AssignCampaignAB）的实验",
+   "status": "bool"
+  },
+  {
+   "theme": "PropellerRush3Step",
+   "ids": [
+    136,
+    137
+   ],
+   "area": "局内与关卡",
+   "zh": "飞机冲刺3档",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "EgoPriceChangeAb",
+   "ids": [
+    51,
+    52
+   ],
+   "area": "续关与失败",
+   "zh": "续关首档改价",
+   "uses": "EgoManager.GetMoveCount、EgoExtraMovesHelper.CalculateAdditionalMoves：续关给步数",
+   "rule": "组3／4／5给10步，其余5步；四个价格判断：组2＝990、3＝1200、4＝1500、5＝1900金币（按函数名，价格消费方未直接找到）",
+   "status": "bool"
+  },
+  {
+   "theme": "EgoRewardedFirstStepOnly",
+   "ids": [
+    220,
+    221
+   ],
+   "area": "续关与失败",
+   "zh": "续关激励广告只限首档",
+   "uses": "EgoDialog.EnableRewardedAdButton",
+   "rule": "组2：激励广告按钮只在第一次续关出现",
+   "status": "bool"
+  },
+  {
+   "theme": "ExtremelyHardLevelOffer",
+   "ids": [
+    195,
+    196
+   ],
+   "area": "续关与失败",
+   "zh": "极难关礼包",
+   "uses": "ExtremelyHardLevelOfferHelper：能否展示、失败时展示、主页标记、购买后跳关",
+   "rule": "组2／3可展示；组3另开“双关跳过”版本",
+   "status": "bool"
+  },
+  {
+   "theme": "NoOffer",
+   "ids": [
+    105,
+    106
+   ],
+   "area": "商品与价格",
+   "zh": "无礼包组",
+   "uses": "DynamicOfferManager.UpdateInfo、TeamOfferManager图标、失败页礼包滑条、聊天消息",
+   "rule": "组2：隐藏动态礼包、团队礼包与失败页礼包",
+   "status": "bool"
+  },
+  {
+   "theme": "OffersHomeSceneIconHide",
+   "ids": [
+    91,
+    92
+   ],
+   "area": "商品与价格",
+   "zh": "主页礼包图标隐藏",
+   "uses": "各礼包管理器的开局弹窗与深链、主页图标、推送",
+   "rule": "组2／3隐藏主页礼包图标与开局弹窗；组3保留阶梯礼包",
+   "status": "bool"
+  },
+  {
+   "theme": "MultiplePurchaseDynamicOffer",
+   "ids": [
+    199,
+    200
+   ],
+   "area": "商品与价格",
+   "zh": "动态礼包多次购买",
+   "uses": "DynamicOfferManager建礼包与读表、DynamicOffer取配置与预制件",
+   "rule": "组3：低折扣替代；组4：可用性覆盖；组5：允许多次购买",
+   "status": "bool"
+  },
+  {
+   "theme": "LadderOfferShopCard",
+   "ids": [
+    207,
+    208
+   ],
+   "area": "商品与价格",
+   "zh": "阶梯礼包进商店卡",
+   "uses": "LadderOfferManager.ShouldShowShopCard",
+   "rule": "组2：商店显示阶梯礼包卡",
+   "status": "bool"
+  },
+  {
+   "theme": "ShopRedesign",
+   "ids": [
+    166,
+    167
+   ],
+   "area": "商品与价格",
+   "zh": "商店改版",
+   "uses": "PurchaseManager.SetShopRedesignEnabled",
+   "rule": "组2：启用改版商店",
+   "status": "bool"
+  },
+  {
+   "theme": "WeeklyPass",
+   "ids": [
+    187,
+    188
+   ],
+   "area": "商品与价格",
+   "zh": "周通行证",
+   "uses": "WeeklyPass／RoyalPass管理器的锁定判断；APricingStrategy.GetWeeklyPassConfig",
+   "rule": "组3／4／5开启周通行证；组5另用更高定价配置",
+   "status": "bool"
+  },
+  {
+   "theme": "RoyalPassNextStage",
+   "ids": [
+    134,
+    135
+   ],
+   "area": "商品与价格",
+   "zh": "皇家通行证第二阶段降价",
+   "uses": "APricingStrategy.GetStagedRoyalPassStage2Config",
+   "rule": "组2：第二阶段用低价配置",
+   "status": "bool"
+  },
+  {
+   "theme": "SuperchargeOffer",
+   "ids": [
+    193,
+    194
+   ],
+   "area": "商品与价格",
+   "zh": "超级充能礼包",
+   "uses": "SuperBoosterManager：开关、弹窗、金币价",
+   "rule": "组2–7开启；组4不弹窗；组值另传给金币定价（1500／1900／2900等分支）",
+   "status": "bool"
+  },
+  {
+   "theme": "MergeSmith",
+   "ids": [
+    189,
+    190
+   ],
+   "area": "商品与价格",
+   "zh": "Merge Smith活动与付费",
+   "uses": "MergeSmithManager.TryEnterEvent：进活动时把组值存进活动进度；MergeSmithOfferModel读取缓存",
+   "rule": "组2–7开启活动；缓存组4／5／6有礼包，4低价，6可用金币买",
+   "status": "bool"
+  },
+  {
+   "theme": "ButlersGiftMultiplierRewardV2",
+   "ids": [
+    79,
+    80
+   ],
+   "area": "商品与价格",
+   "zh": "倍数奖励与倍数礼包",
+   "uses": "10余个活动的倍数步骤、EventRewardOverrider；DynamicOfferEventHelper；续关弹窗与礼包列表",
+   "rule": "组2：活动倍数奖励（奖励缩减实验128／129＝5也算）；组3：倍数动态礼包；组4：倍数组合礼包",
+   "status": "bool"
+  },
+  {
+   "theme": "MultiplierTokent",
+   "ids": [
+    150,
+    151
+   ],
+   "area": "商品与价格",
+   "zh": "倍数代币",
+   "uses": "MultiplierTokenManager.SetAbValues",
+   "rule": "返回组值，由代币管理器缓存",
+   "status": "value"
+  },
+  {
+   "theme": "MultiplierTokenV2",
+   "ids": [
+    160,
+    161
+   ],
+   "area": "商品与价格",
+   "zh": "倍数代币V2",
+   "uses": "同上",
+   "rule": "返回组值",
+   "status": "value"
+  },
+  {
+   "theme": "MultiplierLevelType",
+   "ids": [
+    213,
+    214
+   ],
+   "area": "商品与价格",
+   "zh": "倍数选择关型",
+   "uses": "MultiplierSelectionManager.InitMultiplierSelection",
+   "rule": "返回组值，由倍数选择缓存（另影响超级充能定价）",
+   "status": "value"
+  },
+  {
+   "theme": "RewardReduction",
+   "ids": [
+    128,
+    129
+   ],
+   "area": "奖励发放",
+   "zh": "奖励缩减",
+   "uses": "关末金币（RemainingMovesManager、失败页、关前页、倍数标签）；周排行榜；龙巢、赛季卡册进场",
+   "rule": "组2–5：周榜缩减；组2／4／5：关末金币缩减；组5：倍数奖励缩减（经倍数奖励判断生效）；组3／4／5：活动奖励缩减（本版本无直接调用方）",
+   "status": "bool"
+  },
+  {
+   "theme": "BoosterRewardReduction",
+   "ids": [
+    183,
+    184
+   ],
+   "area": "奖励发放",
+   "zh": "道具奖励缩减",
+   "uses": "区域宝箱、章节宝箱、团队战、周榜、国王杯",
+   "rule": "组2–6开启；组值另传给宝箱与国王杯做分档",
+   "status": "bool"
+  },
+  {
+   "theme": "NextEventCollectible",
+   "ids": [
+    224,
+    225
+   ],
+   "area": "奖励发放",
+   "zh": "剩余收集物转换",
+   "uses": "RemainingCollectablesConversionManager、隐藏神庙镐子数、皮纳塔关数据",
+   "rule": "组2：活动结束后剩余收集物转换",
+   "status": "bool"
+  },
+  {
+   "theme": "DailyRewards",
+   "ids": [
+    228,
+    229
+   ],
+   "area": "奖励发放",
+   "zh": "每日奖励",
+   "uses": "DailyRewardsManager：服务器配置与连签",
+   "rule": "返回组值",
+   "status": "value"
+  },
+  {
+   "theme": "CardCollectionRewardsFix",
+   "ids": [
+    99,
+    100
+   ],
+   "area": "奖励发放",
+   "zh": "卡册奖励修正",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "SeasonalCardCollectionImprovement",
+   "ids": [
+    148,
+    149
+   ],
+   "area": "活动与赛事",
+   "zh": "赛季卡册改进",
+   "uses": "ProbabilityDisclosureDialog（概率说明）",
+   "rule": "返回组值",
+   "status": "value"
+  },
+  {
+   "theme": "AncientAdventure",
+   "ids": [
+    146,
+    147
+   ],
+   "area": "活动与赛事",
+   "zh": "远古冒险",
+   "uses": "AncientAdventureManager.TryEnterEvent",
+   "rule": "组2／3：单阶段版本；组3／5：劫宝玩法",
+   "status": "bool"
+  },
+  {
+   "theme": "AncientAdventureV2",
+   "ids": [
+    152,
+    153
+   ],
+   "area": "活动与赛事",
+   "zh": "远古冒险V2",
+   "uses": "同上",
+   "rule": "组2／3：劫宝玩法",
+   "status": "bool"
+  },
+  {
+   "theme": "RushEventsReplayable",
+   "ids": [
+    191,
+    192
+   ],
+   "area": "活动与赛事",
+   "zh": "冲刺活动可重玩",
+   "uses": "每日闪电冲刺、飞机冲刺",
+   "rule": "组2：可重复参加",
+   "status": "bool"
+  },
+  {
+   "theme": "RobotRivals",
+   "ids": [
+    158,
+    159
+   ],
+   "area": "活动与赛事",
+   "zh": "机器人对手",
+   "uses": "RobotRivalsManager.CanSeeEvent；天空竞速奖励",
+   "rule": "组2–4开启；组3同时让天空竞速／太空任务走低奖励",
+   "status": "bool"
+  },
+  {
+   "theme": "DailySkyRaceSpaceMission",
+   "ids": [
+    164,
+    165
+   ],
+   "area": "活动与赛事",
+   "zh": "每日天空竞速／太空任务",
+   "uses": "SkyRace、SpaceMission各管理器与弹窗",
+   "rule": "组3：每日版本；组2／3：低奖励",
+   "status": "bool"
+  },
+  {
+   "theme": "ClashOfChampions",
+   "ids": [
+    179,
+    180
+   ],
+   "area": "活动与赛事",
+   "zh": "冠军对决",
+   "uses": "ClashOfChampionsManager",
+   "rule": "组2／3可重玩；组3重玩低奖励",
+   "status": "bool"
+  },
+  {
+   "theme": "ShortExpeditionEvent",
+   "ids": [
+    218,
+    219
+   ],
+   "area": "活动与赛事",
+   "zh": "短期远征",
+   "uses": "ShortExpeditionEventManager.TryEnterEvent",
+   "rule": "返回组值，进活动时使用",
+   "status": "value"
+  },
+  {
+   "theme": "TeamBattleContributionLimit",
+   "ids": [
+    216,
+    217
+   ],
+   "area": "活动与赛事",
+   "zh": "团队战贡献上限",
+   "uses": "—（判断函数存在，无直接调用方）",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "NewUserEventFlowChangeAbId",
+   "ids": [
+    201
+   ],
+   "area": "活动与赛事",
+   "zh": "新用户活动解锁节奏",
+   "uses": "EventLockManager：活动最低解锁关；资源包重新排队",
+   "rule": "组2／3：改动解锁关；组2：部分锁定",
+   "status": "bool"
+  },
+  {
+   "theme": "ArcheryArena",
+   "ids": [
+    61,
+    62
+   ],
+   "area": "活动与赛事",
+   "zh": "射箭竞技场",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "NewLeague",
+   "ids": [
+    138,
+    139
+   ],
+   "area": "活动与赛事",
+   "zh": "新联赛",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数；IsNewRoyalLeagueAbEnabled写死返回true",
+   "status": "unread"
+  },
+  {
+   "theme": "NewLeagueV2",
+   "ids": [
+    140,
+    141
+   ],
+   "area": "活动与赛事",
+   "zh": "新联赛V2",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "KingsCupMatchmaking",
+   "ids": [
+    142,
+    143
+   ],
+   "area": "活动与赛事",
+   "zh": "国王杯匹配",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "TeamBattleMatchmaking",
+   "ids": [
+    144,
+    145
+   ],
+   "area": "活动与赛事",
+   "zh": "团队战匹配",
+   "uses": "—",
+   "rule": "本版本没有读取这两个ID的判断函数",
+   "status": "unread"
+  },
+  {
+   "theme": "ExternalPayment",
+   "ids": [
+    181,
+    182
+   ],
+   "area": "支付与广告",
+   "zh": "外部支付",
+   "uses": "Xsolla初始化与可用性；支付加赠配置；支付方式选择弹窗",
+   "rule": "组2–5开启；组2／4：加赠减少；组4／5：简化弹窗",
+   "status": "bool"
+  },
+  {
+   "theme": "ExternalPaymentV2",
+   "ids": [
+    222,
+    223
+   ],
+   "area": "支付与广告",
+   "zh": "外部支付V2",
+   "uses": "同上，另含首购加赠教学",
+   "rule": "组2／3开启；组2：默认加赠；组3：加赠与首购加赠",
+   "status": "bool"
+  },
+  {
+   "theme": "LimitedInGameAds",
+   "ids": [
+    205,
+    206
+   ],
+   "area": "支付与广告",
+   "zh": "局内广告限量",
+   "uses": "AdManager.GetInGameAdsAbGroup；数据更新时通知广告管理器",
+   "rule": "返回组值，由广告管理器解释",
+   "status": "value"
+  },
+  {
+   "theme": "AgePopup",
+   "ids": [
+    101,
+    102
+   ],
+   "area": "隐私与合规",
+   "zh": "年龄弹窗",
+   "uses": "ApplicationPrivacyManager.IsAgePopupEnabled",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "AgeConsentV2",
+   "ids": [
+    116,
+    117
+   ],
+   "area": "隐私与合规",
+   "zh": "年龄确认V2",
+   "uses": "年龄弹窗与输入方式",
+   "rule": "组2–5开启；输入方式：组3年份下拉、组4滑条、组5年龄段按钮",
+   "status": "bool"
+  },
+  {
+   "theme": "AgeConsentV3",
+   "ids": [
+    185,
+    186
+   ],
+   "area": "隐私与合规",
+   "zh": "年龄确认V3",
+   "uses": "年龄弹窗、输入校验、客服会话配置",
+   "rule": "组2／3开启；组3新限制",
+   "status": "bool"
+  },
+  {
+   "theme": "AgeConsentV4",
+   "ids": [
+    197,
+    198
+   ],
+   "area": "隐私与合规",
+   "zh": "年龄确认V4",
+   "uses": "同上，另含系统年龄段请求",
+   "rule": "组2／3开启；组3新限制",
+   "status": "bool"
+  },
+  {
+   "theme": "AgeConsentV5",
+   "ids": [
+    209,
+    210
+   ],
+   "area": "隐私与合规",
+   "zh": "年龄确认V5",
+   "uses": "同上",
+   "rule": "组2／3开启；组3新限制",
+   "status": "bool"
+  },
+  {
+   "theme": "DmaConsentRequest",
+   "ids": [
+    67,
+    68
+   ],
+   "area": "隐私与合规",
+   "zh": "欧盟DMA授权请求",
+   "uses": "—（判断函数存在，无直接调用方）",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "PrivacySettingsRedesign",
+   "ids": [
+    126,
+    127
+   ],
+   "area": "隐私与合规",
+   "zh": "隐私设置改版",
+   "uses": "设置页与隐私设置对话框布局",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "PrivacySettingsKorea",
+   "ids": [
+    175,
+    176
+   ],
+   "area": "隐私与合规",
+   "zh": "韩国隐私设置",
+   "uses": "ApplicationPrivacyManager.TryShowPrivacyKoreaDialog",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "AndroidProgressTransfer",
+   "ids": [
+    59,
+    60
+   ],
+   "area": "系统与通知",
+   "zh": "进度保存提醒",
+   "uses": "HomeSceneFlow关卡胜利后流程；SaveProgressReminderDialog",
+   "rule": "非安卓始终开启；安卓上组0／2／3／5开启，其中组0／3走另一版本，组1／4关闭",
+   "status": "bool"
+  },
+  {
+   "theme": "HomeSectionTouchLock",
+   "ids": [
+    85,
+    86
+   ],
+   "area": "系统与通知",
+   "zh": "活动弹窗锁定主页分区",
+   "uses": "AEventManager.ShouldAutoDialogLockHomeSection",
+   "rule": "组2开启",
+   "status": "bool"
+  },
+  {
+   "theme": "NotificationReduction",
+   "ids": [
+    177,
+    178
+   ],
+   "area": "系统与通知",
+   "zh": "红点通知减量",
+   "uses": "63个调用点：各活动、商店、礼包图标的红点",
+   "rule": "组2：减少红点",
+   "status": "bool"
+  }
+ ],
+ "hardcoded": [
+  {
+   "method": "IsPreselectedBoosterAbEnabled",
+   "zh": "关前道具默认勾选",
+   "value": "false",
+   "uses": "PrelevelBoosterButton"
+  },
+  {
+   "method": "IsSuperDukeAbEnabled／VisibleEnabled／NonVisibleEnabled／VisibleMinusMoveEnabled",
+   "zh": "超级公爵",
+   "value": "false",
+   "uses": "SuperDukeManager.SetAbValues"
+  },
+  {
+   "method": "IsOneMoveRemoveAbEnabled",
+   "zh": "超级公爵减一步",
+   "value": "false",
+   "uses": "SuperDukeManager.ShouldRemoveOneMove"
+  },
+  {
+   "method": "GetMagicDukeAb／IsMagicDukeEnabled／IsMagicDuke5Enabled／IsMagicDuke15Enabled",
+   "zh": "魔法公爵",
+   "value": "0／false",
+   "uses": "MagicDukeManager、ChargerManager"
+  },
+  {
+   "method": "IsLeagueRowChangeAbEnabled",
+   "zh": "联赛行数改动",
+   "value": "false",
+   "uses": "LeagueManager.ValidateBundles"
+  },
+  {
+   "method": "IsNewRoyalLeagueAbEnabled",
+   "zh": "新皇家联赛",
+   "value": "true",
+   "uses": "无直接调用方"
+  }
+ ]
+}

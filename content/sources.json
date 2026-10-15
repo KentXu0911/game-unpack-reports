@@ -114,9 +114,9 @@
     "detail": "绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4／0x2A3A810；匹配0x137AAA0／0x137AE2C；生成格0x13784F0／0x1378554；创建延迟0x20EDDE8；自动消除0x20EE59C／0x1E92FD8；直斜落0x2A2BA0C／0x2A2C350／0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；命中去重0x338CC74；蘑菇0x15571E0；智能方向0x20EDA34。伪代码为标明省略范围的整理；静态证据，未做原端逐帧或整局回放对照。"
   },
   "ab-tests": {
-    "title": "A/B实验ID、响应字段与客户端条件",
-    "basis": "107项元数据常量、14份ARM64原字节快照及既有商业化调用索引",
-    "locator": "本站assets/evidence/ab-tests/manifest.json、catalog.json、metadata-excerpts.txt；scripts/extract_ab_tests.py",
-    "detail": "build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。107个ID按NewUser／OldUser命名后缀归并55个主题。核对响应建表、Merge Smith三条件、奖励共享ID128／129、动态礼包199／200和Weekly Pass187／188的判断；名称统计不等于当期实验数量，局部分支不提供流量、分配算法或效果。"
+    "title": "A/B实验ID、判断函数真值表与调用方",
+    "basis": "107项元数据常量、97个判断函数的原字节模拟执行、全库直接调用扫描、14份ARM64原字节快照",
+    "locator": "本站assets/evidence/ab-tests/rules.json、catalog.json、manifest.json、metadata-excerpts.txt；scripts/extract_ab_rules.py、scripts/extract_ab_tests.py",
+    "detail": "build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。107个ID按NewUser／OldUser归并55个主题；97个判断函数逐ID试组值0–10得出真值表，12个写死，14个ID无客户端读取。静态证据，不提供账号分组、流量或效果。"
   }
 }

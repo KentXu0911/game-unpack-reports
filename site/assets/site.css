@@ -88,3 +88,8 @@ h1{font-size:29px;line-height:1.35;margin:0 0 12px;letter-spacing:.6px}header p{
 .matrix-fold{margin:26px 0;border:1px solid var(--line);border-radius:6px;background:#fff}
 .matrix-fold>summary{cursor:pointer;padding:14px 20px;font-size:14px;font-weight:600;color:#315c8f}
 .matrix-fold[open]>summary{border-bottom:1px solid var(--line)}
+.ab-themes td:first-child small{display:block;font:11px ui-monospace,SFMono-Regular,monospace;color:#7a8798;margin-top:2px}
+.ab-themes td:nth-child(2){white-space:nowrap}
+.data-scroll:has(.ab-themes){max-height:none}
+.ab-themes td:nth-child(3){white-space:nowrap}
+.ab-themes td:nth-child(4){min-width:220px}

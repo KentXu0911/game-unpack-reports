@@ -1,68 +1,129 @@
-<section id="ab-test-scope">
-<h3>能从解包里看到实验的哪些部分</h3>
-<p>能看到实验的编号、客户端支持的版本，以及组值怎样改变行为。这个版本的 <code>AbTestHelper</code> 有107个实验ID常量，按末尾的NewUser／OldUser命名归并为55个主题；其中还包括隐私、赛事和功能实验，不能把它们全部算作商业化实验，也不能当作正在运行的实验数量。</p>
-<p>实验ID和组值是两个数。例如，ID 189／190对应Merge Smith的新／老用户命名项；4、5、6是该活动消费的组值。组6不是“第6档高价值用户”，也不表示6%的流量。</p>
-<div class="flow" aria-label="实验配置消费流程"><span>后台响应带回key／value</span><b>→</b><span>客户端保存实验表</span><b>→</b><span>各系统读取并执行条件</span></div>
-<p><code>NewABData.AllTests</code> 内每项 <code>SingleABData</code> 有Key与Value。<code>BuildDictFromResponse</code> 逐项建成字典，<code>UpdateAbTestData</code> 替换当前表、刷新本地存储并通知相关系统。能恢复的是这条消费链；服务端如何选择实验人群、随机分桶或分配比例，不在这两个函数中。</p>
-<p class="caption">原字节：<a href="../assets/evidence/ab-tests/024624e8.s">BuildDictFromResponse · 0x24624E8</a>；<a href="../assets/evidence/ab-tests/024621d0.s">UpdateAbTestData · 0x24621D0</a>。</p>
-</section>
-<section id="ab-merge-smith">
-<h3>例一：同一个活动，测试低价与金币解锁</h3>
-<p>Merge Smith的Offer模型读取活动进度中缓存的AbGroup，分别判断是否有Offer、是否选低价配置、是否允许金币购买。三个判断可以直接对应：</p>
-<div class="data-scroll"><table><thead><tr><th>活动AbGroup</th><th>Offer开关</th><th>低价分支</th><th>金币购买分支</th></tr></thead><tbody>
-<tr><td>4</td><td>开</td><td>开</td><td>关</td></tr><tr><td>5</td><td>开</td><td>关</td><td>关</td></tr><tr><td>6</td><td>开</td><td>关</td><td>开</td></tr><tr><td>其他值</td><td>此判断为关</td><td>关</td><td>关</td></tr>
+<div class="board-machine">
+<div class="board-summary">
+<h3 id="ab-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="A/B测试结论速览"><table><thead><tr><th>问题</th><th>答案</th><th>数量</th></tr></thead><tbody>
+<tr><td><a href="#ab-test-scope">实验在哪</a></td><td>后台下发“实验ID→组值”表，客户端判断函数按组值开分支</td><td>107个ID，55个主题</td></tr>
+<tr><td><a href="#ab-rule-shape">判定规则能拿到吗</a></td><td>能。每个判断函数的“哪个组值开哪个分支”已从原字节逐个跑出</td><td>97个判断函数</td></tr>
+<tr><td><a href="#ab-where">用在哪里</a></td><td>礼包与价格、活动赛事、奖励数值、续关、支付广告、隐私合规、红点通知；棋盘消除规则不读实验</td><td>48个主题有客户端分支</td></tr>
+<tr><td><a href="#ab-dead">哪些已下线</a></td><td>12个判断函数写死返回固定值；14个ID客户端完全不读</td><td>12＋14</td></tr>
+<tr><td><a href="#ab-live-data">拿不到什么</a></td><td>谁分到哪组、各组占多少流量、哪组效果好，都在后台</td><td>—</td></tr>
 </tbody></table></div>
-<pre class="algorithm-code"><code>// 按三个原方法整理的条件伪代码；不是原C#源码。
-group = mergeSmithProgress.AbGroup
-hasOffer     = group == 4 || group == 5 || group == 6
-useLowPrice  = group == 4
-payWithCoins = group == 6</code></pre>
-<p>例如，活动已满足资格且AbGroup为6时，这三个条件支持“展示Offer、走金币购买、不走组4低价”。金币数还要读当期配置的<code>ocp</code>，不能由“组6”推出具体价格。分组开关通过，也不替代活动是否开启、资源是否就绪和奖励进度检查。</p>
-<p class="caption">原字节：<a href="../assets/evidence/ab-tests/011849b4.s">Offer · 0x11849B4</a>；<a href="../assets/evidence/ab-tests/011849f0.s">低价 · 0x11849F0</a>；<a href="../assets/evidence/ab-tests/01184a18.s">金币购买 · 0x1184A18</a>。三个条件已核对；账号当期命中与购买结果尚需对应响应／运行记录。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#ab-test-scope"><b>01</b>数据从哪来</a><a href="#ab-rule-shape"><b>02</b>判定规则长什么样</a><a href="#ab-where"><b>03</b>用在哪里</a><a href="#ab-continue-pricing"><b>04</b>例：续关价格与步数</a><a href="#ab-reward-reduction"><b>05</b>例：奖励缩减</a><a href="#ab-merge-smith"><b>06</b>例：Merge Smith</a><a href="#ab-repeat-purchase"><b>07</b>例：动态礼包</a><a href="#ab-dead"><b>08</b>写死与未读取</a><a href="#ab-live-data"><b>09</b>能拿到与拿不到</a><a href="#ab-other-branches"><b>10</b>全部主题明细</a></nav>
+
+<section aria-labelledby="ab-test-scope">
+<h3 id="ab-test-scope">数据从哪来：后台下发一张“ID→组值”表</h3>
+<div class="flow" aria-label="A/B数据流"><span>后台响应带回key／value</span><b>→</b><span>客户端替换实验表并存本地</span><b>→</b><span>判断函数按组值返回true／false或组值</span><b>→</b><span>各系统决定开哪个分支</span></div>
+<p>三条后台命令会带回实验表并调用<code>UpdateAbTestData</code>：定期<code>Ping</code>、上传进度<code>UpdateUserProgress</code>、主动申请分组<code>AssignCampaignAB</code>。账号迁移或切换到后台决定的账号时，先清空再更新。更新后，客户端通知活动锁定、局内广告、Xsolla支付三个模块重新读取，并刷新推送标签。<small>［A1］</small></p>
+<p>主动申请分组只有一处：国王工坊桌游（ID 230）由<code>KingWorkshopManager</code>发出申请。其余实验都是后台自己分好组，随普通响应下发。</p>
+<p>每个主题通常有两个ID：<code>…NewUser</code>和<code>…OldUser</code>。判断函数一般“任一ID命中就成立”；取组值的函数先读新用户ID，为0再读老用户ID。按命名后缀归并后，107个ID是55个主题，其中包括隐私、赛事、通知等非商业化实验，也不代表当期都在运行。</p>
 </section>
-<section id="ab-reward-reduction">
-<h3>例二：用同一组实验，分别控制不同奖励范围</h3>
-<p>关末奖励和活动奖励的两个判断，都读取ID 128／129。任意一个ID命中特定组值即返回true。它们是共享实验键下的不同条件，不能按函数数量算成两项独立实验。</p>
-<div class="data-scroll"><table><thead><tr><th>命中的组值</th><th>关末奖励缩减判断</th><th>活动奖励缩减判断</th></tr></thead><tbody>
-<tr><td>2</td><td>true</td><td>false</td></tr><tr><td>3</td><td>false</td><td>true</td></tr><tr><td>4</td><td>true</td><td>true</td></tr><tr><td>5</td><td>true</td><td>true</td></tr>
+
+<section aria-labelledby="ab-rule-shape">
+<h3 id="ab-rule-shape">判定规则长什么样：组值决定开哪个分支</h3>
+<p>组值是一个小整数。全部判断函数里，<strong>组0和组1不开任何分支</strong>，分支从组2开始；唯一例外是安卓上的进度保存提醒，两个ID都为0时走替代版本。同一主题的不同组值，常常对应不同的改动组合，而不只是“开／关”。</p>
+<p>规则的取得方法：直接执行原ARM64字节，把读实验表的函数替换成“返回指定组值”，对每个ID依次试组值0–10，记录返回结果；判断函数内部调用的其他判断函数照常执行，函数外的调用分别按返回0和1各跑一遍。97个函数全部跑通，没有执行错误。<small>［A2］</small></p>
+<details class="code-fold"><summary>原字节整理：关末金币缩减与取组值<span>9行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="关末金币缩减判断"><code>IsLevelEndRewardReductionAbEnabled():
+    if this[128] == 2 or this[129] == 2: return true
+    if this[128] == 4 or this[129] == 4: return true
+    return this[128] == 5 or this[129] == 5
+
+GetRewardReductionAb():
+    group = this[128]
+    if group == 0: group = this[129]
+    return group</code></pre></details>
+<p>跑出来的结果与此前逐条核对过的条件一致（奖励缩减、周通行证、动态礼包），其余函数是这次新增。</p>
+</section>
+
+<section aria-labelledby="ab-where">
+<h3 id="ab-where">用在哪里：按系统看</h3>
+<!--AB_AREA_SUMMARY-->
+<p>“调用点”是直接调用判断函数的位置数；红点通知减量一项就有63个，分散在各活动、商店和礼包图标里。<a href="fall-rules.html">棋盘状态机</a>（交换、匹配、下落、道具生成）不读任何实验；局内能被实验改动的只有开局超级道具、教学关、续关步数与价格、关末金币和失败页礼包。</p>
+</section>
+
+<section aria-labelledby="ab-continue-pricing">
+<h3 id="ab-continue-pricing">例：续关价格与给步数（ID 51／52）</h3>
+<span id="data-continue-experiments" class="legacy-anchor"></span>
+<p>续关首档五个版本，组值与方案已能一一对上。给步数由<code>EgoManager.GetMoveCount</code>读取“组3／4／5给10步”这一判断；四个价格判断各对应一个组值。<small>［A2］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="续关组值与方案"><table><thead><tr><th>组值（51或52）</th><th>首档金币价</th><th>基础给步</th><th>与基准比较</th></tr></thead><tbody>
+<tr><td>0／1／其他</td><td>900</td><td>5</td><td>基准</td></tr>
+<tr><td>2</td><td>990</td><td>5</td><td>只提价</td></tr>
+<tr><td>3</td><td>1200</td><td>10</td><td>提价并加步</td></tr>
+<tr><td>4</td><td>1500</td><td>10</td><td>更高价，同为10步</td></tr>
+<tr><td>5</td><td>1900</td><td>10</td><td>最高价，同为10步</td></tr>
 </tbody></table></div>
-<p class="caption">表格假设另一实验键未命中相应条件；若两个键同时有值，原方法按各自的“或”条件判断。组4和组5在这两个判断中相同，不代表它们在其他奖励或功能中也完全相同。</p>
-<pre class="algorithm-code"><code>// 只整理这两个布尔条件；不包含奖励数量的消费者。
-levelEndReduction = AB[128] in {2,4,5} || AB[129] in {2,4,5}
-eventReduction    = AB[128] in {3,4,5} || AB[129] in {3,4,5}</code></pre>
-<p>因此解包能区分“只对关末判断生效”“只对活动判断生效”“两者都生效”这些版本。实际少发多少，还得继续读各奖励消费者与配置；不能从true推定统一减半，更不能据此断言某账号已被减奖。Booster奖励另读ID 183／184，其缩减判断对组2–6返回true。</p>
-<p class="caption">原字节：<a href="../assets/evidence/ab-tests/02463f64.s">关末奖励 · 0x2463F64</a>；<a href="../assets/evidence/ab-tests/02463ff0.s">活动奖励 · 0x2463FF0</a>；<a href="../assets/evidence/ab-tests/024645a8.s">Booster奖励 · 0x24645A8</a>。</p>
+<p>组值→给步数是原字节直接结果。金币价按四个判断函数的名称（<code>Is990CoinAbEnabled</code>…<code>Is1900CoinAbEnabled</code>）与既有续关商品对应；这四个函数除给步数判断外没有其他直接调用方，实际扣款读商品配置。跨局给步变化见<a href="failure-product.html">失败续关</a>。</p>
 </section>
-<section id="ab-repeat-purchase">
-<h3>例三：礼包实验同时测试折扣替代与重复购买</h3>
-<p>ID 199／200并非简单的“开／关”。客户端有三个单独判断：组3命中低折扣替代分支；组4命中Dynamic Offer可用性覆盖分支；组5命中多次购买分支。</p>
-<div class="data-scroll"><table><thead><tr><th>任一键命中</th><th>命中的客户端条件</th><th>还要核对什么</th></tr></thead><tbody>
-<tr><td>组3</td><td>IsLowDiscountEnabledAsAlternative</td><td>替代商品的具体折扣与内容</td></tr><tr><td>组4</td><td>IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled</td><td>可用性判断的调用位置与其他资格门</td></tr><tr><td>组5</td><td>IsMultiplePurchaseEnabled</td><td>商品maxPurchaseCount、本地已购次数与剩余时间</td></tr>
+
+<section aria-labelledby="ab-reward-reduction">
+<h3 id="ab-reward-reduction">例：一个实验键，控制四种奖励缩减（ID 128／129）</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="奖励缩减组值与范围"><table><thead><tr><th>组值</th><th>关末金币</th><th>活动奖励</th><th>周排行榜</th><th>倍数奖励</th></tr></thead><tbody>
+<tr><td>2</td><td>✅</td><td>—</td><td>✅</td><td>—</td></tr>
+<tr><td>3</td><td>—</td><td>✅</td><td>✅</td><td>—</td></tr>
+<tr><td>4</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr>
+<tr><td>5</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
 </tbody></table></div>
-<p>例如，即使组5的条件为true，也不能把它理解成“任意礼包无限购买”：商品自身的购买上限和已购记录仍属于另一层规则。</p>
-<p class="caption">原字节：<a href="../assets/evidence/ab-tests/02464a34.s">组3判断</a>；<a href="../assets/evidence/ab-tests/024649bc.s">组4判断</a>；<a href="../assets/evidence/ab-tests/024649f8.s">组5判断</a>。</p>
+<p>关末金币缩减被关末结算、失败页、关前页和倍数标签四处读取；活动奖励缩减的判断存在，但本版本没有直接调用方。龙巢和赛季卡册在进场时读组值本身，自己决定档位。道具奖励另有一个实验（183／184，组2–6），被区域宝箱、章节宝箱、团队战和国王杯读取。具体少发多少在各奖励配置里，不在判断函数里。<small>［A2］</small></p>
 </section>
-<section id="ab-continue-pricing">
-<h3>例四：续关可以同时测试价格与给步量</h3>
-<p>客户端包含以下首档方案。它们是不同版本的基础报价；跨局给步变化属于另一条状态链，具体过程见<a href="failure-product.html">失败续关</a>。下表按价格列方案，不把自行命名的“A／B／C”当作原实验组名。</p>
-<div class="data-scroll" id="data-continue-experiments"><table><thead><tr><th>首档金币价</th><th>基础给步</th><th>与900／5比较</th></tr></thead><tbody>
-<tr><td>900</td><td>5</td><td>基准方案</td></tr><tr><td>990</td><td>5</td><td>只提高价格</td></tr><tr><td>1200</td><td>10</td><td>提高价格并增加步数</td></tr><tr><td>1500</td><td>10</td><td>同为10步，更高报价</td></tr><tr><td>1900</td><td>10</td><td>同为10步，更高报价</td></tr>
+
+<section aria-labelledby="ab-merge-smith">
+<h3 id="ab-merge-smith">例：Merge Smith——进活动时把组值存下来（ID 189／190）</h3>
+<p>组2–7才开启这个活动。<code>MergeSmithManager.TryEnterEvent</code>进活动时读取组值，存进活动进度；之后的礼包判断读这份缓存，活动期间实验表再变也不影响本期。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="Merge Smith组值与礼包"><table><thead><tr><th>缓存的组值</th><th>有礼包</th><th>低价配置</th><th>金币购买</th></tr></thead><tbody>
+<tr><td>4</td><td>✅</td><td>✅</td><td>—</td></tr>
+<tr><td>5</td><td>✅</td><td>—</td><td>—</td></tr>
+<tr><td>6</td><td>✅</td><td>—</td><td>✅</td></tr>
+<tr><td>2／3／7</td><td>—</td><td>—</td><td>—</td></tr>
 </tbody></table></div>
-<p>元数据中EgoPriceChange命名项为ID 51／52。方案值来自既有续关商品与代码审查；本页未给出51／52的全部组值到五套方案的一一映射。知道有这些版本，仍不知道当期哪套得到多少流量，也无法判断哪套提高了购买率或降低了流失。</p>
+<p>金币购买的具体价格读当期配置的ocp，不由组值决定。<small>［A3］</small></p>
 </section>
-<section id="ab-other-branches">
-<h3>其他已经定位的实验</h3>
-<div class="data-scroll"><table><thead><tr><th>主题与ID</th><th>可读到的差异</th><th>证据范围</th></tr></thead><tbody>
-<tr><td>Weekly Pass · 187／188</td><td>组3／4／5通过功能判断，组5另通过MorePricing判断；地区金额还需商品与商店数据。</td><td><a href="../assets/evidence/ab-tests/024646b4.s">功能条件</a>、<a href="../assets/evidence/ab-tests/02464740.s">价格分支条件</a>已逐条核对。</td></tr>
-<tr><td>商店改版 · 166／167</td><td>任一键为组2时，改版判断返回true。</td><td><a href="../assets/evidence/ab-tests/024641b4.s">条件原字节</a>；不代表当期一定展示新版商店。</td></tr>
-<tr><td>外部支付 · 181／182；V2 · 222／223</td><td>支付开关、界面与加赠有不同判断；金额消费less／more／firstPaymentCoinBonus配置。</td><td>既有商业化方法索引及<a href="payment.html">支付链分析</a>；本页未重验全部支付分支。</td></tr>
-<tr><td>Supercharge · 193／194</td><td>是否开放、是否弹窗与金币恢复价格有相关分支；Multiplier Selection状态也参与价格选择。</td><td>既有调用索引；不能只凭实验键给出唯一金币价。</td></tr>
-<tr><td>广告 · 205／206、220／221</td><td>局内广告组与续关首档激励广告有单独消费入口。</td><td>已定位方法；实际投放、素材和填充需运行数据。</td></tr>
+
+<section aria-labelledby="ab-repeat-purchase">
+<h3 id="ab-repeat-purchase">例：动态礼包同时测三种改动（ID 199／200）</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="动态礼包组值"><table><thead><tr><th>组值</th><th>改动</th><th>读取方</th></tr></thead><tbody>
+<tr><td>3</td><td>低折扣替代：换一套礼包配置与预制件</td><td><code>DynamicOffer.GetSegmentConfig／GetPrefabSelector</code></td></tr>
+<tr><td>4</td><td>多次购买礼包的可用性覆盖</td><td><code>DynamicOfferManager</code>建礼包与读表；<code>MaxPurchaseCount</code></td></tr>
+<tr><td>5</td><td>允许多次购买</td><td><code>DynamicOfferManager</code>建礼包与读表</td></tr>
 </tbody></table></div>
+<p>组5打开的是“可以多次买”，次数上限仍按商品自身的maxPurchaseCount与本地已购次数计算。</p>
 </section>
-<section id="ab-live-data">
-<h3>实验结果还需要哪些数据</h3>
-<p>要知道某账号属于哪组，需要同一时点的实验key／value、活动配置和实际展示；改本地组值只能验证客户端分支。要知道各组的流量比例，需要实际分配／曝光记录和实验人群口径，不能按看到几个账号直接推全服比例。</p>
-<p>要判断哪组更好，还需要实验人群、分配规则、曝光时点、购买率、收入、留存与观察窗口。客户端有统计上报调用，不等于包里包含这些统计结果。没有这些数据，本页能解释版本差异，不能给出“某方案让收入增加多少”的结论。</p>
-<p>可查证材料：<a href="../assets/evidence/ab-tests/catalog.json">107个ID及28项既有方法索引</a> · <a href="../assets/evidence/ab-tests/metadata-excerpts.txt">AbTestHelper元数据</a> · <a href="../assets/evidence/ab-tests/manifest.json">14份原字节快照与哈希</a>。原方法快照按下一元数据起点截取，不声称完整控制流或全库认证。</p>
+
+<section aria-labelledby="ab-dead">
+<h3 id="ab-dead">写死与未读取：已下线或只在后台用</h3>
+<p>有12个判断函数根本不读实验表，直接返回固定值，调用方仍在：实验结束后接口保留、结果写死。<small>［A2］</small></p>
+<!--AB_HARDCODED_TABLE-->
+<p>另有14个ID（7个主题）在客户端没有任何判断函数读取：射箭竞技场、卡册奖励修正、飞机冲刺3档、新联赛与新联赛V2、国王杯匹配、团队战匹配。匹配类实验在后台起作用，客户端本来不需要读；其余可能已下线，或改由后台配置体现。</p>
 </section>
+
+<section aria-labelledby="ab-live-data">
+<h3 id="ab-live-data">能拿到与拿不到</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="A/B测试可得性"><table><thead><tr><th>内容</th><th>能否拿到</th><th>从哪来</th></tr></thead><tbody>
+<tr><td>实验ID、名称、新老用户配对</td><td>✅ 全部</td><td>元数据常量</td></tr>
+<tr><td>每个组值开哪个分支</td><td>✅ 97个判断函数全部跑出</td><td>原字节模拟执行</td></tr>
+<tr><td>分支被哪些系统使用</td><td>✅ 直接调用点全部列出</td><td>全库调用扫描；虚调用与缓存读取另计</td></tr>
+<tr><td>已下线与只在后台用的实验</td><td>✅ 12个写死、14个ID未读取</td><td>同上</td></tr>
+<tr><td>分支打开后的具体数值（少发多少、卖多少钱）</td><td>🟡 部分</td><td>在各奖励、商品配置里，需逐个读配置</td></tr>
+<tr><td>某个账号当前在哪一组</td><td>❌</td><td>需该账号同一时点的后台响应</td></tr>
+<tr><td>分组规则与各组流量比例</td><td>❌</td><td>后台分流，客户端只接收结果</td></tr>
+<tr><td>哪组效果更好（付费、留存）</td><td>❌</td><td>需实验人群、曝光与经营数据；客户端只上报</td></tr>
+</tbody></table></div>
+<p>想验证某个分支，可以改本地组值看客户端表现；想知道某账号的组值，需要抓同一时点的后台响应。两者都推不出全服流量比例或收益。</p>
+</section>
+
+<section aria-labelledby="ab-other-branches">
+<h3 id="ab-other-branches">全部主题明细</h3>
+<p>按系统分组；“规则”一栏是原字节跑出的组值条件，NewUser与OldUser两个ID任一命中即成立。</p>
+<!--AB_THEME_TABLE-->
+</section>
+
+<details class="evidence" id="ab-evidence"><summary>原字节证据与提取方法</summary>
+<p>样本为Royal Match build 38174，ARM64 ELF SHA-256 <code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。静态证据，未做原端联网或整局对照。</p>
+<div class="data-scroll"><table><thead><tr><th>证据</th><th>位置</th><th>支持的结论</th></tr></thead><tbody>
+<tr><td>A1</td><td><code>UpdateAbTestData 0x24621D0</code>；<code>BuildDictFromResponse 0x24624E8</code>；<code>ClearAndUpdateAbTestData 0x246213C</code>；<code>AssignCampaignABHttpCommand..ctor 0x31AF104</code></td><td>三条命令更新实验表；更新后通知活动锁定、广告、Xsolla；主动申请分组的调用方只有KingWorkshopManager</td></tr>
+<tr><td>A2</td><td><code>AbTestHelper.get_Item 0x24605E0</code>及97个Is／Get／Are判断函数</td><td>组值条件、写死函数、直接调用方。用Unicorn执行原字节：get_Item按ID返回指定组值0–10，每次只设一个ID；AbTestHelper内部调用照常执行，外部调用分别返回0和1</td></tr>
+<tr><td>A3</td><td><code>MergeSmithOfferModel 0x11849B4／0x11849F0／0x1184A18</code></td><td>Merge Smith缓存组值的三个礼包条件</td></tr>
+</tbody></table></div>
+<p><a href="../assets/evidence/ab-tests/rules.json">97个判断函数的组值真值表与调用方</a>，<a href="../assets/evidence/ab-tests/catalog.json">107个ID目录</a>，<a href="../assets/evidence/ab-tests/manifest.json">原字节快照清单</a>，<a href="../assets/evidence/ab-tests/metadata-excerpts.txt">AbTestHelper元数据</a>。提取脚本<code>scripts/extract_ab_rules.py</code>可重跑。</p>
+<p>限制：组值只试到10；新老用户两个ID不同时取不同值；外部调用只试0和1两种返回；调用扫描只含直接BL／B。</p>
+</details>
+</div>

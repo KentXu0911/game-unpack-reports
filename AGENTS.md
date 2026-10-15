@@ -25,4 +25,4 @@
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。
 - 商业化重排为7项：商品与奖励（passes）、触发与展示（shop-rules）、分层与购买反馈（user-tiers）、失败续关（failure-product）、A/B测试（experiments）、支付广告与实时价格（payment）、后台与经营边界（commerce-backend）。account-offers并入shop-rules，live-price-ads并入payment；保留旧URL、首页行锚点和迁移章节深链。详细档案只保留主归属，跨主题用链接。
-- A/B正文为 `content/ab-tests.html`，原字节与107项元数据目录在 `site/assets/evidence/ab-tests/`。107个ID按命名后缀归并55主题，包含非商业化项，不等于当期实验数。区分ID、组值、后台分流与因果效果；奖励函数共用128／129，不能按函数数算独立实验。`scripts/extract_ab_tests.py` 只读源索引，构建校验快照哈希。
+- A/B正文为 `content/ab-tests.html`（文字与例子），表格由 `scripts/build_site.py` 的 `ab_page()` 读 `content/ab-test-themes.json`（55主题的中文名、系统、规则与用途）和 `site/assets/evidence/ab-tests/rules.json` 生成。`rules.json` 由 `scripts/extract_ab_rules.py` 用Unicorn执行原字节得出97个判断函数的组值真值表与直接调用方，构建时校验主题与真值表、写死函数数一致。107个ID按命名后缀归并55主题，包含非商业化项，不等于当期实验数。区分ID、组值、后台分流与因果效果；奖励函数共用128／129，不能按函数数算独立实验。

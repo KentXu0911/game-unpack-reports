@@ -148,6 +148,7 @@
   "captureTool": "royal-match-unity/Tools/capture_native_methods.py",
   "supplementaryFiles": {
     "catalog.json": "5cab1571f5c504aa9301ba5e0d1cdd6d0be52f49c38e3fda5ce421875273731d",
-    "metadata-excerpts.txt": "1d2d3383bbe4fa6a3bb87afdcba108596dc6de219967d78ef3a60c067578f8d2"
+    "metadata-excerpts.txt": "1d2d3383bbe4fa6a3bb87afdcba108596dc6de219967d78ef3a60c067578f8d2",
+    "rules.json": "1d2e5b56e406328447586a344394a6e4094cbc176ac4902b24d7ca2e59657ff5"
   }
 }
