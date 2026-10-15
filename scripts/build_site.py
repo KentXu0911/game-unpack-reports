@@ -20,6 +20,8 @@ TABLES = json.loads((ROOT / "content/reference-tables.json").read_text())
 OVERVIEW_INCREMENTS = json.loads((ROOT / "content/overview-increments.json").read_text())
 assert set(OVERVIEW_INCREMENTS) == {topic['key'] for topic in TOPICS}
 LEVEL_EXAMPLES = json.loads((ROOT / "content/level-examples.json").read_text())
+MODULE_FACTS = json.loads((ROOT / "content/module-facts.json").read_text())
+MODULE_PAGES = {p.stem[len('module-'):] for p in (ROOT / 'content').glob('module-*.html')}
 STATUS = {
     "available": "具体内容可恢复",
     "framework": "需当期外部输入",
@@ -189,8 +191,67 @@ def ab_page():
                 .replace('<!--AB_THEME_TABLE-->', ''.join(parts))
                 .replace('<!--AB_HARDCODED_TABLE-->', hard))
 
+def fact_table(tid):
+    """One extracted fact table: caption, rows and the file it was read from."""
+    t = MODULE_FACTS['tables'][tid]
+    head = ''.join(f'<th>{e(c)}</th>' for c in t['columns'])
+    body = ''.join('<tr>' + ''.join(f'<td>{e(c)}</td>' for c in row) + '</tr>' for row in t['rows'])
+    note = f'<p class="fact-note">{e(t["note"])}</p>' if t['note'] else ''
+    # Short tables stay compact; long text cells get the full width.
+    longest = max(len(c) for row in t['rows'] for c in row)
+    size = 'fact-compact' if longest <= 48 and len(t['columns']) <= 4 else 'fact-wide'
+    return (f'<figure class="fact-table {size}" id="fact-{e(tid)}"><figcaption>{e(t["title"])}</figcaption>'
+            f'<div class="data-scroll" tabindex="0" role="region" aria-label="{e(t["title"])}">'
+            f'<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>{note}'
+            f'<p class="fact-src">取数：<code>{e(t["source"])}</code></p></figure>')
+
+
+def module_page(key):
+    """Three layers per module: unpacking facts, analysis drawn from them, what stays unknown."""
+    page = (ROOT / f'content/module-{key}.html').read_text()
+    numbers = MODULE_FACTS['numbers']
+
+    def number(match):
+        value = numbers[match.group(1)]
+        return f'{value:,}' if isinstance(value, int) else str(value)
+
+    page = re.sub(r'<!--N:(\w+)-->', number, page)
+    def tables(block):
+        # Consecutive short tables sit side by side; long ones keep the full width.
+        out, grid = [], []
+        for tid in re.findall(r'<!--TABLE:([\w-]+)-->', block.group(0)):
+            html = fact_table(tid)
+            if 'fact-compact' in html:
+                grid.append(html)
+                continue
+            if grid:
+                out.append(grid[0] if len(grid) == 1 else '<div class="fact-grid">' + ''.join(grid) + '</div>')
+                grid = []
+            out.append(html)
+        if grid:
+            out.append(grid[0] if len(grid) == 1 else '<div class="fact-grid">' + ''.join(grid) + '</div>')
+        return '\n'.join(out)
+
+    page = re.sub(r'(?:<!--TABLE:[\w-]+-->\s*)+', tables, page)
+    page = re.sub(r'<!--REF:([\w-]+)-->', lambda m: (
+        f'<a class="basis" href="#fact-{m.group(1)}">依据：{e(MODULE_FACTS["tables"][m.group(1)]["title"])}</a>'), page)
+    assert '<!--' not in page, (key, re.findall(r'<!--[^>]*-->', page)[:3])
+    return '<div class="board-machine module-page">' + page + '</div>'
+
+
 def extras(topic):
     key = topic['key']
+    if key in MODULE_PAGES:
+        facts = module_page(key)
+        if key == 'distributed-assets':
+            return facts + asset_gallery()
+        if key == 'level-config':
+            return facts + '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
+                f'<a href="{e(k)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>'
+                for k, title in LEVEL_LINKS) + '</nav>'
+        if key == 'payment':
+            return facts + (ROOT / 'content/commerce-payment.html').read_text()
+        return facts
     if key == 'passes':
         return '<span id="original-s3" class="legacy-anchor"></span><span id="original-ar" class="legacy-anchor"></span>'
     if key == 'distributed-assets':
@@ -213,7 +274,7 @@ def extras(topic):
                 (ROOT / 'content/booster-targeting-end.html').read_text() + '</div>')
     if key == 'experiments':
         return ab_page()
-    if key in ('shop-rules', 'user-tiers', 'payment', 'commerce-backend'):
+    if key in ('shop-rules', 'user-tiers'):
         alias = '<span id="data-commercial-moments" class="legacy-anchor"></span>' if key == 'shop-rules' else ''
         return alias + (ROOT / f'content/commerce-{key}.html').read_text()
     return ''

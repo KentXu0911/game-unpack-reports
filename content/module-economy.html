@@ -1,0 +1,53 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="资源经济结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>奖励代码与奖励类型一一对应；全部默认奖励节点按类型汇总；固定商品标识</td><td><!--N:reward_codes-->个代码 · <!--N:reward_nodes-->个节点</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>金币是投放最广的奖励；局内道具多以 1–2 个小额给出；限时无限按分钟给；活动代币各自只在本活动流通</td><td>金币出现在 23 个配置</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>每关产出、玩家实际消耗速度、当期活动覆盖</td><td>需运行记录</td></tr>
+</tbody></table></div>
+<p class="flow-note">本页把奖励代码与默认配置汇总成一张“投放结构”。各活动的奖励逐行明细见<a href="activity-defaults.html">活动玩法、默认奖励</a>；商品内容见<a href="passes.html">商品与奖励</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：奖励代码、投放节点与商品标识</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">奖励代码表从 <code>RewardConfigs.GetRewardType</code> 的反汇编得出，正向转换与反向名称表 42 项一致，另 1 项由常量直接确定。节点汇总把 29 个默认配置里所有奖励节点按类型相加。</p>
+<!--TABLE:reward-codes-->
+<!--TABLE:reward-aggregate-->
+<!--TABLE:sku-families-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：资源怎样分层投放</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">以下比较只看默认配置中的投放结构，不代表单个玩家实际拿到多少。</p>
+
+<div class="finding"><b>资源分五层。</b>金币 1 种；生命 1 种（只有限时无限）；局内道具单个 8 种、限时无限 8 种；局前道具 2 种；活动代币与倍率 12 种，另有卡包 5 种、外观 5 种。<!--REF:reward-codes-->同一道具同时有“单个”和“限时无限”两种形态。</div>
+
+<div class="finding"><b>金币是通用奖励。</b>134 个节点给金币，出现在 23 个配置里，节点均值约 6,033。<!--REF:reward-aggregate-->其他资源最多出现在 24 个配置（锤子），但每节点只有 1–3 个。</div>
+
+<div class="finding"><b>局内道具小额、多次给。</b>锤子、TNT、火箭、光球、箭、炮、小丑帽和全道具包每节点平均 1.4–2.6 个，合计 34–63 个节点。<!--REF:reward-aggregate-->道具是“散着发”的，而不是一次给一大包。</div>
+
+<div class="finding"><b>限时无限按分钟计，单节点更“厚”。</b>无限生命 40 个节点，平均约 105 分钟；无限 TNT、火箭、光球平均 248–328 分钟。<!--REF:reward-aggregate-->
+<br><small>推断：限时无限能在一段时间内替代大量单个道具，是高价值奖励；它们多出现在活动后段节点，需逐活动核对。</small></div>
+
+<div class="finding"><b>活动代币只在本活动流通。</b>Ticket（57 节点）、MagicBall（33）、FortuneToken（7）、GoldenBall（4）各自只出现在 1 个配置里。<!--REF:reward-aggregate-->这些是活动内的进度货币，不与主线经济互通。</div>
+
+<div class="finding"><b>外观奖励的数量列不是数量。</b>头像框、昵称样式、头像样式、个人徽章的数量取值是 4,000 或 100,000。<!--REF:reward-aggregate-->
+<br><small>推断：这一列存的是外观编号或时长；不能和金币一样相加。</small></div>
+
+<div class="finding"><b>真钱商品主要卖活动进度。</b>49 个固定商品标识里，远征活动能量类 20 个（含 energypass 2 个）、Journey Offer 6 个、Royal Pass／分段 Pass／Weekly Pass 共 7 个、Merge Smith 的 anvilpass 2 个；没有金币商店档位。<!--REF:sku-families-->金币的真钱购买走另一套下发配置。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="资源经济未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>每关通关产出</td><td>本页只汇总活动与通行证默认配置；关卡通关金币、宝箱和连胜奖励未汇入。</td><td>关卡结算配置与消费代码</td></tr>
+<tr><td>玩家消耗速度</td><td>静态包只有价格与奖励，没有消耗记录。</td><td>账号运行记录或遥测</td></tr>
+<tr><td>当期活动覆盖</td><td>默认配置不代表当天每个账号命中它。</td><td>对应时点的活动响应</td></tr>
+<tr><td>礼盒 Small／Purple 的内容</td><td>阶梯礼包里的两种礼盒代码不在奖励代码表内，内容未展开。</td><td>礼盒配置或消费代码</td></tr>
+<tr><td>金币商店价格与档位</td><td>不在固定商品标识列表里。</td><td>商店配置与地区价格响应</td></tr>
+</tbody></table></div>
+</section>

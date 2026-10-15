@@ -118,5 +118,17 @@
     "basis": "107项元数据常量、97个判断函数的原字节模拟执行、全库直接调用扫描、14份ARM64原字节快照",
     "locator": "本站assets/evidence/ab-tests/rules.json、catalog.json、manifest.json、metadata-excerpts.txt；scripts/extract_ab_rules.py、scripts/extract_ab_tests.py",
     "detail": "build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。107个ID按NewUser／OldUser归并55个主题；97个判断函数逐ID试组值0–10得出真值表，12个写死，14个ID无客户端读取。静态证据，不提供账号分组、流量或效果。"
+  },
+  "module-facts": {
+    "title": "拆包事实快照",
+    "basis": "只读脚本从拆包产物重算的计数与字段表",
+    "locator": "scripts/extract_module_facts.py → content/module-facts.json",
+    "detail": "读取 research/rm-reunpack-2026-10-14 与 royal-match-apk-audit-38174 下的区域任务、关卡统计、协议类型声明（dump.cs）、默认配置、奖励代码、商品标识与资源清单；每张表标注取数文件。协议字段来自元数据声明，FlatBuffers 槽位仍需访问器机器码核对。"
+  },
+  "protocol": {
+    "title": "客户端协议声明",
+    "basis": "IL2CPP 元数据中 Royal.Infrastructure.Services.Backend.Protocol 的结构与枚举",
+    "locator": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs",
+    "detail": "559 个类型（488 结构、71 枚举），请求 145 种、响应 164 种；常驻连接请求类型由 TcpRequestType 枚举区分。声明说明客户端发送与读取的结构，不包含服务端实现。"
   }
 }

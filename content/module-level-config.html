@@ -1,0 +1,52 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="关卡配置结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>14,500 关的步数、尺寸、目标、障碍、补棋队列与格子层字段逐关可读</td><td><!--N:level_count-->关 · <!--N:cell_total-->格</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>七成关卡是 9×11；高棋盘就是多棋盘关；绝大多数关只有一套补棋配置；目标记录要按棋盘号拆开读</td><td>多棋盘 <!--N:level_multi_board-->关</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>随机格的实际颜色、部分目标 ID 的语义、线上新关卡</td><td>—</td></tr>
+</tbody></table></div>
+<p class="flow-note">下方“阅读详情”进入六个子页：真实棋盘例子、代码字典、障碍登场、首现节奏、压力曲线和尾号规律。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：14,500 关的逐关字段</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">关卡文件给出成品布局、初始步数、目标类型及数量、棋子与障碍参数，14,500 份与修复集逐字节一致。下表从逐关统计表与补棋汇总表直接计数。</p>
+<!--TABLE:level-summary-->
+<!--TABLE:level-board-sizes-->
+<!--TABLE:level-tall-boards-->
+<!--TABLE:level-goal-records-->
+<!--TABLE:level-zero-goal-->
+<!--TABLE:level-goal-flag-->
+<!--TABLE:level-refill-sets-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>标准棋盘是 9×11。</b>10,372 关（71.5%）是 9×11，其次 9×10 占 11.5%、8×11 占 6.6%。<!--REF:level-board-sizes-->复刻时先做好 9×11，覆盖面最大。</div>
+
+<div class="finding"><b>高棋盘就是多棋盘关。</b>height ≥ 20 的 693 关与“goals 里出现第 2 块及以上棋盘”的 693 关完全是同一批：2 块棋盘 656 关、3 块 37 关。<!--REF:level-tall-boards--><!--REF:level-goal-records-->多块棋盘在关卡文件里是竖向叠放的一张大表，切换规则见<a href="fall-rules.html#multiple-boards">棋盘状态机</a>。</div>
+
+<div class="finding"><b>目标要按棋盘号拆开读。</b>goals 每条是“目标ID:数量:标志位:棋盘号”，多棋盘关每块棋盘各登记一条，数量可为 0，所以 goal_count 最大到 30。按“数量 &gt; 0 的不同目标 ID”计，每关 3–4 个目标的有 13,509 关。<!--REF:level-goal-records--></div>
+
+<div class="finding"><b>补棋几乎只用一套配置。</b>13,884 关（95.8%）只有 1 个补棋 set，2 个以上的只有 616 关。<!--REF:level-refill-sets-->1,736 关带预定义补棋队列，开局前几颗补棋是写死的。<!--REF:level-summary-->补棋怎样在多个 set 之间选，见<a href="refill.html">补棋算法</a>。</div>
+
+<div class="finding"><b>步数集中在 24 左右。</b>步数 15–40，中位数 24、均值 24.17。<!--REF:level-summary-->步数随关卡号的变化与配置压力模型，见<a href="level-pressure.html">关卡压力、尾号与教学节奏</a>。</div>
+
+<div class="finding"><b>格子层障碍有 17 种字段。</b>FTiledCell 声明了草地、蜂蜜、窗帘、锁链、屋顶、果冻等 17 个字段，与棋子层物体分开存放；7,680 关至少有 1 个障碍格。<!--REF:level-summary-->两层的编号不能混用，见<a href="tile-codes.html">代码字典</a>。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="关卡配置未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>随机格的实际颜色</td><td>配置只给候选池；颜色要按初始化代码、本局种子和此前的随机调用计算。不能把一份随机格配置当作每次开局都相同的截图。</td><td>种子与初始化顺序，见<a href="refill.html">补棋算法</a></td></tr>
+<tr><td>161 关没有数量 &gt; 0 的目标</td><td>这 161 关都只登记一条 Coin（21）、数量为 0，关卡号从 20 到 200 每 20 关一次，之后是 230、260、300，300–900 每 50 关一次，900 以后每 100 关一次，一直到 14,500。<!--REF:level-zero-goal-->胜负条件不在 goals 里；它们是不是国王剧情一类的特殊关，未核对。</td><td>这些关的胜负判定代码与实机</td></tr>
+<tr><td>goals 第 3 段</td><td>取值只有 0 和 1；6,181 关至少有一条为 1，粉色、南瓜、信件、饼干、草地等多种目标都出现过。<!--REF:level-goal-flag-->含义未确认。</td><td>目标读取代码</td></tr>
+<tr><td>线上新关卡与热更新</td><td>范围是 build 38174 的样本；账号特定覆盖与新版本需要对应文件。</td><td>新版本包体或下载资源</td></tr>
+<tr><td>解析、移植与回放是三件事</td><td>字段能解析、规则已移植、通过原版回放，分别记录进度；本页只代表第一件。</td><td>原版回放对照</td></tr>
+</tbody></table></div>
+</section>

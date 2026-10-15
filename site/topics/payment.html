@@ -1,15 +1,56 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>支付、广告与实时价格 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=529c613466"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=e2227561b3"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script><script defer src="../assets/commerce-routes.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-payment">← 返回内容总览</a></p>
 <h1>支付、广告与实时价格</h1><p>解释Native／Xsolla支付、奖励到账、广告与No Ads条件；当地售价、当次广告和填充结果需要平台响应。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><nav class="commerce-navigation" aria-label="商业化内容"><a href="passes.html"><small>01</small>商品类型与奖励内容</a><a href="shop-rules.html"><small>02</small>礼包触发、筛选与展示</a><a href="user-tiers.html"><small>03</small>用户分层与购买后变化</a><a href="failure-product.html"><small>04</small>失败续关与救场入口</a><a href="experiments.html"><small>05</small>A/B测试：实验组与行为差异</a><a href="payment.html" aria-current="page"><small>06</small>支付、广告与实时价格</a><a href="commerce-backend.html"><small>07</small>后台策略与经营数据边界</a></nav><span id="original-boundaries" class="legacy-anchor"></span><section id="payment" class="topic-detail" aria-labelledby="title-payment"><h2 id="title-payment">支付、广告与实时价格</h2><div class="topic-body"><h3>支付与到账</h3><p>真钱商品进入Native或Xsolla路径，客户端验证完成后更新奖励、活动进度及相关购买状态。Xsolla还受A/B、国家白名单、后台禁用和凭证／初始化状态控制。金币商品使用游戏内金币，不是商店货币报价。</p><h3>广告与No Ads</h3><p>广告资格、冷却、场景和实验分别控制入口。No Ads对插屏、失败续关广告与生命／金币激励广告的作用不同；此build的TryAddNoAdsAutoDialog返回false，资源存在不等于会自动弹出。实际素材、填充与到账需要运行记录。</p><section id="live-price-ads"><h3>当前实价与广告需要单独采样</h3>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><nav class="commerce-navigation" aria-label="商业化内容"><a href="passes.html"><small>01</small>商品类型与奖励内容</a><a href="shop-rules.html"><small>02</small>礼包触发、筛选与展示</a><a href="user-tiers.html"><small>03</small>用户分层与购买后变化</a><a href="failure-product.html"><small>04</small>失败续关与救场入口</a><a href="experiments.html"><small>05</small>A/B测试：实验组与行为差异</a><a href="payment.html" aria-current="page"><small>06</small>支付、广告与实时价格</a><a href="commerce-backend.html"><small>07</small>后台策略与经营数据边界</a></nav><span id="original-boundaries" class="legacy-anchor"></span><section id="payment" class="topic-detail" aria-labelledby="title-payment"><h2 id="title-payment">支付、广告与实时价格</h2><div class="topic-body"><div class="board-machine module-page"><div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="支付广告结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>固定商品标识与价位提示、支付平台、收据校验结果</td><td>49个商品标识 · 19个前缀</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>远征活动的能量商品占 49 个标识中的 20 个；两类礼包按“是否付过费”换商品；真钱购买走 Native 或 Xsolla，校验后到账</td><td>价位提示 1–100 美元，18 档</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>当地实价与币种、广告素材与填充、后台核销</td><td>需平台响应</td></tr>
+</tbody></table></div>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#live-price-ads"><b>04</b>实价与广告采样</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：商品标识、支付平台与校验结果</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">商品标识从 <code>PurchaseHelper.get_*ProductId</code> 的字符串常量反查得到；价位提示是标识尾号（如 pass.10 的 10），不是商店成交价。</p>
+<div class="fact-grid"><figure class="fact-table fact-compact" id="fact-sku-families"><figcaption>IAP 商品标识按前缀归并</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="IAP 商品标识按前缀归并"><table><thead><tr><th>商品前缀</th><th>标识数</th><th>价位提示（美元，来自商品标识尾号）</th></tr></thead><tbody><tr><td>pass</td><td>2</td><td>5 / 10</td></tr><tr><td>stagedpass1</td><td>1</td><td>10</td></tr><tr><td>stagedpass2</td><td>2</td><td>10 / 15</td></tr><tr><td>weeklypass</td><td>2</td><td>5 / 8</td></tr><tr><td>egooffer</td><td>2</td><td>1 / 7</td></tr><tr><td>seasonaloffer</td><td>3</td><td>1 / 10 / 20</td></tr><tr><td>multiplier</td><td>1</td><td>8</td></tr><tr><td>multipliertoken</td><td>1</td><td>10</td></tr><tr><td>progressoffer</td><td>6</td><td>1 / 5 / 15 / 25 / 50 / 100</td></tr><tr><td>anvilpass</td><td>2</td><td>5 / 8</td></tr><tr><td>extremelyhardleveloffer</td><td>2</td><td>1 / 3</td></tr><tr><td>noads</td><td>1</td><td>8</td></tr><tr><td>noadsbundle</td><td>1</td><td>12</td></tr><tr><td>worldcupcosmetic</td><td>2</td><td>20 / 30</td></tr><tr><td>worldcupcosmetic2</td><td>1</td><td>20</td></tr><tr><td>energyoffer</td><td>9</td><td>1 / 2 / 4 / 5 / 6 / 8 / 9 / 10 / 15</td></tr><tr><td>energypass</td><td>2</td><td>5 / 10</td></tr><tr><td>energysingle3</td><td>1</td><td>3</td></tr><tr><td>energysingle</td><td>8</td><td>6 / 10 / 20 / 25 / 30 / 40 / 50 / 100</td></tr></tbody></table></div><p class="fact-note">price_hint_usd 取自商品标识尾号，不是商店实时成交价；地区价格和币种由商店返回。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/iap_product_catalog.csv</code></p></figure><figure class="fact-table fact-compact" id="fact-proto-purchase-platform"><figcaption>购买平台枚举（PurchasePlatform）</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="购买平台枚举（PurchasePlatform）"><table><thead><tr><th>值</th><th>名称</th></tr></thead><tbody><tr><td>0</td><td>IOS</td></tr><tr><td>1</td><td>Android</td></tr><tr><td>2</td><td>Editor</td></tr><tr><td>3</td><td>Huawei</td></tr><tr><td>4</td><td>Samsung</td></tr><tr><td>5</td><td>Amazon</td></tr><tr><td>6</td><td>Xsolla</td></tr></tbody></table></div><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）</code></p></figure><figure class="fact-table fact-compact" id="fact-proto-purchase-status"><figcaption>购买校验状态码枚举（PurchaseVerificationStatusCode）</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="购买校验状态码枚举（PurchaseVerificationStatusCode）"><table><thead><tr><th>值</th><th>名称</th></tr></thead><tbody><tr><td>0</td><td>Verified</td></tr><tr><td>1</td><td>UsedBefore</td></tr><tr><td>2</td><td>Fail</td></tr><tr><td>3</td><td>VerificationNotCompleted</td></tr></tbody></table></div><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）</code></p></figure></div></section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>远征活动是商品最多的一类。</b>energyoffer 9 个、energysingle 8 个、energysingle3 1 个、energypass 2 个，合计 20 个，占 49 个固定标识的四成。<a class="basis" href="#fact-sku-families">依据：IAP 商品标识按前缀归并</a>其次是 progressoffer（Journey Offer）的 6 档。这份列表里没有金币商店档位，金币礼包走另一套配置。</div>
+
+<div class="finding"><b>付没付过费，看到的是不同商品。</b>Ego Offer 有付费用户版 egooffer.7 和未付费用户版 egooffer.1；极难关礼包有 extremelyhardleveloffer.3 和 .1 两版。<a class="basis" href="#fact-sku-families">依据：IAP 商品标识按前缀归并</a>客户端按付费身份选商品标识，选取逻辑见<a href="user-tiers.html">分层与购买反馈</a>。</div>
+
+<div class="finding"><b>价位提示覆盖 1–100 美元，共 18 档。</b>同一前缀内可有多档，如 Journey Offer 的 1／5／15／25／50／100、远征单品的 6／10／20／25／30／40／50／100。<a class="basis" href="#fact-sku-families">依据：IAP 商品标识按前缀归并</a>这些档位是商品的身份，实际金额由各地商店返回。</div>
+
+<div class="finding"><b>支付与到账。</b>真钱商品进入 Native 或 Xsolla 路径，客户端把收据交服务端校验，结果是 Verified、UsedBefore、Fail、VerificationNotCompleted 之一，通过后更新奖励、活动进度及相关购买状态。<a class="basis" href="#fact-proto-purchase-status">依据：购买校验状态码枚举（PurchaseVerificationStatusCode）</a>Xsolla 还受 A/B、国家白名单、后台禁用和凭证／初始化状态控制。金币商品用游戏内金币支付，不是商店货币报价。</div>
+
+<div class="finding"><b>广告与 No Ads。</b>广告资格、冷却、场景和实验分别控制入口。No Ads 对插屏、失败续关广告与生命／金币激励广告的作用不同；此 build 的 <code>TryAddNoAdsAutoDialog</code> 返回 false，资源存在不等于会自动弹出。No Ads 有单买（noads.8）和捆绑（noadsbundle.12）两个标识。<a class="basis" href="#fact-sku-families">依据：IAP 商品标识按前缀归并</a></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="支付广告未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>当地售价与币种</td><td>标识尾号只是价位提示。</td><td>对应地区的商店查询结果</td></tr>
+<tr><td>金币商店档位</td><td>不在固定标识列表里，由配置下发。</td><td>商店配置与响应</td></tr>
+<tr><td>广告素材、填充与竞价</td><td>只有 SDK 与入口条件。</td><td>当次广告请求记录</td></tr>
+<tr><td>服务端核销与风控</td><td>只看得到校验结果枚举。</td><td>服务端代码，见<a href="commerce-backend.html">后台与经营边界</a></td></tr>
+</tbody></table></div>
+</section>
+</div><section id="live-price-ads"><h3>当前实价与广告需要单独采样</h3>
 <p>包内可以对上SKU、购买回调、价文显示与广告请求，但SKU后缀、numberId和金币奖励量都不是当地货币价格。金额、币种和价文应取对应地区的商店查询结果。</p>
 <p>广告素材、填充与竞价结果来自广告服务；SDK和入口只说明客户端具备这条路径。实机记录可以证明当次看到了什么、是否发奖，不能单凭一次广告反推平台的竞价算法。</p></section>
-<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>商业化资格、分层与购买消费者</h6><p>客户端方法证据／状态机／商品表。支持入口、资格、优先级、分组消费、历史最高档、价格实验、Native／Xsolla与广告调用解读。后台赋值公式、当期流量和真实货币价格需外部输入；不能用SKU推金额。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv；indices/commercialization_coverage_matrix.csv</code></p></div></details></div></section><style>@scope (.original-report) {
+<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>商业化资格、分层与购买消费者</h6><p>客户端方法证据／状态机／商品表。支持入口、资格、优先级、分组消费、历史最高档、价格实验、Native／Xsolla与广告调用解读。后台赋值公式、当期流量和真实货币价格需外部输入；不能用SKU推金额。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv；indices/commercialization_coverage_matrix.csv</code></p></div><div class="evidence-entry"><h6>拆包事实快照</h6><p>只读脚本从拆包产物重算的计数与字段表。读取 research/rm-reunpack-2026-10-14 与 royal-match-apk-audit-38174 下的区域任务、关卡统计、协议类型声明（dump.cs）、默认配置、奖励代码、商品标识与资源清单；每张表标注取数文件。协议字段来自元数据声明，FlatBuffers 槽位仍需访问器机器码核对。</p><p>取证位置：<code>scripts/extract_module_facts.py → content/module-facts.json</code></p></div><div class="evidence-entry"><h6>客户端协议声明</h6><p>IL2CPP 元数据中 Royal.Infrastructure.Services.Backend.Protocol 的结构与枚举。559 个类型（488 结构、71 枚举），请求 145 种、响应 164 种；常驻连接请求类型由 TcpRequestType 枚举区分。声明说明客户端发送与读取的结构，不包含服务端实现。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs</code></p></div></details></div></section><style>@scope (.original-report) {
 
 .original-report{--ink:#1f2933;--paper:#f7f6f2;--panel:#fff;--line:#d9ddd8;--muted:#66717c;--teal:#0f766e;--red:#b42318;--amber:#b7791f;--soft:#e8f3f0;--mono:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;--sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box}

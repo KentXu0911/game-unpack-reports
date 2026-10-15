@@ -1,0 +1,49 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="界面美术结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>Unity 对象、音频、动画、本地化、引用解析的全量盘点</td><td><!--N:objects-->个对象 · <!--N:object_types-->类</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>画面主要由 Sprite 拼装；动画短而密，事件很少；音频几乎全是单声道 44.1kHz；文案 11 种语言，无中文</td><td>动画中位 0.55 秒</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>完整时序、粒子参数、未随包区域、制作源文件</td><td>粒子只做了索引</td></tr>
+</tbody></table></div>
+<p class="flow-note">页尾保留已提取的棋子、道具与障碍图集。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：资源全量盘点</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">24 个 assetbundle 重新加载后逐类计数；音频、动画与本地化单独严格解析。</p>
+<!--TABLE:assets-object-types-->
+<!--TABLE:assets-animation-->
+<!--TABLE:assets-audio-->
+<!--TABLE:assets-localization-->
+<!--TABLE:assets-pointers-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>画面以 2D Sprite 拼装为主。</b>GameObject 与 Transform 合占 46%，SpriteRenderer 15,104 个、Sprite 7,971 个；ParticleSystem 与它的渲染器各 7,938 个。<!--REF:assets-object-types-->棋盘与界面主要靠精灵和粒子，不依赖 3D 模型。</div>
+
+<div class="finding"><b>动画短而密，事件很少。</b>1,374 个片段的时长中位数 0.55 秒，几乎全部按 60 帧采样；只有 79 个片段带事件，共 358 个。<!--REF:assets-animation-->
+<br><small>推断：大部分时序由代码驱动（协程、延时常量），动画事件只在少数地方回调，这与棋盘状态机里读到的时长常量一致。</small></div>
+
+<div class="finding"><b>音频绝大多数是短促的单声道音效。</b>697 段共 20.3 分钟，675 段单声道、688 段 44.1kHz。<!--REF:assets-audio-->片段时长中位数 0.75 秒；超过 60 秒的只有 6 段，即主界面、关卡内与活动的背景音乐。22 段双声道里，除背景音乐外还有关卡完成、区域完成和一部分障碍音效（如密码筒、瓷器）。<small>（时长与文件名取自 audio_inventory.csv）</small></div>
+
+<div class="finding"><b>文案 11 种语言，全部填满，没有中文。</b>5,103 个词条 × 11 语言 = 56,133 个非空单元，即每个词条每种语言都有译文。<!--REF:assets-localization-->中文版需另取对应包体或自行翻译。</div>
+
+<div class="finding"><b>引用关系完整。</b>69,457 个非空引用全部解析到包内对象，14,991 个 TextAsset 与原始字节一致。<!--REF:assets-pointers-->另有 7 个脚本组件解析残留（2 个 bundle 边界不符、2 个广告 SDK 类型树失败、3 个空脚本引用），原始字节保留。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="界面美术未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>游戏中的完整表现时序</td><td>曲线与事件可读；完整表现要接 Animator、协程与回调。</td><td>状态机与协程代码，加实机录像对照</td></tr>
+<tr><td>粒子效果</td><td>7,938 个粒子系统只完成索引，参数未批量导出。</td><td>逐个导出 ParticleSystem 配置</td></tr>
+<tr><td>音频内容</td><td>原始 FSB5 流已校验文件头，未批量转 WAV 与逐段试听。</td><td>批量转码</td></tr>
+<tr><td>未随包的区域与活动资源</td><td>只有区域 1、2、3、163 的场景包。</td><td>对应下载包</td></tr>
+<tr><td>制作源文件</td><td>拿到的是构建产物，不是 Unity 工程、PSD 分层或音频工程，见<a href="source-projects.html">原制作工程</a>。</td><td>不可从客户端取得</td></tr>
+</tbody></table></div>
+</section>

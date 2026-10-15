@@ -1,0 +1,58 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="装修任务结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>区域、任务、price、依赖与重放字段全部可逐行读出</td><td><!--N:area_count-->区域 · <!--N:task_count-->任务</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>区域 price 合计按档递增，自区域 29 起固定为 100；依赖由早期的分叉为主变为后期的线性为主</td><td>10→20→30→40→50→100</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>price 的业务单位、多前置的与／或关系、玩家的星星来源、未随包的区域画面</td><td>随包场景 4 个</td></tr>
+</tbody></table></div>
+<p class="flow-note">事实表由 <code>scripts/extract_module_facts.py</code> 从拆包产物重算，表下标注取数文件；分析只引用上面的表。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：165 个区域、1,634 个任务</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">每个任务有 id、price、dependency、dependencies 和 replayConfig；区域有名称与任务数。下面先列出直接计数，再列依赖、重放字段和随包场景。</p>
+<!--TABLE:area-summary-->
+<!--TABLE:area-tasks-per-area-->
+<!--TABLE:area-price-runs-->
+<!--TABLE:area-price-dist-->
+<!--TABLE:area-price-by-order-->
+<!--TABLE:area-dependency-shape-->
+<!--TABLE:area-dependency-by-range-->
+<!--TABLE:area-starts-merges-->
+<!--TABLE:area-replay-->
+<!--TABLE:area-example-1-->
+<!--TABLE:area-example-100-->
+<!--TABLE:area-scene-bundles-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：从这些数字能读出什么</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">每条结论后面的“依据”链接回上面的表。带“推断”的部分是读数后的解释，没有消费代码或实机逐项验证。</p>
+
+<div class="finding"><b>区域有固定的 price 预算档。</b>区域 price 合计只出现 10、20、30、40、50、100 六个值，随区域号单调不减，自区域 29 起每区都是 100，共 136 个区域。<!--REF:area-price-runs-->每区任务数几乎不变（121 个区域是 10 个任务）<!--REF:area-tasks-per-area-->，所以后期靠提高单任务 price 来撑预算：单任务均值从区域 1–2 的 1.54 升到区域 29 以后的 9.83。<!--REF:area-price-runs--></div>
+
+<div class="finding"><b>区域内越往后越贵，但曲线很平。</b>区域 29 起、恰好 10 个任务的 112 个区域里，第 1 个任务均值 7.6，第 10 个任务均值 11.3，中间在 9.7–10.9 之间摆动。<!--REF:area-price-by-order-->单任务 price 取值集中在 8–12，众数是 10（297 个任务）。<!--REF:area-price-dist--></div>
+
+<div class="finding"><b>早期区域更爱分叉，后期趋向线性。</b>区域 1–10 的任务里分叉占 36.2%、线性占 46.2%；到区域 29–99，分叉降到 9.7%、线性升到 61.8%；区域 100 以后分叉只剩 4.9%。<!--REF:area-dependency-by-range-->每个区有 1–3 个起点；合并点（多前置任务）有 105 个区域各含 1–3 个。<!--REF:area-starts-merges-->
+<br><small>推断：同一前置下并列的任务，玩家可以先做哪一个；这一点需要运行验证，表里只证明依赖关系是分叉的。</small></div>
+
+<div class="finding"><b>task_id 不是解锁顺序，也不一定是播放顺序。</b>394 条任务的 replayConfig.order 与 task_id 不同；另有 4 个任务的前置里含编号比自己大的任务。<!--REF:area-replay--><!--REF:area-dependency-shape-->复刻时要把 task_id、order 和依赖三份数据分别保存，按 task_id 排序得到的不是依赖拓扑序。</div>
+
+<div class="finding"><b>配置齐全，场景画面几乎没有随包。</b>164 个含任务的区域都有配置，随包的区域场景包只有 area01、area02、area03、area163 四个，另有两个剧集包。<!--REF:area-scene-bundles-->所以“能复原任务推进”与“能复原每个区域的画面”是两件事，后者要另取下载资源。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="装修任务未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>price 的业务单位</td><td>字段名是 price，能求和、能比较；是否就是装修所需的星星数没有逐项核对。</td><td>任务消费者（如 <code>GetConfigForTaskId</code>）的读取与扣减路径</td></tr>
+<tr><td>多前置是“全部完成”还是“任一完成”</td><td>137 个任务带 dependencies 列表（136 个列 2–3 个前置，1 个只列 1 个）；字段本身不带“且／或”。</td><td>解锁判定的消费代码，或实机观察</td></tr>
+<tr><td>玩家星星的来源与速度</td><td>本页只有消耗侧；获得侧在关卡奖励与活动奖励里，需要另行汇总。</td><td>关卡通关奖励配置与运行记录</td></tr>
+<tr><td>剧情文本</td><td>261 个 story-* 文件含玩法关卡数据线索，不能直接当剧情正文；真实文案须从本地化表按消费关系取。</td><td>本地化词条与任务的绑定关系</td></tr>
+<tr><td>未随包区域的画面与动画</td><td>仅区域 1、2、3、163 有场景包；其余区域的美术、音效、动画需下载资源。</td><td>对应 area*.ab 下载包</td></tr>
+<tr><td>重放字段的含义</td><td>blending、hasAudio、disableHaptic、positionOffset 的含义取自字段名，未逐项核对消费代码。</td><td>重放与镜头系统的消费者</td></tr>
+</tbody></table></div>
+</section>

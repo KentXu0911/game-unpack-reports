@@ -1,0 +1,3099 @@
+{
+ "numbers": {
+  "area_count": 165,
+  "task_count": 1634,
+  "area_with_tasks": 164,
+  "price_sum": 14600,
+  "area_first": 0,
+  "area_last": 164,
+  "area_dep_start": 353,
+  "area_dep_merge": 134,
+  "area_dep_prev": 966,
+  "area_dep_other": 181,
+  "area_dep_forward": 4,
+  "area_roots_dist": {
+   "1": 40,
+   "2": 59,
+   "3": 65
+  },
+  "replay_order_diff": 394,
+  "replay_noaudio": 18,
+  "level_count": 14500,
+  "cell_total": 1528444,
+  "goal_ids": 83,
+  "obstacle_levels": 7680,
+  "tiled_fields": 17,
+  "level_multi_board": 693,
+  "level_tall": 693,
+  "level_tall_multi": 693,
+  "proto_types": 559,
+  "proto_structs": 488,
+  "proto_enums": 71,
+  "proto_requests": 145,
+  "proto_responses": 164,
+  "tcp_requests": 14,
+  "proto_domain_sum": 145,
+  "proto_n_0": 21,
+  "proto_n_1": 9,
+  "proto_n_2": 20,
+  "proto_n_3": 10,
+  "proto_n_4": 12,
+  "proto_n_5": 14,
+  "proto_n_6": 58,
+  "proto_n_other": 1,
+  "chat_models": 11,
+  "proto_fail_enums": 36,
+  "invite_steps": 11,
+  "multiplayer_groups": 10,
+  "bundle_rows": 222,
+  "reward_codes": 43,
+  "reward_nodes": 784,
+  "reward_activities": 29,
+  "sku_count": 49,
+  "sku_families": 19,
+  "objects": 166986,
+  "object_types": 63,
+  "animations": 1374,
+  "terms": 5103,
+  "filled_cells": 56133,
+  "languages": 11,
+  "manifest_files": 1493,
+  "manifest_bytes": 655483747,
+  "source_ext_hits": 0,
+  "il2cpp_types": 15292,
+  "royal_types": 8800
+ },
+ "tables": {
+  "area-summary": {
+   "title": "区域与任务：直接计数",
+   "columns": [
+    "指标",
+    "数值",
+    "说明"
+   ],
+   "rows": [
+    [
+     "区域配置记录",
+     "165",
+     "area_id 0–164 连续；area 0 是 Royal League，任务数 0"
+    ],
+    [
+     "含任务的区域",
+     "164",
+     "任务数 6–13，中位数 10"
+    ],
+    [
+     "任务记录",
+     "1,634",
+     "字段：id、price、dependency、dependencies、replayConfig、positionOffset"
+    ],
+    [
+     "单任务 price",
+     "1–16",
+     "全部任务合计 14,600"
+    ],
+    [
+     "区域 price 合计与任务逐项求和",
+     "一致",
+     "164 个含任务区域逐个核对"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-tasks-per-area": {
+   "title": "每区任务数分布",
+   "columns": [
+    "每区任务数",
+    "区域数"
+   ],
+   "rows": [
+    [
+     "6",
+     "1"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "8",
+     "7"
+    ],
+    [
+     "9",
+     "12"
+    ],
+    [
+     "10",
+     "121"
+    ],
+    [
+     "11",
+     "18"
+    ],
+    [
+     "12",
+     "3"
+    ],
+    [
+     "13",
+     "1"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-price-runs": {
+   "title": "区域 price 合计按 area_id 的变化",
+   "columns": [
+    "area_id",
+    "区域数",
+    "区域 price 合计",
+    "单任务均值"
+   ],
+   "rows": [
+    [
+     "1–2",
+     "2",
+     "10",
+     "1.54"
+    ],
+    [
+     "3–11",
+     "9",
+     "20",
+     "2.40"
+    ],
+    [
+     "12–13",
+     "2",
+     "30",
+     "3.16"
+    ],
+    [
+     "14",
+     "1",
+     "40",
+     "4.00"
+    ],
+    [
+     "15–28",
+     "14",
+     "50",
+     "5.22"
+    ],
+    [
+     "29–164",
+     "136",
+     "100",
+     "9.83"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": "连续且数值相同的区域合并为一行。price 的业务单位仍待消费代码确认。"
+  },
+  "area-price-dist": {
+   "title": "单任务 price 分布",
+   "columns": [
+    "price",
+    "任务数"
+   ],
+   "rows": [
+    [
+     "1",
+     "19"
+    ],
+    [
+     "2",
+     "44"
+    ],
+    [
+     "3",
+     "49"
+    ],
+    [
+     "4",
+     "57"
+    ],
+    [
+     "5",
+     "51"
+    ],
+    [
+     "6",
+     "81"
+    ],
+    [
+     "7",
+     "98"
+    ],
+    [
+     "8",
+     "197"
+    ],
+    [
+     "9",
+     "264"
+    ],
+    [
+     "10",
+     "297"
+    ],
+    [
+     "11",
+     "168"
+    ],
+    [
+     "12",
+     "179"
+    ],
+    [
+     "13",
+     "76"
+    ],
+    [
+     "14",
+     "26"
+    ],
+    [
+     "15",
+     "27"
+    ],
+    [
+     "16",
+     "1"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-dependency-shape": {
+   "title": "任务依赖形态（互斥，合计 1,634）",
+   "columns": [
+    "形态",
+    "任务数",
+    "含义"
+   ],
+   "rows": [
+    [
+     "dependency = -1 且 dependencies 为空",
+     "353",
+     "区内起点，不等其他任务"
+    ],
+    [
+     "dependency = -1 且 dependencies 非空",
+     "134",
+     "多前置任务：dependencies 列出全部前置，个数 1个×1、2个×113、3个×23"
+    ],
+    [
+     "dependency = 上一编号任务",
+     "966",
+     "线性串联"
+    ],
+    [
+     "dependency 指向更早的非相邻任务",
+     "181",
+     "从同一任务分叉出多条支线"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": "dependency 指向单个前置；另有 3 个任务同时有 dependency 与 dependencies，已计入后两行。有 4 个任务的 dependencies 含比自身编号更大的任务，所以 task_id 是展示顺序，不是依赖的拓扑顺序。"
+  },
+  "area-dependency-by-range": {
+   "title": "依赖形态按区域段的占比",
+   "columns": [
+    "area_id",
+    "任务数",
+    "起点",
+    "线性",
+    "分叉",
+    "合并"
+   ],
+   "rows": [
+    [
+     "1–10",
+     "80",
+     "16.2%",
+     "46.2%",
+     "36.2%",
+     "1.2%"
+    ],
+    [
+     "11–28",
+     "171",
+     "21.1%",
+     "41.5%",
+     "28.7%",
+     "8.8%"
+    ],
+    [
+     "29–99",
+     "733",
+     "20.6%",
+     "61.8%",
+     "9.7%",
+     "7.9%"
+    ],
+    [
+     "100–164",
+     "650",
+     "23.5%",
+     "62.3%",
+     "4.9%",
+     "9.2%"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": "同一行四列合计 100%；形态定义见上表。"
+  },
+  "area-starts-merges": {
+   "title": "每区起点数与合并点数",
+   "columns": [
+    "个数",
+    "含该个数起点的区域",
+    "含该个数合并点的区域"
+   ],
+   "rows": [
+    [
+     "0",
+     "0",
+     "59"
+    ],
+    [
+     "1",
+     "40",
+     "80"
+    ],
+    [
+     "2",
+     "59",
+     "21"
+    ],
+    [
+     "3",
+     "65",
+     "4"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-price-by-order": {
+   "title": "区域 29 起、恰好 10 个任务的区域：按任务编号看 price 均值",
+   "columns": [
+    "任务编号",
+    "均值",
+    "最小",
+    "最大"
+   ],
+   "rows": [
+    [
+     "1",
+     "7.6",
+     "5",
+     "12"
+    ],
+    [
+     "2",
+     "9.8",
+     "4",
+     "13"
+    ],
+    [
+     "3",
+     "10.2",
+     "6",
+     "15"
+    ],
+    [
+     "4",
+     "9.7",
+     "6",
+     "14"
+    ],
+    [
+     "5",
+     "9.7",
+     "4",
+     "15"
+    ],
+    [
+     "6",
+     "10.4",
+     "7",
+     "15"
+    ],
+    [
+     "7",
+     "10.9",
+     "6",
+     "15"
+    ],
+    [
+     "8",
+     "9.8",
+     "4",
+     "16"
+    ],
+    [
+     "9",
+     "10.6",
+     "7",
+     "15"
+    ],
+    [
+     "10",
+     "11.3",
+     "6",
+     "15"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": "样本 112 个区域。"
+  },
+  "area-replay": {
+   "title": "replayConfig 字段取值",
+   "columns": [
+    "字段",
+    "取值概况"
+   ],
+   "rows": [
+    [
+     "order",
+     "与 task_id 相同 1,240 条，不同 394 条"
+    ],
+    [
+     "blending",
+     "0.8×1320、0×161、0.85×33、0.7×27、0.75×16、0.9×14，共 22 种取值"
+    ],
+    [
+     "hasAudio",
+     "1×1616、0×18"
+    ],
+    [
+     "disableHaptic",
+     "0×1634（全部）"
+    ],
+    [
+     "positionOffset",
+     "63 种取值，范围 -3.5～4"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": "字段含义（镜头混合、静音、触感）取自字段名，需消费代码核对。"
+  },
+  "area-example-1": {
+   "title": "区域 1 Castle：任务逐项",
+   "columns": [
+    "task",
+    "price",
+    "dependency",
+    "dependencies",
+    "order",
+    "blending"
+   ],
+   "rows": [
+    [
+     "1",
+     "1",
+     "-1",
+     "[]",
+     "1",
+     "0.0"
+    ],
+    [
+     "2",
+     "1",
+     "1",
+     "[]",
+     "2",
+     "0.8"
+    ],
+    [
+     "3",
+     "2",
+     "2",
+     "[]",
+     "3",
+     "0.8"
+    ],
+    [
+     "4",
+     "2",
+     "3",
+     "[]",
+     "4",
+     "0.8"
+    ],
+    [
+     "5",
+     "2",
+     "4",
+     "[]",
+     "5",
+     "0.8"
+    ],
+    [
+     "6",
+     "2",
+     "5",
+     "[]",
+     "6",
+     "0.8"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-example-100": {
+   "title": "区域 100 Courtyard：任务逐项",
+   "columns": [
+    "task",
+    "price",
+    "dependency",
+    "dependencies",
+    "order",
+    "blending"
+   ],
+   "rows": [
+    [
+     "1",
+     "8",
+     "-1",
+     "[]",
+     "1",
+     "0.0"
+    ],
+    [
+     "2",
+     "10",
+     "1",
+     "[]",
+     "2",
+     "0.8"
+    ],
+    [
+     "3",
+     "7",
+     "-1",
+     "[]",
+     "3",
+     "0.8"
+    ],
+    [
+     "4",
+     "11",
+     "3",
+     "[]",
+     "4",
+     "0.8"
+    ],
+    [
+     "5",
+     "12",
+     "4",
+     "[]",
+     "5",
+     "0.8"
+    ],
+    [
+     "6",
+     "10",
+     "5",
+     "[]",
+     "6",
+     "0.8"
+    ],
+    [
+     "7",
+     "8",
+     "-1",
+     "[]",
+     "7",
+     "0.8"
+    ],
+    [
+     "8",
+     "10",
+     "7",
+     "[]",
+     "8",
+     "0.8"
+    ],
+    [
+     "9",
+     "13",
+     "-1",
+     "[5, 8]",
+     "9",
+     "0.8"
+    ],
+    [
+     "10",
+     "11",
+     "9",
+     "[]",
+     "10",
+     "0.8"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
+   "note": ""
+  },
+  "area-scene-bundles": {
+   "title": "随包场景资源",
+   "columns": [
+    "资源",
+    "内容"
+   ],
+   "rows": [
+    [
+     "区域场景包",
+     "area01、area02、area03、area163"
+    ],
+    [
+     "剧集资源",
+     "episodes_161_162_163_164、episodes_1_2_3_4"
+    ],
+    [
+     "配置区域数 ÷ 随包场景包",
+     "164 ÷ 4"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/bundle_manifest.csv",
+   "note": ""
+  },
+  "level-summary": {
+   "title": "关卡配置：直接计数",
+   "columns": [
+    "指标",
+    "数值",
+    "说明"
+   ],
+   "rows": [
+    [
+     "关卡记录",
+     "14,500",
+     "level_id 1–14500"
+    ],
+    [
+     "格子表项合计",
+     "1,528,444",
+     "逐关 cell_count 求和"
+    ],
+    [
+     "步数 move",
+     "15–40",
+     "中位数 24，均值 24.17"
+    ],
+    [
+     "目标 ID 清单",
+     "83 个",
+     "goal_id_usage_summary.csv 每行一个目标 ID"
+    ],
+    [
+     "goal_count > 1 的关卡",
+     "14,232",
+     "该计数不等于难度"
+    ],
+    [
+     "带障碍格的关卡",
+     "7,680",
+     "obstacle_cell_count > 0"
+    ],
+    [
+     "有预定义补棋队列的关卡",
+     "1,736",
+     "预定义记录合计 42,176 条"
+    ],
+    [
+     "FTiledCell 声明字段",
+     "17 个",
+     "FillType、IsPredefined、Grass、Honey、Curtain、Chain、Roof、Jelly、Treasuremap、Ceramic、MushroomSoil、Blinds、WaterSoil、ForceField、Cryptex、IceBorder、MetalPlates"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "level-goal-records": {
+   "title": "goals 字段：记录数与“有数量的目标 ID 数”",
+   "columns": [
+    "口径",
+    "取值分布（个数：关卡数）"
+   ],
+   "rows": [
+    [
+     "goal_count（记录条数，含 0 数量）",
+     "1：268、2：387、3：2,608、4：10,549、6：66、8：322、9：6、10：211、12：55、14：11、15：9、18：4、21：2、24：1、30：1"
+    ],
+    [
+     "数量 > 0 的不同目标 ID",
+     "0：161、1：113、2：476、3：4,499、4：9,010、5：199、6：34、7：7、9：1"
+    ],
+    [
+     "棋盘块数（goals 第 4 段最大值 + 1）",
+     "1：13,807、2：656、3：37"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": "goals 每条格式为 目标ID:数量:标志位:棋盘号（标志位只取 0／1，含义未确认）；多棋盘关每块棋盘各登记一条，数量可为 0。“数量 > 0 的不同目标 ID”更接近界面上的目标个数，但目标为 0 的关和运行时生成的目标仍需对照。"
+  },
+  "level-tall-boards": {
+   "title": "高棋盘（height ≥ 20）与多棋盘",
+   "columns": [
+    "指标",
+    "关卡数"
+   ],
+   "rows": [
+    [
+     "height ≥ 20",
+     "693"
+    ],
+    [
+     "其中棋盘块数 > 1",
+     "693"
+    ],
+    [
+     "棋盘块数 > 1 的关卡",
+     "693"
+    ],
+    [
+     "其中 height ≥ 20",
+     "693"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "level-zero-goal": {
+   "title": "没有数量 > 0 目标的关卡",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "关卡数",
+     "161"
+    ],
+    [
+     "goals 内容",
+     "全部只有一条 Coin（21）且数量为 0"
+    ],
+    [
+     "关卡号间隔",
+     "20–200 每 20 关；200–260 每 30 关；260–300 每 40 关；300–900 每 50 关；900–14500 每 100 关"
+    ],
+    [
+     "首末关卡号",
+     "20 … 14500"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "level-goal-flag": {
+   "title": "goals 第 3 段（标志位）",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "出现过的取值",
+     "0、1"
+    ],
+    [
+     "至少一条为 1 的关卡",
+     "6,181"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": "含义未确认。"
+  },
+  "level-board-sizes": {
+   "title": "棋盘尺寸分布（前 8）",
+   "columns": [
+    "宽×高",
+    "关卡数",
+    "占比"
+   ],
+   "rows": [
+    [
+     "9×11",
+     "10,372",
+     "71.5%"
+    ],
+    [
+     "9×10",
+     "1,664",
+     "11.5%"
+    ],
+    [
+     "8×11",
+     "957",
+     "6.6%"
+    ],
+    [
+     "9×9",
+     "419",
+     "2.9%"
+    ],
+    [
+     "9×31",
+     "278",
+     "1.9%"
+    ],
+    [
+     "8×10",
+     "254",
+     "1.8%"
+    ],
+    [
+     "9×37",
+     "126",
+     "0.9%"
+    ],
+    [
+     "9×30",
+     "113",
+     "0.8%"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "level-goal-count": {
+   "title": "每关目标记录数分布",
+   "columns": [
+    "goal_count",
+    "关卡数"
+   ],
+   "rows": [
+    [
+     "1",
+     "268"
+    ],
+    [
+     "2",
+     "387"
+    ],
+    [
+     "3",
+     "2,608"
+    ],
+    [
+     "4",
+     "10,549"
+    ],
+    [
+     "6",
+     "66"
+    ],
+    [
+     "8",
+     "322"
+    ],
+    [
+     "9",
+     "6"
+    ],
+    [
+     "10",
+     "211"
+    ],
+    [
+     "12",
+     "55"
+    ],
+    [
+     "14",
+     "11"
+    ],
+    [
+     "15",
+     "9"
+    ],
+    [
+     "18",
+     "4"
+    ],
+    [
+     "21",
+     "2"
+    ],
+    [
+     "24",
+     "1"
+    ],
+    [
+     "30",
+     "1"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "level-refill-sets": {
+   "title": "补棋 set 数量分布",
+   "columns": [
+    "set_count",
+    "关卡数"
+   ],
+   "rows": [
+    [
+     "1",
+     "13,884"
+    ],
+    [
+     "2",
+     "515"
+    ],
+    [
+     "3",
+     "88"
+    ],
+    [
+     "4",
+     "11"
+    ],
+    [
+     "5",
+     "2"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv",
+   "note": ""
+  },
+  "proto-domains": {
+   "title": "客户端协议请求按业务分类",
+   "columns": [
+    "业务",
+    "请求数",
+    "请求名"
+   ],
+   "rows": [
+    [
+     "账号与连接",
+     "21",
+     "Authenticate、ChangeUserName、DeleteUser、DeprecatedAuthenticate、DetachUserFromDevice、Echo、ForgetPassword、GetFacebookAppsecretProof、GetFacebookIds、GetProfile、GetUserAppData、Ping、Register、ReportUser、SendOTP、ServerStatus、SetProfileSetting、SocialConnect、UpdatePGS、UpdateUserProgress、VerifyOTP"
+    ],
+    [
+     "键值与统计存取",
+     "9",
+     "ConsumeSystemMessages、GetByteArrayKeyValues、GetKeyValue、GetStat、GetStatHelpsReceivedFix、GetStatHistory、GetSystemMessages、SetKeyValue、SetStat"
+    ],
+    [
+     "团队与聊天",
+     "20",
+     "AskTeamSeasonalCardCollectionCard、ClaimTeamBattleReward、CreateTeam、EnterTeamTournament、GetTeamBattleInfo、GetTeamChatData、GetTeamInfo、GetTeamMembers、GetTeamTournamentInfo、GetTeamTreasureInfo、JoinTeam、LeaveTeam、SearchTeam、SendChatMessage、SendDragonNestTeamInvite、SendTrainJourneyTeamInvite、TeamGiftOfferClaim、UpdateTeamMember、UpdateTeamTournament、UpdateTeamTreasure"
+    ],
+    [
+     "好友与生命互助",
+     "10",
+     "AnswerFriendship、AskFriendship、AskLife、ConsumeLife、GetFriends、GetInviteFriendInviteesInfo、GetPendingFriends、HelpLife、RemoveFriend、SearchFriend"
+    ],
+    [
+     "排行榜与联赛",
+     "12",
+     "CheckLeague、ClaimKingsCupReward、ClaimLeagueReward、ClaimWeeklyLeaderboard、DepreciatedCheckLeague、EnterLeague、EnterWeeklyLeaderboard、GetKingsCupInfo、GetLeagueInfo、GetRoyalWorldCupLeaderboard、GetWeeklyLeaderboardInfo、Leaderboard"
+    ],
+    [
+     "商品、支付与实验",
+     "14",
+     "AssignCampaignAB、ConsumeRemoteRewards、GetAllTimePurchase、GetGoldenOffersInfo、GetJourneyOfferInfo、GetRemoteRewardsInfo、GetSpecialOfferInfo、GetXsollaOrderId、GetXsollaToken、PremiumPassClaim、PurchaseInMaintenanceMode、PurchaseVerification、RoyalPassClaim、WeeklyPassClaim"
+    ],
+    [
+     "限时活动与赛事",
+     "58",
+     "ClaimSkyRaceReward、ClaimSpaceMissionReward、DeprecatedClaimLightningRush、DeprecatedEnterLightningRush、DeprecatedGetLightningRushInfo、DismissSuggestion、EnterArcheryArena、EnterClashOfChampions、EnterDailyLightningRush、EnterLavaQuest、EnterPropellerRush、EnterRobotRivals、EnterRoyalWorldCup、EnterSkyRace、EnterSpaceMission、EnterWorldCup、EnteredClashOfChampions、GetAncientAdventureInfo、GetArcheryArenaInfo、GetBalloonRiseInfo、GetClashOfChampionsInfo、GetDailyLightningRushInfo、GetDailyRewardsInfo、GetDragonNestInfo、GetDragonNestSuggestionsAndInvitations、GetEventInfo、GetExpeditionEventInfo、GetHiddenTempleInfo、GetLavaQuestInfo、GetMagicCauldronInfo、GetMergeSmithInfo、GetMissionControlInfo、GetMissionPursuitInfo、GetOceanOdysseyInfo、GetPropellerRushInfo、GetPuzzleBreakInfo、GetRobotRivalsInfo、GetRoyalWorldCupInfo、GetSeasonalCardCollectionInfo、GetSkyRaceInfo、GetSpaceMissionInfo、GetTrainJourneyInfo、GetTrainJourneySuggestionsAndInvitations、GetUpcomingEventInfo、GetWorldCupInfo、SendDragonNestInvitation、SendSeasonalCard、SendTrainJourneyRelation、UpdateArcheryArenaScore、UpdateCardCollection、UpdateClashOfChampionsScore、UpdateDailyLightningRushScore、UpdateDragonNestScore、UpdatePropellerRushScore、UpdateRobotRivalsScore、UpdateRoyalWorldCupScore、UpdateTrainJourneyScore、UpdateWorldCupProgress"
+    ],
+    [
+     "其他",
+     "1",
+     "GetOnlineUsers"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": "分类依据请求名关键词，一个请求只归入一类，按表内顺序优先匹配（商品类先于活动类）；各行合计等于请求总数。"
+  },
+  "proto-team-requests": {
+   "title": "团队、聊天与好友：请求字段",
+   "columns": [
+    "请求",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "CreateTeam",
+     "TeamId:long、NickName:string、TeamName:string、Logo:int、Description:string、MinLevel:int、Type:bool、Language:string、DeviceLanguage:string、MinCrown:int"
+    ],
+    [
+     "JoinTeam",
+     "TeamId:long、Name:string、Language:string、DeviceLanguage:string"
+    ],
+    [
+     "SearchTeam",
+     "SearchText:string、Language:string"
+    ],
+    [
+     "LeaveTeam",
+     "TeamId:long"
+    ],
+    [
+     "SendChatMessage",
+     "Text:string、Language:string、OwnerChatProfile:Nullable<ChatProfile>、DeviceLanguage:string、OwnerSpecialChatProfile:Nullable<SpecialChatProfile>"
+    ],
+    [
+     "GetTeamInfo",
+     "TeamId:long、IncludeMembers:bool"
+    ],
+    [
+     "GetTeamMembers",
+     "TeamId:long"
+    ],
+    [
+     "UpdateTeamMember",
+     "TeamId:long、MemberId:long、Operation:TeamMemberOperationType"
+    ],
+    [
+     "AskLife",
+     "OwnerChatProfile:Nullable<ChatProfile>、OwnerSpecialChatProfile:Nullable<SpecialChatProfile>"
+    ],
+    [
+     "HelpLife",
+     "ToUserId:long、OwnerChatProfile:Nullable<ChatProfile>、OwnerSpecialChatProfile:Nullable<SpecialChatProfile>"
+    ],
+    [
+     "AskFriendship",
+     "UserId:long、IsDeeplink:bool"
+    ],
+    [
+     "ReportUser",
+     "ReportedUserId:long"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-team-responses": {
+   "title": "团队与聊天：响应字段",
+   "columns": [
+    "响应",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "CreateTeam",
+     "Status:ResponseStatusCode、TeamId:long、UserData:long、TeamTreasureInfo:Nullable<TeamTreasureInfo>、FailReason:ChatMessageFailReason、IsEdit:bool"
+    ],
+    [
+     "JoinTeam",
+     "Status:ResponseStatusCode、RequestSent:bool、FailReason:JoinTeamFailReason、UserData:long、TeamBattleInfo:Nullable<TeamBattleInfo>、TeamTreasureInfo:Nullable<TeamTreasureInfo>、TeamTournamentInfo:Nullable<TeamTournamentRefreshInfo>、DeprecatedTeamJoinBanDuration:long"
+    ],
+    [
+     "GetTeamInfo",
+     "Status:ResponseStatusCode、TeamId:long、TeamName:string、Logo:int、Description:string、MinLevel:int、Type:bool、Score:int、Activity:TeamActivityLevel、Leader:long、CoLeadersLength:int、MembersLength:int、MinCrown:int"
+    ],
+    [
+     "GetTeamMembers",
+     "Status:ResponseStatusCode、MembersLength:int"
+    ],
+    [
+     "SendChatMessage",
+     "Message:Nullable<ChatMessage>、FailReason:ChatMessageFailReason、TeamHoppingBanDuration:long"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-chat-type": {
+   "title": "聊天消息类型枚举（ChatMessageType）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "TextMessage"
+    ],
+    [
+     "1",
+     "JoinedTeam"
+    ],
+    [
+     "2",
+     "LeftTeam"
+    ],
+    [
+     "3",
+     "JoinRequest"
+    ],
+    [
+     "4",
+     "LeaderChange"
+    ],
+    [
+     "5",
+     "ColeaderMake"
+    ],
+    [
+     "6",
+     "ColeaderRemove"
+    ],
+    [
+     "7",
+     "JoinRequestRejected"
+    ],
+    [
+     "8",
+     "UpdateProfile"
+    ],
+    [
+     "9",
+     "ProfanityWarn"
+    ],
+    [
+     "10",
+     "ProfanityBan"
+    ],
+    [
+     "11",
+     "ReportedUsers"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-chat-fail": {
+   "title": "聊天与命名失败原因枚举（ChatMessageFailReason）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "None"
+    ],
+    [
+     "1",
+     "USER_NAME_CONTAINS_SLANG"
+    ],
+    [
+     "2",
+     "TEAM_NAME_CONTAINS_SLANG"
+    ],
+    [
+     "3",
+     "TEAM_DESCRIPTION_CONTAINS_SLANG"
+    ],
+    [
+     "4",
+     "CHAT_MESSAGE_CONTAINS_SLANG"
+    ],
+    [
+     "5",
+     "CHAT_MESSAGE_CONTAINS_SLANG_WARN"
+    ],
+    [
+     "6",
+     "CHAT_MESSAGE_CONTAINS_SLANG_BAN"
+    ],
+    [
+     "7",
+     "HAS_TEAM_HOPPING_BAN"
+    ],
+    [
+     "8",
+     "TEXT_REJECTED_FOR_PROFANITY_CHECK"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-join-fail": {
+   "title": "加入团队失败原因枚举（JoinTeamFailReason）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "None"
+    ],
+    [
+     "1",
+     "Kicked"
+    ],
+    [
+     "2",
+     "Rejected"
+    ],
+    [
+     "3",
+     "Pending"
+    ],
+    [
+     "4",
+     "NameContainsSlang"
+    ],
+    [
+     "5",
+     "DeprecatedHasTeamJoinBan"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-member-op": {
+   "title": "团队成员操作类型枚举（TeamMemberOperationType）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "Accept"
+    ],
+    [
+     "1",
+     "Reject"
+    ],
+    [
+     "2",
+     "KickUser"
+    ],
+    [
+     "3",
+     "MakeLeader"
+    ],
+    [
+     "4",
+     "MakeColeader"
+    ],
+    [
+     "5",
+     "RemoveColeader"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-team-activity": {
+   "title": "团队活跃等级枚举（TeamActivityLevel）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "High"
+    ],
+    [
+     "1",
+     "Medium"
+    ],
+    [
+     "2",
+     "Low"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "chat-models": {
+   "title": "聊天流里的消息模型",
+   "columns": [
+    "类",
+    "基类"
+   ],
+   "rows": [
+    [
+     "ChatDragonNestInvitationModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatInfoMessageModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatJoinRequestModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatLifeRequestModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatRoyalPassClaimModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatSeasonalCardCollectionAskCardModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatTeamOfferClaimModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatTextMessageModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatTrainJourneyInvitationRequestModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatWarningMessageModel",
+     "ChatScrollItemModel"
+    ],
+    [
+     "ChatWeeklyPassClaimModel",
+     "ChatScrollItemModel"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-tcp": {
+   "title": "常驻连接（TCP）请求类",
+   "columns": [
+    "类",
+    "位置"
+   ],
+   "rows": [
+    [
+     "AskLifeTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "AuthenticateTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "ConsumeLifeTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "EchoTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "EnteredClashOfChampionsTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "GetTeamChatDataTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "HelpLifeTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "ReportUserTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "RoyalPassTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "SendChatMessageTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "TeamGiftOfferTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "TeamOfferTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "UpdateClashOfChampionsScoreTcpRequest",
+     "Backend.Tcp.Request"
+    ],
+    [
+     "WeeklyPassTcpRequest",
+     "Backend.Tcp.Request"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": "其余协议请求为一次性请求；连接侧的消息类型由 TcpRequestType 枚举区分。"
+  },
+  "proto-tcp-type": {
+   "title": "TcpRequestType 枚举",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "NONE"
+    ],
+    [
+     "1",
+     "DeprecatedAuthenticateRequest"
+    ],
+    [
+     "2",
+     "AskLifeRequest"
+    ],
+    [
+     "3",
+     "ConsumeLifeRequest"
+    ],
+    [
+     "4",
+     "HelpLifeRequest"
+    ],
+    [
+     "5",
+     "SendChatMessageRequest"
+    ],
+    [
+     "6",
+     "EchoRequest"
+    ],
+    [
+     "7",
+     "RoyalPassClaimRequest"
+    ],
+    [
+     "8",
+     "TeamGiftOfferClaimRequest"
+    ],
+    [
+     "9",
+     "AuthenticateRequest"
+    ],
+    [
+     "10",
+     "GetTeamChatDataRequest"
+    ],
+    [
+     "11",
+     "ServerStatusRequest"
+    ],
+    [
+     "12",
+     "PremiumPassClaimRequest"
+    ],
+    [
+     "13",
+     "ReportUserRequest"
+    ],
+    [
+     "14",
+     "UpdateClashOfChampionsScoreRequest"
+    ],
+    [
+     "15",
+     "GetOnlineUsersRequest"
+    ],
+    [
+     "16",
+     "EnteredClashOfChampionsRequest"
+    ],
+    [
+     "17",
+     "WeeklyPassClaimRequest"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-fail-reasons": {
+   "title": "服务端可返回的拒绝原因与结果枚举",
+   "columns": [
+    "枚举",
+    "取值数",
+    "取值"
+   ],
+   "rows": [
+    [
+     "ArcheryArenaFailReason",
+     "7",
+     "None、AlreadyEntered、AlreadyClaimed、EventDeleted、LevelNotReached、EventNotActive、NotInEvent"
+    ],
+    [
+     "AskFriendshipResult",
+     "3",
+     "Success、AlreadyRequested、FriendOrRequestLimitExceeded"
+    ],
+    [
+     "ChatMessageFailReason",
+     "9",
+     "None、USER_NAME_CONTAINS_SLANG、TEAM_NAME_CONTAINS_SLANG、TEAM_DESCRIPTION_CONTAINS_SLANG、CHAT_MESSAGE_CONTAINS_SLANG、CHAT_MESSAGE_CONTAINS_SLANG_WARN、CHAT_MESSAGE_CONTAINS_SLANG_BAN、HAS_TEAM_HOPPING_BAN、TEXT_REJECTED_FOR_PROFANITY_CHECK"
+    ],
+    [
+     "CoopEventFriendStatus",
+     "2",
+     "None、FullSlot"
+    ],
+    [
+     "CoopEventInvitationOperationStatus",
+     "9",
+     "Ok、AlreadyMatched、Fail、TooManyRequests、FullSlot、UserRejectedBefore、TeamInvitationDoesNotExist、UserDetachedOrBanned、EventNotActive"
+    ],
+    [
+     "CoopEventInvitationStatus",
+     "4",
+     "Requested、Pending、Matched、Rejected"
+    ],
+    [
+     "EnterClashOfChampionsFailReason",
+     "4",
+     "None、AlreadyEntered、EventNotActive、IsAboutToEnd"
+    ],
+    [
+     "EnterDailyLightningRushFailReason",
+     "4",
+     "None、AlreadyEntered、EventNotActive、IsAboutToEnd"
+    ],
+    [
+     "EnterEventFailReason",
+     "4",
+     "None、NotActive、IsAboutToEnd、InvalidUser"
+    ],
+    [
+     "EnterLeagueFailReason",
+     "5",
+     "None、LeagueIsNotActive、LeagueIsAboutToEnd、InvalidName、NameContainsSlang"
+    ],
+    [
+     "EnterPropellerRushFailReason",
+     "4",
+     "None、AlreadyEntered、EventNotActive、IsAboutToEnd"
+    ],
+    [
+     "EnterRobotRivalsFailReason",
+     "4",
+     "None、AlreadyEntered、EventNotActive、IsAboutToEnd"
+    ],
+    [
+     "EnterRoyalWorldCupFailReason",
+     "3",
+     "None、EventNotStarted、InvalidEnter"
+    ],
+    [
+     "EnterWorldCupResult",
+     "5",
+     "Success、PreEntered、AlreadyEntered、StageClosed、EventClosed"
+    ],
+    [
+     "GetClashOfChampionsInfoFailReason",
+     "3",
+     "None、EventIsDeleted、NotInEvent"
+    ],
+    [
+     "GetDailyLightningRushInfoFailReason",
+     "3",
+     "None、EventIsDeleted、NotInEvent"
+    ],
+    [
+     "GetPropellerRushInfoFailReason",
+     "3",
+     "None、EventIsDeleted、NotInEvent"
+    ],
+    [
+     "GetRemoteRewardsInfoFailReason",
+     "3",
+     "None、Expired、AlreadyClaimed"
+    ],
+    [
+     "GetRobotRivalsInfoFailReason",
+     "3",
+     "None、EventIsDeleted、NotInEvent"
+    ],
+    [
+     "GetRoyalWorldCupInfoFailReason",
+     "3",
+     "None、EventIsDeleted、InvalidStage"
+    ],
+    [
+     "GetWorldCupInfoResult",
+     "3",
+     "Success、EventDeleted、HasSocialBan"
+    ],
+    [
+     "GetXsollaOrderIdStatus",
+     "2",
+     "Success、Fail"
+    ],
+    [
+     "JoinTeamFailReason",
+     "6",
+     "None、Kicked、Rejected、Pending、NameContainsSlang、DeprecatedHasTeamJoinBan"
+    ],
+    [
+     "OTPFailReason",
+     "3",
+     "None、WrongOTP、InvalidEmail"
+    ],
+    [
+     "PurchaseVerificationStatusCode",
+     "4",
+     "Verified、UsedBefore、Fail、VerificationNotCompleted"
+    ],
+    [
+     "ResponseStatusCode",
+     "2",
+     "Success、Fail"
+    ],
+    [
+     "SearchFriendResult",
+     "2",
+     "Success、UserNotExist"
+    ],
+    [
+     "SeasonalCardCollectionCardOperationStatus",
+     "5",
+     "Ok、Fail、EventNotActive、AlreadyDonated、LimitReached"
+    ],
+    [
+     "SocialConnectStatus",
+     "10",
+     "GuestLinkedToFacebook、ConnectedToExistentAccount、HaveAlreadyBeenConnected、NewUserWithFacebook、GuestLinkedToApple、NewUserWithApple、GuestLinkedToGoogle、NewUserWithGoogle、GuestLinkedToPGS、AuthenticationFailed"
+    ],
+    [
+     "TeamTournamentFailReason",
+     "10",
+     "None、NotEnoughMemberCount、EventDeleted、LevelNotReached、EventNotActive、AlreadyEntered、NotEntered、NotEligibleToEnter、AboutToFinish、InvalidRequest"
+    ],
+    [
+     "UpdateDailyLightningRushScoreFailReason",
+     "4",
+     "None、EventNotActive、InvalidScore、GroupRaceTimeIsEnded"
+    ],
+    [
+     "UpdatePropellerRushScoreFailReason",
+     "4",
+     "None、EventNotActive、InvalidScore、GroupRaceTimeIsEnded"
+    ],
+    [
+     "UpdateRobotRivalsFailReason",
+     "5",
+     "None、EventNotActive、InvalidScore、GroupClosed、HasNoPartner"
+    ],
+    [
+     "UpdateRoyalWorldCupScoreFailReason",
+     "3",
+     "None、InvalidStage、InvalidScore"
+    ],
+    [
+     "UpdateWorldCupResult",
+     "6",
+     "Success、StageClosed、EventClosed、NonUpdateStage、InvalidCountry、InvalidScore"
+    ],
+    [
+     "UserEventStatus",
+     "4",
+     "Continue、Finished、Claimed、New"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": "这些是协议里允许出现的取值，不等于某账号会遇到它们，也不给出触发条件。"
+  },
+  "proto-claim-requests": {
+   "title": "队友代领：领取请求字段",
+   "columns": [
+    "请求",
+    "字段（名称:类型）",
+    "是否走常驻连接"
+   ],
+   "rows": [
+    [
+     "RoyalPassClaim",
+     "BuyerUserId:long",
+     "是"
+    ],
+    [
+     "WeeklyPassClaim",
+     "BuyerUserId:long",
+     "是"
+    ],
+    [
+     "PremiumPassClaim",
+     "BuyerUserId:long",
+     "是"
+    ],
+    [
+     "TeamGiftOfferClaim",
+     "BuyerUserId:long、Step:int",
+     "是"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-commerce-requests": {
+   "title": "商品、支付与实验：请求字段",
+   "columns": [
+    "请求",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "PurchaseVerification",
+     "ProductId:string、TransactionId:string、Receipt:string、Platform:PurchasePlatform、DeprecatedChest:int、CurrentUserInventory:Nullable<CurrentUserInventory>"
+    ],
+    [
+     "GetXsollaToken",
+     "（无字段）"
+    ],
+    [
+     "GetXsollaOrderId",
+     "ProductId:string"
+    ],
+    [
+     "GetAllTimePurchase",
+     "（无字段）"
+    ],
+    [
+     "AssignCampaignAB",
+     "Campaign:string"
+    ],
+    [
+     "GetGoldenOffersInfo",
+     "（无字段）"
+    ],
+    [
+     "GetSpecialOfferInfo",
+     "EventId:int"
+    ],
+    [
+     "GetJourneyOfferInfo",
+     "EventId:int、Segment:int、AbGroup:int"
+    ],
+    [
+     "PurchaseInMaintenanceMode",
+     "ProductIdsLength:int"
+    ],
+    [
+     "ConsumeRemoteRewards",
+     "Code:string"
+    ],
+    [
+     "GetRemoteRewardsInfo",
+     "Code:string"
+    ],
+    [
+     "RoyalPassClaim",
+     "BuyerUserId:long"
+    ],
+    [
+     "WeeklyPassClaim",
+     "BuyerUserId:long"
+    ],
+    [
+     "PremiumPassClaim",
+     "BuyerUserId:long"
+    ],
+    [
+     "TeamGiftOfferClaim",
+     "BuyerUserId:long、Step:int"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-commerce-responses": {
+   "title": "商品、支付与实验：响应字段",
+   "columns": [
+    "响应",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "PurchaseVerification",
+     "Status:ResponseStatusCode、VerificationStatus:PurchaseVerificationStatusCode、DeprecatedUserProgress:Nullable<UserProgress>、DeprecatedProcessedTransactionIdsLength:int、PurchaseTime:long、IsSandbox:bool、ProcessedTransactionInfosLength:int"
+    ],
+    [
+     "GetGoldenOffersInfo",
+     "GoldenOffersInfo:Nullable<GoldenOffersInfo>"
+    ],
+    [
+     "GetSpecialOfferInfo",
+     "SpecialOfferEventInfo:Nullable<SpecialOfferEventInfo>"
+    ],
+    [
+     "GetJourneyOfferInfo",
+     "EventInfo:Nullable<JourneyOfferInfo>"
+    ],
+    [
+     "AssignCampaignAB",
+     "NewAbData:Nullable<NewABData>"
+    ],
+    [
+     "GetAllTimePurchase",
+     "PurchaseAmount:int、LastPurchaseTime:long、StatusCode:ResponseStatusCode"
+    ],
+    [
+     "GetXsollaOrderId",
+     "Status:GetXsollaOrderIdStatus、XsollaOrderId:string"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-purchase-status": {
+   "title": "购买校验状态码枚举（PurchaseVerificationStatusCode）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "Verified"
+    ],
+    [
+     "1",
+     "UsedBefore"
+    ],
+    [
+     "2",
+     "Fail"
+    ],
+    [
+     "3",
+     "VerificationNotCompleted"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-purchase-platform": {
+   "title": "购买平台枚举（PurchasePlatform）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "IOS"
+    ],
+    [
+     "1",
+     "Android"
+    ],
+    [
+     "2",
+     "Editor"
+    ],
+    [
+     "3",
+     "Huawei"
+    ],
+    [
+     "4",
+     "Samsung"
+    ],
+    [
+     "5",
+     "Amazon"
+    ],
+    [
+     "6",
+     "Xsolla"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-xsolla-status": {
+   "title": "Xsolla 订单状态枚举（GetXsollaOrderIdStatus）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "Success"
+    ],
+    [
+     "1",
+     "Fail"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-login-type": {
+   "title": "登录方式枚举（UserLoginType）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "NewUser"
+    ],
+    [
+     "1",
+     "OldUser"
+    ],
+    [
+     "2",
+     "CloudUser"
+    ],
+    [
+     "3",
+     "PGSUser"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-remote-fail": {
+   "title": "兑换码查询失败原因枚举（GetRemoteRewardsInfoFailReason）",
+   "columns": [
+    "值",
+    "名称"
+   ],
+   "rows": [
+    [
+     "0",
+     "None"
+    ],
+    [
+     "1",
+     "Expired"
+    ],
+    [
+     "2",
+     "AlreadyClaimed"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-event-requests": {
+   "title": "赛事与排行：请求字段",
+   "columns": [
+    "请求",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "EnterRoyalWorldCup",
+     "Country:RoyalWorldCupCountryType、Score:int"
+    ],
+    [
+     "EnterClashOfChampions",
+     "Level:int、ConfigVersion:int、IsBotRequired:bool、LastEnteredStage:ClashOfChampionsStage"
+    ],
+    [
+     "EnterTeamTournament",
+     "TeamId:long、TotalScore:int、Level:int、EventId:int"
+    ],
+    [
+     "EnterRobotRivals",
+     "Level:int、ConfigVersion:int、Stage:int、EnterWithBot:bool"
+    ],
+    [
+     "EnterPropellerRush",
+     "Level:int、Step:int、ConfigVersion:int"
+    ],
+    [
+     "EnterDailyLightningRush",
+     "Level:int、Step:int、ConfigVersion:int"
+    ],
+    [
+     "UpdateRoyalWorldCupScore",
+     "GroupId:long、Score:int、Stage:RoyalWorldCupStage、Country:RoyalWorldCupCountryType、StageWinScore:int、PassedTopEight:bool"
+    ],
+    [
+     "UpdateTeamTournament",
+     "GroupId:long、TotalScore:int、UsersHash:string、TeamId:long"
+    ],
+    [
+     "UpdateRobotRivalsScore",
+     "GroupId:long、Score:Nullable<RobotRivalsUserScore>、LeaderboardInfoType:LeaderboardInfoType"
+    ],
+    [
+     "GetRoyalWorldCupLeaderboard",
+     "EventId:int、Country:RoyalWorldCupCountryType、LeaderboardType:RoyalWorldCupLeaderboardInfoType、FriendsAndTeamMembersLength:int、ConfigVersion:int"
+    ],
+    [
+     "GetTeamTournamentInfo",
+     "GroupId:long、TeamId:long、ConfigVersion:int、TeamRank:int、UsersHash:string、EventId:int"
+    ],
+    [
+     "ClaimTeamBattleReward",
+     "GroupId:long、TeamId:long、DeprecatedCurrentUserInventory:Nullable<CurrentUserInventory>"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "proto-event-responses": {
+   "title": "赛事与排行：响应字段",
+   "columns": [
+    "响应",
+    "字段（名称:类型）"
+   ],
+   "rows": [
+    [
+     "EnterRoyalWorldCup",
+     "EventInfo:Nullable<RoyalWorldCupEventInfo>、GroupInfo:Nullable<RoyalWorldCupGroupInfo>、FailReason:EnterRoyalWorldCupFailReason、Country:RoyalWorldCupCountryType"
+    ],
+    [
+     "EnterTeamTournament",
+     "Status:ResponseStatusCode、FailReason:TeamTournamentFailReason、TeamTournamentGroupInfo:Nullable<TeamTournamentGroupInfo>、UsersHash:string、Segment:int"
+    ],
+    [
+     "GetTeamTournamentInfo",
+     "Status:ResponseStatusCode、FailReason:TeamTournamentFailReason、TeamTournamentInfo:Nullable<TeamTournamentInfo>、TeamTournamentGroupInfo:Nullable<TeamTournamentGroupInfo>、UsersHash:string、LeaderboardInfoType:LeaderboardInfoType"
+    ],
+    [
+     "GetRoyalWorldCupInfo",
+     "UserEventInfo:Nullable<RoyalWorldCupEventInfo>、GroupInfo:Nullable<RoyalWorldCupGroupInfo>、NextStageGroupInfo:Nullable<RoyalWorldCupGroupInfo>、FailReason:GetRoyalWorldCupInfoFailReason、ServerEventInfo:Nullable<RoyalWorldCupEventInfo>"
+    ],
+    [
+     "GetRobotRivalsInfo",
+     "FailReason:GetRobotRivalsInfoFailReason、RobotRivalsUserInfo:Nullable<RobotRivalsInfo>、RobotRivalsGroupInfo:Nullable<RobotRivalsGroupInfo>"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs（Royal.Infrastructure.Services.Backend.Protocol）",
+   "note": ""
+  },
+  "team-treasure-segments": {
+   "title": "Team Treasure 默认配置：分段目标",
+   "columns": [
+    "分段 s",
+    "三档目标 t"
+   ],
+   "rows": [
+    [
+     "1",
+     "250 / 500 / 800"
+    ],
+    [
+     "2",
+     "500 / 1000 / 1500"
+    ],
+    [
+     "3",
+     "1000 / 2000 / 3000"
+    ],
+    [
+     "4",
+     "1500 / 3000 / 5000"
+    ],
+    [
+     "5",
+     "2000 / 4000 / 6000"
+    ],
+    [
+     "6",
+     "2500 / 5000 / 8000"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/team_treasure_default_config.json",
+   "note": "配置只给出数字；t 的业务单位与 s 的分配规则以消费代码和服务端为准。"
+  },
+  "invite-friends-steps": {
+   "title": "邀请好友默认配置：邀请人数台阶与奖励",
+   "columns": [
+    "邀请人数 t",
+    "奖励（代码×数量）"
+   ],
+   "rows": [
+    [
+     "1",
+     "SAS×4000、C×2000"
+    ],
+    [
+     "2",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "3",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "5",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "7",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "10",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "15",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "20",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "30",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "40",
+     "C×2000、PL×1、IG×1"
+    ],
+    [
+     "50",
+     "C×2000、PL×1、IG×1"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/invite_friends_default_config.json",
+   "note": "代码含义见「资源与奖励经济」的奖励代码表。"
+  },
+  "weekly-leaderboard-rewards": {
+   "title": "每周排行榜默认配置：名次档奖励",
+   "columns": [
+    "档",
+    "奖励（代码×数量）"
+   ],
+   "rows": [
+    [
+     "1",
+     "R×2、T×2、L×2、H×2、A×2、Ca×2、J×2"
+    ],
+    [
+     "2",
+     "Ca×1、A×1"
+    ],
+    [
+     "3",
+     "H×1"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/weekly_leaderboard_default_config.json",
+   "note": ""
+  },
+  "multiplayer-bundles": {
+   "title": "多人玩法的资源组（bundle group）",
+   "columns": [
+    "group",
+    "bundle 行数",
+    "清单字节合计"
+   ],
+   "rows": [
+    [
+     "clash_of_champions",
+     "4",
+     "7,584"
+    ],
+    [
+     "daily_lightning_rush",
+     "5",
+     "7,383"
+    ],
+    [
+     "invite_friends",
+     "3",
+     "2,354"
+    ],
+    [
+     "multiplier_selection",
+     "5",
+     "5,219"
+    ],
+    [
+     "propeller_rush",
+     "4",
+     "8,598"
+    ],
+    [
+     "robot_rivals",
+     "3",
+     "24,473"
+    ],
+    [
+     "royal_world_cup",
+     "7",
+     "15,505"
+    ],
+    [
+     "team_tournament",
+     "3",
+     "19,094"
+    ],
+    [
+     "train_journey",
+     "6",
+     "32,834"
+    ],
+    [
+     "upcoming_events",
+     "1",
+     "40"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/bundle_module_inventory.csv",
+   "note": "资源组名对应客户端分组，不等于线上开放的活动数；字节是清单里的 size_bytes，不是下载后体积。"
+  },
+  "bundle-config-counts": {
+   "title": "bundle 清单按配置类别",
+   "columns": [
+    "config",
+    "group 数",
+    "bundle 行数"
+   ],
+   "rows": [
+    [
+     "feature",
+     "10",
+     "41"
+    ],
+    [
+     "gameplay",
+     "12",
+     "19"
+    ],
+    [
+     "multiplayer",
+     "10",
+     "41"
+    ],
+    [
+     "singleplayer",
+     "13",
+     "121"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/bundle_module_inventory.csv",
+   "note": "合计 222 行。"
+  },
+  "reward-codes": {
+   "title": "奖励代码表（RewardConfigs.GetRewardType 反汇编）",
+   "columns": [
+    "类别",
+    "代码数",
+    "代码＝奖励类型"
+   ],
+   "rows": [
+    [
+     "货币",
+     "1",
+     "C＝Coins"
+    ],
+    [
+     "生命",
+     "1",
+     "ULV＝UnlimitedLives"
+    ],
+    [
+     "局内道具（单个）",
+     "8",
+     "H＝Hammer、A＝Arrow、Ca＝Cannon、J＝Jester、T＝Tnt、L＝Lightball、R＝Rocket、IG＝AllInGameBoosters"
+    ],
+    [
+     "局内道具（限时无限）",
+     "8",
+     "UR＝UnlimitedRocket、UT＝UnlimitedTnt、ULB＝UnlimitedLightball、UH＝UnlimitedHammer、UA＝UnlimitedArrow、UCa＝UnlimitedCannon、UJ＝UnlimitedJester、UIG＝UnlimitedInGameBooster"
+    ],
+    [
+     "局前道具",
+     "2",
+     "PL＝Prelevel、ULP＝UnlimitedPrelevel"
+    ],
+    [
+     "活动代币与倍率",
+     "12",
+     "2xE＝EventMultiplier、2xT＝MultiplierToken、Px＝Pickaxe、Ex＝Elixir、Mb＝MagicBall、Dft＝FortuneToken、Tk＝Ticket、OOs＝Ship、Pzl＝PuzzlePiece、Msa＝Anvil、GB＝GoldenBall、EEc＝EnergyCrystal"
+    ],
+    [
+     "卡包",
+     "5",
+     "CP2＝SeasonalCardPack2、CP3＝SeasonalCardPack3、CP4＝SeasonalCardPack4、CP6＝SeasonalCardPack6、CPG＝SeasonalCardPackGuaranteed"
+    ],
+    [
+     "外观与资料",
+     "5",
+     "SNS＝NicknameStyle、SFS＝FrameStyle、SSN＝StyledName、SAS＝AvatarStyle、PB＝ProfileBadge"
+    ],
+    [
+     "常量直接确定",
+     "1",
+     "RLRU＝RoyalLeagueRankUp"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/reward_code_map.csv",
+   "note": ""
+  },
+  "reward-aggregate": {
+   "title": "默认奖励节点按奖励类型汇总（29 个配置）",
+   "columns": [
+    "奖励类型",
+    "节点数",
+    "涉及配置",
+    "数量合计",
+    "平均每节点",
+    "单位"
+   ],
+   "rows": [
+    [
+     "Coins",
+     "134",
+     "23",
+     "808,400",
+     "6032.8",
+     "个／点"
+    ],
+    [
+     "Hammer",
+     "63",
+     "24",
+     "164",
+     "2.6",
+     "个／点"
+    ],
+    [
+     "Ticket",
+     "57",
+     "1",
+     "1,530",
+     "26.8",
+     "个／点"
+    ],
+    [
+     "Tnt",
+     "50",
+     "21",
+     "100",
+     "2.0",
+     "个／点"
+    ],
+    [
+     "Rocket",
+     "47",
+     "20",
+     "98",
+     "2.1",
+     "个／点"
+    ],
+    [
+     "Lightball",
+     "46",
+     "21",
+     "89",
+     "1.9",
+     "个／点"
+    ],
+    [
+     "Arrow",
+     "45",
+     "22",
+     "102",
+     "2.3",
+     "个／点"
+    ],
+    [
+     "Cannon",
+     "45",
+     "22",
+     "99",
+     "2.2",
+     "个／点"
+    ],
+    [
+     "AllInGameBoosters",
+     "42",
+     "20",
+     "87",
+     "2.1",
+     "个／点"
+    ],
+    [
+     "UnlimitedLives",
+     "40",
+     "16",
+     "4,185",
+     "104.6",
+     "分钟"
+    ],
+    [
+     "Prelevel",
+     "40",
+     "18",
+     "43",
+     "1.1",
+     "个／点"
+    ],
+    [
+     "Jester",
+     "34",
+     "18",
+     "47",
+     "1.4",
+     "个／点"
+    ],
+    [
+     "MagicBall",
+     "33",
+     "1",
+     "1,510",
+     "45.8",
+     "个／点"
+    ],
+    [
+     "UnlimitedTnt",
+     "26",
+     "15",
+     "6,440",
+     "247.7",
+     "分钟"
+    ],
+    [
+     "UnlimitedRocket",
+     "21",
+     "14",
+     "6,325",
+     "301.2",
+     "分钟"
+    ],
+    [
+     "UnlimitedLightball",
+     "19",
+     "13",
+     "6,235",
+     "328.2",
+     "分钟"
+    ],
+    [
+     "EventMultiplier",
+     "9",
+     "2",
+     "240",
+     "26.7",
+     "个／点"
+    ],
+    [
+     "ProfileBadge",
+     "8",
+     "1",
+     "—",
+     "—",
+     "数量列取值 100000，不是可相加的数量"
+    ],
+    [
+     "FortuneToken",
+     "7",
+     "1",
+     "530",
+     "75.7",
+     "个／点"
+    ],
+    [
+     "GoldenBall",
+     "4",
+     "1",
+     "8,500",
+     "2125.0",
+     "个／点"
+    ],
+    [
+     "礼盒：Small",
+     "4",
+     "4",
+     "4",
+     "1.0",
+     "个／点"
+    ],
+    [
+     "礼盒：Purple",
+     "4",
+     "4",
+     "4",
+     "1.0",
+     "个／点"
+    ],
+    [
+     "FrameStyle",
+     "2",
+     "2",
+     "—",
+     "—",
+     "数量列取值 4000、100000，不是可相加的数量"
+    ],
+    [
+     "StyledName",
+     "2",
+     "2",
+     "—",
+     "—",
+     "数量列取值 4000、100000，不是可相加的数量"
+    ],
+    [
+     "AvatarStyle",
+     "1",
+     "1",
+     "—",
+     "—",
+     "数量列取值 4000，不是可相加的数量"
+    ],
+    [
+     "UnlimitedPrelevel",
+     "1",
+     "1",
+     "60",
+     "60.0",
+     "分钟"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/activity_reward_detail.csv",
+   "note": "合计是配置节点相加，不是单个玩家的产出；免费轨、付费轨和多档重复计入。单位取自表中 text 列；“礼盒”两行的代码不在奖励代码表内。"
+  },
+  "sku-families": {
+   "title": "IAP 商品标识按前缀归并",
+   "columns": [
+    "商品前缀",
+    "标识数",
+    "价位提示（美元，来自商品标识尾号）"
+   ],
+   "rows": [
+    [
+     "pass",
+     "2",
+     "5 / 10"
+    ],
+    [
+     "stagedpass1",
+     "1",
+     "10"
+    ],
+    [
+     "stagedpass2",
+     "2",
+     "10 / 15"
+    ],
+    [
+     "weeklypass",
+     "2",
+     "5 / 8"
+    ],
+    [
+     "egooffer",
+     "2",
+     "1 / 7"
+    ],
+    [
+     "seasonaloffer",
+     "3",
+     "1 / 10 / 20"
+    ],
+    [
+     "multiplier",
+     "1",
+     "8"
+    ],
+    [
+     "multipliertoken",
+     "1",
+     "10"
+    ],
+    [
+     "progressoffer",
+     "6",
+     "1 / 5 / 15 / 25 / 50 / 100"
+    ],
+    [
+     "anvilpass",
+     "2",
+     "5 / 8"
+    ],
+    [
+     "extremelyhardleveloffer",
+     "2",
+     "1 / 3"
+    ],
+    [
+     "noads",
+     "1",
+     "8"
+    ],
+    [
+     "noadsbundle",
+     "1",
+     "12"
+    ],
+    [
+     "worldcupcosmetic",
+     "2",
+     "20 / 30"
+    ],
+    [
+     "worldcupcosmetic2",
+     "1",
+     "20"
+    ],
+    [
+     "energyoffer",
+     "9",
+     "1 / 2 / 4 / 5 / 6 / 8 / 9 / 10 / 15"
+    ],
+    [
+     "energypass",
+     "2",
+     "5 / 10"
+    ],
+    [
+     "energysingle3",
+     "1",
+     "3"
+    ],
+    [
+     "energysingle",
+     "8",
+     "6 / 10 / 20 / 25 / 30 / 40 / 50 / 100"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
+   "note": "price_hint_usd 取自商品标识尾号，不是商店实时成交价；地区价格和币种由商店返回。"
+  },
+  "assets-object-types": {
+   "title": "Unity 对象类型（前 12）",
+   "columns": [
+    "类型",
+    "对象数",
+    "占比"
+   ],
+   "rows": [
+    [
+     "GameObject",
+     "39,889",
+     "23.9%"
+    ],
+    [
+     "Transform",
+     "36,927",
+     "22.1%"
+    ],
+    [
+     "SpriteRenderer",
+     "15,104",
+     "9.0%"
+    ],
+    [
+     "TextAsset",
+     "14,991",
+     "9.0%"
+    ],
+    [
+     "MonoBehaviour",
+     "13,722",
+     "8.2%"
+    ],
+    [
+     "MonoScript",
+     "8,988",
+     "5.4%"
+    ],
+    [
+     "Sprite",
+     "7,971",
+     "4.8%"
+    ],
+    [
+     "ParticleSystem",
+     "7,938",
+     "4.8%"
+    ],
+    [
+     "ParticleSystemRenderer",
+     "7,938",
+     "4.8%"
+    ],
+    [
+     "MeshRenderer",
+     "3,077",
+     "1.8%"
+    ],
+    [
+     "RectTransform",
+     "2,962",
+     "1.8%"
+    ],
+    [
+     "AnimationClip",
+     "1,374",
+     "0.8%"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/object_type_stats.csv",
+   "note": "全部 63 类，合计 166,986 个对象。"
+  },
+  "assets-audio": {
+   "title": "音频片段（FSB5 原始流）",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "片段数",
+     "697"
+    ],
+    [
+     "字节合计",
+     "15,782,048"
+    ],
+    [
+     "总时长",
+     "20.3 分钟"
+    ],
+    [
+     "单段时长中位数",
+     "0.75 秒"
+    ],
+    [
+     "超过 60 秒的片段",
+     "6 段"
+    ],
+    [
+     "声道",
+     "1声道×675 / 2声道×22"
+    ],
+    [
+     "采样率",
+     "44100Hz×688 / 48000Hz×8 / 22050Hz×1"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/audio_inventory.csv",
+   "note": "已核对文件头魔数，尚未批量转换与逐段试听。"
+  },
+  "assets-animation": {
+   "title": "动画片段（AnimationClip）",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "片段数",
+     "1,374"
+    ],
+    [
+     "带事件的片段",
+     "79"
+    ],
+    [
+     "事件总数",
+     "358"
+    ],
+    [
+     "采样率",
+     "60×1372 / 180×1 / 66×1"
+    ],
+    [
+     "时长中位数",
+     "0.55 秒"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/animation_inventory.csv",
+   "note": "曲线与事件可读；完整表现还要接动画状态机与协程。"
+  },
+  "assets-localization": {
+   "title": "本地化词条",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "term 数",
+     "5,103"
+    ],
+    [
+     "语言列",
+     "11 种：en、tr、fr、de、it、es、pt、ru、ja、ko、ar"
+    ],
+    [
+     "非空文案单元",
+     "56,133"
+    ],
+    [
+     "含中文列",
+     "否"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/localization.csv",
+   "note": ""
+  },
+  "assets-pointers": {
+   "title": "引用与组件解析",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "非空 PPtr 引用",
+     "69,457"
+    ],
+    [
+     "空引用",
+     "27,932"
+    ],
+    [
+     "TextAsset 与对象原始字节一致",
+     "14,991"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/validation.json",
+   "note": ""
+  },
+  "package-extensions": {
+   "title": "随包物化文件（1,493 份）按扩展名",
+   "columns": [
+    "扩展名",
+    "文件数"
+   ],
+   "rows": [
+    [
+     ".png",
+     "652"
+    ],
+    [
+     ".xml",
+     "550"
+    ],
+    [
+     ".version",
+     "86"
+    ],
+    [
+     ".properties",
+     "42"
+    ],
+    [
+     ".so",
+     "32"
+    ],
+    [
+     "（无扩展名）",
+     "27"
+    ],
+    [
+     ".proto",
+     "24"
+    ],
+    [
+     ".json",
+     "10"
+    ],
+    [
+     ".ab",
+     "8"
+    ],
+    [
+     ".js",
+     "8"
+    ],
+    [
+     ".dex",
+     "7"
+    ],
+    [
+     ".kotlin_builtins",
+     "7"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/file-manifest.json",
+   "note": "合计 655,483,747 字节。"
+  },
+  "package-source-types": {
+   "title": "制作源文件类扩展名检查",
+   "columns": [
+    "扩展名",
+    "命中数"
+   ],
+   "rows": [
+    [
+     ".cs",
+     "0"
+    ],
+    [
+     ".csproj",
+     "0"
+    ],
+    [
+     ".sln",
+     "0"
+    ],
+    [
+     ".unity",
+     "0"
+    ],
+    [
+     ".prefab",
+     "0"
+    ],
+    [
+     ".psd",
+     "0"
+    ],
+    [
+     ".psb",
+     "0"
+    ],
+    [
+     ".fla",
+     "0"
+    ],
+    [
+     ".blend",
+     "0"
+    ],
+    [
+     ".fbx",
+     "0"
+    ],
+    [
+     ".wav",
+     "0"
+    ],
+    [
+     ".aep",
+     "0"
+    ],
+    [
+     ".asmdef",
+     "0"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/file-manifest.json",
+   "note": "清单只含样本里物化出的 1,493 份文件；0 表示该清单里没有，不证明包外不存在。"
+  },
+  "package-inputs": {
+   "title": "输入包体与哈希",
+   "columns": [
+    "类型",
+    "文件",
+    "字节",
+    "SHA-256"
+   ],
+   "rows": [
+    [
+     "XAPK（APKPure）",
+     "com.dreamgames.royalmatch_38174_apkpure.xapk",
+     "211,567,899",
+     "fba53c5661b0e20c884669f58632e750b466bb05b48f38654cef64787a178135"
+    ],
+    [
+     "ARM64 APKS",
+     "rm38174.apks",
+     "249,312,267",
+     "f497893cd64c94fd68ea28d9e0359c26e1919d14212db4e98faea1c59ec17c6b"
+    ],
+    [
+     "ARM64 il2cpp 主库",
+     "libil2cpp.so",
+     "89,601,608",
+     "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd"
+    ],
+    [
+     "APK",
+     "base.apk",
+     "33,538,108",
+     "80a3e007d4cfa46f4569e917118308169c07ac44aa1295988616bdacc2884bd7"
+    ],
+    [
+     "APK",
+     "split_UnityDataAssetPack.apk",
+     "141,036,137",
+     "94c057922e6a661788d8a77ac7966d285e3076a501958eb5c422f1610e678846"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/bundle/ · research/rm-reunpack-2026-10-14/resources/input_manifest.json",
+   "note": ""
+  },
+  "package-native": {
+   "title": "Android 外壳与原生库",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "DEX 文件",
+     "7 个 · 48,657,060 字节"
+    ],
+    [
+     "原生 .so",
+     "32 个 · 221,536,968 字节"
+    ],
+    [
+     "il2cpp 主库",
+     "2 个（armeabi-v7a、arm64-v8a 各 1）"
+    ],
+    [
+     "非 il2cpp 库",
+     "libFirebaseCppAnalytics.so、libFirebaseCppApp-12_10_1.so、libFirebaseCppAppCheck.so、libFirebaseCppCrashlytics.so、libFirebaseCppMessaging.so、lib_burst_generated.so、libapplovin-native-crash-reporter.so、libcrashlytics-common.so、libcrashlytics-handler.so、libcrashlytics-trampoline.so、libcrashlytics.so、libdatastore_shared_counter.so、libmain.so、libsqlite3.so、libunity.so"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/android_native_summary.json",
+   "note": "DEX 与非 il2cpp 库只做了盘点，未系统反编译。"
+  },
+  "package-unity": {
+   "title": "Unity 资源盘点",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "assetbundle",
+     "24 个"
+    ],
+    [
+     "对象总数",
+     "166,986"
+    ],
+    [
+     "对象类型",
+     "63 类"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/summary.json",
+   "note": ""
+  },
+  "package-il2cpp": {
+   "title": "IL2CPP 类型盘点",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "dump.cs 类型条目",
+     "15,292"
+    ],
+    [
+     "其中 Royal.* 命名空间",
+     "8,800"
+    ],
+    [
+     "方法记录（script.json）",
+     "241,756"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs · research/rm-reunpack-2026-10-14/REPORT.md",
+   "note": "方法记录是元数据与地址，不是同等数量的源码函数。"
+  }
+ }
+}

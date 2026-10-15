@@ -3,7 +3,7 @@
 - 本仓库是“小游戏解包审计报告集”的 GitHub Pages 维护入口。
 - 用户要求修改“解包报告站点”“WorkBuddy 迁移站点”时，修改本仓库的 `site/`。
 - 内容源是 `content/topics.py`、`content/reference-tables.json`、`content/sources.json`、`content/level-examples.json`、`content/booster-targeting.html` 和 `content/report-pages/`；用 `python3 scripts/build_site.py` 生成首页、完整报告和算法页。编辑正文优先改内容源，避免再次生成时覆盖。
-- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。21个条目必须有21个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列为具体内容、可取得内容、可得性、解包增量。第四列精简文案在 `content/overview-increments.json`，完整比较保留于详情页。
+- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。23个条目必须有23个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列为具体内容、可取得内容、可得性、解包增量。第四列精简文案在 `content/overview-increments.json`，完整比较保留于详情页。
 - `content/report-pages/` 保存六份经核对的完整报告模板。`scripts/report_sections.py` 把相关原章节、样式和交互带入独立页面；章节及控件DOM ID与交互引用同步加 `original-` 前缀。旧报告文件保留，07为兼容目录，`legacy-report-routes.js` 将原章节地址跳转到对应独立页。保留有效分析、图表、交互与方法论；首页不添加冗余报告卡片。
 - `site/assets/site.css` 控制总览与算法页样式；`topic-reader.js` 控制火箭演示；`overview-links.js` 兼容旧首页深链；`report-deep-links.js` 控制报告章节定位。
 - 保持相对资源路径，兼容 `/game-unpack-reports/` 项目子路径。
@@ -26,3 +26,6 @@
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。
 - 商业化重排为7项：商品与奖励（passes）、触发与展示（shop-rules）、分层与购买反馈（user-tiers）、失败续关（failure-product）、A/B测试（experiments）、支付广告与实时价格（payment）、后台与经营边界（commerce-backend）。account-offers并入shop-rules，live-price-ads并入payment；保留旧URL、首页行锚点和迁移章节深链。详细档案只保留主归属，跨主题用链接。
 - A/B正文为 `content/ab-tests.html`（文字与例子），表格由 `scripts/build_site.py` 的 `ab_page()` 读 `content/ab-test-themes.json`（55主题的中文名、系统、规则与用途）和 `site/assets/evidence/ab-tests/rules.json` 生成。`rules.json` 由 `scripts/extract_ab_rules.py` 用Unicorn执行原字节得出97个判断函数的组值真值表与直接调用方，构建时校验主题与真值表、写死函数数一致。107个ID按命名后缀归并55主题，包含非商业化项，不等于当期实验数。区分ID、组值、后台分流与因果效果；奖励函数共用128／129，不能按函数数算独立实验。
+- 用户于2026-10-15要求各模块统一按「拆包事实 → 分析提炼 → 未确认与边界」三层展开。正文源为 `content/module-<topic-key>.html`，存在即由 `build_site.py` 的 `module_page()` 接管该主题正文，`topics.py` 中对应 sections 置空。占位符：`<!--TABLE:id-->` 渲染事实表（连续短表自动两栏），`<!--REF:id-->` 生成“依据”链接，`<!--N:key-->` 取数值；构建时残留占位符即报错。
+- 事实表与数值只来自 `content/module-facts.json`，由 `scripts/extract_module_facts.py --workspace ..` 只读重算（区域任务、关卡统计、dump.cs 协议声明、默认配置、奖励代码、商品标识、资源与包体清单），每表带取数路径；CI只消费快照。分析层每条结论须带 REF；“推断”单独用 small 标出；分析里出现的数字须能在事实表找到。
+- 已按三层改写：level-config、area-tasks、team-flow、distributed-assets、social-backend、payment、commerce-backend，新增 economy（资源与奖励经济）、package-scope（包体范围与研发边界）。原 `commerce-commerce-backend.html` 已并入 module 页。

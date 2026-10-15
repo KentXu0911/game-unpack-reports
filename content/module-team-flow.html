@@ -1,0 +1,67 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="团队社交结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>客户端协议的全部请求名、字段与枚举；团队、聊天、好友的消息模型；团队宝箱、邀请好友、周榜的默认配置</td><td><!--N:proto_requests-->种请求 · <!--N:chat_models-->种聊天消息</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>团队有队长／副队长、审批入队、等级与皇冠门槛；常驻连接只承载生命互助、聊天和“代队友领奖”这类实时操作；命名与聊天的违规检查和跳队禁令在服务端</td><td>常驻连接 17 种消息</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>团队积分与活跃度怎么算、违规词表、禁令时长、团队宝箱分段怎么分配</td><td>—</td></tr>
+</tbody></table></div>
+<p class="flow-note">事实来自 IL2CPP 元数据中 <code>Royal.Infrastructure.Services.Backend.Protocol</code> 命名空间的类型声明与解码后的默认配置。协议字段是客户端会发送或读取的结构，不是服务端实现。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：协议、消息模型与默认配置</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">协议命名空间里有 <!--N:proto_types--> 个类型：<!--N:proto_structs--> 个结构体、<!--N:proto_enums--> 个枚举；其中请求 <!--N:proto_requests--> 种、响应 <!--N:proto_responses--> 种。先看全部请求按业务的分布，再看团队相关的字段和枚举。</p>
+<!--TABLE:proto-domains-->
+<!--TABLE:proto-team-requests-->
+<!--TABLE:proto-team-responses-->
+<!--TABLE:proto-member-op-->
+<!--TABLE:proto-join-fail-->
+<!--TABLE:proto-chat-fail-->
+<!--TABLE:proto-chat-type-->
+<!--TABLE:proto-team-activity-->
+<!--TABLE:chat-models-->
+<!--TABLE:proto-tcp-type-->
+<!--TABLE:proto-claim-requests-->
+<!--TABLE:team-treasure-segments-->
+<!--TABLE:invite-friends-steps-->
+<!--TABLE:weekly-leaderboard-rewards-->
+<!--TABLE:multiplayer-bundles-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：团队系统怎样运作</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">结论从字段和枚举读出，后面的“依据”链接到对应表。标“推断”的内容是对字段组合的解释，未做联网实测。</p>
+
+<div class="finding"><b>社交和竞赛是协议里最大的一块。</b><!--N:proto_requests--> 种请求里，团队与聊天 <!--N:proto_n_2--> 种、好友与生命互助 <!--N:proto_n_3--> 种、排行与联赛 <!--N:proto_n_4--> 种、限时活动与赛事 <!--N:proto_n_6--> 种，四类合计 100 种；账号、存取、商品支付和其他合计 45 种。<!--REF:proto-domains-->客户端的大部分联网动作都和别人有关。</div>
+
+<div class="finding"><b>建队门槛有三项：等级、皇冠和语言。</b>建队请求带 MinLevel、MinCrown、Language、Type 与 Logo；查询团队返回 Score、Activity、Leader、CoLeaders 与成员数。<!--REF:proto-team-requests--><!--REF:proto-team-responses-->活跃度只有 High／Medium／Low 三档。<!--REF:proto-team-activity--></div>
+
+<div class="finding"><b>入队可能要审批，团队有两级管理。</b>入队响应有 RequestSent 字段，失败原因含 Pending 与 Rejected；成员操作有 Accept、Reject、KickUser、MakeLeader、MakeColeader、RemoveColeader 六种，聊天流里也有对应的“入队申请”“队长变更”“任命副队长”消息。<!--REF:proto-team-responses--><!--REF:proto-join-fail--><!--REF:proto-member-op--><!--REF:proto-chat-type-->
+<br><small>推断：Type 这个布尔值区分公开队与需审批的队；字段名与 RequestSent 一致，未用账号验证。</small></div>
+
+<div class="finding"><b>内容审核与防跳队都由服务端返回结果。</b>失败原因覆盖用户名、团队名、团队简介和聊天正文四处的违规词检查，聊天还分警告与封禁；另有 HAS_TEAM_HOPPING_BAN，发消息的响应会带回 TeamHoppingBanDuration。<!--REF:proto-chat-fail--><!--REF:proto-team-responses-->客户端只负责显示结果，词表与禁令时长都不在包内。</div>
+
+<div class="finding"><b>常驻连接只用于实时互助。</b>17 种常驻连接消息里，生命相关 3 种（求、助、消耗），聊天 2 种（发消息、拉记录），通行证与团队礼包领取 4 种，其余 8 种是认证（新旧两种）、心跳、服务器状态、举报、在线人数，以及 Clash of Champions 的进入与提分。<!--REF:proto-tcp-type-->其他请求都是一次性请求。</div>
+
+<div class="finding"><b>队友买通行证，全队在聊天里领奖。</b>RoyalPass、WeeklyPass、PremiumPass 和 TeamGiftOffer 的领取请求都只带 BuyerUserId（团队礼包另带 Step）<!--REF:proto-claim-requests-->，聊天流里对应有 Royal Pass 领取、Weekly Pass 领取和团队礼包领取三种消息模型。<!--REF:chat-models-->这是“一人付费、队友受益”的结构，把付费行为放进团队社交里。</div>
+
+<div class="finding"><b>团队宝箱按分段给目标，分段由服务端决定。</b>默认配置有 6 个分段，每段 3 个目标，从第 1 段的 250／500／800 到第 6 段的 2,500／5,000／8,000，同档目标相差 10 倍。<!--REF:team-treasure-segments-->建队与入队响应都会带回 TeamTreasureInfo。<!--REF:proto-team-responses--></div>
+
+<div class="finding"><b>邀请好友是 11 级台阶。</b>邀请 1、2、3、5、7、10、15、20、30、40、50 人各有一档奖励；第 1 档给头像样式与 2,000 金币，之后每档都是 2,000 金币、1 个局前道具（PL）和 1 份局内道具包（IG）。<!--REF:invite-friends-steps-->周榜默认只给前 3 档道具奖励。<!--REF:weekly-leaderboard-rewards--></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="团队社交未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>团队积分 Score 怎么来</td><td>查询团队会返回 Score，客户端没有计算它的路径。</td><td>服务端规则，或多账号长期记录</td></tr>
+<tr><td>活跃度三档的划分</td><td>只有枚举 High／Medium／Low，没有阈值。</td><td>服务端规则</td></tr>
+<tr><td>违规词表、警告与封禁阈值、跳队禁令时长</td><td>客户端只显示服务端返回的失败原因与时长。</td><td>服务端规则或实测</td></tr>
+<tr><td>团队宝箱分段分配</td><td>6 段目标在默认配置里，哪支队伍进哪一段由服务端决定。</td><td>对应账号的 GetTeamTreasureInfo 响应</td></tr>
+<tr><td>真实队友、聊天正文与到账</td><td>需要联网会话；包内只有结构。</td><td>账号会话记录</td></tr>
+<tr><td>字段的完整语义</td><td>字段名与类型来自元数据；FlatBuffers 槽位顺序与默认值要结合访问器机器码核对。</td><td>访问器反汇编</td></tr>
+</tbody></table></div>
+</section>

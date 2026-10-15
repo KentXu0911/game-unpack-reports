@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>包体范围与研发边界 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css?v=e2227561b3"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-package-scope">← 返回内容总览</a></p>
+<h1>包体范围与研发边界</h1><p>已登记输入包体哈希、1,493份物化文件、24个assetbundle、15,292个IL2CPP类型与原生库清单；样本里没有源码与制作工程文件，服务端实现不在客户端内。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="package-scope" class="topic-detail" aria-labelledby="title-package-scope"><h2 id="title-package-scope">包体范围与研发边界</h2><div class="topic-body"><div class="board-machine module-page"><div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="包体范围结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>输入包体哈希、物化文件清单、Unity 资源、IL2CPP 类型和原生库盘点</td><td>1,493份文件 · 15,292个类型</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>本站所有结论都绑定 build 38174；逻辑在 il2cpp 主库，内容在 assetbundle；样本里没有源码与制作工程</td><td>源码类扩展名命中 0</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>DEX 与第三方原生库未反编译；服务端实现、其他版本不在样本内</td><td>—</td></tr>
+</tbody></table></div>
+<p class="flow-note">本页是全站的取证底座：其他页面的“取数”路径都落在这里登记的包体与产物里。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：输入、文件与类型</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">哈希由提取脚本对本地包体重算。文件清单是 REA 重新提取 XAPK、三个 APK 与 ARM64 split 后的物化文件。</p>
+<figure class="fact-table fact-wide" id="fact-package-inputs"><figcaption>输入包体与哈希</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="输入包体与哈希"><table><thead><tr><th>类型</th><th>文件</th><th>字节</th><th>SHA-256</th></tr></thead><tbody><tr><td>XAPK（APKPure）</td><td>com.dreamgames.royalmatch_38174_apkpure.xapk</td><td>211,567,899</td><td>fba53c5661b0e20c884669f58632e750b466bb05b48f38654cef64787a178135</td></tr><tr><td>ARM64 APKS</td><td>rm38174.apks</td><td>249,312,267</td><td>f497893cd64c94fd68ea28d9e0359c26e1919d14212db4e98faea1c59ec17c6b</td></tr><tr><td>ARM64 il2cpp 主库</td><td>libil2cpp.so</td><td>89,601,608</td><td>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</td></tr><tr><td>APK</td><td>base.apk</td><td>33,538,108</td><td>80a3e007d4cfa46f4569e917118308169c07ac44aa1295988616bdacc2884bd7</td></tr><tr><td>APK</td><td>split_UnityDataAssetPack.apk</td><td>141,036,137</td><td>94c057922e6a661788d8a77ac7966d285e3076a501958eb5c422f1610e678846</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/bundle/ · research/rm-reunpack-2026-10-14/resources/input_manifest.json</code></p></figure>
+<div class="fact-grid"><figure class="fact-table fact-compact" id="fact-package-extensions"><figcaption>随包物化文件（1,493 份）按扩展名</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="随包物化文件（1,493 份）按扩展名"><table><thead><tr><th>扩展名</th><th>文件数</th></tr></thead><tbody><tr><td>.png</td><td>652</td></tr><tr><td>.xml</td><td>550</td></tr><tr><td>.version</td><td>86</td></tr><tr><td>.properties</td><td>42</td></tr><tr><td>.so</td><td>32</td></tr><tr><td>（无扩展名）</td><td>27</td></tr><tr><td>.proto</td><td>24</td></tr><tr><td>.json</td><td>10</td></tr><tr><td>.ab</td><td>8</td></tr><tr><td>.js</td><td>8</td></tr><tr><td>.dex</td><td>7</td></tr><tr><td>.kotlin_builtins</td><td>7</td></tr></tbody></table></div><p class="fact-note">合计 655,483,747 字节。</p><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/evidence/file-manifest.json</code></p></figure><figure class="fact-table fact-compact" id="fact-package-source-types"><figcaption>制作源文件类扩展名检查</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="制作源文件类扩展名检查"><table><thead><tr><th>扩展名</th><th>命中数</th></tr></thead><tbody><tr><td>.cs</td><td>0</td></tr><tr><td>.csproj</td><td>0</td></tr><tr><td>.sln</td><td>0</td></tr><tr><td>.unity</td><td>0</td></tr><tr><td>.prefab</td><td>0</td></tr><tr><td>.psd</td><td>0</td></tr><tr><td>.psb</td><td>0</td></tr><tr><td>.fla</td><td>0</td></tr><tr><td>.blend</td><td>0</td></tr><tr><td>.fbx</td><td>0</td></tr><tr><td>.wav</td><td>0</td></tr><tr><td>.aep</td><td>0</td></tr><tr><td>.asmdef</td><td>0</td></tr></tbody></table></div><p class="fact-note">清单只含样本里物化出的 1,493 份文件；0 表示该清单里没有，不证明包外不存在。</p><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/evidence/file-manifest.json</code></p></figure><figure class="fact-table fact-compact" id="fact-package-unity"><figcaption>Unity 资源盘点</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="Unity 资源盘点"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>assetbundle</td><td>24 个</td></tr><tr><td>对象总数</td><td>166,986</td></tr><tr><td>对象类型</td><td>63 类</td></tr></tbody></table></div><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/resources/summary.json</code></p></figure><figure class="fact-table fact-compact" id="fact-package-il2cpp"><figcaption>IL2CPP 类型盘点</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="IL2CPP 类型盘点"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>dump.cs 类型条目</td><td>15,292</td></tr><tr><td>其中 Royal.* 命名空间</td><td>8,800</td></tr><tr><td>方法记录（script.json）</td><td>241,756</td></tr></tbody></table></div><p class="fact-note">方法记录是元数据与地址，不是同等数量的源码函数。</p><p class="fact-src">取数：<code>research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs · research/rm-reunpack-2026-10-14/REPORT.md</code></p></figure></div>
+<figure class="fact-table fact-wide" id="fact-package-native"><figcaption>Android 外壳与原生库</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="Android 外壳与原生库"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>DEX 文件</td><td>7 个 · 48,657,060 字节</td></tr><tr><td>原生 .so</td><td>32 个 · 221,536,968 字节</td></tr><tr><td>il2cpp 主库</td><td>2 个（armeabi-v7a、arm64-v8a 各 1）</td></tr><tr><td>非 il2cpp 库</td><td>libFirebaseCppAnalytics.so、libFirebaseCppApp-12_10_1.so、libFirebaseCppAppCheck.so、libFirebaseCppCrashlytics.so、libFirebaseCppMessaging.so、lib_burst_generated.so、libapplovin-native-crash-reporter.so、libcrashlytics-common.so、libcrashlytics-handler.so、libcrashlytics-trampoline.so、libcrashlytics.so、libdatastore_shared_counter.so、libmain.so、libsqlite3.so、libunity.so</td></tr></tbody></table></div><p class="fact-note">DEX 与非 il2cpp 库只做了盘点，未系统反编译。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/android_native_summary.json</code></p></figure>
+<figure class="fact-table fact-compact" id="fact-bundle-config-counts"><figcaption>bundle 清单按配置类别</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="bundle 清单按配置类别"><table><thead><tr><th>config</th><th>group 数</th><th>bundle 行数</th></tr></thead><tbody><tr><td>feature</td><td>10</td><td>41</td></tr><tr><td>gameplay</td><td>12</td><td>19</td></tr><tr><td>multiplayer</td><td>10</td><td>41</td></tr><tr><td>singleplayer</td><td>13</td><td>121</td></tr></tbody></table></div><p class="fact-note">合计 222 行。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/bundle_module_inventory.csv</code></p></figure></section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>结论绑定一个版本。</b>XAPK 与 ARM64 APKS 的 SHA-256 已登记，ARM64 il2cpp 主库 SHA-256 为 <code>8efe71a2…bf2fdd</code>。<a class="basis" href="#fact-package-inputs">依据：输入包体与哈希</a>其他版本要单独登记、单独对照，不能把本站结论直接套用。</div>
+
+<div class="finding"><b>逻辑在 il2cpp，内容在 assetbundle。</b>15,292 个类型条目里 8,800 个属于 Royal.* 命名空间，是游戏自身代码；241,756 条方法记录是元数据与地址，方法体要从 ARM64 机器码恢复。<a class="basis" href="#fact-package-il2cpp">依据：IL2CPP 类型盘点</a>关卡、配置、美术与文案在 24 个 assetbundle 的 166,986 个对象里。<a class="basis" href="#fact-package-unity">依据：Unity 资源盘点</a></div>
+
+<div class="finding"><b>Android 外壳只是 SDK。</b>7 个 DEX 和 30 个非 il2cpp 原生库是 Firebase、Crashlytics、AppLovin、SQLite、Burst 与 Unity 运行时。<a class="basis" href="#fact-package-native">依据：Android 外壳与原生库</a>游戏规则不在这里，所以本站没有系统反编译它们。</div>
+
+<div class="finding"><b>样本里没有源码和制作工程。</b>清单里 .cs、.csproj、.unity、.prefab、.psd、.fbx、.wav 等 13 种源文件扩展名命中都是 0。<a class="basis" href="#fact-package-source-types">依据：制作源文件类扩展名检查</a>本站的“伪代码”是从机器码整理的，不是原 C# 源码。</div>
+
+<div class="finding"><b>资源按四类分组下发。</b>bundle 清单 222 行，分 feature、gameplay、multiplayer、singleplayer 四类、45 个组。<a class="basis" href="#fact-bundle-config-counts">依据：bundle 清单按配置类别</a>组名对应客户端模块，不等于线上开放的活动数。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="包体范围未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>DEX 与第三方原生库</td><td>只做了盘点，未系统反编译。</td><td>按需反编译（如支付、广告 SDK 的回调）</td></tr>
+<tr><td>完整 ELF 的自动反编译</td><td>REA／Ghidra 对 89.6MB 完整 ELF 的方法分析 330 秒超时；改用保留原 RVA 的子集 ELF，成功反编译 18 个关键函数（见 <code>research/rm-reunpack-2026-10-14/REPORT.md</code>）。</td><td>更长时限或按函数切分</td></tr>
+<tr><td>服务端实现</td><td>客户端只有协议结构，见<a href="team-flow.html">团队、社交流程</a>与<a href="commerce-backend.html">后台与经营边界</a>。</td><td>不可从客户端取得</td></tr>
+<tr><td>其他版本与线上热更新</td><td>只登记了 build 38174。</td><td>新版本包体与下载资源</td></tr>
+<tr><td>原生产工具与制作工程</td><td>见<a href="production-tools.html">原关卡生产工具</a>与<a href="source-projects.html">原制作工程</a>。</td><td>不可从客户端取得</td></tr>
+</tbody></table></div>
+</section>
+</div><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>拆包事实快照</h6><p>只读脚本从拆包产物重算的计数与字段表。读取 research/rm-reunpack-2026-10-14 与 royal-match-apk-audit-38174 下的区域任务、关卡统计、协议类型声明（dump.cs）、默认配置、奖励代码、商品标识与资源清单；每张表标注取数文件。协议字段来自元数据声明，FlatBuffers 槽位仍需访问器机器码核对。</p><p>取证位置：<code>scripts/extract_module_facts.py → content/module-facts.json</code></p></div><div class="evidence-entry"><h6>资源读取与内容校验</h6><p>包内对象／配置内容与字节校验。24个Unity bundle；14,991份TextAsset无损读取；165区域配置、1,634任务；5,103文案词条；1,374动画；697原始音频。7组件解析残留、粒子仍以索引为主；未下发场景需要对应资源包。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/resources/report.md</code></p></div><div class="evidence-entry"><h6>账号状态、调难、后台与原工具边界</h6><p>指定客户端函数与现有样本边界。SemiDynamicDifficulty主线路径回传步数；ProcessKeyValueResponse接收打包long状态。真实账号输入、生效消费者与后台决策仍需验证。远征GetUpdatedSegment 0x37C3704、pending计算0x37C37FC；原后台策略与全服遥测无原件。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/BOUNDARIES.md</code></p></div></details></div></section>
+<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能确认装的是哪个版本、包有多大，但看不到包里有哪些文件、哪些类型和哪些原生库。</p><p>解包增量：给出每份输入的SHA-256、文件清单与类型盘点，任何结论都能回到具体包体与文件；同时明确样本里没有源码、制作工程与服务端实现。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="area-tasks.html">装修、章节、解锁</a><a href="activity-defaults.html">活动玩法、默认奖励</a><a href="economy.html">资源与奖励经济</a><a href="schedule-boundaries.html">当期活动、排期、排行</a><a href="team-flow.html">团队、社交流程</a><a href="distributed-assets.html">界面、美术、动画、音效</a><a href="social-backend.html">原社交、赛事后台</a><a href="source-projects.html">原制作工程</a></nav>
+<footer><a href="../index.html#row-package-scope">← 返回内容总览</a></footer></main>
+</body></html>

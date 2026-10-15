@@ -1,0 +1,55 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="商业后台结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>购买校验、Xsolla、实验分配、礼包查询、累计付费、兑换码的请求与响应字段；校验状态与平台枚举</td><td><!--N:proto_n_5-->种商品类请求 · 7 个支付平台</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>收据由服务端校验并去重；实验分组、礼包内容、累计付费都在服务端；客户端会把自己的档位和实验组上报给礼包接口</td><td>校验结果 4 种</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>分流、推荐、定价算法，风控与对账，收入／留存／LTV</td><td>样本内无服务端原件</td></tr>
+</tbody></table></div>
+<p class="flow-note">本页讲接口边界；客户端怎样选礼包、显示价格和处理购买回调，见<a href="shop-rules.html">触发与展示</a>和<a href="payment.html">支付广告与实时价格</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：商品、支付与实验接口</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">字段来自协议命名空间的结构声明。请求是客户端发出的内容，响应是客户端会读取的内容。</p>
+<!--TABLE:proto-commerce-requests-->
+<!--TABLE:proto-commerce-responses-->
+<!--TABLE:proto-purchase-status-->
+<!--TABLE:proto-purchase-platform-->
+<!--TABLE:proto-xsolla-status-->
+<!--TABLE:proto-remote-fail-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：服务端掌握哪些决定</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">结论由字段组合读出；标“推断”的是对用途的解释。</p>
+
+<div class="finding"><b>收据由服务端校验，重复收据会被拦下。</b>购买校验请求带 ProductId、TransactionId、Receipt 和 Platform；结果分 Verified、UsedBefore、Fail、VerificationNotCompleted 四种，响应还标出 IsSandbox 与 PurchaseTime。<!--REF:proto-commerce-requests--><!--REF:proto-purchase-status--><!--REF:proto-commerce-responses-->UsedBefore 说明同一笔交易的二次提交会被识别；校验怎么做、风控规则是什么，不在包内。</div>
+
+<div class="finding"><b>购买时会上报当前库存。</b>购买校验请求带 CurrentUserInventory。<!--REF:proto-commerce-requests-->
+<br><small>推断：服务端借此核对到账前后的资源；具体用途要看服务端。</small></div>
+
+<div class="finding"><b>支持 7 个支付平台。</b>iOS、Android、Editor、Huawei、Samsung、Amazon、Xsolla。<!--REF:proto-purchase-platform-->Xsolla 另有取令牌与取订单号两个请求，订单号只返回成功或失败。<!--REF:proto-commerce-requests--><!--REF:proto-xsolla-status--></div>
+
+<div class="finding"><b>实验分组由服务端分配。</b>AssignCampaignAB 只发一个 Campaign 字符串，返回 NewAbData。<!--REF:proto-commerce-requests--><!--REF:proto-commerce-responses-->客户端拿到组值后怎样读，见<a href="experiments.html">A/B测试</a>；谁进哪组、各组比例多少，客户端看不到。</div>
+
+<div class="finding"><b>客户端把自己的礼包档位和实验组报给服务端。</b>Journey Offer 查询请求带 Segment 与 AbGroup，返回整份 JourneyOfferInfo；Golden Offers 查询不带参数，直接返回 GoldenOffersInfo。<!--REF:proto-commerce-requests--><!--REF:proto-commerce-responses-->两者的礼包内容都由服务端返回，所以离线包给不出某账号当期的礼包。</div>
+
+<div class="finding"><b>累计付费存在服务端。</b>GetAllTimePurchase 不带参数，返回 PurchaseAmount 与 LastPurchaseTime。<!--REF:proto-commerce-requests--><!--REF:proto-commerce-responses-->这是客户端能读到的唯一累计付费数字；单位（金额还是次数）要看消费代码。</div>
+
+<div class="finding"><b>兑换码与维护期购买也走服务端。</b>远程奖励按 Code 查询和领取，失败原因有 Expired 与 AlreadyClaimed；维护期购买请求带一组商品 ID。<!--REF:proto-commerce-requests--><!--REF:proto-remote-fail--></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="客户端规则与后台策略的分界"><table class="wide-cell"><thead><tr><th>内容</th><th>解包已提供</th><th>仍需补的证据</th></tr></thead><tbody>
+<tr><td>分群、推荐与定价</td><td>输入字段、配置结构与客户端选取分支</td><td>后台赋值公式、人群口径、策略与版本</td></tr>
+<tr><td>A/B分流与因果效果</td><td>实验ID、组值消费者和部分版本差异</td><td>分配／曝光记录、观察窗及分组结果数据</td></tr>
+<tr><td>订单与交易风控</td><td>客户端购买、验证请求与回调</td><td>服务端核销、反欺诈、并发与对账实现</td></tr>
+<tr><td>经营指标</td><td>部分上报调用与事件位置</td><td>有口径的收入、留存、LTV与成本数据</td></tr>
+</tbody></table></div>
+<p>多账号与长期采样可以约束假设，仍不保证唯一恢复后台模型。实验实现与经营收益分开记录，具体客户端例子见<a href="experiments.html">A/B测试</a>。</p>
+</section>
