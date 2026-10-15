@@ -1,0 +1,316 @@
+{
+  "sample": "Royal Match build 38174",
+  "sourceBundle": "assetpack/assets/bin/Data/datapack.unity3d",
+  "sourceManifest": "royal-match-unity/Evidence/sprite-source-manifest.json",
+  "sourceManifestSha256": "410b242d9ff61c483e3b13b257f2c907fb99bdf18f6bc4d1c9b1ae7038e3cb19",
+  "processing": "原PNG逐字节复制；未缩放、改色或重绘。网页只调整显示尺寸。",
+  "groups": [
+    {
+      "title": "棋子",
+      "intro": "五种普通棋子的独立贴图。颜色编号是关卡物体层的 TiledId。",
+      "assets": [
+        {
+          "label": "蓝色盾牌",
+          "note": "TiledId 1",
+          "file": "blue-shield-24159.png",
+          "spriteName": "Items-MatchItem-shield",
+          "pathId": "24159",
+          "width": 123,
+          "height": 127,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/24159.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "bb5dcb26dd1a5986aebf051a17c04901d5343b326c39402fe907a78df8e0b2f6",
+          "alpha": {
+            "transparentPixels": 3234,
+            "opaquePixels": 11779,
+            "partialPixels": 608
+          }
+        },
+        {
+          "label": "绿色叶子",
+          "note": "TiledId 2",
+          "file": "green-leaf-18465.png",
+          "spriteName": "Items-MatchItem-leaf",
+          "pathId": "18465",
+          "width": 123,
+          "height": 123,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18465.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "4352c4e02039493b7974c50bb807232a784bf4e808213fb20e0afa807e1eca21",
+          "alpha": {
+            "transparentPixels": 4528,
+            "opaquePixels": 10023,
+            "partialPixels": 578
+          }
+        },
+        {
+          "label": "红色书本",
+          "note": "TiledId 3",
+          "file": "red-book-24754.png",
+          "spriteName": "Items-MatchItem-book",
+          "pathId": "24754",
+          "width": 112,
+          "height": 125,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/24754.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "25a2c94532f1f6d941350582288eb6f82bae60d2a6e81ab4b4c8b7577faa2995",
+          "alpha": {
+            "transparentPixels": 1218,
+            "opaquePixels": 12047,
+            "partialPixels": 735
+          }
+        },
+        {
+          "label": "黄色皇冠",
+          "note": "TiledId 4",
+          "file": "yellow-crown-24741.png",
+          "spriteName": "Items-MatchItem-crown",
+          "pathId": "24741",
+          "width": 130,
+          "height": 115,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/24741.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "139ebb5801ca55661530249ccbab2d90fd83bf0de154550dda60f680a27c1cb9",
+          "alpha": {
+            "transparentPixels": 3021,
+            "opaquePixels": 10996,
+            "partialPixels": 933
+          }
+        },
+        {
+          "label": "粉色宝石",
+          "note": "TiledId 5",
+          "file": "pink-gem-18480.png",
+          "spriteName": "Items-MatchItem-gem",
+          "pathId": "18480",
+          "width": 123,
+          "height": 114,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18480.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "a00ba2677772141c287344b175bdd5a0f001b134adc106541a7c968888da2bfd",
+          "alpha": {
+            "transparentPixels": 4564,
+            "opaquePixels": 9030,
+            "partialPixels": 428
+          }
+        }
+      ]
+    },
+    {
+      "title": "道具",
+      "intro": "火箭、TNT与光球有独立贴图；飞机的机身与旋翼分开保存，运行时组合并播放动画。",
+      "assets": [
+        {
+          "label": "横向火箭",
+          "note": "TiledId 30",
+          "file": "horizontal-rocket-18433.png",
+          "spriteName": "Items-SpecialItems-RocketItem-horizontal_rocket",
+          "pathId": "18433",
+          "width": 134,
+          "height": 106,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18433.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "46a689e9d85d6995c1e6cf2895a9655b6270ed05b579cc6fa8d3ae043c78f7c1",
+          "alpha": {
+            "transparentPixels": 3847,
+            "opaquePixels": 9867,
+            "partialPixels": 490
+          }
+        },
+        {
+          "label": "竖向火箭",
+          "note": "TiledId 20",
+          "file": "vertical-rocket-19212.png",
+          "spriteName": "Items-SpecialItems-RocketItem-vertical_rocket",
+          "pathId": "19212",
+          "width": 106,
+          "height": 134,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/19212.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "597f705df4b767f8bb8697d28c660f6740f1fd77dbc66856823c0ceaea23ae8e",
+          "alpha": {
+            "transparentPixels": 3911,
+            "opaquePixels": 9843,
+            "partialPixels": 450
+          }
+        },
+        {
+          "label": "TNT",
+          "note": "TiledId 40",
+          "file": "tnt-18616.png",
+          "spriteName": "Items-SpecialItems-TntItem-tnt",
+          "pathId": "18616",
+          "width": 134,
+          "height": 127,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18616.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "0c35372aa96c26fd2d6ee3fdf4fd42edcff68db5d1323325f32d7a824efd64ef",
+          "alpha": {
+            "transparentPixels": 3881,
+            "opaquePixels": 12409,
+            "partialPixels": 728
+          }
+        },
+        {
+          "label": "光球",
+          "note": "TiledId 50",
+          "file": "lightball-18901.png",
+          "spriteName": "Items-SpecialItems-LightballItem-default",
+          "pathId": "18901",
+          "width": 131,
+          "height": 132,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18901.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "25bd525e45e0090e1c97ef8cd2ca22b8c1e848584ecf606e12e3ebc32c1b9e9a",
+          "alpha": {
+            "transparentPixels": 4628,
+            "opaquePixels": 12072,
+            "partialPixels": 592
+          }
+        },
+        {
+          "label": "飞机机身",
+          "note": "飞机组件",
+          "file": "propeller-body-18373.png",
+          "spriteName": "Items-SpecialItems-PropellerItem-body",
+          "pathId": "18373",
+          "width": 101,
+          "height": 96,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18373.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "890db60138578e2289d0462f4e61f3693655bfd4036d41e9de076426e8226668",
+          "alpha": {
+            "transparentPixels": 2276,
+            "opaquePixels": 7083,
+            "partialPixels": 337
+          }
+        },
+        {
+          "label": "飞机旋翼",
+          "note": "飞机组件",
+          "file": "propeller-rotor-19027.png",
+          "spriteName": "Items-SpecialItems-PropellerItem-01",
+          "pathId": "19027",
+          "width": 140,
+          "height": 109,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/19027.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "7052423554f256e6927945e6911b73e5734bfd6e919c2506c97ec5fa65b68b2f",
+          "alpha": {
+            "transparentPixels": 8112,
+            "opaquePixels": 6527,
+            "partialPixels": 621
+          }
+        }
+      ]
+    },
+    {
+      "title": "障碍与目标物",
+      "intro": "箱子三张贴图展示不同外观状态。南瓜是其中一个破损状态，青蛙是单张主体贴图。",
+      "assets": [
+        {
+          "label": "箱子 · box_1",
+          "note": "外观状态",
+          "file": "box-1-18311.png",
+          "spriteName": "Items-BoxItem-box_1",
+          "pathId": "18311",
+          "width": 142,
+          "height": 142,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18311.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "3aaa836cd85957b50c679110d839356658d3665bc5836b3e86d182aab2d12ec2",
+          "alpha": {
+            "transparentPixels": 1067,
+            "opaquePixels": 18493,
+            "partialPixels": 604
+          }
+        },
+        {
+          "label": "箱子 · box_2",
+          "note": "外观状态",
+          "file": "box-2-18353.png",
+          "spriteName": "Items-BoxItem-box_2",
+          "pathId": "18353",
+          "width": 142,
+          "height": 142,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18353.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "ce29cf8fbda943fbe6e0af9e804e9439627e457487788c54fbe5dbee038f647d",
+          "alpha": {
+            "transparentPixels": 1065,
+            "opaquePixels": 18510,
+            "partialPixels": 589
+          }
+        },
+        {
+          "label": "箱子 · box_3",
+          "note": "外观状态",
+          "file": "box-3-18456.png",
+          "spriteName": "Items-BoxItem-box_3",
+          "pathId": "18456",
+          "width": 142,
+          "height": 142,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18456.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "8d3a59b8fc0609bf756f2a4590e865cf4851ad0e7d4d9fa72835393cd6a64dc9",
+          "alpha": {
+            "transparentPixels": 1075,
+            "opaquePixels": 18486,
+            "partialPixels": 603
+          }
+        },
+        {
+          "label": "金币",
+          "note": "目标物",
+          "file": "coin-18674.png",
+          "spriteName": "Items-CoinItem-coin",
+          "pathId": "18674",
+          "width": 132,
+          "height": 133,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18674.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "040b4447129b4fe8a431dcd43cc64462bb3538a94ed7af1a07240f9798d23302",
+          "alpha": {
+            "transparentPixels": 3651,
+            "opaquePixels": 13435,
+            "partialPixels": 470
+          }
+        },
+        {
+          "label": "南瓜 · 破损状态",
+          "note": "外观状态",
+          "file": "pumpkin-02-18795.png",
+          "spriteName": "Items-PumpkinItem-pumpkin_02",
+          "pathId": "18795",
+          "width": 141,
+          "height": 134,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18795.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "f4fbb288af50205334d06af83903f2b8271c00c09277aa5b4587c04938dfea4c",
+          "alpha": {
+            "transparentPixels": 4940,
+            "opaquePixels": 13174,
+            "partialPixels": 780
+          }
+        },
+        {
+          "label": "青蛙",
+          "note": "主体贴图",
+          "file": "frog-18810.png",
+          "spriteName": "Items-FrogItem-frog",
+          "pathId": "18810",
+          "width": 131,
+          "height": 135,
+          "sourceFile": "royal-match-unity/Assets/Resources/SourceSprites/18810.png",
+          "sourceBundleSha256": "99154e10880f367b6d36898293045da40b6e963831c5c219d7c486d54b261dd0",
+          "sha256": "97993aa3ab96153e3ce389cdc6edd5dbe22493067dc08a96a4d1aeede8e2b240",
+          "alpha": {
+            "transparentPixels": 3480,
+            "opaquePixels": 12709,
+            "partialPixels": 1496
+          }
+        }
+      ]
+    }
+  ]
+}

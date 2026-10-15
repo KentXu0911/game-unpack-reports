@@ -142,6 +142,8 @@ def rocket_demo():
 
 def extras(topic):
     key = topic['key']
+    if key == 'distributed-assets':
+        return asset_gallery()
     if key == 'level-config':
         return '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
             f'<a href="{e(key)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>'
@@ -168,6 +170,42 @@ def extras(topic):
     if key == 'shop-rules':
         return profiles()
     return ''
+
+
+def asset_gallery():
+    source = ROOT / 'content/game-art.json'
+    data = json.loads(source.read_text())
+    (ROOT / 'site/assets/game-art/manifest.json').write_text(source.read_text())
+    groups = []
+    records = []
+    for group in data['groups']:
+        cards = []
+        for asset in group['assets']:
+            png = ROOT / 'site/assets/game-art' / asset['file']
+            assert sha256(png.read_bytes()).hexdigest() == asset['sha256'], png
+            url = '../assets/game-art/' + asset['file']
+            cards.append(
+                f'<figure class="asset-card"><a class="asset-image" href="{e(url)}" '
+                f'aria-label="查看{e(asset["label"])}原图">'
+                f'<img src="{e(url)}" alt="{e(asset["label"])}解包原图" '
+                f'width="{asset["width"]}" height="{asset["height"]}" loading="lazy"></a>'
+                f'<figcaption><b>{e(asset["label"])}</b><span>{e(asset["note"])}</span>'
+                f'<small>{asset["width"]} × {asset["height"]} · #{e(asset["pathId"])}</small>'
+                '</figcaption></figure>')
+            records.append(f'<tr><td>{e(asset["label"])}</td><td>{e(asset["pathId"])}</td>'
+                           f'<td><code>{e(asset["spriteName"])}</code></td></tr>')
+        groups.append(f'<section class="asset-group"><h4>{e(group["title"])}</h4>'
+                      f'<p>{e(group["intro"])}</p><div class="asset-grid">{"".join(cards)}</div></section>')
+    return ('<section class="asset-gallery" id="asset-gallery"><h3>棋子、道具与障碍物原图</h3>'
+            '<p>以下17张PNG来自样本包内的Sprite，保留原尺寸与透明通道。点击图片可查看原图。</p>'
+            + ''.join(groups) +
+            '<p class="caption">这些是独立贴图；飞机等物体会组合多张贴图，动画还需要旋转、位移、特效和播放时序。</p>'
+            '<details class="references"><summary>素材原名与提取记录</summary>'
+            '<p>来源：<code>assetpack/assets/bin/Data/datapack.unity3d</code>。'
+            '按Sprite名称与pathId对应，文件与提取记录的SHA-256逐项一致。'
+            '<a href="../assets/game-art/manifest.json">查看尺寸、透明像素与文件哈希清单</a>。</p>'
+            '<div class="data-scroll"><table><thead><tr><th>素材</th><th>pathId</th><th>原Sprite名称</th></tr></thead>'
+            f'<tbody>{"".join(records)}</tbody></table></div></details></section>')
 
 
 def level_examples():
@@ -327,7 +365,7 @@ def detail(topic):
                         f'<p>{e(source["basis"])}。{e(source["detail"])}</p>'
                         f'<p>取证位置：<code>{e(source["locator"])}</code></p></div>')
     extra = extras(topic)
-    content = extra + paragraphs if topic['key'] in ('level-config', 'level-pressure') else paragraphs + extra
+    content = extra + paragraphs if topic['key'] in ('level-config', 'level-pressure', 'distributed-assets') else paragraphs + extra
     return (f'<section id="{e(topic["key"])}" class="topic-detail" '
             f'aria-labelledby="title-{e(topic["key"])}">'
             f'<h2 id="title-{e(topic["key"])}">{e(topic["title"])}</h2>'

@@ -10,6 +10,7 @@
 - 保持已有章节 ID 与链接可用；旧章节对应关系由 `content/legacy-anchors.json` 和 `scripts/build_site.py` 维护，新增主题需有稳定ID。
 - 原 WorkBuddy 站点及其旧生成器是迁移来源，不再作为本站修改或发布入口。禁止从旧生成目录覆盖本站后续编辑。
 - 不修改同级的 Unity、小游戏或解包工程；保留已有未提交更改。
+- 素材展示源为 `content/game-art.json`，PNG在 `site/assets/game-art/`；生成器校验文件哈希并输出公开清单。保留原图像素、透明通道、Sprite名称与pathId；机身、旋翼等组件分别标注，不当作完整动画展示。
 - 提交前运行构建、`python3 scripts/check_site.py` 与所有 `site/assets/*.js` 的 `node --check`；验证进入报告、返回总览、深链刷新、报告交互及手机布局。
 - 公开内容只呈现当前有依据的结论，移除历轮解包结论对比。区分可恢复、已提取、可执行、实机认证；未完成的算法分支不得写成已完成。
 - 初始棋盘例子绑定原字节SHA-256与批量索引，随机格保留候选池标记。物体TiledId、目标GoalType和补入CellFillType是独立枚举，编号不得混用；物体层与草地等格子层须分别说明。
