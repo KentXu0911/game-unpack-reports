@@ -1,25 +1,4 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>智能火箭：方向与范围收益 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=e9b72bb321"><script defer src="../assets/topic-reader.js"></script>
-<script defer src="../assets/level-progression.js"></script>
-<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
-<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
-<p><a class="header-back" href="../index.html#row-smart-rocket">← 返回内容总览</a></p>
-<h1>智能火箭：方向与范围收益</h1><p>比较横排与竖列的目标总分，哪边高就朝哪边打，同分随机选横竖。各类物体的具体分值仍需逐项确认。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="smart-rocket" class="topic-detail" aria-labelledby="title-smart-rocket"><h2 id="title-smart-rocket">智能火箭：方向与范围收益</h2><div class="topic-body"><h3>分别计算横排和竖列的得分</h3><p>智能方向选择会查看生成格所在的整行和整列，把每个格子对这次攻击贡献的分数分别加起来。物体类型、状态和攻击策略会影响分数，某些目标还会被排除。因此，棋子更多的一边不一定得分更高。</p><h3>哪边分高，就朝哪边打</h3><p>横排总分更高，选择横向火箭；竖列总分更高，选择竖向火箭。两边相等时，从0和1中随机取一个：1选竖向，0选横向。这个规则已在智能选择函数中确认；其他来源的火箭是否调用它，还需要逐项关联。</p><h3>横分12、竖分8时会选横向</h3><p>用一组示意数字来算：横排总分12、竖列总分8，火箭朝横向；改成8对12，就朝竖向；12对12才进入随机选择。12和8只用于说明比较方法，不是原版障碍的真实权重。下方可以修改数字查看结果。</p><h3>方向选择怎样影响下一手</h3><p>按目标分选择方向，有机会把攻击放到更有作用的一边。要复现这种效果，需要同时还原每类物体的贡献分和限制条件；仅把横竖方向做成各一半随机，无法还原已经确认的比较规则。</p><section aria-labelledby="smart-rocket-code">
-<h3 id="smart-rocket-code">原算法对应的计算步骤</h3>
-<p>以下为<code>SelectSmartRocket</code>及横纵评分函数的可读伪代码。它决定<strong>指定生成格</strong>的火箭方向；不移动生成位置，不遍历未来几手。横向与纵向分别使用对应的攻击策略取分，不必假设同一格对两种攻击贡献完全相同。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="智能火箭方向伪代码"><code>horizontal = 生成格所在行各格.GetScore(横向火箭策略)之和
-vertical   = 生成格所在列各格.GetScore(纵向火箭策略)之和
-
-if horizontal &gt; vertical: return 30 // 横向火箭
-if vertical &gt; horizontal: return 20 // 纵向火箭
-return levelRandom.Next(0, 2) == 1 ? 20 : 30</code></pre>
-<p><strong>例子：</strong>假设按对应策略算出的横向贡献为“0、4、0、3、0”，总分7；纵向为“2、0、0、1、2”，总分5，就返回横向火箭30。把纵向总分改为8，才返回20；两边都是7时进入随机。示意贡献值只用于算清流程，真实物体仍走各自评分与状态规则。</p>
-<p>横函数从该行x=0的格子沿右邻居累加；纵函数从该列y=0的格子沿上邻居累加。原指令中两次<code>GetScore</code>的策略参数分别为2和1。候选是否受覆盖物或机关修正，发生在评分链中；数障碍数量不等于执行这段算法。</p>
-<p class="flow-note">静态证据：<code>SelectSmartRocket 0x20EDA34</code>、<code>CalculateHorizontalRocketScore 0x20EDAF4</code>、<code>CalculateVerticalRocketScore 0x20EDB94</code>。<a href="../assets/evidence/board-algorithms/manifest.json">查看原字节快照与方法清单</a>。代码比较已经确认，完整物体评分与所有生成入口的适用范围仍需逐项核对。</p>
-</section>
-<div class="rocket-demo"><h5>方向规则演示</h5><p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p><div class="rocket-inputs"><label for="rocket-horizontal">横向总分 <input id="rocket-horizontal" type="number" value="12" step="1"></label><label for="rocket-vertical">纵向总分 <input id="rocket-vertical" type="number" value="8" step="1"></label></div><output id="rocket-result" for="rocket-horizontal rocket-vertical" aria-live="polite">横分12大于竖分8：选择横向火箭（30）。</output></div><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>特殊块生成、方向与组合</h6><p>ARM64／ARMv7静态规则。SelectSmartRocket 0x20EDA34；横评分0x20EDAF4、纵评分0x20EDB94；生成选格0x1378554；创建协程0x20EE048；组合分派0x26AD2C4。静态已确认方向比较与局部创建阶段，完整帧边界待实机。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div></details></div></section>
-<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能统计火箭横竖方向，构造不同目标分布检验方向偏好；足够多的对照也能支持规则假设。</p><p>解包增量：已明确智能选择函数比较横纵总分、同分随机的分支，减少只靠方向频率猜规则的工作；各物体贡献分与哪些生成入口调用它仍待核实。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="propeller-targeting.html">飞机选点：评分、随机与目标重选</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
-<footer><a href="../index.html#row-smart-rocket">← 返回内容总览</a></footer></main>
-</body></html>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>道具寻优：目标选择与通关收益 · Royal Match</title>
+<link rel="canonical" href="obstacle-rules.html"><script defer src="../assets/merged-board-routes.js?v=fd15d521e4"></script>
+</head><body><p><a href="obstacle-rules.html#smart-rocket">进入道具寻优：目标选择与通关收益 →</a></p></body></html>

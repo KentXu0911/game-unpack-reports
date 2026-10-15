@@ -3,7 +3,7 @@
 - 本仓库是“小游戏解包审计报告集”的 GitHub Pages 维护入口。
 - 用户要求修改“解包报告站点”“WorkBuddy 迁移站点”时，修改本仓库的 `site/`。
 - 内容源是 `content/topics.py`、`content/reference-tables.json`、`content/sources.json`、`content/level-examples.json`、`content/booster-targeting.html` 和 `content/report-pages/`；用 `python3 scripts/build_site.py` 生成首页、完整报告和算法页。编辑正文优先改内容源，避免再次生成时覆盖。
-- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。25个条目必须有25个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列为具体内容、可取得内容、可得性、解包增量。第四列精简文案在 `content/overview-increments.json`，完整比较保留于详情页。
+- 首页四列总览按“具体内容”链接到 `site/topics/<topic-key>.html` 独立页面。23个条目必须有23个不同路径，禁止把各条目链接到同一长报告的不同锚点。四列为具体内容、可取得内容、可得性、解包增量。第四列精简文案在 `content/overview-increments.json`，完整比较保留于详情页。
 - `content/report-pages/` 保存六份经核对的完整报告模板。`scripts/report_sections.py` 把相关原章节、样式和交互带入独立页面；章节及控件DOM ID与交互引用同步加 `original-` 前缀。旧报告文件保留，07为兼容目录，`legacy-report-routes.js` 将原章节地址跳转到对应独立页。保留有效分析、图表、交互与方法论；首页不添加冗余报告卡片。
 - `site/assets/site.css` 控制总览与算法页样式；`topic-reader.js` 控制火箭演示；`overview-links.js` 兼容旧首页深链；`report-deep-links.js` 控制报告章节定位。
 - 保持相对资源路径，兼容 `/game-unpack-reports/` 项目子路径。
@@ -19,6 +19,7 @@
 - 用户于2026-10-15将交换／匹配／下落与多棋盘、特殊块生成、命中／扩散／连锁合并为「棋盘状态机」。首页仅保留 `fall-rules` 一项；旧 `special-creation`、`hit-spread-timing` 页面跳转到合并页对应章节，旧首页行锚点定位到 `row-fall-rules`。
 - 棋盘事件正文源为 `content/board-state-events.html`，保留特殊块生成、命中去重与扩散的有效说明。
 - 棋盘算法正文源为 `content/board-algorithms.html`，智能火箭代码段为 `content/smart-rocket-code.html`，原字节快照在 `site/assets/evidence/board-algorithms/`。代码为标明范围的整理伪代码，必须结合原方法、元数据和字节核对；构造例子不是原端实机记录。
+- 用户于2026-10-15将飞机选点与智能火箭归入「道具寻优」。首页仅保留 `obstacle-rules` 一项；旧 `propeller-targeting`、`smart-rocket` 页面跳转到合并页对应章节，旧首页行锚点定位到 `row-obstacle-rules`。智能火箭概述源为 `content/smart-rocket-overview.html`，保留方向算法与交互演示。
 - 道具寻优正文源为 `content/booster-targeting.html`，原字节证据快照在 `site/assets/evidence/propeller-selection/`。普通飞机高分组优先、组内随机；箱子与拳击手套数值限定物体自身分支，不能写成全局最优或任意棋盘完整预测。保留原障碍门控表作为补充证据。
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。

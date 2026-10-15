@@ -29,10 +29,13 @@ STATUS = {
 
 # Every overview item has a separate reading page.
 DESTINATIONS = {topic['key']: f"topics/{topic['key']}.html" for topic in TOPICS}
-MERGED_BOARD_TOPICS = {
-    'special-creation': 'special-creation',
-    'hit-spread-timing': 'hit-spread-timing',
+MERGED_TOPICS = {
+    'special-creation': ('fall-rules', 'special-creation'),
+    'hit-spread-timing': ('fall-rules', 'hit-spread-timing'),
+    'propeller-targeting': ('obstacle-rules', 'propeller-targeting'),
+    'smart-rocket': ('obstacle-rules', 'smart-rocket'),
 }
+MERGED_ROUTES_VERSION = sha256(json.dumps(MERGED_TOPICS, sort_keys=True).encode()).hexdigest()[:10]
 LEVEL_PAGES = {
     'level-examples': ('真实棋盘例子', '对照四个关卡的数字、布局、草地层与目标。'),
     'tile-codes': ('颜色与道具代码', 'TiledId、GoalType和CellFillType分别对照。'),
@@ -80,8 +83,8 @@ def legacy_routes():
         'obstacle-first-seen': '../topics/obstacle-first-seen.html',
         'level-difficulty': '../topics/level-pressure.html', 'level-rhythm': '../topics/level-rhythm.html',
     })
-    for key, anchor in MERGED_BOARD_TOPICS.items():
-        target = f'../topics/fall-rules.html#{anchor}'
+    for key, (parent, anchor) in MERGED_TOPICS.items():
+        target = f'../topics/{parent}.html#{anchor}'
         routes['07-rea-recovery.html'].update({key: target, f'title-{key}': target})
     return routes
 
@@ -126,6 +129,17 @@ def profiles():
     return ''.join(output) + '</details>'
 
 
+def rocket_demo():
+    return ('<div class="rocket-demo"><h4>方向规则演示</h4>'
+            '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
+            '<div class="rocket-inputs"><label for="rocket-horizontal">横向总分 '
+            '<input id="rocket-horizontal" type="number" value="12" step="1"></label>'
+            '<label for="rocket-vertical">纵向总分 '
+            '<input id="rocket-vertical" type="number" value="8" step="1"></label></div>'
+            '<output id="rocket-result" for="rocket-horizontal rocket-vertical" aria-live="polite">'
+            '横分12大于竖分8：选择横向火箭（30）。</output></div>')
+
+
 def extras(topic):
     key = topic['key']
     if key == 'level-config':
@@ -138,24 +152,19 @@ def extras(topic):
         return ((ROOT / 'content/board-algorithms.html').read_text() +
                 (ROOT / 'content/board-state-events.html').read_text())
     if key == 'obstacle-rules':
-        return (ROOT / 'content/booster-targeting.html').read_text()
-    if key == 'propeller-targeting':
-        return ('<div class="flow" aria-label="飞机选点与攻击流程">'
+        return ('<section id="propeller-targeting" aria-labelledby="title-propeller-targeting">'
+                '<h3 id="title-propeller-targeting">飞机选点：评分、随机与目标重选</h3>'
+                '<div class="flow" aria-label="飞机选点与攻击流程">'
                 '<span>过滤与评分</span><b>→</b><span>高分组内抽取</span><b>→</b>'
-                '<span>剩余命中与重定向</span><b>→</b><span>登记攻击、飞行与命中</span></div>'
-                '<nav class="reading-links" aria-label="道具寻优详解">'
-                '<a href="obstacle-rules.html"><b>道具寻优：目标选择与通关收益</b>'
-                '<span>阅读选点步骤、箱子与拳击手套评分、四个具体局面和组合胜利检查 →</span></a></nav>')
-    if key == 'smart-rocket':
-        return ((ROOT / 'content/smart-rocket-code.html').read_text() +
-                '<div class="rocket-demo"><h5>方向规则演示</h5>'
-                '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
-                '<div class="rocket-inputs"><label for="rocket-horizontal">横向总分 '
-                '<input id="rocket-horizontal" type="number" value="12" step="1"></label>'
-                '<label for="rocket-vertical">纵向总分 '
-                '<input id="rocket-vertical" type="number" value="8" step="1"></label></div>'
-                '<output id="rocket-result" for="rocket-horizontal rocket-vertical" aria-live="polite">'
-                '横分12大于竖分8：选择横向火箭（30）。</output></div>')
+                '<span>剩余命中与重定向</span><b>→</b><span>登记攻击、飞行与命中</span></div>' +
+                (ROOT / 'content/booster-targeting.html').read_text() +
+                '<h4>选点与飞行轨迹分别计算</h4>'
+                '<p>以上证据解释攻击哪个目标，不解释飞行曲线是否绕开障碍、是否走最短路。'
+                '完整飞行曲线仍未恢复；从弯曲的动画轨迹无法判断采用了A*等寻路算法。</p></section>'
+                '<section id="smart-rocket" aria-labelledby="title-smart-rocket">'
+                '<h3 id="title-smart-rocket">智能火箭：方向与范围收益</h3>' +
+                (ROOT / 'content/smart-rocket-overview.html').read_text() +
+                (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>')
     if key == 'shop-rules':
         return profiles()
     return ''
@@ -366,12 +375,13 @@ def render_level_page(key, title, summary):
                        '<article class="topic-detail"><div class="topic-body">' + level_page_content(key) + '</div></article>', related)
 
 
-def render_merged_board_page(anchor):
-    target = f'fall-rules.html#{anchor}'
+def render_merged_topic_page(parent, anchor):
+    title = next(topic['title'] for topic in TOPICS if topic['key'] == parent)
+    target = f'{parent}.html#{anchor}'
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>棋盘状态机 · Royal Match</title>
-<link rel="canonical" href="fall-rules.html"><script defer src="../assets/merged-board-routes.js"></script>
-</head><body><p><a href="{e(target)}">进入棋盘状态机 →</a></p></body></html>'''
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} · Royal Match</title>
+<link rel="canonical" href="{e(parent)}.html"><script defer src="../assets/merged-board-routes.js?v={MERGED_ROUTES_VERSION}"></script>
+</head><body><p><a href="{e(target)}">进入{e(title)} →</a></p></body></html>'''
 
 
 def render_recovery_report():
@@ -396,7 +406,7 @@ def render_recovery_report():
 
 
 def render_site():
-    overview_version = sha256(json.dumps([DESTINATIONS, MERGED_BOARD_TOPICS], sort_keys=True).encode()).hexdigest()[:10]
+    overview_version = sha256(json.dumps([DESTINATIONS, MERGED_TOPICS], sort_keys=True).encode()).hexdigest()[:10]
     groups = []
     for group_id, title, desc in GROUPS:
         topics = [topic for topic in TOPICS if topic['group'] == group_id]
@@ -432,7 +442,7 @@ def render_site():
 <p><span class="availability framework">需当期外部输入</span> 缺实际账号／平台响应</p>
 <p><span class="availability unavailable">样本内无原件</span> 原工具、后台或制作工程</p></div></div>
 <nav class="overview-nav" aria-label="内容分类"><a href="#replication-core">三消玩法</a><a href="#replication-meta">外围 Meta</a>
-<a href="#replication-money">商业化</a><a href="topics/propeller-targeting.html">重点：飞机目标选择</a><a href="topics/smart-rocket.html">智能火箭方向</a></nav>
+<a href="#replication-money">商业化</a><a href="topics/obstacle-rules.html">重点：道具寻优</a></nav>
 <details class="research-method" id="research-method"><summary>阅读口径：代码能解释原因，实机与测评验证实际发生了什么</summary>
 <p>包内配置证明样本包含的内容；原生代码证明指定分支的计算与状态转移；受控实机记录证明该测试条件下的结果。
 本页将设计解读和教学示意明确标出，未验证的分支保持未验证。实机视频和测评继续用于核对画面、节奏、输入感受与自然玩家体验。</p>
@@ -510,15 +520,22 @@ def main():
     (ROOT / 'site/topics').mkdir(exist_ok=True)
     for topic in TOPICS:
         (ROOT / f'site/topics/{topic["key"]}.html').write_text(render_topic_page(topic))
-    for key, anchor in MERGED_BOARD_TOPICS.items():
-        (ROOT / f'site/topics/{key}.html').write_text(render_merged_board_page(anchor))
+    for key, (parent, anchor) in MERGED_TOPICS.items():
+        (ROOT / f'site/topics/{key}.html').write_text(render_merged_topic_page(parent, anchor))
     for key, (title, summary) in LEVEL_PAGES.items():
         (ROOT / f'site/topics/{key}.html').write_text(render_level_page(key, title, summary))
     write_legacy_routes()
+    merged_routes = {f'{key}.html': f'{parent}.html#{anchor}'
+                     for key, (parent, anchor) in MERGED_TOPICS.items()}
+    (ROOT / 'site/assets/merged-board-routes.js').write_text(
+        '(() => {\n  const targets = ' + json.dumps(merged_routes, ensure_ascii=True) + ';\n'
+        "  const target = targets[location.pathname.split('/').pop()];\n"
+        "  if (target) location.replace(location.hash ? target.split('#')[0] + location.hash : target);\n"
+        '})();\n')
     redirects = dict(DESTINATIONS, **{'gate-matrix': 'topics/obstacle-rules.html'})
-    for key, anchor in MERGED_BOARD_TOPICS.items():
-        redirects[key] = f'topics/fall-rules.html#{anchor}'
-        redirects[f'row-{key}'] = 'index.html#row-fall-rules'
+    for key, (parent, anchor) in MERGED_TOPICS.items():
+        redirects[key] = f'topics/{parent}.html#{anchor}'
+        redirects[f'row-{key}'] = f'index.html#row-{parent}'
     for topic in TOPICS:
         for name in topic['refs']:
             if name in TABLES and name != 'gate-matrix':
