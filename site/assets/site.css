@@ -82,3 +82,9 @@ h1{font-size:29px;line-height:1.35;margin:0 0 12px;letter-spacing:.6px}header p{
 @media(max-width:900px){.board-toc{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.board-toc{grid-template-columns:repeat(2,minmax(0,1fr))}.board-machine>section>h3{font-size:18px}.board-summary .data-scroll td:last-child,.board-summary .data-scroll td:first-child{white-space:normal}}
 .board-summary .data-scroll{max-height:none}
+.board-machine ol,.board-machine ul{font-size:14px;line-height:1.85;max-width:780px;padding-left:22px}
+.board-machine li{margin:4px 0}
+.board-machine .rocket-demo{margin:16px 0 8px}
+.matrix-fold{margin:26px 0;border:1px solid var(--line);border-radius:6px;background:#fff}
+.matrix-fold>summary{cursor:pointer;padding:14px 20px;font-size:14px;font-weight:600;color:#315c8f}
+.matrix-fold[open]>summary{border-bottom:1px solid var(--line)}

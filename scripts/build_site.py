@@ -127,7 +127,7 @@ def reference_tables(name):
 
 def rocket_demo():
     return ('<div class="rocket-demo"><h4>方向规则演示</h4>'
-            '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
+            '<p class="demo-label">输入为示意总分。</p>'
             '<div class="rocket-inputs"><label for="rocket-horizontal">横向总分 '
             '<input id="rocket-horizontal" type="number" value="12" step="1"></label>'
             '<label for="rocket-vertical">纵向总分 '
@@ -152,19 +152,12 @@ def extras(topic):
         return ('<div class="board-machine">' + (ROOT / 'content/board-algorithms.html').read_text() +
                 (ROOT / 'content/board-state-events.html').read_text() + '</div>')
     if key == 'obstacle-rules':
-        return ('<section id="propeller-targeting" aria-labelledby="title-propeller-targeting">'
-                '<h3 id="title-propeller-targeting">飞机选点：评分、随机与目标重选</h3>'
-                '<div class="flow" aria-label="飞机选点与攻击流程">'
-                '<span>过滤与评分</span><b>→</b><span>高分组内抽取</span><b>→</b>'
-                '<span>剩余命中与重定向</span><b>→</b><span>登记攻击、飞行与命中</span></div>' +
-                (ROOT / 'content/booster-targeting.html').read_text() +
-                '<h4>选点与飞行轨迹分别计算</h4>'
-                '<p>以上证据解释攻击哪个目标，不解释飞行曲线是否绕开障碍、是否走最短路。'
-                '完整飞行曲线仍未恢复；从弯曲的动画轨迹无法判断采用了A*等寻路算法。</p></section>'
+        return ('<div class="board-machine">' + (ROOT / 'content/booster-targeting.html').read_text() +
                 '<section id="smart-rocket" aria-labelledby="title-smart-rocket">'
-                '<h3 id="title-smart-rocket">智能火箭：方向与范围收益</h3>' +
+                '<h3 id="title-smart-rocket">智能火箭：只决定横竖方向</h3>' +
                 (ROOT / 'content/smart-rocket-overview.html').read_text() +
-                (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>')
+                (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>' +
+                (ROOT / 'content/booster-targeting-end.html').read_text() + '</div>')
     if key == 'experiments':
         return (ROOT / 'content/ab-tests.html').read_text()
     if key in ('shop-rules', 'user-tiers', 'payment', 'commerce-backend'):
@@ -356,6 +349,8 @@ def detail(topic):
             continue  # The complete migrated chapter already contains these tables.
         if name not in TABLES:
             continue  # Flow and interactive rule examples are rendered above.
+        if topic['key'] == 'obstacle-rules' and name == 'gate-matrix':
+            continue  # The preserved original chapter carries the same matrix.
         ref_id = 'gate-matrix' if name == 'gate-matrix' else f'data-{name}'
         refs.append(f'<details class="references" id="{e(ref_id)}"><summary>展开：{e(REFERENCE_TITLES[name])}</summary>'
                     f'{reference_tables(name)}</details>')
@@ -410,7 +405,11 @@ def render_topic_page(topic):
     if key in LEGACY_CHAPTERS:
         filename, anchors = LEGACY_CHAPTERS[key]
         routes = {anchor: url.replace('../topics/', '') for anchor, url in legacy_routes()[filename].items()}
-        body += preserved_chapters(ROOT / 'content/report-pages' / filename, anchors, routes)
+        chapters = preserved_chapters(ROOT / 'content/report-pages' / filename, anchors, routes)
+        if key == 'obstacle-rules':
+            chapters = ('<details class="matrix-fold"><summary>补充证据：30类目标×19类条件门控矩阵（原报告章节）</summary>'
+                        '<span id="gate-matrix" class="legacy-anchor"></span>' + chapters + '</details>')
+        body += chapters
     return reader_page(key, topic['title'], topic['summary'], body, related, comparisons, topic['status'])
 
 

@@ -21,7 +21,7 @@
 - 棋盘事件正文源为 `content/board-state-events.html`，保留特殊块生成、命中去重与扩散的有效说明。
 - 棋盘算法正文源为 `content/board-algorithms.html`，智能火箭代码段为 `content/smart-rocket-code.html`，原字节快照在 `site/assets/evidence/board-algorithms/`。代码为标明范围的整理伪代码，必须结合原方法、元数据和字节核对；构造例子不是原端实机记录。
 - 用户于2026-10-15将飞机选点与智能火箭归入「道具寻优」。首页仅保留 `obstacle-rules` 一项；旧 `propeller-targeting`、`smart-rocket` 页面跳转到合并页对应章节，旧首页行锚点定位到 `row-obstacle-rules`。智能火箭概述源为 `content/smart-rocket-overview.html`，保留方向算法与交互演示。
-- 道具寻优正文源为 `content/booster-targeting.html`，原字节证据快照在 `site/assets/evidence/propeller-selection/`。普通飞机高分组优先、组内随机；箱子与拳击手套数值限定物体自身分支，不能写成全局最优或任意棋盘完整预测。保留原障碍门控表作为补充证据。
+- 道具寻优正文源为 `content/booster-targeting.html`（一屏结论、目录与01–06节）和 `content/booster-targeting-end.html`（是否最优、命中结算与证据），中间插入智能火箭节；门控矩阵原章节在页尾折叠，原字节证据快照在 `site/assets/evidence/propeller-selection/`。普通飞机高分组优先、组内随机；箱子与拳击手套数值限定物体自身分支，不能写成全局最优或任意棋盘完整预测。保留原障碍门控表作为补充证据。
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。
 - 商业化重排为7项：商品与奖励（passes）、触发与展示（shop-rules）、分层与购买反馈（user-tiers）、失败续关（failure-product）、A/B测试（experiments）、支付广告与实时价格（payment）、后台与经营边界（commerce-backend）。account-offers并入shop-rules，live-price-ads并入payment；保留旧URL、首页行锚点和迁移章节深链。详细档案只保留主归属，跨主题用链接。
