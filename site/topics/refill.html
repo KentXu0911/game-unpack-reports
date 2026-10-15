@@ -1,12 +1,60 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>补棋算法、随机数 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=e2227561b3"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=6df4e43247"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-refill">← 返回内容总览</a></p>
 <h1>补棋算法、随机数</h1><p>已确认固定来源、列队列和LevelSet随机回退；目标列包含过滤、优先集合与权重抽样。全局随机调用轨迹尚未完整验收。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="refill" class="topic-detail" aria-labelledby="title-refill"><h2 id="title-refill">补棋算法、随机数</h2><div class="topic-body"><h3>先决定从哪补，再决定补什么</h3><p>下落系统确定空格与来源列；有上层棋盘来源时直接取，否则检查该列预定队列，队列耗尽才进入LevelSet回退。固定来源不执行这颗棋的普通随机选色调用；种子在开局时已初始化。</p><h3>种子怎样变成一次开局</h3><p>已核验链路中，关卡号、账号ID低32位、设备数字键通过32位加法形成baseSeed。客户端把0–999洗成尝试种子表，以LevelTryCount取模选本局种子。LevelTryCount在真正StartGame时推进，不能直接当作连败计数。</p><h3>目标列的两层抽样</h3><p>GetSetsFromColumn按FillType筛可用集合；GetRandomTargetColumnItem先尝试优先集合，成功时会减少requiredItemCount。普通权重分支先按集合FillRatio累计阈值选Set，再按Set内可用元素ratio选Item。该普通分支有两次DifficultyNext；优先、调色或固定队列分支不能套用同一调用次数。</p><h3>为什么同一个Seed也可能对不上录像</h3><p>DifficultyNext只是推进计数并调用随机对象Next(min,max)。要重放，还必须一致地恢复候选池、每次范围、棋盘状态与调用顺序。洗牌、初始生成和部分道具操作也会消耗随机数；局部颜色序列匹配不等于全游戏确定性回放完成。</p><h3>已验证到哪</h3><p>L39受控实机五局共380颗随机补棋，均能按对应返回值和候选表映射。该测试强制了步数，用于验证链路，不能当自然玩家胜率样本。完整开局、调色、扩散、洗牌及多棋盘轨迹仍需逐调用对照。</p><details class="references" id="data-color-runtime"><summary>展开：L39五局受控补棋采集结果</summary><div class="reference-item"><h6>逐颗 Frida 实抓：五次连续失败</h6><div class="data-scroll" tabindex="0" role="region" aria-label="逐颗 Frida 实抓：五次连续失败"><table><thead><tr><th>TryCount</th><th>seed</th><th>实抓数</th><th>蓝 1</th><th>绿 2</th><th>红 3</th><th>黄 4</th></tr></thead><tbody><tr><td>24</td><td>413</td><td>147</td><td>40</td><td>36</td><td>34</td><td>37</td></tr><tr><td>25</td><td>697</td><td>50</td><td>12</td><td>10</td><td>15</td><td>13</td></tr><tr><td>26</td><td>272</td><td>52</td><td>10</td><td>14</td><td>12</td><td>16</td></tr><tr><td>27</td><td>393</td><td>62</td><td>17</td><td>21</td><td>16</td><td>8</td></tr><tr><td>28</td><td>879</td><td>69</td><td>20</td><td>21</td><td>16</td><td>12</td></tr><tr><td><b>合计</b></td><td>-</td><td><b>380</b></td><td><b>99</b></td><td><b>102</b></td><td><b>93</b></td><td><b>86</b></td></tr></tbody></table></div></div></details><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>随机调用、候选与Seed生命周期</h6><p>静态调用点／受控运行记录。DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s</code></p></div><div class="evidence-entry"><h6>L39受控补棋采集</h6><p>受控实机观测／局部映射验证。五局强制步数样本共380颗，候选表与对应随机返回映射一致。用于验证消费链；不是自然难度、全账号统计或全局确定性回放认证。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/runtime_L39_difficulty_ego_validation.jsonl</code></p></div></details></div></section><style>@scope (.original-report) {
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="refill" class="topic-detail" aria-labelledby="title-refill"><h2 id="title-refill">补棋算法、随机数</h2><div class="topic-body"><div class="board-machine module-page"><div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="补棋结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>每关颜色池、预定义队列、多 Set 候选规则的全部行，以及补棋静态规则清单</td><td>1,736关带队列 · 42,176条记录</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>补棋分三层来源；颜色池几乎都是同一套四色；多 Set 关卡只占少数且靠权重选；预定义队列按列排队</td><td>52种颜色池写法</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>队列装载的遍历方向、候选权重的实际触发率、全游戏随机消耗顺序</td><td>8 条规则待闭合</td></tr>
+</tbody></table></div>
+<p class="flow-note">本页给事实与规则清单；种子链与逐颗实抓对照在页尾折叠的原报告章节里。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-color-runtime"><b>04</b>逐颗实抓</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：颜色池、队列与候选规则</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">逐关统计表覆盖全部 14,500 关；多 Set 剖面表只覆盖出现多个候选规则的 403 关。</p>
+<figure class="fact-table fact-compact" id="fact-refill-colors"><figcaption>每关颜色池（colors 字段）</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="每关颜色池（colors 字段）"><table><thead><tr><th>颜色序列（代码）</th><th>关卡数</th></tr></thead><tbody><tr><td>3,1,4,2</td><td>11,811</td></tr><tr><td>3,1,2,4</td><td>562</td></tr><tr><td>3,1,4</td><td>464</td></tr><tr><td>3,4,2</td><td>343</td></tr><tr><td>3,1,2</td><td>270</td></tr><tr><td>1,2,3,4</td><td>141</td></tr><tr><td>3,4</td><td>104</td></tr><tr><td>4,3,1,2</td><td>101</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv</code></p></figure>
+<figure class="fact-table fact-wide" id="fact-refill-queue"><figcaption>预定义补棋队列</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="预定义补棋队列"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>带预定义队列的关卡</td><td>1,736</td></tr><tr><td>覆盖的列数分布（列数：关卡数）</td><td>0：12,764、1：363、2：406、3：233、4：278、5：123、6：94、7：55、8：55、9：129</td></tr><tr><td>队列记录合计</td><td>42,176</td></tr><tr><td>单关队列格数范围</td><td>1–232</td></tr><tr><td>y 范围</td><td>9–72</td></tr></tbody></table></div><p class="fact-note">order_boundary 一列在全部 14,500 行取值相同，说明队列的装载遍历方向仍未确认。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv</code></p></figure>
+<figure class="fact-table fact-wide" id="fact-refill-set-profile"><figcaption>多 Set 关卡的候选规则剖面</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="多 Set 关卡的候选规则剖面"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>覆盖关卡</td><td>403</td></tr><tr><td>Set 行数</td><td>834</td></tr><tr><td>Set 名分布</td><td>Set2×372、Set1×354、Set3×93、Set4×10、set3×2、Set5×2、set2×1</td></tr><tr><td>create_ratio 分布</td><td>1×706、2×33、3×29、5×10、4×9、99999×8</td></tr><tr><td>带 targetColumns 的 Set</td><td>562</td></tr><tr><td>带 targetFills 的 Set</td><td>308</td></tr></tbody></table></div><p class="fact-note">仅覆盖多 Set 的关卡样本；canFall 在这些行里全部为 True。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv</code></p></figure>
+<figure class="fact-table fact-wide" id="fact-refill-rules"><figcaption>补棋静态规则与未闭合项</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="补棋静态规则与未闭合项"><table><thead><tr><th>规则</th><th>阶段</th><th>状态</th><th>未闭合部分</th></tr></thead><tbody><tr><td>queue_key_and_dequeue</td><td>预置队列</td><td>E1_static</td><td>FTiledPredefined 向队列装载时的 y 遍历方向、同一 Ids 向量的最终消费顺序待一次实机/初始化 hook 确认。</td></tr><tr><td>queue_first</td><td>补棋入口</td><td>E1_static + E2_runtime</td><td>上方排队物与 FTiledPredefined 的每一条记录如何逐格对应，需针对一个预置关卡再对照。</td></tr><tr><td>predefined_before_random</td><td>预置棋</td><td>E1_static + E2_runtime</td><td>哪些 filling cell 带预置标记及何时清除，由初始化/落子状态决定。</td></tr><tr><td>target_column_first</td><td>现场选棋</td><td>E1_static</td><td>target set 的动态可用条件、候选权重和实际触发频率待运行时验证。</td></tr><tr><td>random_fill_then_color</td><td>现场选棋</td><td>E1_static + E2_runtime</td><td>每一候选集合的概率、重抽次数和难度种子对结果的实际影响待闭合。</td></tr><tr><td>availability_and_low_match</td><td>过滤</td><td>E1_static</td><td>这些入口的完整阈值/拒绝重试序列及是否会避免即时三连，需要分支级反编译和受控样本。</td></tr><tr><td>difficulty_random_scope</td><td>难度随机</td><td>E1_static + E2_repeated</td><td>服务端覆盖、账号分组和失败计数怎样映射到权重，不能由本地调用链单独证明。</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv</code></p></figure></section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：补棋怎样分层决定</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">结论都由字段与分布读出；标“推断”的是对机制的解释。</p>
+
+<div class="finding"><b>颜色池几乎只有一套写法。</b>11,811 关（81.5%）的颜色池是「3,1,4,2」，其余写法多为少一色或换序，全部 14,500 关加起来只有 52 种不同写法。<a class="basis" href="#fact-refill-colors">依据：每关颜色池（colors 字段）</a>所以“这一关有几种颜色”基本由少数几种固定池决定，不是每关单独设计。</div>
+
+<div class="finding"><b>预定义队列只覆盖少部分关卡。</b>1,736 关带预定义补棋队列，共 42,176 条记录，单关 1–232 格；每关被排队的列数从 1 到 9 不等，12,764 关完全没有队列。<a class="basis" href="#fact-refill-queue">依据：预定义补棋队列</a>没有队列时补棋走候选池随机。</div>
+
+<div class="finding"><b>多 Set 是少数关卡的补充手段。</b>只有 403 关出现 2 个以上候选集合，最常见是 Set1 与 Set2 两个；其中 562 行带目标列、308 行带目标填充。<a class="basis" href="#fact-refill-set-profile">依据：多 Set 关卡的候选规则剖面</a>create_ratio 多数为 1，少数取 2、3、5，还有 8 行写 99999。<a class="basis" href="#fact-refill-set-profile">依据：多 Set 关卡的候选规则剖面</a>
+<br><small>推断：99999 这类极端值应当表示“常驻或必选”而不是字面权重，需消费代码确认。</small></div>
+
+<div class="finding"><b>补棋的确定顺序是：先看来源，再看队列，最后才随机。</b>规则清单把入口、预置棋、目标列、随机选色、过滤与难度随机分成了 8 条，每条都标了证据等级。<a class="basis" href="#fact-refill-rules">依据：补棋静态规则与未闭合项</a>其中“预置棋优先于随机”“目标列优先于现场选棋”两条同时有静态与运行证据。</div>
+
+<div class="finding"><b>难度随机的作用范围仍受服务端影响。</b>难度相关的随机入口只有静态证据，规则清单明确写着服务端覆盖、账号分组和失败计数怎样映射到权重无法由本地调用链单独证明。<a class="basis" href="#fact-refill-rules">依据：补棋静态规则与未闭合项</a>这与<a href="win-settlement.html">胜负、结算与难度适应</a>的结论一致。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="补棋未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>预定义队列的装载方向</td><td>队列按列号索引、按列取出已确认；向队列装载时的 y 遍历方向在一列里取值全同，尚未确认。</td><td>初始化 hook 或实机对照</td></tr>
+<tr><td>候选集合的权重与触发频率</td><td>只有静态分支。</td><td>分支级反编译与受控样本</td></tr>
+<tr><td>是否避免即时三连</td><td>过滤规则里有可用性与 lowMatch 入口，阈值与重试序列未闭合。</td><td>同上一行</td></tr>
+<tr><td>全游戏随机消耗顺序</td><td>洗牌、初始生成与部分道具也会消耗随机数；局部颜色匹配不等于整局可重放。</td><td>逐调用对照</td></tr>
+<tr><td>难度随机的服务端输入</td><td>服务端覆盖与账号分组不在包内。</td><td>对应响应，见<a href="win-settlement.html">胜负、结算与难度适应</a></td></tr>
+</tbody></table></div>
+</section>
+</div><details class="references" id="data-color-runtime"><summary>展开：L39五局受控补棋采集结果</summary><div class="reference-item"><h6>逐颗 Frida 实抓：五次连续失败</h6><div class="data-scroll" tabindex="0" role="region" aria-label="逐颗 Frida 实抓：五次连续失败"><table><thead><tr><th>TryCount</th><th>seed</th><th>实抓数</th><th>蓝 1</th><th>绿 2</th><th>红 3</th><th>黄 4</th></tr></thead><tbody><tr><td>24</td><td>413</td><td>147</td><td>40</td><td>36</td><td>34</td><td>37</td></tr><tr><td>25</td><td>697</td><td>50</td><td>12</td><td>10</td><td>15</td><td>13</td></tr><tr><td>26</td><td>272</td><td>52</td><td>10</td><td>14</td><td>12</td><td>16</td></tr><tr><td>27</td><td>393</td><td>62</td><td>17</td><td>21</td><td>16</td><td>8</td></tr><tr><td>28</td><td>879</td><td>69</td><td>20</td><td>21</td><td>16</td><td>12</td></tr><tr><td><b>合计</b></td><td>-</td><td><b>380</b></td><td><b>99</b></td><td><b>102</b></td><td><b>93</b></td><td><b>86</b></td></tr></tbody></table></div></div></details><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>随机调用、候选与Seed生命周期</h6><p>静态调用点／受控运行记录。DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s</code></p></div><div class="evidence-entry"><h6>L39受控补棋采集</h6><p>受控实机观测／局部映射验证。五局强制步数样本共380颗，候选表与对应随机返回映射一致。用于验证消费链；不是自然难度、全账号统计或全局确定性回放认证。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/runtime_L39_difficulty_ego_validation.jsonl</code></p></div></details></div></section><details class="matrix-fold"><summary>补充：原报告章节（随机关卡与难度适应）</summary><style>@scope (.original-report) {
 
 .original-report{--paper:#F6F7F2;--ink:#172033;--muted:#5F6875;--line:#D7DCD5;--teal:#0F766E;--amber:#B45309;--red:#B42318;--white:#FFF}
 *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--paper)}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Noto Sans SC","PingFang SC",sans-serif;line-height:1.72}
@@ -721,7 +769,7 @@ if (document.getElementById('original-seed-piece-flow')) {
 })();
 
 }
-})();</script>
+})();</script></details>
 <section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能统计补棋颜色、频率和局面变化，设计实验判断是否存在偏好；仅凭出棋结果，很难唯一确定随机算法。</p><p>解包增量：可追踪补棋来源、队列、候选过滤、权重和种子链，按固定输入复算局部分支。完整随机调用顺序尚未验收，不能保证整局重放。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="fall-rules.html">棋盘状态机</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-refill">← 返回内容总览</a></footer></main>
 </body></html>

@@ -1,0 +1,44 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="活动默认奖励结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>59 个活动清单、51 份解码配置、784 个默认奖励节点、224 个弹窗与图标条件函数</td><td><!--N:activity_rows-->个活动 · <!--N:config_files-->份配置</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>多数活动只靠一个管理器加一份 JSON 驱动；奖励节点最多的是赛季与远征类；弹窗条件几乎都在活动子类里重写</td><td><!--N:popup_conditions-->个条件函数</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>当期主题与覆盖、账号资格、奖励到账口径</td><td>需外部输入</td></tr>
+</tbody></table></div>
+<p class="flow-note">奖励代码的含义在<a href="economy.html">资源与奖励经济</a>；通行证与阶梯礼包在<a href="passes.html">商品类型与奖励内容</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-reward-code"><b>04</b>奖励代码</a><a href="#data-activity-rewards"><b>05</b>奖励明细</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：活动清单、配置与奖励</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">清单每一行是一个活动，带管理器类名、解锁常量、互斥槽位与对应配置文件名；节点统计按配置分组。</p>
+<!--TABLE:activity-popup-->
+<!--TABLE:activity-configs-->
+<!--TABLE:activity-reward-per-config-->
+<!--TABLE:activity-list-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>一个活动＝一个管理器类＋一份默认配置。</b>59 个活动全部带管理器类名，51 份配置都是对象结构，体积 53–10,157 字节。<!--REF:activity-list--><!--REF:activity-configs-->配置小说明活动规则主要由代码驱动，配置只放参数与奖励。</div>
+
+<div class="finding"><b>奖励节点集中在少数几个配置。</b>29 个配置出现在奖励明细表里；节点最多的是 Royal World Cup（96 个）、Royal Pass（88 个）与 Train Journey（69 个）。<!--REF:activity-reward-per-config-->按金币算，四个阶梯礼包配置最高（15.2 万–19.1 万），其次是邀请好友的 2.2 万。<!--REF:activity-reward-per-config-->这是默认表里的节点数与配置金额，不是任何玩家的产出。</div>
+
+<div class="finding"><b>弹窗与图标条件几乎都在活动子类里重写。</b>224 个条件函数里 214 个是活动子类 override，只有 10 个走基类默认实现。<!--REF:activity-popup-->索引里保留了类名、方法名、RVA、调用与字符串常量，可按需展开。</div>
+
+<div class="finding"><b>解锁常量不是开期时间。</b>清单里的解锁关卡是客户端常量；图标首次出现、已解锁、后台开期、资源就绪、真正可玩是不同事件，不能合并成一个时间点。<!--REF:activity-list-->当期排期见<a href="schedule-boundaries.html">当期活动、排期、排行</a>。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="活动未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>当期主题、资格与奖励覆盖</td><td>默认表不代表当天每个账号命中它。</td><td>对应时点的活动响应</td></tr>
+<tr><td>索引节奏列的口径</td><td>“限时轮换”“常驻”“赛季制”等标注来自索引方，不是包内字段。</td><td>服务端排期规则</td></tr>
+<tr><td>完整小游戏交互</td><td>阶段表说明输入与奖励，不单独证明玩法结算与异常状态。</td><td>玩法客户端实现与实机</td></tr>
+<tr><td>奖励到账口径</td><td>节点数、金币合计都是配置相加。</td><td>账号运行记录</td></tr>
+</tbody></table></div>
+</section>

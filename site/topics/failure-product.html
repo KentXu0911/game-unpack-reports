@@ -1,12 +1,62 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>失败续关与救场入口 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=e2227561b3"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=6df4e43247"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script><script defer src="../assets/commerce-routes.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-failure-product">← 返回内容总览</a></p>
 <h1>失败续关与救场入口</h1><p>区分跨局首档给步变化、当局连续购买档和失败页的其他出口；价格／给步实验集中列在A/B测试页。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><nav class="commerce-navigation" aria-label="商业化内容"><a href="passes.html"><small>01</small>商品类型与奖励内容</a><a href="shop-rules.html"><small>02</small>礼包触发、筛选与展示</a><a href="user-tiers.html"><small>03</small>用户分层与购买后变化</a><a href="failure-product.html" aria-current="page"><small>04</small>失败续关与救场入口</a><a href="experiments.html"><small>05</small>A/B测试：实验组与行为差异</a><a href="payment.html"><small>06</small>支付、广告与实时价格</a><a href="commerce-backend.html"><small>07</small>后台策略与经营数据边界</a></nav><section id="failure-product" class="topic-detail" aria-labelledby="title-failure-product"><h2 id="title-failure-product">失败续关与救场入口</h2><div class="topic-body"><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>商业化资格、分层与购买消费者</h6><p>客户端方法证据／状态机／商品表。支持入口、资格、优先级、分组消费、历史最高档、价格实验、Native／Xsolla与广告调用解读。后台赋值公式、当期流量和真实货币价格需外部输入；不能用SKU推金额。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv；indices/commercialization_coverage_matrix.csv</code></p></div><div class="evidence-entry"><h6>L39首档续关受控记录</h6><p>受控实机观测／客户端商品规则。八局每局只看首档、拒绝购买后重开，900金币给步5→35。没有第2–5档真付费逐档认证，不能当作自然账号长期实验结果。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.csv；outputs/runtime_L39_difficulty_ego_validation.jsonl</code></p></div></details></div></section><style>@scope (.original-report) {
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><nav class="commerce-navigation" aria-label="商业化内容"><a href="passes.html"><small>01</small>商品类型与奖励内容</a><a href="shop-rules.html"><small>02</small>礼包触发、筛选与展示</a><a href="user-tiers.html"><small>03</small>用户分层与购买后变化</a><a href="failure-product.html" aria-current="page"><small>04</small>失败续关与救场入口</a><a href="experiments.html"><small>05</small>A/B测试：实验组与行为差异</a><a href="payment.html"><small>06</small>支付、广告与实时价格</a><a href="commerce-backend.html"><small>07</small>后台策略与经营数据边界</a></nav><section id="failure-product" class="topic-detail" aria-labelledby="title-failure-product"><h2 id="title-failure-product">失败续关与救场入口</h2><div class="topic-body"><div class="board-machine module-page"><div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="失败续关结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>失败页与续关相关方法的证据行、极难关礼包的付费／未付费两版商品</td><td>2条方法证据</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>失败页至少有两条独立入口：续关购买与极难关礼包；首档报价与给步有成套实验方案</td><td>首档 900 金币 · 5 步</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>第 2–5 档的真实付费验证、跨局补步的触发条件、极难关礼包的实际弹出</td><td>—</td></tr>
+</tbody></table></div>
+<p class="flow-note">五套价格×步数实验方案在下方参考表展开；实验 ID 与组值规则见<a href="experiments.html">A/B测试</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-continue-experiments"><b>04</b>续关实验方案</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：失败页入口与商品</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">方法行来自商业化定向证据表，含 RVA、指令数与直接调用方；商品来自商品标识反查。</p>
+<figure class="fact-table fact-wide" id="fact-failure-methods"><figcaption>失败页与续关相关方法的证据行</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="失败页与续关相关方法的证据行"><table><thead><tr><th>方法</th><th>RVA</th><th>指令数</th><th>直接调用方</th></tr></thead><tbody><tr><td>ExtremelyHardLevelOfferHelper$$ShouldShowAtFail</td><td>0x3cb283c</td><td>98</td><td>0xfb1300 | Royal.Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper$$get_CanShowExtrem</td></tr><tr><td>PurchaseManager$$TryContinuePurchaseWithPaymentStore</td><td>0x2801dac</td><td>198</td><td>0xfb1300 | 0xfb1418 | System.Object$$.ctor | 0xfb12ac | 0xcc2b10 | Royal.Infrastructure.Services.Native.Purchase.Xsolla.</td></tr></tbody></table></div><p class="fact-note">调用方列表经过截断；完整列见索引表。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv</code></p></figure>
+<figure class="fact-table fact-compact" id="fact-failure-products"><figcaption>极难关礼包：付费身份两版</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="极难关礼包：付费身份两版"><table><thead><tr><th>常量名</th><th>商品标识</th><th>价位提示</th></tr></thead><tbody><tr><td>PayerExtremelyHardLevelOfferProductId</td><td>extremelyhardleveloffer.3</td><td>3</td></tr><tr><td>NonPayerExtremelyHardLevelOfferProductId</td><td>extremelyhardleveloffer.1</td><td>1</td></tr></tbody></table></div><p class="fact-note">与失败页入口配套的商品；价位提示取自标识尾号。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/iap_product_catalog.csv</code></p></figure></section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>失败页有两条独立入口。</b>一条是续关购买 PurchaseManager.TryContinuePurchaseWithPaymentStore，一条是极难关礼包 ExtremelyHardLevelOfferHelper.ShouldShowAtFail。<a class="basis" href="#fact-failure-methods">依据：失败页与续关相关方法的证据行</a>两条各有自己的商品与显示条件，不是同一个弹窗。</div>
+
+<div class="finding"><b>极难关礼包按付费身份给不同商品。</b>付费用户看到 extremelyhardleveloffer.3，未付费用户看到 extremelyhardleveloffer.1。<a class="basis" href="#fact-failure-products">依据：极难关礼包：付费身份两版</a>这与 Ego Offer 的做法一致，见<a href="user-tiers.html">用户分层与购买后变化</a>。</div>
+
+<div class="finding"><b>续关首档有成套的价格与给步实验。</b>基准方案是 900 金币给 5 步（L39 实机命中的那套），另有 990／1,200／1,500／1,900 四套，其中后三套把基础续关步数提到 10 步。<a class="basis" href="#data-continue-experiments">依据：续关首档价格×步数方案</a>实验 ID 是 51／52，组值 2–5 分别对应四套方案。<a class="basis" href="#data-continue-experiments">依据：续关首档价格×步数方案</a></div>
+
+<div class="finding"><b>跨局补步与当局购买是两件事。</b>跨局连败补步在基准方案之外另外叠加；实测记录到的 900 金币给步 5→35 里，35 步包含了这层叠加，不能当作首档给步量。<a class="basis" href="#data-continue-experiments">依据：续关首档价格×步数方案</a></div>
+
+<div class="finding"><b>第 2–5 档只有静态证据。</b>后续档位的价格与给步从代码与配置读出，没有逐档真付费验证。<a class="basis" href="#fact-failure-methods">依据：失败页与续关相关方法的证据行</a></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="失败续关未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>第 2–5 购买档</td><td>只有静态证据。</td><td>逐档真付费验证</td></tr>
+<tr><td>跨局补步的触发条件</td><td>知道会叠加，不知道几次失败后开始加、加多少。</td><td>受控实测或服务端下发值</td></tr>
+<tr><td>账号命中的实验组</td><td>实验 ID 与组值规则可读，账号分组在服务端。</td><td>账号响应</td></tr>
+<tr><td>极难关礼包的实际弹出</td><td>入口条件与商品齐备，实际弹出还要看关卡门槛与后台开关。</td><td>实机与当期响应</td></tr>
+<tr><td>其他救场出口</td><td>本页只列到两条入口；失败页是否还有其他出口未逐项梳理。</td><td>失败页 UI 逐项核对</td></tr>
+</tbody></table></div>
+</section>
+</div><details class="references" id="data-continue-experiments"><summary>展开：续关首档价格×步数方案</summary><div class="reference-item"><h6>续关首档的五套价格 × 步数方案</h6><div class="data-scroll" tabindex="0" role="region" aria-label="续关首档的五套价格 × 步数方案"><table><thead><tr><th>方案</th><th>金币价</th><th>基础续关步数</th><th>产品含义</th></tr></thead><tbody>
+<tr><td>基准</td><td>900</td><td>5</td><td>当前 L39 实机命中的方案；跨局连败补步另行叠加</td></tr>
+<tr><td>实验 A</td><td>990</td><td>5</td><td>只提高首档价格</td></tr>
+<tr><td>实验 B</td><td>1,200</td><td>10</td><td>价格与基础步数同时上调</td></tr>
+<tr><td>实验 C</td><td>1,500</td><td>10</td><td>同为 10 步，但价格锚点更高</td></tr>
+<tr><td>实验 D</td><td>1,900</td><td>10</td><td>最高的客户端首档实验基线</td></tr>
+</tbody></table></div></div></details><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>商业化资格、分层与购买消费者</h6><p>客户端方法证据／状态机／商品表。支持入口、资格、优先级、分组消费、历史最高档、价格实验、Native／Xsolla与广告调用解读。后台赋值公式、当期流量和真实货币价格需外部输入；不能用SKU推金额。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv；indices/commercialization_coverage_matrix.csv</code></p></div><div class="evidence-entry"><h6>L39首档续关受控记录</h6><p>受控实机观测／客户端商品规则。八局每局只看首档、拒绝购买后重开，900金币给步5→35。没有第2–5档真付费逐档认证，不能当作自然账号长期实验结果。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.csv；outputs/runtime_L39_difficulty_ego_validation.jsonl</code></p></div></details></div></section><details class="matrix-fold"><summary>补充：原报告章节（商业化审计）</summary><style>@scope (.original-report) {
 
 .original-report{--ink:#1f2933;--paper:#f7f6f2;--panel:#fff;--line:#d9ddd8;--muted:#66717c;--teal:#0f766e;--red:#b42318;--amber:#b7791f;--soft:#e8f3f0;--mono:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;--sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box}
@@ -115,7 +165,7 @@ footer{padding:26px 0 50px;color:#6e7881;font-size:12px}
 <tr><td><b>Pass / Journey / 主商店</b></td><td>失败页 footer 或跳转入口</td><td>对应活动是否激活、显示 flag、本次路由选择</td><td>离开当前续关链，进入长期进度商业化</td><td><span class="evidence-pill e2">E2</span>L39 已见 Royal Pass footer</td></tr>
 <tr><td><b>激励广告</b></td><td>不直接付费的救场选项</td><td>广告 A/B、冷却、展示资格和场景</td><td>看完后发对应救场奖励/资源</td><td><span class="evidence-pill e1">E1</span>能力面；本账号可达性未见</td></tr>
 </tbody></table></div><div class="boundary"><b>两个状态轴：</b><code>Ego1SeenCount</code> 回答“这是玩家跨局第几次看到首档弹窗”；<code>egoPurchaseCount/currentStep</code> 回答“玩家在这一局已经成功买过几次续关”。首档的价格/基础步数还可受下方 A/B 方案覆盖。</div></section>
-<section id="original-rescue"><div class="section-no">08 / FAILURE MONETIZATION</div><h2>失败后不是只有 900 金币续关</h2><h3>8.1 Supercharge：按实验组收金币，恢复强化状态</h3><p>客户端从 <code>https://contents.prod.rylmtch.com/super-charge/super-charge-config.txt</code> 下载 A/B 组到金币价的映射，按 ETag 更新到本地 <code>SCOConfig</code>。购买方法调用 <code>UserInventory.SpendCoins</code>，成功后更新 Super Light Ball 进度，并在相关策略下恢复 cloche 状态。</p><div class="scroll"><table><thead><tr><th>A/B 组</th><th>2026-09-23 远程金币价</th></tr></thead><tbody><tr><td>2</td><td>4,900 金币</td></tr><tr><td>3</td><td>3,900 金币</td></tr><tr><td>4</td><td>3,900 金币</td></tr><tr><td>5</td><td>2,900 金币</td></tr><tr><td>6</td><td>1,900 金币</td></tr><tr><td>7</td><td>900 金币</td></tr></tbody></table></div><p class="lead">响应 ETag <code>843ee3deb1f21d3aceb2fe0c421072f4</code>；last-modified <code>Thu, 12 Mar 2026 17:06:35 GMT</code>。此表是运行时快照，服务端可以后续改。</p><div class="boundary"><b>额外耦合：</b><code>GetAbCoinPrice</code> 还会先读取 Multiplier Selection 的若干分组状态，并存在 1,500 / 1,900 / 2,900 金币本地分支；其余路径才读远程 A/B 表。这表明救场价格不是只受一个实验 ID 影响。</div><h3>8.2 极难关礼包：付费/非付费两个 SKU</h3><p>客户端门槛为 L149，还要通过 A/B、后端禁用位和资源包就绪检查。玩家身份决定选 <code>extremelyhardleveloffer.1</code> 或 <code>extremelyhardleveloffer.3</code>，可在主页或实际失败弹窗触发。买完还记录“哪一关已购/已展示/下一关是否跳过”。</p><h3>8.3 失败页是商业化路由器</h3><p><code>EgoDialog</code> 的可用出口包括续关、金币、Royal Pass、常规 Offer、Ego Offer、主商店、Coin Shop Ego、Weekly Pass、Journey Offer 和激励广告。代码证明客户端具备这些路由；但目前的实机 E1 画面只闭合了 L39 的续关按钮 + Royal Pass footer，不能声称所有出口在同一账号都可达。</p></section></div>
+<section id="original-rescue"><div class="section-no">08 / FAILURE MONETIZATION</div><h2>失败后不是只有 900 金币续关</h2><h3>8.1 Supercharge：按实验组收金币，恢复强化状态</h3><p>客户端从 <code>https://contents.prod.rylmtch.com/super-charge/super-charge-config.txt</code> 下载 A/B 组到金币价的映射，按 ETag 更新到本地 <code>SCOConfig</code>。购买方法调用 <code>UserInventory.SpendCoins</code>，成功后更新 Super Light Ball 进度，并在相关策略下恢复 cloche 状态。</p><div class="scroll"><table><thead><tr><th>A/B 组</th><th>2026-09-23 远程金币价</th></tr></thead><tbody><tr><td>2</td><td>4,900 金币</td></tr><tr><td>3</td><td>3,900 金币</td></tr><tr><td>4</td><td>3,900 金币</td></tr><tr><td>5</td><td>2,900 金币</td></tr><tr><td>6</td><td>1,900 金币</td></tr><tr><td>7</td><td>900 金币</td></tr></tbody></table></div><p class="lead">响应 ETag <code>843ee3deb1f21d3aceb2fe0c421072f4</code>；last-modified <code>Thu, 12 Mar 2026 17:06:35 GMT</code>。此表是运行时快照，服务端可以后续改。</p><div class="boundary"><b>额外耦合：</b><code>GetAbCoinPrice</code> 还会先读取 Multiplier Selection 的若干分组状态，并存在 1,500 / 1,900 / 2,900 金币本地分支；其余路径才读远程 A/B 表。这表明救场价格不是只受一个实验 ID 影响。</div><h3>8.2 极难关礼包：付费/非付费两个 SKU</h3><p>客户端门槛为 L149，还要通过 A/B、后端禁用位和资源包就绪检查。玩家身份决定选 <code>extremelyhardleveloffer.1</code> 或 <code>extremelyhardleveloffer.3</code>，可在主页或实际失败弹窗触发。买完还记录“哪一关已购/已展示/下一关是否跳过”。</p><h3>8.3 失败页是商业化路由器</h3><p><code>EgoDialog</code> 的可用出口包括续关、金币、Royal Pass、常规 Offer、Ego Offer、主商店、Coin Shop Ego、Weekly Pass、Journey Offer 和激励广告。代码证明客户端具备这些路由；但目前的实机 E1 画面只闭合了 L39 的续关按钮 + Royal Pass footer，不能声称所有出口在同一账号都可达。</p></section></div></details>
 <section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能反复失败、重开和购买续关，记录报价与给步量；控制是否购买，即可区分跨局变化和当局购买档位。</p><p>解包增量：能对上计数器、状态转移和商品表，解释已见的900金币给步5→35，并列出后续档位。第2–5购买档仍只有静态证据，不能代替真付费验证。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="passes.html">商品类型与奖励内容</a><a href="shop-rules.html">礼包触发、筛选与展示</a><a href="user-tiers.html">用户分层与购买后变化</a><a href="experiments.html">A/B测试：实验组与行为差异</a><a href="payment.html">支付、广告与实时价格</a><a href="commerce-backend.html">后台策略与经营数据边界</a></nav>
 <footer><a href="../index.html#row-failure-product">← 返回内容总览</a></footer></main>
 </body></html>

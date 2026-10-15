@@ -1,0 +1,47 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="通行证与礼包结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>Royal Pass 与 Weekly Pass 的逐级免费／付费轨、四个阶梯礼包配置的台阶与价格点、通行证类商品标识</td><td>Royal Pass <!--N:pass_royal_steps-->级 · Weekly Pass <!--N:pass_weekly_steps-->级</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>两条通行证轨结构相同、档位密度不同；阶梯礼包用少量付费台阶撬动长阶梯；商品标识与配置档位不是一回事</td><td><!--N:ladder_configs-->个阶梯配置</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>当期主题、价格点与货币金额的换算、购买后的档位变化</td><td>见<a href="user-tiers.html">分层与购买反馈</a></td></tr>
+</tbody></table></div>
+<p class="flow-note">商品类型与奖励内容对照见页尾折叠的原报告章节；地区实价见<a href="payment.html">支付、广告与实时价格</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-sku"><b>04</b>金币档位常量</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：通行证、阶梯礼包与商品标识</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">三条表都直接来自包内默认配置；商品标识来自代码里的字符串常量反查。</p>
+<!--TABLE:pass-products-->
+<!--TABLE:pass-ladder-->
+<!--TABLE:pass-weekly-->
+<!--TABLE:pass-royal-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>两条通行证轨结构相同，密度不同。</b>Royal Pass 有 <!--N:pass_royal_steps--> 级、Weekly Pass 只有 <!--N:pass_weekly_steps--> 级，都是每级一条免费奖励加一条付费奖励。<!--REF:pass-royal--><!--REF:pass-weekly-->每级都带一个阈值 t，级号 s 与阈值 t 不完全相等（如 s=4 对应 t=5）。</div>
+
+<div class="finding"><b>阶梯礼包用少数付费台阶撬动长阶梯。</b>四个配置分别有 15、9、27、15 个台阶，付费台阶只有 2 或 4 个，价格点分别是 20／30／50／100 或 50／100。<!--REF:pass-ladder-->其余台阶的 p 为 0；多个免费台阶之间夹一个付费台阶，形成“多免费、少付费”的节奏。</div>
+
+<div class="finding"><b>商品标识与配置档位是两套数字。</b>Royal Pass 的标识是 pass.5 与 pass.10，分段的是 stagedpass1.10、stagedpass2.10／.15；Weekly Pass 是 weeklypass.5／.8。<!--REF:pass-products-->标识尾号来自代码常量，配置里的价格点来自 JSON，两者都不能当作当地货币金额。</div>
+
+<div class="finding"><b>金币档位常量单独存在。</b>客户端硬编码了 6 档金币内容量（如档位 2 给 1,000 金币、档位 8 给 5,000），这是“买多少金币”，不是价格。<!--REF:data-sku--></div>
+
+<div class="finding"><b>通行证与常规礼包对购买状态的影响不同。</b>买通行证会解锁当期付费轨并允许回补已达节点，但不更新常规历史最高档；这一条见<a href="user-tiers.html">用户分层与购买后变化</a>。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="通行证未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>当期主题与远程覆盖</td><td>默认配置带 theme 字段，当期主题与内容由服务端下发。</td><td>对应期响应</td></tr>
+<tr><td>价格点与货币金额的换算</td><td>配置里的 20／30／50／100 是档位数字。</td><td>商店查询结果</td></tr>
+<tr><td>阈值 t 的推进方式</td><td>t 与级号 s 不同，推进条件未读。</td><td>积分消费代码</td></tr>
+<tr><td>阶梯礼包的展示与购买顺序</td><td>含付费台阶与免费台阶的交错，实际展示由服务端配置与客户端排序共同决定。</td><td>当期响应与实机</td></tr>
+<tr><td>rewarded 视频档</td><td>配置里区分免费与付费轨，是否含看广告领取要按消费代码核对。</td><td>领取入口代码</td></tr>
+</tbody></table></div>
+</section>

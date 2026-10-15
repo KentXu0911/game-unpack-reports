@@ -61,7 +61,31 @@
   "manifest_bytes": 655483747,
   "source_ext_hits": 0,
   "il2cpp_types": 15292,
-  "royal_types": 8800
+  "royal_types": 8800,
+  "predef_levels": 1736,
+  "predef_records": 42176,
+  "set_profiles": 403,
+  "color_pools": 52,
+  "diff_sections": 43,
+  "diff_hard_on": 23,
+  "diff_rows": 86,
+  "templates": 289,
+  "timeline_buckets": 15,
+  "timeline_cols": 52,
+  "activity_rows": 59,
+  "config_files": 51,
+  "popup_conditions": 224,
+  "dep_slots": 10,
+  "reactivation_levels": 90,
+  "pass_royal_steps": 32,
+  "pass_weekly_steps": 9,
+  "ladder_configs": 4,
+  "textassets": 14991,
+  "tools_source_rows": 0,
+  "reusable_types": 63,
+  "reusable_objects": 166986,
+  "tier_classes": 3,
+  "failure_methods": 2
  },
  "tables": {
   "area-summary": {
@@ -298,7 +322,7 @@
     ]
    ],
    "source": "research/rm-reunpack-2026-10-14/resources/area_inventory.csv · area_tasks.csv",
-   "note": "dependency 指向单个前置；另有 3 个任务同时有 dependency 与 dependencies，已计入后两行。有 4 个任务的 dependencies 含比自身编号更大的任务，所以 task_id 是展示顺序，不是依赖的拓扑顺序。"
+   "note": "dependency 指向单个前置；另有 3 个任务同时有 dependency 与 dependencies，已计入后两行；带 dependencies 列表的任务合计 137 个。有 4 个任务的 dependencies 含比自身编号更大的任务，所以 task_id 是展示顺序，不是依赖的拓扑顺序。"
   },
   "area-dependency-by-range": {
    "title": "依赖形态按区域段的占比",
@@ -3094,6 +3118,3091 @@
    ],
    "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs · research/rm-reunpack-2026-10-14/REPORT.md",
    "note": "方法记录是元数据与地址，不是同等数量的源码函数。"
+  },
+  "refill-queue": {
+   "title": "预定义补棋队列",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "带预定义队列的关卡",
+     "1,736"
+    ],
+    [
+     "覆盖的列数分布（列数：关卡数）",
+     "0：12,764、1：363、2：406、3：233、4：278、5：123、6：94、7：55、8：55、9：129"
+    ],
+    [
+     "队列记录合计",
+     "42,176"
+    ],
+    [
+     "单关队列格数范围",
+     "1–232"
+    ],
+    [
+     "y 范围",
+     "9–72"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv",
+   "note": "order_boundary 一列在全部 14,500 行取值相同，说明队列的装载遍历方向仍未确认。"
+  },
+  "refill-set-profile": {
+   "title": "多 Set 关卡的候选规则剖面",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "覆盖关卡",
+     "403"
+    ],
+    [
+     "Set 行数",
+     "834"
+    ],
+    [
+     "Set 名分布",
+     "Set2×372、Set1×354、Set3×93、Set4×10、set3×2、Set5×2、set2×1"
+    ],
+    [
+     "create_ratio 分布",
+     "1×706、2×33、3×29、5×10、4×9、99999×8"
+    ],
+    [
+     "带 targetColumns 的 Set",
+     "562"
+    ],
+    [
+     "带 targetFills 的 Set",
+     "308"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv",
+   "note": "仅覆盖多 Set 的关卡样本；canFall 在这些行里全部为 True。"
+  },
+  "refill-colors": {
+   "title": "每关颜色池（colors 字段）",
+   "columns": [
+    "颜色序列（代码）",
+    "关卡数"
+   ],
+   "rows": [
+    [
+     "3,1,4,2",
+     "11,811"
+    ],
+    [
+     "3,1,2,4",
+     "562"
+    ],
+    [
+     "3,1,4",
+     "464"
+    ],
+    [
+     "3,4,2",
+     "343"
+    ],
+    [
+     "3,1,2",
+     "270"
+    ],
+    [
+     "1,2,3,4",
+     "141"
+    ],
+    [
+     "3,4",
+     "104"
+    ],
+    [
+     "4,3,1,2",
+     "101"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv",
+   "note": ""
+  },
+  "refill-rules": {
+   "title": "补棋静态规则与未闭合项",
+   "columns": [
+    "规则",
+    "阶段",
+    "状态",
+    "未闭合部分"
+   ],
+   "rows": [
+    [
+     "queue_key_and_dequeue",
+     "预置队列",
+     "E1_static",
+     "FTiledPredefined 向队列装载时的 y 遍历方向、同一 Ids 向量的最终消费顺序待一次实机/初始化 hook 确认。"
+    ],
+    [
+     "queue_first",
+     "补棋入口",
+     "E1_static + E2_runtime",
+     "上方排队物与 FTiledPredefined 的每一条记录如何逐格对应，需针对一个预置关卡再对照。"
+    ],
+    [
+     "predefined_before_random",
+     "预置棋",
+     "E1_static + E2_runtime",
+     "哪些 filling cell 带预置标记及何时清除，由初始化/落子状态决定。"
+    ],
+    [
+     "target_column_first",
+     "现场选棋",
+     "E1_static",
+     "target set 的动态可用条件、候选权重和实际触发频率待运行时验证。"
+    ],
+    [
+     "random_fill_then_color",
+     "现场选棋",
+     "E1_static + E2_runtime",
+     "每一候选集合的概率、重抽次数和难度种子对结果的实际影响待闭合。"
+    ],
+    [
+     "availability_and_low_match",
+     "过滤",
+     "E1_static",
+     "这些入口的完整阈值/拒绝重试序列及是否会避免即时三连，需要分支级反编译和受控样本。"
+    ],
+    [
+     "difficulty_random_scope",
+     "难度随机",
+     "E1_static + E2_repeated",
+     "服务端覆盖、账号分组和失败计数怎样映射到权重，不能由本地调用链单独证明。"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/refill_*.csv · level_refill_summary.csv",
+   "note": ""
+  },
+  "diff-sections": {
+   "title": "动态难度默认表",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "Easy 段数",
+     "43"
+    ],
+    [
+     "Hard 段数",
+     "43"
+    ],
+    [
+     "矩阵行数（段）",
+     "43"
+    ],
+    [
+     "其中启用 Hard",
+     "23"
+    ],
+    [
+     "关卡覆盖",
+     "1–1100"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv",
+   "note": "minTryCount 为 -1 表示该侧不设限；矩阵把两侧合成一行便于对照。"
+  },
+  "diff-table": {
+   "title": "分段与尝试次数阈值",
+   "columns": [
+    "段",
+    "关卡区间",
+    "Easy min／max",
+    "Hard min／max",
+    "启用 Hard"
+   ],
+   "rows": [
+    [
+     "1",
+     "1–5",
+     "-1／5",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "2",
+     "6–10",
+     "-1／5",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "3",
+     "11–15",
+     "-1／7",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "4",
+     "16–20",
+     "7／9",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "5",
+     "21–25",
+     "7／10",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "6",
+     "26–30",
+     "8／12",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "7",
+     "31–35",
+     "6／10",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "8",
+     "36–40",
+     "8／14",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "9",
+     "41–45",
+     "7／12",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "10",
+     "46–50",
+     "9／15",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "11",
+     "51–55",
+     "7／12",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "12",
+     "56–60",
+     "7／14",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "13",
+     "61–65",
+     "6／10",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "14",
+     "66–70",
+     "7／13",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "15",
+     "71–75",
+     "8／13",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "16",
+     "76–80",
+     "8／16",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "17",
+     "81–85",
+     "7／12",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "18",
+     "86–90",
+     "9／17",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "19",
+     "91–95",
+     "6／12",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "20",
+     "96–100",
+     "8／15",
+     "-1／-1",
+     "否"
+    ],
+    [
+     "21",
+     "101–120",
+     "34／60",
+     "21／26",
+     "是"
+    ],
+    [
+     "22",
+     "121–140",
+     "36／66",
+     "21／26",
+     "是"
+    ],
+    [
+     "23",
+     "141–160",
+     "42／81",
+     "22／30",
+     "是"
+    ],
+    [
+     "24",
+     "161–180",
+     "49／97",
+     "25／35",
+     "是"
+    ],
+    [
+     "25",
+     "181–200",
+     "63／120",
+     "30／45",
+     "是"
+    ],
+    [
+     "26",
+     "201–230",
+     "107／199",
+     "52／78",
+     "是"
+    ],
+    [
+     "27",
+     "231–260",
+     "113／201",
+     "55／84",
+     "是"
+    ],
+    [
+     "28",
+     "261–300",
+     "151／256",
+     "80／116",
+     "是"
+    ],
+    [
+     "29",
+     "301–350",
+     "205／343",
+     "110／158",
+     "是"
+    ],
+    [
+     "30",
+     "351–400",
+     "204／329",
+     "115／161",
+     "是"
+    ],
+    [
+     "31",
+     "401–450",
+     "209／331",
+     "120／166",
+     "是"
+    ],
+    [
+     "32",
+     "451–500",
+     "220／347",
+     "128／176",
+     "是"
+    ],
+    [
+     "33",
+     "501–550",
+     "208／327",
+     "120／165",
+     "是"
+    ],
+    [
+     "34",
+     "551–600",
+     "212／333",
+     "124／170",
+     "是"
+    ],
+    [
+     "35",
+     "601–650",
+     "223／344",
+     "131／179",
+     "是"
+    ],
+    [
+     "36",
+     "651–700",
+     "220／338",
+     "131／177",
+     "是"
+    ],
+    [
+     "37",
+     "701–750",
+     "210／322",
+     "124／169",
+     "是"
+    ],
+    [
+     "38",
+     "751–800",
+     "210／322",
+     "124／169",
+     "是"
+    ],
+    [
+     "39",
+     "801–850",
+     "220／332",
+     "130／177",
+     "是"
+    ],
+    [
+     "40",
+     "851–900",
+     "213／329",
+     "124／171",
+     "是"
+    ],
+    [
+     "41",
+     "901–950",
+     "225／342",
+     "131／180",
+     "是"
+    ],
+    [
+     "42",
+     "951–1000",
+     "217／327",
+     "128／175",
+     "是"
+    ],
+    [
+     "43",
+     "1001–1100",
+     "450／650",
+     "270／370",
+     "是"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv",
+   "note": ""
+  },
+  "settlement-methods": {
+   "title": "胜负与难度相关方法（主板路径）",
+   "columns": [
+    "方法",
+    "RVA",
+    "行为"
+   ],
+   "rows": [
+    [
+     "SemiDynamicDifficulty.OnLevelFail",
+     "0x1C85250",
+     "原字节为 ret，不做失败处理"
+    ],
+    [
+     "SemiDynamicDifficulty.SetLevelNumber",
+     "0x1C85324",
+     "原字节为 ret"
+    ],
+    [
+     "SemiDynamicDifficulty.GetSection",
+     "0x1C854B0",
+     "返回 0"
+    ],
+    [
+     "SemiDynamicDifficulty.GetGroupMove",
+     "0x1C854B8",
+     "返回 0"
+    ],
+    [
+     "SemiDynamicDifficulty.GetUpdatedMoveCount",
+     "0x1C8532C",
+     "主线回传输入；League 分支另加步"
+    ],
+    [
+     "UserManager.ProcessKeyValueResponse",
+     "0x1F0A340",
+     "取协议 KeyValue.Value 并交给 UpdateDynamicDifficultyInventory"
+    ],
+    [
+     "UpdateDynamicDifficultyInventory",
+     "0x2A0E700",
+     "把 long 写到实例 +0xB0，并用 UserKeyValue.SetLong 保存"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md · research/rm-reunpack-2026-10-14/BOUNDARIES.md",
+   "note": "这些方法支持“主线连败不会自动加步、客户端具备难度状态读写代码”，但不排除其他入口，也不等于难度已被服务端实际调整。"
+  },
+  "pressure-templates": {
+   "title": "关卡模板族（按启用字段组合去重）",
+   "columns": [
+    "模板指纹",
+    "关卡数",
+    "首关",
+    "末关",
+    "启用字段数"
+   ],
+   "rows": [
+    [
+     "74cedee671a2",
+     "8,913",
+     "1",
+     "13400",
+     "34"
+    ],
+    [
+     "72fa7a9c8e52",
+     "970",
+     "18",
+     "13351",
+     "35"
+    ],
+    [
+     "1395aec1b515",
+     "475",
+     "249",
+     "14500",
+     "34"
+    ],
+    [
+     "62c1f52cd3e6",
+     "472",
+     "3401",
+     "13396",
+     "34"
+    ],
+    [
+     "52927a42392b",
+     "322",
+     "601",
+     "13301",
+     "34"
+    ],
+    [
+     "b70bdf9fc3b2",
+     "179",
+     "8001",
+     "13356",
+     "34"
+    ],
+    [
+     "05f558342508",
+     "161",
+     "1702",
+     "13267",
+     "35"
+    ],
+    [
+     "c5512db19eca",
+     "150",
+     "1858",
+     "13183",
+     "34"
+    ],
+    [
+     "ba514f1d0ec1",
+     "119",
+     "1701",
+     "13273",
+     "35"
+    ],
+    [
+     "85345a1ea611",
+     "89",
+     "1820",
+     "13077",
+     "35"
+    ],
+    [
+     "379b87542d45",
+     "87",
+     "952",
+     "13274",
+     "35"
+    ],
+    [
+     "47e1447b6123",
+     "80",
+     "2944",
+     "13316",
+     "35"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_template_fields.csv · level_mechanic_timeline.csv",
+   "note": "共 289 个模板族；指纹由启用字段组合生成，不是官方命名。"
+  },
+  "pressure-slot-count": {
+   "title": "启用字段数分布",
+   "columns": [
+    "启用字段数",
+    "模板族数"
+   ],
+   "rows": [
+    [
+     "33",
+     "35"
+    ],
+    [
+     "34",
+     "118"
+    ],
+    [
+     "35",
+     "92"
+    ],
+    [
+     "36",
+     "33"
+    ],
+    [
+     "37",
+     "9"
+    ],
+    [
+     "38",
+     "2"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_template_fields.csv · level_mechanic_timeline.csv",
+   "note": "字段名见 level_template_fields.csv 表头（Move、Predefined、Curtains、Drills 等 60 余项）。"
+  },
+  "pressure-timeline": {
+   "title": "按 1,000 关分桶：变化最大的 6 个机制字段",
+   "columns": [
+    "关卡段",
+    "BowlingRacks",
+    "CapsuleConfig",
+    "ColorMixers",
+    "MagicLantern",
+    "MetalPlateGroups",
+    "Pairs"
+   ],
+   "rows": [
+    [
+     "1–999",
+     "0%",
+     "99%",
+     "13%",
+     "83%",
+     "99%",
+     "17%"
+    ],
+    [
+     "1000–1999",
+     "1%",
+     "97%",
+     "18%",
+     "83%",
+     "92%",
+     "23%"
+    ],
+    [
+     "2000–2999",
+     "1%",
+     "95%",
+     "23%",
+     "80%",
+     "88%",
+     "27%"
+    ],
+    [
+     "3000–3999",
+     "2%",
+     "95%",
+     "20%",
+     "83%",
+     "87%",
+     "27%"
+    ],
+    [
+     "4000–4999",
+     "2%",
+     "94%",
+     "20%",
+     "84%",
+     "86%",
+     "26%"
+    ],
+    [
+     "5000–5999",
+     "1%",
+     "94%",
+     "21%",
+     "80%",
+     "86%",
+     "29%"
+    ],
+    [
+     "6000–6999",
+     "1%",
+     "94%",
+     "20%",
+     "80%",
+     "88%",
+     "28%"
+    ],
+    [
+     "7000–7999",
+     "1%",
+     "96%",
+     "18%",
+     "83%",
+     "89%",
+     "25%"
+    ],
+    [
+     "8000–8999",
+     "1%",
+     "95%",
+     "18%",
+     "77%",
+     "90%",
+     "30%"
+    ],
+    [
+     "9000–9999",
+     "1%",
+     "96%",
+     "17%",
+     "81%",
+     "90%",
+     "26%"
+    ],
+    [
+     "10000–10999",
+     "1%",
+     "94%",
+     "18%",
+     "74%",
+     "92%",
+     "31%"
+    ],
+    [
+     "11000–11999",
+     "1%",
+     "95%",
+     "20%",
+     "79%",
+     "90%",
+     "29%"
+    ],
+    [
+     "12000–12999",
+     "1%",
+     "95%",
+     "21%",
+     "78%",
+     "90%",
+     "30%"
+    ],
+    [
+     "13000–13999",
+     "19%",
+     "70%",
+     "53%",
+     "72%",
+     "56%",
+     "56%"
+    ],
+    [
+     "14000–14500",
+     "97%",
+     "3%",
+     "99%",
+     "0%",
+     "17%",
+     "83%"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_template_fields.csv · level_mechanic_timeline.csv",
+   "note": "共统计 52 个字段；本表取各段之间差值最大的 6 个，数值是该段内启用该字段的关卡占比，不是难度评分。"
+  },
+  "pressure-shift": {
+   "title": "首段与末段差异明显的字段",
+   "columns": [
+    "字段",
+    "第 1 段",
+    "最后一段"
+   ],
+   "rows": [
+    [
+     "CapsuleConfig",
+     "99%",
+     "3%"
+    ],
+    [
+     "BowlingRacks",
+     "0%",
+     "97%"
+    ],
+    [
+     "MagicLantern",
+     "83%",
+     "0%"
+    ],
+    [
+     "Pairs",
+     "17%",
+     "83%"
+    ],
+    [
+     "MetalPlateGroups",
+     "99%",
+     "17%"
+    ],
+    [
+     "ColorMixers",
+     "13%",
+     "99%"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_template_fields.csv · level_mechanic_timeline.csv",
+   "note": "只列差异不小于 30 个百分点的字段。"
+  },
+  "pressure-buckets": {
+   "title": "每 1,000 关的模板构成",
+   "columns": [
+    "关卡段",
+    "关卡数",
+    "不同模板数",
+    "最大模板占比"
+   ],
+   "rows": [
+    [
+     "1–999",
+     "999",
+     "19",
+     "82%（74cedee671a2）"
+    ],
+    [
+     "1000–1999",
+     "1,000",
+     "58",
+     "71%（74cedee671a2）"
+    ],
+    [
+     "2000–2999",
+     "1,000",
+     "63",
+     "67%（74cedee671a2）"
+    ],
+    [
+     "3000–3999",
+     "1,000",
+     "85",
+     "66%（74cedee671a2）"
+    ],
+    [
+     "4000–4999",
+     "1,000",
+     "97",
+     "65%（74cedee671a2）"
+    ],
+    [
+     "5000–5999",
+     "1,000",
+     "80",
+     "65%（74cedee671a2）"
+    ],
+    [
+     "6000–6999",
+     "1,000",
+     "88",
+     "65%（74cedee671a2）"
+    ],
+    [
+     "7000–7999",
+     "1,000",
+     "79",
+     "67%（74cedee671a2）"
+    ],
+    [
+     "8000–8999",
+     "1,000",
+     "94",
+     "62%（74cedee671a2）"
+    ],
+    [
+     "9000–9999",
+     "1,000",
+     "86",
+     "66%（74cedee671a2）"
+    ],
+    [
+     "10000–10999",
+     "1,000",
+     "84",
+     "63%（74cedee671a2）"
+    ],
+    [
+     "11000–11999",
+     "1,000",
+     "90",
+     "64%（74cedee671a2）"
+    ],
+    [
+     "12000–12999",
+     "1,000",
+     "91",
+     "64%（74cedee671a2）"
+    ],
+    [
+     "13000–13999",
+     "1,000",
+     "154",
+     "24%（74cedee671a2）"
+    ],
+    [
+     "14000–14500",
+     "501",
+     "18",
+     "70%（1395aec1b515）"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/level_index.csv",
+   "note": "用于解释上一张表的波动：末段关卡只落在 18 个模板上，前 13 段都是 58–97 个。两段数值的差异究竟来自内容本身还是解析假设，尚未确认。"
+  },
+  "activity-list": {
+   "title": "活动清单",
+   "columns": [
+    "活动",
+    "管理器",
+    "解锁关卡",
+    "槽位",
+    "节奏",
+    "默认配置"
+   ],
+   "rows": [
+    [
+     "BalloonRise",
+     "BalloonRiseManager",
+     "39",
+     "G5",
+     "限时轮换",
+     "balloon_rise_default_config.json"
+    ],
+    [
+     "PinataParty",
+     "PinataPartyManager",
+     "39",
+     "G2",
+     "限时轮换",
+     "pinata_party_default_config.json"
+    ],
+    [
+     "HiddenTemple",
+     "HiddenTempleManager",
+     "39",
+     "G4",
+     "限时轮换",
+     "hidden_temple_default_config.json"
+    ],
+    [
+     "MagicCauldron",
+     "MagicCauldronManager",
+     "39",
+     "G8",
+     "限时轮换",
+     "magic_cauldron_default_config.json"
+    ],
+    [
+     "PuzzleBreak",
+     "PuzzleBreakManager",
+     "39",
+     "—",
+     "赛季制",
+     "puzzle_break_default_config.json"
+    ],
+    [
+     "DailyLightningRush",
+     "DailyLightningRushManager",
+     "31",
+     "—",
+     "日循环",
+     "daily_lightning_rush_default_config.json"
+    ],
+    [
+     "Madness",
+     "MadnessManager",
+     "28",
+     "G9",
+     "限时轮换",
+     "propeller_madness_default_config.json"
+    ],
+    [
+     "KingsCup",
+     "KingsCupManager",
+     "25",
+     "G7",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "TeamTournament",
+     "TeamTournamentManager",
+     "23",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "TeamTreasure",
+     "TeamTreasureManager",
+     "23",
+     "G1",
+     "限时轮换",
+     "team_treasure_default_config.json"
+    ],
+    [
+     "TeamBattle",
+     "TeamBattleManager",
+     "22",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "InviteFriends",
+     "InviteFriendsManager",
+     "80",
+     "—",
+     "常驻",
+     "invite_friends_default_config.json"
+    ],
+    [
+     "ArcheryArena",
+     "ArcheryArenaManager",
+     "56",
+     "G4",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "SkyRace",
+     "SkyRaceManager",
+     "51",
+     "—",
+     "限时轮换",
+     "sky_race_default_config.json"
+    ],
+    [
+     "SpaceMission",
+     "SpaceMissionManager",
+     "51",
+     "G7",
+     "限时轮换",
+     "space_mission_default_config.json"
+    ],
+    [
+     "RobotRivals",
+     "RobotRivalsManager",
+     "51",
+     "—",
+     "限时轮换",
+     "robot_rivals_default_config.json"
+    ],
+    [
+     "RoyalWorldCup",
+     "RoyalWorldCupManager",
+     "61",
+     "—",
+     "赛季制",
+     "royal_world_cup_default_config.json"
+    ],
+    [
+     "AncientAdventure",
+     "AncientAdventureManager",
+     "66",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "LavaQuest",
+     "LavaQuestManager",
+     "66",
+     "—",
+     "限时轮换",
+     "lava_quest_default_config.json"
+    ],
+    [
+     "DragonNest",
+     "DragonNestManager",
+     "76",
+     "G3",
+     "限时轮换",
+     "dragon_nest_default_config.json"
+    ],
+    [
+     "ShortExpeditionEvent",
+     "ShortExpeditionEventManager",
+     "76",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "TrainJourney",
+     "TrainJourneyManager",
+     "76",
+     "—",
+     "限时轮换",
+     "train_journey_default_config.json"
+    ],
+    [
+     "DukesFortune",
+     "DukesFortuneManager",
+     "86",
+     "G7",
+     "限时轮换",
+     "dukes_fortune_default_config.json"
+    ],
+    [
+     "OceanOdyssey",
+     "OceanOdysseyManager",
+     "86",
+     "—",
+     "限时轮换",
+     "ocean_odyssey_default_config.json"
+    ],
+    [
+     "MergeSmith",
+     "MergeSmithManager",
+     "86",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "ClashOfChampions",
+     "ClashOfChampionsManager",
+     "96",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "PropellerRush",
+     "PropellerRushManager",
+     "96",
+     "—",
+     "限时轮换",
+     "propeller_rush_default_config.json"
+    ],
+    [
+     "RoyalPass",
+     "RoyalPassManager",
+     "37",
+     "—",
+     "赛季制",
+     "royal_pass_default_config.json"
+    ],
+    [
+     "WeeklyPass",
+     "WeeklyPassManager",
+     "37",
+     "—",
+     "周循环",
+     "weekly_pass_default_config.json"
+    ],
+    [
+     "RoyalPassDiamondSkin",
+     "",
+     "—",
+     "—",
+     "赛季制 · 换皮",
+     "—"
+    ],
+    [
+     "RoyalPassHolidaySkin",
+     "",
+     "—",
+     "—",
+     "赛季制 · 换皮",
+     "—"
+    ],
+    [
+     "RoyalPassSummerSkin",
+     "",
+     "—",
+     "—",
+     "赛季制 · 换皮",
+     "—"
+    ],
+    [
+     "MissionControl",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "MissionPursuit",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "MultiplierToken",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "NewRoyalLeagueLeaderboard",
+     "",
+     "—",
+     "—",
+     "赛季制",
+     "—"
+    ],
+    [
+     "DailyRewards",
+     "",
+     "—",
+     "—",
+     "日循环",
+     "—"
+    ],
+    [
+     "NewRoyalLeague",
+     "",
+     "—",
+     "—",
+     "赛季制",
+     "—"
+    ],
+    [
+     "CoinShop",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "JourneyOffer",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "MultiplierSelection",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "MissionEventsCommon",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "RemainingCollectablesConversion",
+     "",
+     "—",
+     "—",
+     "收尾机制",
+     "—"
+    ],
+    [
+     "UpcomingEvents",
+     "",
+     "—",
+     "—",
+     "预告",
+     "—"
+    ],
+    [
+     "RoyalBoostBundleOffer",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "Ads",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "DirectPayment",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "ExtremelyHardLevelOffer",
+     "",
+     "—",
+     "—",
+     "限时轮换",
+     "—"
+    ],
+    [
+     "PortalItem",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "Supercharge",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "TableGame",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "RemotePuzzles",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "MagicDuke",
+     "",
+     "—",
+     "—",
+     "AB 实验",
+     "—"
+    ],
+    [
+     "SuperDuke",
+     "",
+     "—",
+     "—",
+     "AB 实验",
+     "—"
+    ],
+    [
+     "Item",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "HardLevelBackgrounds",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "HardLevelMusic",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "ExtremeLevel",
+     "",
+     "—",
+     "—",
+     "常驻",
+     "—"
+    ],
+    [
+     "WeeklyPassCommon",
+     "",
+     "—",
+     "—",
+     "周循环",
+     "—"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/activity_inventory.csv · config_json_inventory.csv · activity_reward_detail.csv · event_popup_conditions.csv",
+   "note": "解锁关卡是客户端常量，不等于当天可玩；cadence 取自索引表自己的口径。"
+  },
+  "activity-configs": {
+   "title": "包内解码配置",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "配置文件",
+     "51"
+    ],
+    [
+     "顶层结构",
+     "dict×51"
+    ],
+    [
+     "字节范围",
+     "53–10157"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/activity_inventory.csv · config_json_inventory.csv · activity_reward_detail.csv · event_popup_conditions.csv",
+   "note": ""
+  },
+  "activity-reward-per-config": {
+   "title": "各配置的奖励节点数与金币合计",
+   "columns": [
+    "配置",
+    "奖励节点",
+    "金币合计"
+   ],
+   "rows": [
+    [
+     "royal_world_cup",
+     "96",
+     "13,500"
+    ],
+    [
+     "royal_pass",
+     "88",
+     "8,500"
+    ],
+    [
+     "train_journey",
+     "69",
+     "3,000"
+    ],
+    [
+     "segmentedladder_offer_6_20",
+     "47",
+     "191,200"
+    ],
+    [
+     "segmentedladder_offer_3_20",
+     "43",
+     "191,200"
+    ],
+    [
+     "dragon_nest",
+     "41",
+     "5,000"
+    ],
+    [
+     "dukes_fortune",
+     "34",
+     "3,200"
+    ],
+    [
+     "invite_friends",
+     "34",
+     "22,000"
+    ],
+    [
+     "book_of_treasure",
+     "27",
+     "18,800"
+    ],
+    [
+     "segmentedladder_offer_6_50",
+     "27",
+     "152,200"
+    ],
+    [
+     "segmentedladder_offer_3_50",
+     "25",
+     "152,200"
+    ],
+    [
+     "ocean_odyssey",
+     "24",
+     "2,600"
+    ],
+    [
+     "hidden_temple",
+     "23",
+     "1,500"
+    ],
+    [
+     "propeller_madness",
+     "23",
+     "16,900"
+    ],
+    [
+     "weekly_pass",
+     "19",
+     "5,500"
+    ],
+    [
+     "space_mission",
+     "18",
+     "0"
+    ],
+    [
+     "balloon_rise",
+     "17",
+     "1,500"
+    ],
+    [
+     "team_treasure",
+     "17",
+     "3,700"
+    ],
+    [
+     "sky_race",
+     "16",
+     "0"
+    ],
+    [
+     "magic_cauldron",
+     "15",
+     "1,500"
+    ],
+    [
+     "mission_control",
+     "12",
+     "1,500"
+    ],
+    [
+     "pinata_party",
+     "12",
+     "600"
+    ],
+    [
+     "propeller_rush",
+     "12",
+     "0"
+    ],
+    [
+     "puzzle_break",
+     "12",
+     "1,300"
+    ],
+    [
+     "weekly_leaderboard",
+     "10",
+     "0"
+    ],
+    [
+     "daily_lightning_rush",
+     "9",
+     "0"
+    ],
+    [
+     "mission_pursuit",
+     "9",
+     "1,000"
+    ],
+    [
+     "robot_rivals",
+     "4",
+     "0"
+    ],
+    [
+     "lava_quest",
+     "1",
+     "10,000"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/activity_inventory.csv · config_json_inventory.csv · activity_reward_detail.csv · event_popup_conditions.csv",
+   "note": "只统计 activity_reward_detail.csv 里出现的配置；节点数与金币合计都不是玩家产出。"
+  },
+  "activity-popup": {
+   "title": "活动弹窗与图标条件函数",
+   "columns": [
+    "类别",
+    "数量"
+   ],
+   "rows": [
+    [
+     "活动子类 override",
+     "214"
+    ],
+    [
+     "基类默认（抽象/空实现）",
+     "10"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/activity_inventory.csv · config_json_inventory.csv · activity_reward_detail.csv · event_popup_conditions.csv",
+   "note": "明细含 class、hook、RVA、调用与字符串常量；本表只给分布。"
+  },
+  "schedule-slots": {
+   "title": "互斥轮换槽位",
+   "columns": [
+    "槽位序号",
+    "槽内事件 ID"
+   ],
+   "rows": [
+    [
+     "1",
+     "14"
+    ],
+    [
+     "2",
+     "0"
+    ],
+    [
+     "3",
+     "15"
+    ],
+    [
+     "4",
+     "3、7"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "7",
+     "16、13、8"
+    ],
+    [
+     "8",
+     "12、4"
+    ],
+    [
+     "9",
+     "6"
+    ],
+    [
+     "10",
+     "11"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/event_dependency_default_config.json · reactivation_levels_config.json · royal-match-apk-audit-38174/indices/activity_inventory.csv",
+   "note": "槽位序号按配置文件顺序，字段名是 eventGroupList；事件 ID 与活动名的对应关系在客户端常量里，未逐项核对。"
+  },
+  "schedule-reactivation": {
+   "title": "回流关卡表",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "关卡数",
+     "90"
+    ],
+    [
+     "首末",
+     "231 … 12805"
+    ],
+    [
+     "最小／最大间隔",
+     "1／204"
+    ],
+    [
+     "常见间隔",
+     "200关×35、1关×13、196关×12、204关×11、50关×6"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/event_dependency_default_config.json · reactivation_levels_config.json · royal-match-apk-audit-38174/indices/activity_inventory.csv",
+   "note": "回流活动在这些关卡号上出现；具体触发条件还需配合服务端下发。"
+  },
+  "schedule-inventory": {
+   "title": "清单里的解锁与槽位分布",
+   "columns": [
+    "字段",
+    "取值分布"
+   ],
+   "rows": [
+    [
+     "解锁关卡",
+     "未标注×30、39×5、51×3、76×3、86×3、23×2、66×2、96×2"
+    ],
+    [
+     "互斥槽位",
+     "未占槽×48、G7×3、G4×2、G5×1、G2×1、G8×1、G9×1、G1×1、G3×1"
+    ],
+    [
+     "节奏",
+     "限时轮换×28、常驻×15、赛季制×5、赛季制 · 换皮×3、日循环×2、周循环×2"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/event_dependency_default_config.json · reactivation_levels_config.json · royal-match-apk-audit-38174/indices/activity_inventory.csv",
+   "note": "59 个活动里只有 11 个标注了互斥槽位；清单的节奏列是索引方口径。"
+  },
+  "pass-royal": {
+   "title": "Royal Pass 默认配置：32 级",
+   "columns": [
+    "级 s",
+    "阈值 t",
+    "免费轨",
+    "付费轨"
+   ],
+   "rows": [
+    [
+     "0",
+     "0",
+     "T×1",
+     "—"
+    ],
+    [
+     "1",
+     "1",
+     "L×1",
+     "ULV×15"
+    ],
+    [
+     "2",
+     "2",
+     "R×1",
+     "H×1"
+    ],
+    [
+     "3",
+     "3",
+     "J×1",
+     "Ca×1"
+    ],
+    [
+     "4",
+     "5",
+     "C×100",
+     "A×1"
+    ],
+    [
+     "5",
+     "5",
+     "ULV×15、R×1",
+     "UT×15、H×1、C×200"
+    ],
+    [
+     "6",
+     "10",
+     "H×1",
+     "L×2"
+    ],
+    [
+     "7",
+     "10",
+     "T×1",
+     "R×2"
+    ],
+    [
+     "8",
+     "10",
+     "ULB×15",
+     "Ca×2"
+    ],
+    [
+     "9",
+     "10",
+     "R×1",
+     "H×2"
+    ],
+    [
+     "10",
+     "15",
+     "L×1、R×1、J×1",
+     "PL×2、H×1、C×200"
+    ],
+    [
+     "11",
+     "15",
+     "A×1",
+     "UR×30"
+    ],
+    [
+     "12",
+     "15",
+     "C×100",
+     "J×2"
+    ],
+    [
+     "13",
+     "15",
+     "ULV×15",
+     "C×500"
+    ],
+    [
+     "14",
+     "15",
+     "R×1",
+     "T×2"
+    ],
+    [
+     "15",
+     "20",
+     "T×1、A×1",
+     "ULV×60、R×2、Ca×2、C×300"
+    ],
+    [
+     "16",
+     "20",
+     "T×1",
+     "A×2"
+    ],
+    [
+     "17",
+     "20",
+     "C×100",
+     "UT×30"
+    ],
+    [
+     "18",
+     "20",
+     "L×1",
+     "H×2"
+    ],
+    [
+     "19",
+     "20",
+     "J×1",
+     "R×2"
+    ],
+    [
+     "20",
+     "25",
+     "Ca×1、R×1、T×1",
+     "L×2、T×2、A×2、J×2、C×400"
+    ],
+    [
+     "21",
+     "25",
+     "ULV×30",
+     "Ca×2"
+    ],
+    [
+     "22",
+     "25",
+     "R×1",
+     "T×2"
+    ],
+    [
+     "23",
+     "25",
+     "A×1",
+     "ULB×30"
+    ],
+    [
+     "24",
+     "25",
+     "T×1",
+     "R×3"
+    ],
+    [
+     "25",
+     "30",
+     "ULV×30、H×1、L×1",
+     "UT×30、UR×30、H×3、C×400"
+    ],
+    [
+     "26",
+     "30",
+     "Ca×1",
+     "L×3"
+    ],
+    [
+     "27",
+     "30",
+     "C×200",
+     "ULV×60"
+    ],
+    [
+     "28",
+     "30",
+     "T×2",
+     "Ca×3"
+    ],
+    [
+     "29",
+     "30",
+     "H×1",
+     "A×3"
+    ],
+    [
+     "30",
+     "50",
+     "PL×3、J×3",
+     "ULP×60、ULV×60、H×5、C×1000"
+    ],
+    [
+     "31",
+     "250",
+     "—",
+     "C×5000"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/royal_pass_default_config.json",
+   "note": "主题 theme=0；阈值最大 250；付费轨非空的级 31 个。默认配置不代表当期主题与远程覆盖。"
+  },
+  "pass-weekly": {
+   "title": "Weekly Pass 默认配置：9 级",
+   "columns": [
+    "级 s",
+    "阈值 t",
+    "免费轨",
+    "付费轨"
+   ],
+   "rows": [
+    [
+     "0",
+     "0",
+     "C×100",
+     "—"
+    ],
+    [
+     "1",
+     "1",
+     "T×1",
+     "ULV×15"
+    ],
+    [
+     "2",
+     "2",
+     "L×1",
+     "H×1"
+    ],
+    [
+     "3",
+     "3",
+     "J×1",
+     "Ca×1"
+    ],
+    [
+     "4",
+     "5",
+     "C×100",
+     "A×1"
+    ],
+    [
+     "5",
+     "5",
+     "ULV×15、R×1",
+     "UT×15、H×1、C×100"
+    ],
+    [
+     "6",
+     "10",
+     "H×1",
+     "L×2"
+    ],
+    [
+     "7",
+     "10",
+     "T×1",
+     "C×200"
+    ],
+    [
+     "8",
+     "500",
+     "—",
+     "C×5000"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/weekly_pass_default_config.json",
+   "note": "主题 theme=0；阈值最大 500；付费轨非空的级 8 个。默认配置不代表当期主题与远程覆盖。"
+  },
+  "pass-ladder": {
+   "title": "阶梯礼包默认配置",
+   "columns": [
+    "配置",
+    "台阶数",
+    "付费台阶",
+    "价格点"
+   ],
+   "rows": [
+    [
+     "segmentedladder_offer_3_20",
+     "15",
+     "4",
+     "20、30、50、100"
+    ],
+    [
+     "segmentedladder_offer_3_50",
+     "9",
+     "2",
+     "50、100"
+    ],
+    [
+     "segmentedladder_offer_6_20",
+     "27",
+     "4",
+     "20、30、50、100"
+    ],
+    [
+     "segmentedladder_offer_6_50",
+     "15",
+     "2",
+     "50、100"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/config/",
+   "note": "价格点是配置里的档位数字；与商品标识尾号、当地货币金额都不是一回事。"
+  },
+  "pass-products": {
+   "title": "通行证类商品标识",
+   "columns": [
+    "前缀",
+    "商品标识"
+   ],
+   "rows": [
+    [
+     "pass",
+     "pass.5、pass.10"
+    ],
+    [
+     "stagedpass1",
+     "stagedpass1.10"
+    ],
+    [
+     "stagedpass2",
+     "stagedpass2.10、stagedpass2.15"
+    ],
+    [
+     "weeklypass",
+     "weeklypass.5、weeklypass.8"
+    ],
+    [
+     "anvilpass",
+     "anvilpass.5、anvilpass.8"
+    ],
+    [
+     "energypass",
+     "energypass.5、energypass.10"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
+   "note": ""
+  },
+  "shop-coverage": {
+   "title": "商业化系统：已有报告与新增证据的覆盖状态",
+   "columns": [
+    "系统",
+    "新增证据",
+    "状态",
+    "还需运行验证"
+   ],
+   "rows": [
+    [
+     "Activity inventory",
+     "Commercial role mapped to sales surfaces",
+     "E1 static",
+     "Live schedule and account eligibility（L39 unlock cluster）"
+    ],
+    [
+     "Passes",
+     "Weekly/Royal Pass separated from offer segments",
+     "E1 static",
+     "Live price and active pass variant（Not materially deeper）"
+    ],
+    [
+     "Revenue segment",
+     "Ping/Register update BasicUserData.UserOfferSegment with version; Ladder config consumes it",
+     "E1 call chain",
+     "Server assignment rule（Ladder segmentation）"
+    ],
+    [
+     "Dynamic offer segment",
+     "Independent sbyte segment/version; per-segment price discount rewards; priority and purchase cap",
+     "E1 call chain",
+     "Account payload and active offer JSON（Absent）"
+    ],
+    [
+     "Purchase history",
+     "Direct callers in short/long/new shelves and special-offer first step",
+     "E1 call chain",
+     "Observed before/after shelf for one account（Highest bundle/single analysis）"
+    ],
+    [
+     "Golden Offers / Coin Shop",
+     "Server eventId/timer/config/version; next-event prefetch; purchase count; fail-screen entry",
+     "E1 call chain",
+     "Current live GoldenOffersInfo payload（Absent）"
+    ],
+    [
+     "Supercharge coin rescue",
+     "Official remote AB price map; coin spending; restores booster/cloche state",
+     "E1 + E2 snapshot",
+     "Which AB group a real account receives（Absent）"
+    ],
+    [
+     "Extremely Hard offer",
+     "L149 gate; payer/non-payer selection; fail/home routing; backend disable and AB gates",
+     "E1 call chain",
+     "Actual popup and localized price（Payer/non-payer SKU）"
+    ],
+    [
+     "Dynamic offers",
+     "Full personalized engine: minLevel/day; three priorities; segment price/rewards; maxPurchaseCount",
+     "E1 call chain",
+     "Current server configs and asset payloads（Absent）"
+    ],
+    [
+     "External payment",
+     "Native/Xsolla branch; country allowlist; JWT; backend disable; restore/redeem",
+     "E1 call chain",
+     "Availability and checkout on target country/account（Absent）"
+    ],
+    [
+     "External payment bonus",
+     "V1/V2 AB groups; less/more/first-purchase bonus; L52 notification",
+     "E1 call chain",
+     "Per-product bonus payload（Absent）"
+    ],
+    [
+     "Ads / No Ads",
+     "Rewarded/interstitial controls and No Ads replacement path retained",
+     "E1 static",
+     "Live ad eligibility and cooldown（Ads grouping）"
+    ],
+    [
+     "Payment completion",
+     "Payment channel -> validation -> user history update -> inventory grant / event claim",
+     "E1 partial chain",
+     "End-to-end purchase capture（Absent）"
+    ],
+    [
+     "Short Expedition adaptive daily offer",
+     "Own server segment/version; buy raises tier; two seen-without-buy cycles lower tier; low/high package selectors consume segment",
+     "E1 ARM64 algorithm",
+     "Live account segment and current remote config（Absent）"
+    ],
+    [
+     "Merge Smith hybrid pass",
+     "AB-gated paid track supports real-money or coin purchase; low-price branch; free/paid step claims and auto-claim",
+     "E1 call chain",
+     "Active event config and actual local price（Absent）"
+    ],
+    [
+     "World Cup cosmetic offer",
+     "Sells frame, styled name, or both; product tiers 20/30; claim writes separate claimed flags",
+     "E1 call chain",
+     "Active cosmetic payload and localized price（Absent）"
+    ],
+    [
+     "Team Offer",
+     "L24 unlock; 24-hour server event; Gold/Silver/Bronze products; team reward and unlimited-lives duration",
+     "E1 call chain",
+     "Current TeamGiftOfferInfo config and team delivery capture（Absent）"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/commercialization_coverage_matrix.csv · event_popup_conditions.csv",
+   "note": "new_evidence 与 runtime_gap 两列直接取自索引表。"
+  },
+  "shop-hooks": {
+   "title": "弹窗与图标条件函数（按指令数前 12）",
+   "columns": [
+    "类",
+    "方法",
+    "类别",
+    "指令数",
+    "RVA"
+   ],
+   "rows": [
+    [
+     "SkyRaceManager",
+     "TryAddClaimDialog",
+     "活动子类 override",
+     "260",
+     "0x1c8c424"
+    ],
+    [
+     "LadderOfferManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "260",
+     "0x1dc1fb0"
+    ],
+    [
+     "TeamOfferManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "260",
+     "0x2062220"
+    ],
+    [
+     "DragonNestManager",
+     "IsAllBundlesDownloaded",
+     "活动子类 override",
+     "260",
+     "0x21c5874"
+    ],
+    [
+     "DynamicOfferManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "260",
+     "0x233939c"
+    ],
+    [
+     "OfferManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "260",
+     "0x319248c"
+    ],
+    [
+     "KingsCupManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "229",
+     "0x1dbc868"
+    ],
+    [
+     "SkyRaceManager",
+     "TryAddDeeplinkDialog",
+     "活动子类 override",
+     "217",
+     "0x1c8ca1c"
+    ],
+    [
+     "SpaceMissionManager",
+     "TryAddClaimDialog",
+     "活动子类 override",
+     "207",
+     "0x1da90ec"
+    ],
+    [
+     "RoyalWorldCupManager",
+     "TryAddDeeplinkDialog",
+     "活动子类 override",
+     "197",
+     "0x32fd214"
+    ],
+    [
+     "RoyalWorldCupManager",
+     "TryAddClaimDialog",
+     "活动子类 override",
+     "192",
+     "0x32fcd20"
+    ],
+    [
+     "RoyalWorldCupManager",
+     "TryAddStartDialog",
+     "活动子类 override",
+     "188",
+     "0x32fc9d0"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/commercialization_coverage_matrix.csv · event_popup_conditions.csv",
+   "note": ""
+  },
+  "shop-strings": {
+   "title": "条件里的字符串常量（前 10）",
+   "columns": [
+    "字符串",
+    "出现次数"
+   ],
+   "rows": [
+    [
+     "icon",
+     "5"
+    ],
+    [
+     "Push start dialog by {0}",
+     "5"
+    ],
+    [
+     "Push info dialog by {0}",
+     "5"
+    ],
+    [
+     "flow",
+     "4"
+    ],
+    [
+     "deeplink",
+     "4"
+    ],
+    [
+     "MagicCauldronCauldron{0}",
+     "4"
+    ],
+    [
+     "TeamBattleShowed",
+     "3"
+    ],
+    [
+     "KingsCupShowed",
+     "2"
+    ],
+    [
+     "LadderOfferAutoDialogState",
+     "2"
+    ],
+    [
+     "Dialog opened with DeepLink",
+     "2"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/commercialization_coverage_matrix.csv · event_popup_conditions.csv",
+   "note": ""
+  },
+  "tools-textassets": {
+   "title": "TextAsset 分类统计",
+   "columns": [
+    "类型",
+    "个数",
+    "字节"
+   ],
+   "rows": [
+    [
+     "binary",
+     "14,864",
+     "33,026,841"
+    ],
+    [
+     "json",
+     "51",
+     "70,337"
+    ],
+    [
+     "text",
+     "39",
+     "324,959"
+    ],
+    [
+     "semi_text",
+     "37",
+     "5,985,308"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/textasset_kind_stats.csv · textasset_name_prefix.csv · level_template_fields.csv · src_file_names.csv",
+   "note": ""
+  },
+  "tools-prefixes": {
+   "title": "TextAsset 名称前缀",
+   "columns": [
+    "前缀",
+    "个数"
+   ],
+   "rows": [
+    [
+     "<纯数字ID>",
+     "14,500"
+    ],
+    [
+     "story-",
+     "261"
+    ],
+    [
+     "reactivation-",
+     "90"
+    ],
+    [
+     "kw",
+     "17"
+    ],
+    [
+     "tutorial",
+     "4"
+    ],
+    [
+     "segmentedladder",
+     "4"
+    ],
+    [
+     "royal",
+     "3"
+    ],
+    [
+     "Monkey",
+     "3"
+    ],
+    [
+     "nightmare",
+     "2"
+    ],
+    [
+     "export",
+     "2"
+    ],
+    [
+     "mission",
+     "2"
+    ],
+    [
+     "skeleton.atlas",
+     "2"
+    ],
+    [
+     "Royal",
+     "2"
+    ],
+    [
+     "CMixer",
+     "2"
+    ],
+    [
+     "honey",
+     "2"
+    ],
+    [
+     "Otter",
+     "2"
+    ],
+    [
+     "skeleton.skel",
+     "2"
+    ],
+    [
+     "jester",
+     "2"
+    ],
+    [
+     "win",
+     "2"
+    ],
+    [
+     "Squirrel",
+     "2"
+    ],
+    [
+     "bowling",
+     "2"
+    ],
+    [
+     "flower",
+     "2"
+    ],
+    [
+     "propeller",
+     "2"
+    ],
+    [
+     "bear",
+     "2"
+    ],
+    [
+     "Cookie",
+     "2"
+    ],
+    [
+     "weekly",
+     "2"
+    ],
+    [
+     "Final",
+     "2"
+    ],
+    [
+     "Choco",
+     "2"
+    ],
+    [
+     "episode",
+     "2"
+    ],
+    [
+     "bush",
+     "2"
+    ],
+    [
+     "double",
+     "2"
+    ],
+    [
+     "story",
+     "1"
+    ],
+    [
+     "King.atlas",
+     "1"
+    ],
+    [
+     "King.skel",
+     "1"
+    ],
+    [
+     "space",
+     "1"
+    ],
+    [
+     "honey.skel",
+     "1"
+    ],
+    [
+     "Frog.atlas",
+     "1"
+    ],
+    [
+     "mailbox.atlas",
+     "1"
+    ],
+    [
+     "AreaCompleted.atlas",
+     "1"
+    ],
+    [
+     "FacebookKing",
+     "1"
+    ],
+    [
+     "TurtleItem.atlas",
+     "1"
+    ],
+    [
+     "penguin.atlas",
+     "1"
+    ],
+    [
+     "AreaCompleted.skel",
+     "1"
+    ],
+    [
+     "lava",
+     "1"
+    ],
+    [
+     "Lava.atlas",
+     "1"
+    ],
+    [
+     "propellerlogicimprovement-",
+     "1"
+    ],
+    [
+     "propellerlogicimprovement",
+     "1"
+    ],
+    [
+     "event",
+     "1"
+    ],
+    [
+     "lightbulb.atlas",
+     "1"
+    ],
+    [
+     "TurtleItem.skel",
+     "1"
+    ],
+    [
+     "pouch.atlas",
+     "1"
+    ],
+    [
+     "magic",
+     "1"
+    ],
+    [
+     "SeedBox.skel",
+     "1"
+    ],
+    [
+     "CollectionCharacters",
+     "1"
+    ],
+    [
+     "area",
+     "1"
+    ],
+    [
+     "hidden",
+     "1"
+    ],
+    [
+     "ColorMixer.atlas",
+     "1"
+    ],
+    [
+     "lightbulb.skel",
+     "1"
+    ],
+    [
+     "magic-duke-config",
+     "1"
+    ],
+    [
+     "train",
+     "1"
+    ],
+    [
+     "ColorMixer.skel",
+     "1"
+    ],
+    [
+     "jelly.atlas",
+     "1"
+    ],
+    [
+     "SeedBox.atlas",
+     "1"
+    ],
+    [
+     "ocean",
+     "1"
+    ],
+    [
+     "dragon",
+     "1"
+    ],
+    [
+     "book",
+     "1"
+    ],
+    [
+     "balloon",
+     "1"
+    ],
+    [
+     "penguin.skel",
+     "1"
+    ],
+    [
+     "pouch.skel",
+     "1"
+    ],
+    [
+     "invite",
+     "1"
+    ],
+    [
+     "Frog.skel",
+     "1"
+    ],
+    [
+     "gummy.atlas",
+     "1"
+    ],
+    [
+     "jelly.skel",
+     "1"
+    ],
+    [
+     "team",
+     "1"
+    ],
+    [
+     "puzzle",
+     "1"
+    ],
+    [
+     "Lava.skel",
+     "1"
+    ],
+    [
+     "bonus",
+     "1"
+    ],
+    [
+     "LineBreaking Leading Characters",
+     "1"
+    ],
+    [
+     "DynamicDifficultyHard",
+     "1"
+    ],
+    [
+     "sky",
+     "1"
+    ],
+    [
+     "EmojiReplacements",
+     "1"
+    ],
+    [
+     "robot",
+     "1"
+    ],
+    [
+     "TeamCharacters",
+     "1"
+    ],
+    [
+     "reactivation",
+     "1"
+    ],
+    [
+     "LineBreaking Following Characters",
+     "1"
+    ],
+    [
+     "mailbox.skel",
+     "1"
+    ],
+    [
+     "pinata",
+     "1"
+    ],
+    [
+     "DynamicDifficultyEasy",
+     "1"
+    ],
+    [
+     "dukes",
+     "1"
+    ],
+    [
+     "honey.atlas",
+     "1"
+    ],
+    [
+     "gummy.skel",
+     "1"
+    ],
+    [
+     "daily",
+     "1"
+    ],
+    [
+     "DefaultSplashLogoImage",
+     "1"
+    ],
+    [
+     "DefaultSplashMainImage",
+     "1"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/textasset_kind_stats.csv · textasset_name_prefix.csv · level_template_fields.csv · src_file_names.csv",
+   "note": "reactivation-、kw、tutorial、segmentedladder 等前缀对应回流、桌游关卡模板、教学与阶梯礼包配置。"
+  },
+  "tools-search": {
+   "title": "原生产工具的检索结果",
+   "columns": [
+    "检索对象",
+    "结果"
+   ],
+   "rows": [
+    [
+     "REA 物化文件里的源码文件名记录",
+     "0 行（表头之外没有数据行）"
+    ],
+    [
+     "随包文件清单里的 .cs／.unity／.prefab／.psd 等",
+     "命中 0，见「包体范围与研发边界」"
+    ],
+    [
+     "PuzzleBoardGenerator",
+     "属于 Home.Ui.Dialogs.PuzzleBreak，是外围拼图玩法，不是三消生产器"
+    ],
+    [
+     "LevelLoadValidationHelper",
+     "0x1E86988／0x1E86A8C 为存档 checksum 校验，不是关卡质量验收"
+    ],
+    [
+     "关卡模板族",
+     "289 个模板指纹可作自建编辑器与校验器的输入"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/textasset_kind_stats.csv · textasset_name_prefix.csv · level_template_fields.csv · src_file_names.csv",
+   "note": "这些是当前样本里能查到的全部相关线索；没有发现原编辑器、生成器或求解器。"
+  },
+  "source-rebuild": {
+   "title": "可重新接入的资源类型（前 12）",
+   "columns": [
+    "类型",
+    "个数"
+   ],
+   "rows": [
+    [
+     "GameObject",
+     "39,889"
+    ],
+    [
+     "Transform",
+     "36,927"
+    ],
+    [
+     "SpriteRenderer",
+     "15,104"
+    ],
+    [
+     "TextAsset",
+     "14,991"
+    ],
+    [
+     "MonoBehaviour",
+     "13,722"
+    ],
+    [
+     "MonoScript",
+     "8,988"
+    ],
+    [
+     "Sprite",
+     "7,971"
+    ],
+    [
+     "ParticleSystem",
+     "7,938"
+    ],
+    [
+     "ParticleSystemRenderer",
+     "7,938"
+    ],
+    [
+     "MeshRenderer",
+     "3,077"
+    ],
+    [
+     "RectTransform",
+     "2,962"
+    ],
+    [
+     "AnimationClip",
+     "1,374"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/summary.json · validation.json · research/rm-reunpack-2026-10-14/REPORT.md",
+   "note": "共 63 类、166,986 个对象；这些是构建产物，可重新接入项目，但不是原工程。"
+  },
+  "source-absence": {
+   "title": "原件缺口的直接证据",
+   "columns": [
+    "检查项",
+    "结果"
+   ],
+   "rows": [
+    [
+     "源码文件名记录",
+     "0 条"
+    ],
+    [
+     "随包 .cs／.csproj／.sln",
+     "0"
+    ],
+    [
+     "随包 .unity／.prefab",
+     "0"
+    ],
+    [
+     "随包 .psd／.psb／.fla",
+     "0"
+    ],
+    [
+     "随包 .wav／.aep",
+     "0"
+    ],
+    [
+     "分包与主包内容",
+     "24 个 assetbundle、7 个 DEX、32 个原生库，均为运行态产物"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/resources/summary.json · royal-match-apk-audit-38174/indices/android_native_summary.json",
+   "note": ""
+  },
+  "source-subset": {
+   "title": "静态分析载体（子集 ELF）",
+   "columns": [
+    "指标",
+    "数值"
+   ],
+   "rows": [
+    [
+     "完整 ELF",
+     "89,601,608 字节，方法分析在 330 秒超时"
+    ],
+    [
+     "子集 ELF 成功反编译函数",
+     "18 个，伪代码非空"
+    ],
+    [
+     "保留内容",
+     "原 RVA、源机器码字节与部分数据段"
+    ],
+    [
+     "省略内容",
+     "其他函数、重定位记录、bss、异常展开表"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/REPORT.md · research/rm-reunpack-2026-10-14/native/subset-identity.json",
+   "note": "子集 ELF 只用于静态阅读，没有执行，不是可玩程序。"
+  },
+  "tier-fields": {
+   "title": "分层与档位在客户端结构里的落点",
+   "columns": [
+    "类",
+    "类型",
+    "成员声明"
+   ],
+   "rows": [
+    [
+     "BasicUserData",
+     "类",
+     "SyncId:int、Level:int、LeagueLevel:int、UserOfferSegment:int、FullLivesTimeInMs:long、UnlimitedLivesEndTimeInMs:long、UserData:long、IsPaidUser:bool、HasSupportBan:bool、HasChatBan:bool、GetHighestBoughtBundle:byte、GetHighestBoughtSinglePackage:byte、HasSocialBan:bool"
+    ],
+    [
+     "LadderOfferConfig",
+     "类",
+     "version:int、offerPriorityHomescene:int、offerPriorityShop:int、offerPriorityFavor:int、steps:LadderOfferStep[]、theme:string"
+    ],
+    [
+     "LadderOfferStep",
+     "类",
+     "a:int、backgroundColorIndex:int、rt:SingleRewardTransformData[]"
+    ]
+   ],
+   "source": "research/rm-reunpack-2026-10-14/evidence/initial-dumper-artifacts/dump.cs",
+   "note": "字段声明说明客户端有这个值，不说明谁赋值、何时变；LadderOfferStep 的成员在基类或其他声明里。"
+  },
+  "tier-expedition": {
+   "title": "远征活动的能量类商品（按档位与用途分前缀）",
+   "columns": [
+    "前缀",
+    "商品标识"
+   ],
+   "rows": [
+    [
+     "energyoffer",
+     "energyoffer.1、energyoffer.2、energyoffer.4、energyoffer.6、energyoffer.9、energyoffer.5、energyoffer.8、energyoffer.10、energyoffer.15"
+    ],
+    [
+     "energypass",
+     "energypass.5、energypass.10"
+    ],
+    [
+     "energysingle3",
+     "energysingle3.3"
+    ],
+    [
+     "energysingle",
+     "energysingle.6、energysingle.10、energysingle.20、energysingle.25、energysingle.30、energysingle.40、energysingle.50、energysingle.100"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
+   "note": "高低档日用礼包、通行证与单品分别用不同前缀；档位数字是标识尾号，不是金额。"
+  },
+  "tier-payer-split": {
+   "title": "按付费身份分叉的商品",
+   "columns": [
+    "常量名",
+    "商品标识",
+    "价位提示"
+   ],
+   "rows": [
+    [
+     "PayerEgoOfferProductId",
+     "egooffer.7",
+     "7"
+    ],
+    [
+     "NonPayerEgoOfferProductId",
+     "egooffer.1",
+     "1"
+    ],
+    [
+     "PayerExtremelyHardLevelOfferProductId",
+     "extremelyhardleveloffer.3",
+     "3"
+    ],
+    [
+     "NonPayerExtremelyHardLevelOfferProductId",
+     "extremelyhardleveloffer.1",
+     "1"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
+   "note": "付过费与未付费各有一套商品标识。"
+  },
+  "failure-methods": {
+   "title": "失败页与续关相关方法的证据行",
+   "columns": [
+    "方法",
+    "RVA",
+    "指令数",
+    "直接调用方"
+   ],
+   "rows": [
+    [
+     "ExtremelyHardLevelOfferHelper$$ShouldShowAtFail",
+     "0x3cb283c",
+     "98",
+     "0xfb1300 | Royal.Scenes.Home.Ui.Dialogs.ExtremelyHardLevelOffer.Scripts.ExtremelyHardLevelOfferHelper$$get_CanShowExtrem"
+    ],
+    [
+     "PurchaseManager$$TryContinuePurchaseWithPaymentStore",
+     "0x2801dac",
+     "198",
+     "0xfb1300 | 0xfb1418 | System.Object$$.ctor | 0xfb12ac | 0xcc2b10 | Royal.Infrastructure.Services.Native.Purchase.Xsolla."
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/commercialization_method_evidence.csv",
+   "note": "调用方列表经过截断；完整列见索引表。"
+  },
+  "failure-products": {
+   "title": "极难关礼包：付费身份两版",
+   "columns": [
+    "常量名",
+    "商品标识",
+    "价位提示"
+   ],
+   "rows": [
+    [
+     "PayerExtremelyHardLevelOfferProductId",
+     "extremelyhardleveloffer.3",
+     "3"
+    ],
+    [
+     "NonPayerExtremelyHardLevelOfferProductId",
+     "extremelyhardleveloffer.1",
+     "1"
+    ]
+   ],
+   "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
+   "note": "与失败页入口配套的商品；价位提示取自标识尾号。"
   }
  }
 }

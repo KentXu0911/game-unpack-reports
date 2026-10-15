@@ -122,3 +122,5 @@ h1{font-size:29px;line-height:1.35;margin:0 0 12px;letter-spacing:.6px}header p{
 .module-page .fact-grid .fact-compact .data-scroll{max-width:none}
 @media(max-width:900px){.module-page .fact-grid{grid-template-columns:minmax(0,1fr)}}
 .module-page .fact-table{min-width:0}
+.module-page .finding,.module-page .layer-lead,.module-page .flow-note{overflow-wrap:anywhere}
+.module-page .finding code,.module-page .layer-lead code{white-space:normal;overflow-wrap:anywhere}

@@ -1,0 +1,45 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="原生产工具结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>14,991 份 TextAsset 的分类与命名前缀；对“原编辑器／生成器／求解器”的检索结果</td><td><!--N:textassets-->份 TextAsset</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>成品关卡是二进制成品，不是编辑器工程；名字像工具的类都不是三消生产工具；自建工具可用 <!--N:templates--> 个模板族与字段清单做输入</td><td>源码文件名记录 0 条</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>原团队的编辑器形态、筛关流程与验收标准</td><td>样本内无原件</td></tr>
+</tbody></table></div>
+<p class="flow-note">包体里的制作源文件缺口见<a href="source-projects.html">原制作工程</a>；关卡字段本身见<a href="level-config.html">初始棋盘、关卡配置</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：包内文本资源与检索结果</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">TextAsset 分类由内容特征判定；检索结果逐项写明查了什么、查到什么。</p>
+<!--TABLE:tools-textassets-->
+<!--TABLE:tools-prefixes-->
+<!--TABLE:tools-search-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>包内没有可读的关卡生产工程。</b>14,991 份 TextAsset 里 14,864 份是二进制，只有 51 份 JSON、39 份文本、37 份半文本；源码文件名记录表除了表头没有任何行。<!--REF:tools-textassets--><!--REF:tools-search--></div>
+
+<div class="finding"><b>14,500 份关卡以数字 ID 命名。</b>名称前缀统计里纯数字 ID 有 14,500 个，对应逐关二进制；其余前缀分别是 story-（261）、reactivation-（90）、kw（17）、tutorial（4）、segmentedladder（4）、royal（3）。<!--REF:tools-prefixes-->kw 与 tutorial 是桌游玩法的关卡模板，不是三消关卡编辑器。</div>
+
+<div class="finding"><b>名字像工具的类都不是三消生产工具。</b>PuzzleBoardGenerator 属于外围拼图玩法 PuzzleBreak；LevelLoadValidationHelper 做的是存档 checksum 校验，不是关卡质量验收。<!--REF:tools-search--></div>
+
+<div class="finding"><b>自建工具的可用输入是齐的。</b>关卡字段清单、289 个模板族、逐关成品与运行约束都能读，足够做一个自建编辑器与校验器。<!--REF:tools-search-->但自建工具需要自己定义操作、求解策略与质量指标，它不会因为数据齐就等同于原团队的工具。</div>
+
+<div class="finding"><b>反推不出设计过程。</b>成品关卡可以读出结论，读出的是“结果长什么样”，不是“团队怎样筛出这一关”。<!--REF:tools-search--></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="生产工具未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>原编辑器／生成器／求解器</td><td>样本内没有可确认的原件，检索只命中同名但不同用途的类。</td><td>不可从客户端取得</td></tr>
+<tr><td>筛关流程与验收标准</td><td>存档校验不是关卡质量标准。</td><td>原团队资料</td></tr>
+<tr><td>关卡作者与版本沿革</td><td>关卡名带 v01／v02 这类版本标记（如 00001v02_L），每个关卡号只对应一个文件；作者信息与历史版本没有。</td><td>不可从客户端取得</td></tr>
+<tr><td>自建工具的质量评估</td><td>自建工具是替代实现，需要自行定义指标。</td><td>研究方自行设计</td></tr>
+</tbody></table></div>
+</section>

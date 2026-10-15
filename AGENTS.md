@@ -29,3 +29,6 @@
 - 用户于2026-10-15要求各模块统一按「拆包事实 → 分析提炼 → 未确认与边界」三层展开。正文源为 `content/module-<topic-key>.html`，存在即由 `build_site.py` 的 `module_page()` 接管该主题正文，`topics.py` 中对应 sections 置空。占位符：`<!--TABLE:id-->` 渲染事实表（连续短表自动两栏），`<!--REF:id-->` 生成“依据”链接，`<!--N:key-->` 取数值；构建时残留占位符即报错。
 - 事实表与数值只来自 `content/module-facts.json`，由 `scripts/extract_module_facts.py --workspace ..` 只读重算（区域任务、关卡统计、dump.cs 协议声明、默认配置、奖励代码、商品标识、资源与包体清单），每表带取数路径；CI只消费快照。分析层每条结论须带 REF；“推断”单独用 small 标出；分析里出现的数字须能在事实表找到。
 - 已按三层改写：level-config、area-tasks、team-flow、distributed-assets、social-backend、payment、commerce-backend，新增 economy（资源与奖励经济）、package-scope（包体范围与研发边界）。原 `commerce-commerce-backend.html` 已并入 module 页。
+- 2026-10-15 第二批（11 个模块）：refill、win-settlement、level-pressure、activity-defaults、schedule-boundaries、passes、shop-rules、user-tiers、failure-product、production-tools、source-projects 已按三层改写，至此 20 个模块页全部为「拆包事实→分析提炼→未确认与边界」。原报告章节改为页尾 `<details class="matrix-fold">补充：原报告章节（LABEL）</details>`，深链由 report-deep-links.js 自动展开。
+- 模块页可追加附属内容：`asset_gallery()`（distributed-assets）、关卡入口导航（level-config）、`level_page_content()`（level-pressure）、`content/commerce-<key>.html`（payment、shop-rules、user-tiers）。新增模块时若旧页面带 `id` 锚点，必须保留，否则 check_site 会报缺锚点。
+- 分析层长方法名要能断行：`.module-page .finding/.layer-lead/.flow-note` 已设 `overflow-wrap:anywhere`；`.finding` 内是不带 `p` 的直接文本，不能只依赖 `.topic-body p` 的断行规则。

@@ -1,0 +1,47 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="活动排期结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>10 个互斥轮换槽位、回流关卡表、清单里的解锁与槽位分布</td><td><!--N:dep_slots-->个槽位 · <!--N:reactivation_levels-->个回流关卡</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>轮换位是互斥的，多事件共用一个位；回流用固定关卡号做锚点；清单里只有 11 个活动标注了占槽</td><td>槽内最多 3 个事件</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>当期日期、事件 ID 与活动名的对应、未下发的未来排期</td><td>需服务端时间</td></tr>
+</tbody></table></div>
+<p class="flow-note">活动本身的默认奖励见<a href="activity-defaults.html">活动玩法、默认奖励</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-activity-unlocks"><b>04</b>解锁与资源映射</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：轮换槽位与回流锚点</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">槽位表来自包内解码的 event_dependency 默认配置；回流表来自 reactivation_levels 配置；分布表来自活动清单。</p>
+<!--TABLE:schedule-slots-->
+<!--TABLE:schedule-reactivation-->
+<!--TABLE:schedule-inventory-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>轮换位是互斥的，一个位可以放多个候选事件。</b>10 个槽位里，7 个位只放 1 个事件，另外 3 个位分别放 2–3 个事件（如第 7 位的 16、13、8；第 8 位的 12、4；第 4 位的 3、7）。<!--REF:schedule-slots-->
+<br><small>推断：同一位里的多个事件不会同时开，但“按顺序轮换”还是“按条件挑选”还没读到规则。</small></div>
+
+<div class="finding"><b>清单里只有 11 个活动标注了占槽。</b>59 个活动里 48 个没有槽位标注，占槽的分布在 G1–G9 九个位上。<!--REF:schedule-inventory-->槽位表里的事件 ID 与活动名的对应关系在客户端常量里，未逐项核对。</div>
+
+<div class="finding"><b>回流用固定关卡号做锚点。</b>回流表有 90 个关卡号，从 231 一直到 12,805；最常见间隔是 200 关（35 次），另有 196 与 204 关，也有 13 处只差 1 关的连续关卡号。<!--REF:schedule-reactivation--></div>
+
+<div class="finding"><b>解锁常量集中在少数几档。</b>30 个活动没有标注解锁关卡，其余的集中在 39、51、76、86 等少数几个值上。<!--REF:schedule-inventory-->到门槛只表示可参选，不代表当天必开。<!--REF:data-activity-unlocks--></div>
+
+<div class="finding"><b>客户端有剩余时间、活动有效状态与排行展示路径。</b>这些属于展示与判定，不等于服务端已经下发。<!--REF:schedule-slots-->当期日历与对手名次仍需响应。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="活动排期未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>当期起止日期与奖励覆盖</td><td>样本里没有当前账号的绝对起止时间。</td><td>对应服务器响应</td></tr>
+<tr><td>事件 ID 与活动名的对应</td><td>槽位表用 ID，清单用名字，两份还没合起来核。</td><td>客户端常量或逐期观察</td></tr>
+<tr><td>同槽轮换规则</td><td>只知道互斥，不知道轮换顺序。</td><td>服务端规则或长期记录</td></tr>
+<tr><td>未下发的未来排期</td><td>一次响应只能补已下发的内容。</td><td>不可推知</td></tr>
+<tr><td>对手、名次与排行校验</td><td>见<a href="social-backend.html">原社交、赛事后台</a>。</td><td>服务端数据</td></tr>
+</tbody></table></div>
+</section>

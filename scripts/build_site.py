@@ -39,6 +39,14 @@ MERGED_TOPICS = {
     'account-offers': ('shop-rules', 'account-offers'),
     'live-price-ads': ('payment', 'live-price-ads'),
 }
+LEGACY_LABELS = {
+    '03-mechanism-difficulty.html': '随机关卡与难度适应',
+    '06-commercialization-audit.html': '商业化审计',
+    '02-activity-config.html': '活动配置与奖励',
+    '01-activity-schedule.html': '活动排期与解锁',
+    '04-gate-resolution.html': '目标与条件门控',
+}
+
 MERGED_ROUTES_VERSION = sha256(json.dumps(MERGED_TOPICS, sort_keys=True).encode()).hexdigest()[:10]
 LEVEL_PAGES = {
     'level-examples': ('真实棋盘例子', '对照四个关卡的数字、布局、草地层与目标。'),
@@ -233,8 +241,15 @@ def module_page(key):
         return '\n'.join(out)
 
     page = re.sub(r'(?:<!--TABLE:[\w-]+-->\s*)+', tables, page)
-    page = re.sub(r'<!--REF:([\w-]+)-->', lambda m: (
-        f'<a class="basis" href="#fact-{m.group(1)}">依据：{e(MODULE_FACTS["tables"][m.group(1)]["title"])}</a>'), page)
+    def basis(match):
+        ref = match.group(1)
+        if ref in MODULE_FACTS['tables']:
+            return f'<a class="basis" href="#fact-{ref}">依据：{e(MODULE_FACTS["tables"][ref]["title"])}</a>'
+        name = ref[len('data-'):] if ref.startswith('data-') else ref
+        assert name in REFERENCE_TITLES, (key, ref)
+        return f'<a class="basis" href="#data-{name}">依据：{e(REFERENCE_TITLES[name])}</a>'
+
+    page = re.sub(r'<!--REF:([\w-]+)-->', basis, page)
     assert '<!--' not in page, (key, re.findall(r'<!--[^>]*-->', page)[:3])
     return '<div class="board-machine module-page">' + page + '</div>'
 
@@ -243,15 +258,24 @@ def extras(topic):
     key = topic['key']
     if key in MODULE_PAGES:
         facts = module_page(key)
+        extra = ''
         if key == 'distributed-assets':
-            return facts + asset_gallery()
+            extra += asset_gallery()
         if key == 'level-config':
-            return facts + '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
+            extra += '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
                 f'<a href="{e(k)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>'
                 for k, title in LEVEL_LINKS) + '</nav>'
-        if key == 'payment':
-            return facts + (ROOT / 'content/commerce-payment.html').read_text()
-        return facts
+        if key == 'level-pressure':
+            extra += level_page_content('level-pressure')
+        if key == 'passes':
+            extra += '<span id="original-s3" class="legacy-anchor"></span><span id="original-ar" class="legacy-anchor"></span>'
+        legacy = ROOT / f'content/commerce-{key}.html'
+        if legacy.exists():
+            if key == 'shop-rules':
+                extra += '<span id="data-commercial-moments" class="legacy-anchor"></span>'
+            extra += legacy.read_text()
+        return facts + extra
+
     if key == 'passes':
         return '<span id="original-s3" class="legacy-anchor"></span><span id="original-ar" class="legacy-anchor"></span>'
     if key == 'distributed-assets':
@@ -475,7 +499,7 @@ def detail(topic):
                         f'<p>{e(source["basis"])}。{e(source["detail"])}</p>'
                         f'<p>取证位置：<code>{e(source["locator"])}</code></p></div>')
     extra = extras(topic)
-    content = extra + paragraphs if topic['key'] in ('level-config', 'level-pressure', 'distributed-assets') else paragraphs + extra
+    content = extra + paragraphs if topic['key'] in MODULE_PAGES or topic['key'] == 'level-pressure' else paragraphs + extra
     return (f'<section id="{e(topic["key"])}" class="topic-detail" '
             f'aria-labelledby="title-{e(topic["key"])}">'
             f'<h2 id="title-{e(topic["key"])}">{e(topic["title"])}</h2>'
@@ -523,6 +547,9 @@ def render_topic_page(topic):
         if key == 'obstacle-rules':
             chapters = ('<details class="matrix-fold"><summary>补充证据：30类目标×19类条件门控矩阵（原报告章节）</summary>'
                         '<span id="gate-matrix" class="legacy-anchor"></span>' + chapters + '</details>')
+        else:
+            chapters = (f'<details class="matrix-fold"><summary>补充：原报告章节（{e(LEGACY_LABELS[filename])}）</summary>'
+                        + chapters + '</details>')
         body += chapters
     return reader_page(key, topic['title'], topic['summary'], body, related, comparisons, topic['status'])
 

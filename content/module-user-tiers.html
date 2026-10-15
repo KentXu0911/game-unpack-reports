@@ -1,0 +1,50 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="用户分层结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>分层值在客户端结构里的落点、阶梯配置的字段、按付费身份分叉的商品、远征档位商品</td><td><!--N:tier_classes-->个类 · <!--N:sku_families-->个商品前缀</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>同一个账号有多套互相独立的标签；付费身份只影响两处商品；远征档位自带升降规则</td><td>分层标签 6 套</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>后台怎样赋值、账号当期档位、换期时的服务端输入</td><td>需外部输入</td></tr>
+</tbody></table></div>
+<p class="flow-note">分层表、远征档位表与购买后变化表在本页下方展开；商品内容见<a href="passes.html">商品类型与奖励内容</a>。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-segments"><b>04</b>分层方式对照</a><a href="#data-purchase-effects"><b>05</b>购买后变化</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：分层标签落在哪里</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">成员声明来自 IL2CPP 元数据。字段存在说明客户端读得到这个值，不说明谁写它。</p>
+<!--TABLE:tier-fields-->
+<!--TABLE:tier-payer-split-->
+<!--TABLE:tier-expedition-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：一个账号有多套标签</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">六套分组方式的对照、远征档位表和购买后变化表在页尾展开，下面每条结论都可点开对应表核对：</p>
+<!--REF:data-segments-->
+<!--REF:data-expedition-->
+<!--REF:data-purchase-effects-->
+
+<div class="finding"><b>分层值都落在同一个用户结构里，但彼此独立。</b>同一个 BasicUserData 同时带 UserOfferSegment、IsPaidUser、GetHighestBoughtBundle、GetHighestBoughtSinglePackage 四个不同标签，另有聊天与社交封禁标记。<!--REF:tier-fields-->标签之间没有换算关系，不能合成一个总价值分。</div>
+
+<div class="finding"><b>阶梯礼包按版本与入口优先级取配置。</b>LadderOfferConfig 声明了 version、theme、steps 以及首页、商店、收藏三个入口的优先级字段。<!--REF:tier-fields-->所以同一份阶梯配置能按入口分开展示，取哪一份由版本号与档位共同决定。</div>
+
+<div class="finding"><b>付费身份只影响两处商品。</b>Ego Offer 与极难关礼包各有一组付费／未付费商品（egooffer.7 与 egooffer.1、extremelyhardleveloffer.3 与 .1）。<!--REF:tier-payer-split-->这是客户端可见的、最直接的“按身份换商品”。</div>
+
+<div class="finding"><b>远征档位自带升降规则。</b>远征的档位对应不同能量量的商品标识（日用礼包、通行证、单品三组前缀），换期时按买没买、看没看来升降档。<!--REF:tier-expedition--><!--REF:data-expedition-->买过升一档、封顶 5；未买且看过且挂起且档位不低于 3 时降一档；没有档位时用服务端给的值。<!--REF:data-expedition--></div>
+
+<div class="finding"><b>购买不只发奖，还会留下状态。</b>常规礼包会更新付费身份与对应类别的历史最高档，通行证只解锁当期付费轨而不更新常规最高档，这些状态又会被货架与礼包起步步骤读取。<!--REF:data-purchase-effects--></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="用户分层未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>Dynamic／Revenue 分组的赋值公式</td><td>客户端能读到分组值、版本与消费位置，赋值规则在服务端。</td><td>服务端规则或多账号长期对照</td></tr>
+<tr><td>账号当期档位</td><td>档位随登录与进度响应下发。</td><td>对应账号的响应</td></tr>
+<tr><td>远征换期的服务端输入</td><td>本地规则可读；没有档位时会取服务端给的值，该值怎样产生未知。</td><td>服务端规则</td></tr>
+<tr><td>历史最高档如何累积</td><td>知道购买会更新它，不知道更新算法与上限。</td><td>购买处理代码与实测</td></tr>
+<tr><td>分层对结果的影响</td><td>客户端只能说明“按标签取哪份配置”。</td><td>有口径的对照数据</td></tr>
+</tbody></table></div>
+</section>

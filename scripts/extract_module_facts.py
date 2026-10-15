@@ -38,7 +38,8 @@ def fmt(n):
 
 
 def read_csv(path):
-    with open(path, newline='', encoding='utf-8') as fh:
+    """Read a CSV, dropping the UTF-8 BOM some of the index files carry."""
+    with open(path, newline='', encoding='utf-8-sig') as fh:
         return list(csv.DictReader(fh))
 
 
@@ -159,7 +160,8 @@ def areas(ws):
          '、'.join(f'{k}个×{v}' for k, v in sorted(multi_sizes.items()))],
         ['dependency = 上一编号任务', shape['prev'], '线性串联'],
         ['dependency 指向更早的非相邻任务', shape['other'], '从同一任务分叉出多条支线'],
-    ], src, f'dependency 指向单个前置；另有 {shape["single_with_list"]} 个任务同时有 dependency 与 dependencies，已计入后两行。'
+    ], src, f'dependency 指向单个前置；另有 {shape["single_with_list"]} 个任务同时有 dependency 与 dependencies，已计入后两行；'
+            f'带 dependencies 列表的任务合计 {shape["merge"] + shape["single_with_list"]} 个。'
             f'有 {forward} 个任务的 dependencies 含比自身编号更大的任务，所以 task_id 是展示顺序，不是依赖的拓扑顺序。')
     NUMBERS.update(area_dep_start=shape['start'], area_dep_merge=shape['merge'], area_dep_prev=shape['prev'],
                    area_dep_other=shape['other'], area_dep_forward=forward)
@@ -588,11 +590,331 @@ def package(ws):
     ], f'{REA}/evidence/initial-dumper-artifacts/dump.cs · {REA}/REPORT.md', '方法记录是元数据与地址，不是同等数量的源码函数。')
 
 
+def refill(ws):
+    aud = ws / AUD / 'indices'
+    queue = read_csv(aud / 'refill_predefined_queue_profile.csv')
+    sets = read_csv(aud / 'refill_target_column_profile.csv')
+    summary = read_csv(aud / 'level_refill_summary.csv')
+    rules = read_csv(aud / 'refill_static_rule_matrix.csv')
+    src = f'{AUD}/indices/refill_*.csv · level_refill_summary.csv'
+    withq = [r for r in queue if int(r['queued_columns']) > 0]
+    cols = collections.Counter(int(r['queued_columns']) for r in queue)
+    NUMBERS.update(predef_levels=len(withq), predef_records=sum(int(r['predefined_records']) for r in withq),
+                   set_profiles=len(set(r['level_id'] for r in sets)))
+    table('refill-queue', '预定义补棋队列', ['指标', '数值'], [
+        ['带预定义队列的关卡', fmt(len(withq))],
+        ['覆盖的列数分布（列数：关卡数）', '、'.join(f'{k}：{fmt(v)}' for k, v in sorted(cols.items()))],
+        ['队列记录合计', fmt(sum(int(r['predefined_records']) for r in withq))],
+        ['单关队列格数范围', f"{min(int(r['predefined_records']) for r in withq)}–{max(int(r['predefined_records']) for r in withq)}"],
+        ['y 范围', f"{min(int(r['min_y']) for r in withq)}–{max(int(r['max_y']) for r in withq)}"],
+    ], src, 'order_boundary 一列在全部 14,500 行取值相同，说明队列的装载遍历方向仍未确认。')
+    table('refill-set-profile', '多 Set 关卡的候选规则剖面', ['指标', '数值'], [
+        ['覆盖关卡', fmt(len(set(r['level_id'] for r in sets)))],
+        ['Set 行数', fmt(len(sets))],
+        ['Set 名分布', '、'.join(f'{k}×{v}' for k, v in collections.Counter(r['set_name'] for r in sets).most_common())],
+        ['create_ratio 分布', '、'.join(f'{k}×{v}' for k, v in collections.Counter(r['create_ratio'] for r in sets).most_common(6))],
+        ['带 targetColumns 的 Set', fmt(sum(1 for r in sets if r['target_columns_raw']))],
+        ['带 targetFills 的 Set', fmt(sum(1 for r in sets if r['target_fills_raw']))],
+    ], src, '仅覆盖多 Set 的关卡样本；canFall 在这些行里全部为 True。')
+    table('refill-colors', '每关颜色池（colors 字段）', ['颜色序列（代码）', '关卡数'],
+          [[k, fmt(v)] for k, v in collections.Counter(r['colors'] for r in summary).most_common(8)], src)
+    NUMBERS['color_pools'] = len({r['colors'] for r in summary})
+    table('refill-rules', '补棋静态规则与未闭合项', ['规则', '阶段', '状态', '未闭合部分'],
+          [[r['rule_id'], r['stage'], r['status'], (r['remaining'] or '')[:90] + ('…' if len(r['remaining'] or '') > 90 else '')]
+           for r in rules], src)
+
+
+def settlement(ws):
+    aud = ws / AUD / 'indices'
+    matrix = read_csv(aud / 'dynamic_difficulty_matrix.csv')
+    raw = read_csv(aud / 'dynamic_difficulty.csv')
+    src = f'{AUD}/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv'
+    hard_on = [r for r in matrix if r['hard_enabled'] == '1']
+    NUMBERS.update(diff_sections=len(matrix), diff_hard_on=len(hard_on), diff_rows=len(raw))
+    table('diff-sections', '动态难度默认表', ['指标', '数值'], [
+        ['Easy 段数', f"{sum(1 for r in raw if r['table'] == 'Easy')}"],
+        ['Hard 段数', f"{sum(1 for r in raw if r['table'] == 'Hard')}"],
+        ['矩阵行数（段）', fmt(len(matrix))],
+        ['其中启用 Hard', fmt(len(hard_on))],
+        ['关卡覆盖', f"{matrix[0]['level_start']}–{matrix[-1]['level_end']}"],
+    ], src, 'minTryCount 为 -1 表示该侧不设限；矩阵把两侧合成一行便于对照。')
+    table('diff-table', '分段与尝试次数阈值', ['段', '关卡区间', 'Easy min／max', 'Hard min／max', '启用 Hard'],
+          [[r['section'], f"{r['level_start']}–{r['level_end']}", f"{r['easy_min_try']}／{r['easy_max_try']}",
+            f"{r['hard_min_try']}／{r['hard_max_try']}", '是' if r['hard_enabled'] == '1' else '否'] for r in matrix], src)
+    table('settlement-methods', '胜负与难度相关方法（主板路径）', ['方法', 'RVA', '行为'],
+          [['SemiDynamicDifficulty.OnLevelFail', '0x1C85250', '原字节为 ret，不做失败处理'],
+           ['SemiDynamicDifficulty.SetLevelNumber', '0x1C85324', '原字节为 ret'],
+           ['SemiDynamicDifficulty.GetSection', '0x1C854B0', '返回 0'],
+           ['SemiDynamicDifficulty.GetGroupMove', '0x1C854B8', '返回 0'],
+           ['SemiDynamicDifficulty.GetUpdatedMoveCount', '0x1C8532C', '主线回传输入；League 分支另加步'],
+           ['UserManager.ProcessKeyValueResponse', '0x1F0A340', '取协议 KeyValue.Value 并交给 UpdateDynamicDifficultyInventory'],
+           ['UpdateDynamicDifficultyInventory', '0x2A0E700', '把 long 写到实例 +0xB0，并用 UserKeyValue.SetLong 保存']],
+          f'{REA}/native-gap/FINDINGS.md · {REA}/BOUNDARIES.md',
+          '这些方法支持“主线连败不会自动加步、客户端具备难度状态读写代码”，但不排除其他入口，也不等于难度已被服务端实际调整。')
+
+
+def pressure(ws):
+    aud = ws / AUD / 'indices'
+    tpl = read_csv(aud / 'level_template_fields.csv')
+    tl = read_csv(aud / 'level_mechanic_timeline.csv')
+    src = f'{AUD}/indices/level_template_fields.csv · level_mechanic_timeline.csv'
+    slots = collections.Counter(int(r['active_slot_count']) for r in tpl)
+    top = sorted(tpl, key=lambda r: -int(r['level_count']))
+    NUMBERS.update(templates=len(tpl), timeline_buckets=len(tl))
+    table('pressure-templates', '关卡模板族（按启用字段组合去重）', ['模板指纹', '关卡数', '首关', '末关', '启用字段数'],
+          [[r['template_fp'], fmt(int(r['level_count'])), r['first_level'], r['last_level'], r['active_slot_count']]
+           for r in top[:12]], src, f'共 {len(tpl)} 个模板族；指纹由启用字段组合生成，不是官方命名。')
+    table('pressure-slot-count', '启用字段数分布', ['启用字段数', '模板族数'],
+          [[k, v] for k, v in sorted(slots.items())], src,
+          '字段名见 level_template_fields.csv 表头（Move、Predefined、Curtains、Drills 等 60 余项）。')
+    cols = [c for c in tl[0] if c != 'level_bucket']
+    spread = sorted(((max(float(r[c]) for r in tl) - min(float(r[c]) for r in tl), c) for c in cols), reverse=True)
+    pick = [c for _, c in spread[:6]]
+    NUMBERS['timeline_cols'] = len(cols)
+    def bucket_label(raw, last):
+        b = int(raw.split('-')[0]) // 1000
+        return f'{max(1, b * 1000)}–{min(last, (b + 1) * 1000 - 1)}'
+
+    last_level = max(int(r['level_id']) for r in read_csv(ws / AUD / 'indices/level_index.csv'))
+    table('pressure-timeline', '按 1,000 关分桶：变化最大的 6 个机制字段', ['关卡段'] + pick,
+          [[bucket_label(r['level_bucket'], last_level)] + [f"{float(r[c]) * 100:.0f}%" for c in pick] for r in tl], src,
+          f'共统计 {len(cols)} 个字段；本表取各段之间差值最大的 6 个，数值是该段内启用该字段的关卡占比，不是难度评分。')
+    first_last = [[c, f"{float(tl[0][c]) * 100:.0f}%", f"{float(tl[-1][c]) * 100:.0f}%"] for c in cols
+                  if abs(float(tl[0][c]) - float(tl[-1][c])) >= 0.3]
+    table('pressure-shift', '首段与末段差异明显的字段', ['字段', '第 1 段', '最后一段'], first_last, src,
+          '只列差异不小于 30 个百分点的字段。')
+    index = read_csv(ws / AUD / 'indices/level_index.csv')
+    byb = collections.defaultdict(collections.Counter)
+    for r in index:
+        byb[int(r['level_id']) // 1000][r['template_fp']] += 1
+    rows = []
+    for b in sorted(byb):
+        c = byb[b]
+        lo = min(int(r['level_id']) for r in index if int(r['level_id']) // 1000 == b)
+        hi = max(int(r['level_id']) for r in index if int(r['level_id']) // 1000 == b)
+        rows.append([f'{lo}–{hi}', fmt(sum(c.values())), len(c),
+                     f'{max(c.values()) / sum(c.values()) * 100:.0f}%（{c.most_common(1)[0][0]}）'])
+    table('pressure-buckets', '每 1,000 关的模板构成', ['关卡段', '关卡数', '不同模板数', '最大模板占比'], rows,
+          f'{AUD}/indices/level_index.csv',
+          '用于解释上一张表的波动：末段关卡只落在 18 个模板上，前 13 段都是 58–97 个。两段数值的差异究竟来自内容本身还是解析假设，尚未确认。')
+
+
+def activities(ws):
+    aud = ws / AUD / 'indices'
+    inv = read_csv(aud / 'activity_inventory.csv')
+    cfg = read_csv(aud / 'config_json_inventory.csv')
+    detail = read_csv(aud / 'activity_reward_detail.csv')
+    popup = read_csv(aud / 'event_popup_conditions.csv')
+    src = f'{AUD}/indices/activity_inventory.csv · config_json_inventory.csv · activity_reward_detail.csv · event_popup_conditions.csv'
+    NUMBERS.update(activity_rows=len(inv), config_files=len(cfg), popup_conditions=len(popup))
+    table('activity-list', '活动清单', ['活动', '管理器', '解锁关卡', '槽位', '节奏', '默认配置'],
+          [[r['activity'], r['manager_class'], r['unlock_level'] or '—', r['dep_slot'] or '—', r['cadence'] or '—', r['config_json'] or '—']
+           for r in inv], src, '解锁关卡是客户端常量，不等于当天可玩；cadence 取自索引表自己的口径。')
+    kinds = collections.Counter(r['top_level_type'] for r in cfg)
+    table('activity-configs', '包内解码配置', ['指标', '数值'], [
+        ['配置文件', fmt(len(cfg))],
+        ['顶层结构', '、'.join(f'{k}×{v}' for k, v in kinds.most_common())],
+        ['字节范围', f"{min(int(r['source_bytes']) for r in cfg)}–{max(int(r['source_bytes']) for r in cfg)}"],
+    ], src)
+    per = collections.defaultdict(lambda: [0, 0.0])
+    for r in detail:
+        a = per[r['activity']]
+        a[0] += 1
+        a[1] += float(r['amount'] or 0) if r['reward_type'] == 'Coins' else 0
+    table('activity-reward-per-config', '各配置的奖励节点数与金币合计', ['配置', '奖励节点', '金币合计'],
+          [[k, v[0], fmt(int(v[1]))] for k, v in sorted(per.items(), key=lambda x: -x[1][0])], src,
+          '只统计 activity_reward_detail.csv 里出现的配置；节点数与金币合计都不是玩家产出。')
+    table('activity-popup', '活动弹窗与图标条件函数', ['类别', '数量'],
+          [[k, v] for k, v in collections.Counter(r['kind'] for r in popup).most_common()], src,
+          '明细含 class、hook、RVA、调用与字符串常量；本表只给分布。')
+
+
+def schedule(ws):
+    cfg = ws / REA / 'resources/config'
+    aud = ws / AUD / 'indices'
+    dep = json.loads((cfg / 'event_dependency_default_config.json').read_text())
+    keep = json.loads((cfg / 'reactivation_levels_config.json').read_text())
+    inv = read_csv(aud / 'activity_inventory.csv')
+    src = f'{REA}/resources/config/event_dependency_default_config.json · reactivation_levels_config.json · {AUD}/indices/activity_inventory.csv'
+    NUMBERS.update(dep_slots=len(dep['eventGroupList']), reactivation_levels=len(keep['levelList']))
+    table('schedule-slots', '互斥轮换槽位', ['槽位序号', '槽内事件 ID'],
+          [[i + 1, '、'.join(str(x) for x in g['eventIdList'])] for i, g in enumerate(dep['eventGroupList'])], src,
+          '槽位序号按配置文件顺序，字段名是 eventGroupList；事件 ID 与活动名的对应关系在客户端常量里，未逐项核对。')
+    levels = keep['levelList']
+    gaps = [b - a for a, b in zip(levels, levels[1:])]
+    table('schedule-reactivation', '回流关卡表', ['指标', '数值'], [
+        ['关卡数', fmt(len(levels))], ['首末', f'{levels[0]} … {levels[-1]}'],
+        ['最小／最大间隔', f'{min(gaps)}／{max(gaps)}'],
+        ['常见间隔', '、'.join(f'{k}关×{v}' for k, v in collections.Counter(gaps).most_common(5))],
+    ], src, '回流活动在这些关卡号上出现；具体触发条件还需配合服务端下发。')
+    table('schedule-inventory', '清单里的解锁与槽位分布', ['字段', '取值分布'],
+          [['解锁关卡', '、'.join(f'{k or "未标注"}×{v}' for k, v in collections.Counter(r['unlock_level'] for r in inv).most_common(8))],
+           ['互斥槽位', '、'.join(f'{k or "未占槽"}×{v}' for k, v in collections.Counter(r['dep_slot'] for r in inv).most_common(10))],
+           ['节奏', '、'.join(f'{k or "未标注"}×{v}' for k, v in collections.Counter(r['cadence'] for r in inv).most_common(6))]],
+          src, '59 个活动里只有 11 个标注了互斥槽位；清单的节奏列是索引方口径。')
+
+
+def passes(ws):
+    cfg = ws / REA / 'resources/config'
+    src = f'{REA}/resources/config/'
+    for key, fn, title in [('pass-royal', 'royal_pass_default_config.json', 'Royal Pass 默认配置'),
+                           ('pass-weekly', 'weekly_pass_default_config.json', 'Weekly Pass 默认配置')]:
+        d = json.loads((cfg / fn).read_text())
+        steps = d['steps']
+        paid = [s for s in steps if s['r']['g']]
+        th = [int(s['t']) for s in steps]
+        rows = [[s['s'], s['t'], '、'.join(f"{x['t']}×{x['a']}" for x in s['r']['f']) or '—',
+                 '、'.join(f"{x['t']}×{x['a']}" for x in s['r']['g']) or '—'] for s in steps]
+        NUMBERS[key.replace('-', '_') + '_steps'] = len(steps)
+        table(key, f'{title}：{len(steps)} 级', ['级 s', '阈值 t', '免费轨', '付费轨'], rows, src + fn,
+              f'主题 theme={d.get("theme")}；阈值最大 {max(th)}；付费轨非空的级 {len(paid)} 个。'
+              '默认配置不代表当期主题与远程覆盖。')
+    ladder = {}
+    for name in sorted((cfg).glob('segmentedladder_offer_*.json')):
+        d = json.loads(name.read_text())
+        steps = d['steps']
+        prices = sorted({int(s['p']) for s in steps if int(s['p']) > 0})
+        ladder[name.stem] = (len(steps), len([s for s in steps if int(s['p']) > 0]), prices)
+    NUMBERS['ladder_configs'] = len(ladder)
+    table('pass-ladder', '阶梯礼包默认配置', ['配置', '台阶数', '付费台阶', '价格点'],
+          [[k, v[0], v[1], '、'.join(map(str, v[2]))] for k, v in ladder.items()], src,
+          '价格点是配置里的档位数字；与商品标识尾号、当地货币金额都不是一回事。')
+    iap = read_csv(ws / AUD / 'indices/iap_product_catalog.csv')
+    fam = collections.OrderedDict()
+    for r in iap:
+        pre = r['product_id'].split('.')[0]
+        if 'pass' in pre:
+            fam.setdefault(pre, []).append(r['product_id'])
+    table('pass-products', '通行证类商品标识', ['前缀', '商品标识'],
+          [[k, '、'.join(v)] for k, v in fam.items()], f'{AUD}/indices/iap_product_catalog.csv')
+
+
+def commerce_pages(ws):
+    aud = ws / AUD / 'indices'
+    cov = read_csv(aud / 'commercialization_coverage_matrix.csv')
+    popup = read_csv(aud / 'event_popup_conditions.csv')
+    src = f'{AUD}/indices/commercialization_coverage_matrix.csv · event_popup_conditions.csv'
+    table('shop-coverage', '商业化系统：已有报告与新增证据的覆盖状态', ['系统', '新增证据', '状态', '还需运行验证'],
+          [[r['system'], r['new_evidence'], r['status'], r['runtime_gap'] + '（' + r['colleague_md'] + '）'] for r in cov], src,
+          'new_evidence 与 runtime_gap 两列直接取自索引表。')
+    top = sorted(popup, key=lambda r: -int(r['insn_count']))[:12]
+    table('shop-hooks', '弹窗与图标条件函数（按指令数前 12）', ['类', '方法', '类别', '指令数', 'RVA'],
+          [[r['class'], r['hook'], r['kind'], r['insn_count'], r['rva']] for r in top], src)
+    cond = collections.Counter()
+    for r in popup:
+        for s in r['strings'].split(' | '):
+            if s.strip():
+                cond[s.strip()] += 1
+    table('shop-strings', '条件里的字符串常量（前 10）', ['字符串', '出现次数'],
+          [[k, v] for k, v in cond.most_common(10)], src)
+
+
+def tools(ws):
+    aud = ws / AUD / 'indices'
+    kinds = read_csv(aud / 'textasset_kind_stats.csv')
+    pre = read_csv(aud / 'textasset_name_prefix.csv')
+    tpl = read_csv(aud / 'level_template_fields.csv')
+    srcf = read_csv(aud / 'src_file_names.csv')
+    src = f'{AUD}/indices/textasset_kind_stats.csv · textasset_name_prefix.csv · level_template_fields.csv · src_file_names.csv'
+    NUMBERS['textassets'] = sum(int(r['count']) for r in kinds)
+    table('tools-textassets', 'TextAsset 分类统计', ['类型', '个数', '字节'],
+          [[r['kind'], fmt(int(r['count'])), fmt(int(r['bytes']))] for r in kinds], src)
+    table('tools-prefixes', 'TextAsset 名称前缀', ['前缀', '个数'],
+          [[r['prefix'], fmt(int(r['count']))] for r in pre], src,
+          'reactivation-、kw、tutorial、segmentedladder 等前缀对应回流、桌游关卡模板、教学与阶梯礼包配置。')
+    NUMBERS['tools_source_rows'] = len(srcf)
+    table('tools-search', '原生产工具的检索结果', ['检索对象', '结果'], [
+        ['REA 物化文件里的源码文件名记录', f'{len(srcf)} 行（表头之外没有数据行）'],
+        ['随包文件清单里的 .cs／.unity／.prefab／.psd 等', '命中 0，见「包体范围与研发边界」'],
+        ['PuzzleBoardGenerator', '属于 Home.Ui.Dialogs.PuzzleBreak，是外围拼图玩法，不是三消生产器'],
+        ['LevelLoadValidationHelper', '0x1E86988／0x1E86A8C 为存档 checksum 校验，不是关卡质量验收'],
+        ['关卡模板族', f'{len(tpl)} 个模板指纹可作自建编辑器与校验器的输入'],
+    ], src, '这些是当前样本里能查到的全部相关线索；没有发现原编辑器、生成器或求解器。')
+
+
+def sources_page(ws):
+    res = ws / REA / 'resources'
+    src = f'{REA}/resources/summary.json · validation.json · {REA}/REPORT.md'
+    summ = json.loads((res / 'summary.json').read_text())
+    types = summ['object_types']
+    rows = [[k, fmt(v)] for k, v in sorted(types.items(), key=lambda x: -x[1])[:12]]
+    NUMBERS.update(reusable_types=len(types), reusable_objects=summ['objects'])
+    table('source-rebuild', '可重新接入的资源类型（前 12）', ['类型', '个数'], rows, src,
+          f'共 {len(types)} 类、{summ["objects"]:,} 个对象；这些是构建产物，可重新接入项目，但不是原工程。')
+    table('source-absence', '原件缺口的直接证据', ['检查项', '结果'],
+          [['源码文件名记录', '0 条'],
+           ['随包 .cs／.csproj／.sln', '0'],
+           ['随包 .unity／.prefab', '0'],
+           ['随包 .psd／.psb／.fla', '0'],
+           ['随包 .wav／.aep', '0'],
+           ['分包与主包内容', '24 个 assetbundle、7 个 DEX、32 个原生库，均为运行态产物']],
+          f'{REA}/resources/summary.json · {AUD}/indices/android_native_summary.json')
+    table('source-subset', '静态分析载体（子集 ELF）', ['指标', '数值'], [
+        ['完整 ELF', '89,601,608 字节，方法分析在 330 秒超时'],
+        ['子集 ELF 成功反编译函数', '18 个，伪代码非空'],
+        ['保留内容', '原 RVA、源机器码字节与部分数据段'],
+        ['省略内容', '其他函数、重定位记录、bss、异常展开表'],
+    ], f'{REA}/REPORT.md · {REA}/native/subset-identity.json',
+    '子集 ELF 只用于静态阅读，没有执行，不是可玩程序。')
+
+
+
+def tiers(ws):
+    dump = Dump(ws / REA / 'evidence/initial-dumper-artifacts/dump.cs')
+    src = f'{REA}/evidence/initial-dumper-artifacts/dump.cs'
+    rows = []
+    for cls in ('BasicUserData', 'LadderOfferConfig', 'LadderOfferStep'):
+        if cls not in dump.types:
+            continue
+        decls = []
+        for line in dump.body(cls):
+            m = re.match(r'\s+public (?:override |static )?([\w<>\[\], ?.]+?) (\w+)(?: \{ get;|;)', line)
+            if m and not m.group(2).startswith('get_'):
+                decls.append(f'{m.group(2)}:{m.group(1)}')
+        kind = {'class': '类', 'struct': '结构体', 'enum': '枚举'}.get(dump.types[cls]['kind'], dump.types[cls]['kind'])
+        rows.append([cls, kind, '、'.join(decls) or '无声明'])
+    NUMBERS['tier_classes'] = len(rows)
+    table('tier-fields', '分层与档位在客户端结构里的落点', ['类', '类型', '成员声明'], rows, src,
+          '字段声明说明客户端有这个值，不说明谁赋值、何时变；LadderOfferStep 的成员在基类或其他声明里。')
+    iap = read_csv(ws / AUD / 'indices/iap_product_catalog.csv')
+    fam = collections.OrderedDict()
+    for r in iap:
+        pre = r['product_id'].split('.')[0]
+        if pre.startswith('energy'):
+            fam.setdefault(pre, []).append(r['product_id'])
+    table('tier-expedition', '远征活动的能量类商品（按档位与用途分前缀）', ['前缀', '商品标识'],
+          [[k, '、'.join(v)] for k, v in fam.items()], f'{AUD}/indices/iap_product_catalog.csv',
+          '高低档日用礼包、通行证与单品分别用不同前缀；档位数字是标识尾号，不是金额。')
+    payer = [[r['property'], r['product_id'], r['price_hint_usd']] for r in iap
+             if 'Payer' in r['property']]
+    table('tier-payer-split', '按付费身份分叉的商品', ['常量名', '商品标识', '价位提示'], payer,
+          f'{AUD}/indices/iap_product_catalog.csv', '付过费与未付费各有一套商品标识。')
+
+
+def failure(ws):
+    aud = ws / AUD / 'indices'
+    ev = read_csv(aud / 'commercialization_method_evidence.csv')
+    keep = [r for r in ev if any(k in r['full_name'] for k in ('Continue', 'ShouldShowAtFail', 'FailOffer', 'Rescue'))]
+    src = f'{AUD}/indices/commercialization_method_evidence.csv'
+    NUMBERS['failure_methods'] = len(keep)
+    table('failure-methods', '失败页与续关相关方法的证据行', ['方法', 'RVA', '指令数', '直接调用方'],
+          [[r['method'], r['rva'], r['instruction_count'], r['direct_calls'][:120]] for r in keep], src,
+          '调用方列表经过截断；完整列见索引表。')
+    iap = read_csv(aud / 'iap_product_catalog.csv')
+    hard = [[r['property'], r['product_id'], r['price_hint_usd']] for r in iap
+            if 'ExtremelyHardLevel' in r['property']]
+    table('failure-products', '极难关礼包：付费身份两版', ['常量名', '商品标识', '价位提示'], hard,
+          f'{AUD}/indices/iap_product_catalog.csv', '与失败页入口配套的商品；价位提示取自标识尾号。')
+
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--workspace', default=str(ROOT.parent))
     ws = Path(ap.parse_args().workspace).resolve()
-    for fn in (areas, levels, protocol, configs, multiplayer, economy, assets, package):
+    for fn in (areas, levels, protocol, configs, multiplayer, economy, assets, package,
+               refill, settlement, pressure, activities, schedule, passes, commerce_pages, tools, sources_page,
+               tiers, failure):
         fn(ws)
     OUT.write_text(json.dumps(dict(numbers=NUMBERS, tables=TABLES), ensure_ascii=False, indent=1) + '\n')
     print(f'{len(TABLES)} tables, {len(NUMBERS)} numbers -> {OUT.relative_to(ROOT)}')

@@ -1,0 +1,49 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="补棋结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>每关颜色池、预定义队列、多 Set 候选规则的全部行，以及补棋静态规则清单</td><td><!--N:predef_levels-->关带队列 · <!--N:predef_records-->条记录</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>补棋分三层来源；颜色池几乎都是同一套四色；多 Set 关卡只占少数且靠权重选；预定义队列按列排队</td><td><!--N:color_pools-->种颜色池写法</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>队列装载的遍历方向、候选权重的实际触发率、全游戏随机消耗顺序</td><td>8 条规则待闭合</td></tr>
+</tbody></table></div>
+<p class="flow-note">本页给事实与规则清单；种子链与逐颗实抓对照在页尾折叠的原报告章节里。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#data-color-runtime"><b>04</b>逐颗实抓</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：颜色池、队列与候选规则</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">逐关统计表覆盖全部 14,500 关；多 Set 剖面表只覆盖出现多个候选规则的 403 关。</p>
+<!--TABLE:refill-colors-->
+<!--TABLE:refill-queue-->
+<!--TABLE:refill-set-profile-->
+<!--TABLE:refill-rules-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼：补棋怎样分层决定</h3>
+<span class="layer layer-analysis">分析层</span>
+<p class="layer-lead">结论都由字段与分布读出；标“推断”的是对机制的解释。</p>
+
+<div class="finding"><b>颜色池几乎只有一套写法。</b>11,811 关（81.5%）的颜色池是「3,1,4,2」，其余写法多为少一色或换序，全部 14,500 关加起来只有 <!--N:color_pools--> 种不同写法。<!--REF:refill-colors-->所以“这一关有几种颜色”基本由少数几种固定池决定，不是每关单独设计。</div>
+
+<div class="finding"><b>预定义队列只覆盖少部分关卡。</b>1,736 关带预定义补棋队列，共 42,176 条记录，单关 1–232 格；每关被排队的列数从 1 到 9 不等，12,764 关完全没有队列。<!--REF:refill-queue-->没有队列时补棋走候选池随机。</div>
+
+<div class="finding"><b>多 Set 是少数关卡的补充手段。</b>只有 403 关出现 2 个以上候选集合，最常见是 Set1 与 Set2 两个；其中 562 行带目标列、308 行带目标填充。<!--REF:refill-set-profile-->create_ratio 多数为 1，少数取 2、3、5，还有 8 行写 99999。<!--REF:refill-set-profile-->
+<br><small>推断：99999 这类极端值应当表示“常驻或必选”而不是字面权重，需消费代码确认。</small></div>
+
+<div class="finding"><b>补棋的确定顺序是：先看来源，再看队列，最后才随机。</b>规则清单把入口、预置棋、目标列、随机选色、过滤与难度随机分成了 8 条，每条都标了证据等级。<!--REF:refill-rules-->其中“预置棋优先于随机”“目标列优先于现场选棋”两条同时有静态与运行证据。</div>
+
+<div class="finding"><b>难度随机的作用范围仍受服务端影响。</b>难度相关的随机入口只有静态证据，规则清单明确写着服务端覆盖、账号分组和失败计数怎样映射到权重无法由本地调用链单独证明。<!--REF:refill-rules-->这与<a href="win-settlement.html">胜负、结算与难度适应</a>的结论一致。</div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="补棋未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>预定义队列的装载方向</td><td>队列按列号索引、按列取出已确认；向队列装载时的 y 遍历方向在一列里取值全同，尚未确认。</td><td>初始化 hook 或实机对照</td></tr>
+<tr><td>候选集合的权重与触发频率</td><td>只有静态分支。</td><td>分支级反编译与受控样本</td></tr>
+<tr><td>是否避免即时三连</td><td>过滤规则里有可用性与 lowMatch 入口，阈值与重试序列未闭合。</td><td>同上一行</td></tr>
+<tr><td>全游戏随机消耗顺序</td><td>洗牌、初始生成与部分道具也会消耗随机数；局部颜色匹配不等于整局可重放。</td><td>逐调用对照</td></tr>
+<tr><td>难度随机的服务端输入</td><td>服务端覆盖与账号分组不在包内。</td><td>对应响应，见<a href="win-settlement.html">胜负、结算与难度适应</a></td></tr>
+</tbody></table></div>
+</section>

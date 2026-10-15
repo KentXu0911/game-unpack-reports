@@ -1,0 +1,46 @@
+<div class="board-summary">
+<h3 id="m-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="关卡压力结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#m-facts">拆包事实</a></td><td>14,500 关按启用字段组合归成 <!--N:templates--> 个模板族，并按 1,000 关分桶统计 <!--N:timeline_cols--> 个机制字段的出现比例</td><td><!--N:timeline_buckets-->个分桶</td></tr>
+<tr><td><a href="#m-analysis">分析提炼</a></td><td>近六成关卡属于同一个基础模板；新机制在末段才集中出现，且末段模板数骤减</td><td>一个模板覆盖 8,913 关</td></tr>
+<tr><td><a href="#m-unknown">未确认</a></td><td>字段到槽位的映射、末段跳变的原因、配置指标与真实体验的关系</td><td>—</td></tr>
+</tbody></table></div>
+<p class="flow-note">压力公式、七轴权重与曲线在同一页下方；逐关配置可在<a href="level-config.html">初始棋盘、关卡配置</a>查。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a><a href="#level-difficulty"><b>04</b>压力曲线与尾号</a></nav>
+
+<section aria-labelledby="m-facts">
+<h3 id="m-facts">拆包事实：模板族与机制节奏</h3>
+<span class="layer layer-fact">事实层</span>
+<p class="layer-lead">模板指纹由关卡配置里实际启用的字段组合生成，同指纹即同字段组合；机制比例表按 1,000 关分桶，逐关计算后再取段内占比。</p>
+<!--TABLE:pressure-slot-count-->
+<!--TABLE:pressure-templates-->
+<!--TABLE:pressure-timeline-->
+<!--TABLE:pressure-buckets-->
+<!--TABLE:pressure-shift-->
+</section>
+
+<section aria-labelledby="m-analysis">
+<h3 id="m-analysis">分析提炼</h3>
+<span class="layer layer-analysis">分析层</span>
+
+<div class="finding"><b>近六成关卡共用同一个基础模板。</b>启用 34 个字段的模板 74cedee671a2 覆盖 8,913 关，分布在关卡 1–13,400；第二大的模板只有 970 关。<!--REF:pressure-templates-->289 个模板族里，启用字段数集中在 33–38 个。<!--REF:pressure-slot-count-->
+<br><small>推断：关卡主要由少量模板加不同内容参数拼出来，而不是每关独立配置。</small></div>
+
+<div class="finding"><b>前期机制几乎不变，变化集中在最后两段。</b>第 1–12 段的六个字段占比都在小幅摆动；<a href="#fact-pressure-shift">首末差异表</a>显示胶囊、魔法灯、金属板从 99%、83%、99% 掉到 3%、0%、17%，保龄球架、调色器、成对物从 0%、13%、17% 升到 97%、99%、83%。<!--REF:pressure-timeline--><!--REF:pressure-shift--></div>
+
+<div class="finding"><b>末段关卡只落在 18 个模板上。</b>前 13 段的每 1,000 关有 58–97 个不同模板，13,000–13,999 段升到 154 个，最后一段（14,000–14,500）只有 18 个，其中一个模板占 70%。<!--REF:pressure-buckets-->这也是上面那张表末两行数值跳变的主要背景。</div>
+
+<div class="finding"><b>这套统计描述的是配置，不是难度或体验。</b>表格给的是“这一关启用了哪些机制字段”，与玩家胜负、通关时间无关；下方压力公式里的权重由研究者定义，未用真实玩家结果拟合。<!--REF:pressure-timeline--></div>
+</section>
+
+<section aria-labelledby="m-unknown">
+<h3 id="m-unknown">未确认与边界</h3>
+<span class="layer layer-limit">边界层</span>
+<div class="data-scroll" tabindex="0" role="region" aria-label="关卡压力未确认事项"><table class="wide-cell"><thead><tr><th>问题</th><th>现状</th><th>要确认需要什么</th></tr></thead><tbody>
+<tr><td>槽位到字段的映射</td><td>字段名按元数据里 FTiledLevel 的字段顺序对应，槽位顺序仍需访问器机器码确认；字段名对不上会让整张表错位。</td><td>访问器反编译</td></tr>
+<tr><td>末两段的跳变原因</td><td>可能是新内容确实用了新机制，也可能是解析假设对这批关卡不成立，两种解释都还没排除。</td><td>抽若干关逐字段复核</td></tr>
+<tr><td>机制字段的业务含义</td><td>CapsuleConfig、MetalPlateGroups 这类名字能看出大概，但阈值、生效条件未读。</td><td>对应机制的消费代码</td></tr>
+<tr><td>与真实体验的关系</td><td>配置指标适合筛查与提出假设，不替代实机体验与玩家胜率。</td><td>实机与遥测</td></tr>
+</tbody></table></div>
+</section>
