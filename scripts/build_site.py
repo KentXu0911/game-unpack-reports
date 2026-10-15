@@ -149,8 +149,8 @@ def extras(topic):
     if key == 'level-pressure':
         return level_page_content('level-pressure')
     if key == 'fall-rules':
-        return ((ROOT / 'content/board-algorithms.html').read_text() +
-                (ROOT / 'content/board-state-events.html').read_text())
+        return ('<div class="board-machine">' + (ROOT / 'content/board-algorithms.html').read_text() +
+                (ROOT / 'content/board-state-events.html').read_text() + '</div>')
     if key == 'obstacle-rules':
         return ('<section id="propeller-targeting" aria-labelledby="title-propeller-targeting">'
                 '<h3 id="title-propeller-targeting">飞机选点：评分、随机与目标重选</h3>'

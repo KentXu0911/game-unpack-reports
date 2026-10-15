@@ -1,12 +1,27 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>棋盘状态机 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=7e216d8f07"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=eed8c48b91"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-fall-rules">← 返回内容总览</a></p>
 <h1>棋盘状态机</h1><p>可依据现有算法复刻交换判定、匹配与道具生成位置、命中去重、直落／斜落、冻结和多棋盘切换流程。蘑菇扩散排序与复杂连锁的逐帧顺序仍需实机对齐。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="fall-rules" class="topic-detail" aria-labelledby="title-fall-rules"><h2 id="title-fall-rules">棋盘状态机</h2><div class="topic-body"><h3>按现有算法复刻棋盘流程</h3><p>一次交换会改变逻辑登记，进入匹配判定、消除或特殊块生成；命中、下落、冻结和切板又各有自己的条件与回调。可以据此实现各环节的判断与状态转移，再把画面和操作时机接上；这些环节可能交错执行，需要保留在途登记与等待条件。</p><h3>已有规则支持复刻哪些部分</h3><p>交换试判、匹配组优先级、自动消除等待、直斜落检查、冻结计数、切板禁触与收尾，以及特殊块生成位置、创建延迟和命中去重，都已有可供实现的算法依据。蘑菇扩散的完整排序及复杂连锁的逐帧顺序仍需核对。</p><p class="flow-note">下列伪代码根据build 38174的ARM64机器码与元数据整理，保留本节关键分支，省略类型转换、日志和无关调用。例子是按代码构造的局面。</p>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="fall-rules" class="topic-detail" aria-labelledby="title-fall-rules"><h2 id="title-fall-rules">棋盘状态机</h2><div class="topic-body"><div class="board-machine"><div class="board-summary">
+<h3 id="board-summary">一屏结论</h3>
+<div class="data-scroll" tabindex="0" role="region" aria-label="棋盘状态机结论速览"><table><thead><tr><th>环节</th><th>复刻要点</th><th>关键数值</th></tr></thead><tbody>
+<tr><td><a href="#cell-registrations">格子登记</a></td><td>每格区分Current／Next／Target，移动中的棋盘按登记规划</td><td>—</td></tr>
+<tr><td><a href="#swap-decision">交换</a></td><td>先在逻辑棋盘试换，以目标端为中心半径3搜索；无效则恢复登记</td><td>移动0.135秒</td></tr>
+<tr><td><a href="#pattern-search">匹配</a></td><td>小形状组装，按PatternType降序占格；竖排四连出横火箭，横排四连出竖火箭</td><td>单组上限14格</td></tr>
+<tr><td><a href="#special-creation">特殊块生成</a></td><td>交换出的生成在交换端点；连锁出的跳过锁链，时间更晚或位置更高者胜出</td><td>创建延迟0.17秒</td></tr>
+<tr><td><a href="#match-readiness">自动消除</a></td><td>上方同色棋正在落入时等待；洗牌时不扫描</td><td>等待0.25秒；空闲10帧停扫</td></tr>
+<tr><td><a href="#gravity-order">重力</a></td><td>每次更新先直落、再斜落、再推进移动；斜落先验最高待查位，左侧普通棋优先</td><td>—</td></tr>
+<tr><td><a href="#freeze-counter">冻结</a></td><td>计数器，冻结几次就释放几次；斜落另有独立计数</td><td>—</td></tr>
+<tr><td><a href="#multiple-boards">多棋盘</a></td><td>由传送门或水触发；禁触→移动→所有操作结束才清切换状态</td><td>0.3＋√h×0.32×speed</td></tr>
+<tr><td><a href="#hit-spread-timing">命中与扩散</a></td><td>同一爆炸编号只扣一次；蘑菇扩散需无进行中操作</td><td>蘑菇排序比较器未还原</td></tr>
+</tbody></table></div>
+<p class="flow-note">伪代码按build 38174的ARM64机器码与元数据整理，省略类型转换、日志和无关调用，默认收起；例子是按代码构造的局面。</p>
+</div>
+<nav class="board-toc" aria-label="本页目录"><a href="#cell-registrations"><b>01</b>格子登记</a><a href="#swap-decision"><b>02</b>交换判定</a><a href="#pattern-search"><b>03</b>匹配识别</a><a href="#match-readiness"><b>04</b>自动消除等待</a><a href="#gravity-order"><b>05</b>重力顺序</a><a href="#straight-fall"><b>06</b>直落</a><a href="#cross-fall"><b>07</b>斜落</a><a href="#freeze-counter"><b>08</b>冻结计数</a><a href="#multiple-boards"><b>09</b>多棋盘</a><a href="#special-creation"><b>10</b>特殊块生成</a><a href="#hit-spread-timing"><b>11</b>命中、扩散与时长</a><a href="#board-code-evidence"><b>12</b>原字节证据</a></nav>
 
 <section aria-labelledby="cell-registrations">
 <h3 id="cell-registrations">一个格子不只记录“现在有什么”</h3>
@@ -17,7 +32,7 @@
 <section aria-labelledby="swap-decision">
 <h3 id="swap-decision">交换是否合法：先在逻辑棋盘试换，再检查结果</h3>
 <p><code>SwapAction.ShouldPlaySwapAnimation</code>在交换准备阶段先迁移逻辑登记，再以目标端为中心调用半径参数为3的扩展匹配搜索；因此，是否合法是看<strong>换完之后</strong>能形成什么。以下从进入该函数开始，外层触摸、障碍与相邻格检查另在调用前处理。<small>［B2］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="交换有效性伪代码"><code>oldFrom = from.Current
+<details class="code-fold"><summary>伪代码：交换有效性<span>17行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="交换有效性伪代码"><code>oldFrom = from.Current
 oldTo   = to.Current
 if oldTo != null: SetAllItems(from, oldTo)
 SetAllItems(to, oldFrom)
@@ -33,15 +48,15 @@ valid = 端点属于有效匹配组
 if not valid:
     SetAllItems(from, oldFrom)
     if oldTo != null: SetAllItems(to, oldTo)
-return valid</code></pre>
+return valid</code></pre></details>
 <p><strong>例子：</strong>一行原来是“红、红、蓝”，第三格下面有一颗红棋。把红棋换上来，临时逻辑行变成“红、红、红”，便能找到包含端点的匹配组。如果换上来的是绿棋，又没有特殊道具交换或放宽条件，程序恢复原登记，再由后续流程处理无效交换表现。</p>
-<p>冻结是为了在交换动画播完前保护这些格子。两颗棋各移动0.135秒（只读常量0x3E73808）；动画结束后程序以同一半径3再搜一次，新组存在且PatternType变了才替换原组，再逐组派发消除。保存组时写入的端点就是特殊块的生成格，见<a href="#special-creation">特殊块生成</a>。<small>［B2］</small></p>
+<p>冻结是为了在交换动画播完前保护这些格子。两颗棋各移动0.135秒；动画结束后程序以同一半径3再搜一次，新组存在且PatternType变了才替换原组，再逐组派发消除。保存组时写入的端点就是特殊块的生成格，见<a href="#special-creation">特殊块生成</a>。<small>［B2］</small></p>
 </section>
 
 <section aria-labelledby="pattern-search">
 <h3 id="pattern-search">怎样识别三连、四连、五连与2×2</h3>
 <p>匹配内核先收集小形状，再把它们组合成更大的候选；同色相连本身不构成匹配（见例2）。参与搜索的格子要有普通颜色棋、通过覆盖物与在途阻挡检查；要求排除下落棋时，还会检查棋子的CurrentCell与NextCell是否相同。<small>［B3］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="匹配识别与组装伪代码"><code>temporary = []
+<details class="code-fold"><summary>伪代码：匹配识别与组装<span>17行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="匹配识别与组装伪代码"><code>temporary = []
 for cell in 搜索范围:
     检查向右的同色三连
     检查向上的同色三连
@@ -57,7 +72,7 @@ for candidate in possible:
     合并为匹配组，交点只加入一次
 
 按扩展规则补入合格棋子
-把组的归属写回各棋子</code></pre>
+把组的归属写回各棋子</code></pre></details>
 <p><strong>例1，五颗红棋排成一行：</strong>可以找到1–3、2–4、3–5三个三连片段。其中1–3与3–5只在第三颗相交，可以组成五连候选。高优先候选先占用格子，低优先三连不会再把它拆成几次独立消除。</p>
 <p><strong>例2，拐着相连的三颗红棋：</strong>下图既没有横／竖三连，也没有2×2，所以“同色相连”本身不够。</p>
 <pre class="algorithm-code board-sketch" aria-label="三颗拐角同色棋不构成匹配"><code>红 红 ·
@@ -71,14 +86,14 @@ for candidate in possible:
 <tr><td>2：Propeller</td><td>同色2×2</td><td>10：飞机</td></tr>
 <tr><td>1：Simple</td><td>普通消除候选</td><td>0：此转换不生成特殊道具</td></tr>
 </tbody></table></div>
-<p>排序按枚举值降序，同值保留候选原顺序；复杂重叠的最终分组由扫描顺序、占用和扩展共同决定。匹配生成的火箭方向只由形状决定：竖向三连的组合方向值为1，CreateMatchesFromThrees在0x137B0CC把3加1得到4。<a href="obstacle-rules.html#smart-rocket">智能方向选择</a>在全库只有3处直接调用：开局道具生成、Cloche和SlotMachine，匹配生成不调用它。<small>［B3、B10］</small></p>
+<p>排序按枚举值降序，同值保留候选原顺序；复杂重叠的最终分组由扫描顺序、占用和扩展共同决定。匹配生成的火箭方向只由形状决定。<a href="obstacle-rules.html#smart-rocket">智能方向选择</a>在全库只有3处直接调用：开局道具生成、Cloche和SlotMachine，匹配生成不调用它。<small>［B3、B10］</small></p>
 <p>扩展阶段只检查组边缘的同色候选，并验证延伸线上其他格子的资格；单个匹配组最多加入14格。这是匹配组的容量，爆炸范围另算。</p>
 </section>
 
 <section aria-labelledby="match-readiness">
 <h3 id="match-readiness">已经看见三连，为什么有时要等一下才消除</h3>
 <p>“识别出形状”和“此刻可以自动引爆”是两次判断。匹配组要求每格棋子都准备好：没有正在交换、下落状态稳定、预留计数小于1。然后每列取组内最高的一颗，再检查上方的<strong>Target</strong>里有没有同色棋子正在加入。<small>［B4］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="自动消除准备条件伪代码"><code>for cell in group:
+<details class="code-fold"><summary>伪代码：自动消除准备条件<span>10行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="自动消除准备条件伪代码"><code>for cell in group:
     if 不是颜色棋 or 正在交换 or 下落不稳定:
         return false
     if 预留计数 &gt;= 1: return false
@@ -87,7 +102,7 @@ for candidate in possible:
 for topItem in 每列最高棋子:
     if ShouldWaitForFallingMatchItems(topItem):
         return false
-return true</code></pre>
+return true</code></pre></details>
 <p>在“上方Target是同色、但上方棋子还在下落”的分支中，程序比较当前关卡时间与<strong>下方这颗棋子的状态改变时间＋0.25秒</strong>。正常有限时间值下，当前时间不晚于这个阈值就继续等待；0.25秒只属于这个分支。上方棋子已稳定时：上方没有组就继续向上检查，有组则跟随上方组的准备结果。</p>
 <p><strong>例子：</strong>下方匹配组最高棋子的状态在关卡时间10.00秒改变，上方又有同色棋正落入。按关卡时钟，该分支在10.20秒、10.25秒仍要求等待；到10.26秒这条时间条件解除，其他准备条件仍要通过。</p>
 <p>扫描本身也有门槛。<code>AutoExplodeManager.ManualUpdate</code>在洗牌（操作6）进行时不扫描；其他操作进行中照常扫描。没有任何进行中操作时，记录当时帧号，此后帧差大于10就停止扫描，直到再有操作发生。<small>［B5］</small></p>
@@ -97,19 +112,19 @@ return true</code></pre>
 <section aria-labelledby="gravity-order">
 <h3 id="gravity-order">每次重力更新：先规划直落，再规划斜落，最后执行移动</h3>
 <p><code>FallManager.ManualUpdate</code>的主要顺序如下。默认上下文注册中，自动消除管理器排在FallManager之前，按注册顺序逐个更新；运行时插入、替换和晚更新另走自己的路径。<small>［B1、B5］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="重力更新顺序伪代码"><code>if not enabled: return
+<details class="code-fold"><summary>伪代码：重力更新顺序<span>6行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="重力更新顺序伪代码"><code>if not enabled: return
 ClearTargetItems()       // 清理可重新规划的旧目标
 CalculateStraightFalls() // 先找直落来源
 CalculateCrossFalls()    // 再为符合条件的格子找斜落来源
 CallFallUpdates()        // 让棋子的下落组件推进移动
-处理顶部棋盘剩余补棋列</code></pre>
+处理顶部棋盘剩余补棋列</code></pre></details>
 <p><strong>例子：</strong>空格C正上方有可直落的A，右上方有可斜落的B。若这一轮直落已把A分给C，斜落阶段会因C已有Target跳过它。B不会只因看起来离C也很近，就与A同时抢这个落点。</p>
 </section>
 
 <section aria-labelledby="straight-fall">
 <h3 id="straight-fall">直落：沿上方逐格找来源</h3>
 <p>下面是普通棋盘的核心路径；多棋盘顶部队列与补入口的额外分支未展开。<small>［B6］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="普通棋盘直落核心伪代码"><code>if destination已有Target or 被下落阻挡物挡住: return
+<details class="code-fold"><summary>伪代码：普通棋盘直落核心<span>21行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="普通棋盘直落核心伪代码"><code>if destination已有Target or 被下落阻挡物挡住: return
 
 item = GetNextItemOfCell(destination, destination)
 if item有效:
@@ -129,7 +144,7 @@ for source in destination上方逐格:
         把item登记为destination.Target
         停止搜索
     检查沿途补入口
-到达边界仍无来源时，按条件允许后续尝试斜落</code></pre>
+到达边界仍无来源时，按条件允许后续尝试斜落</code></pre></details>
 <p><code>GetNextItemOfCell</code>读取的是Next而非Current：询问棋子是否允许落向目的格，并要求棋子没有另一个目标，或其Target仍是原来源格。落点自身的Next登记在冻结检查之前处理，所以被冻结的落点仍会接住已经预订进来的棋子。</p>
 <p><strong>例子：</strong>两颗棋子正在接连下落时，下一段落点可能已经预订。按Current颜色数组从上往下搬运，会漏掉这些在途关系，导致棋子重叠、跳格或同一颗被多个空格领取。原代码先规划登记，再由运动组件推进，这两步需要分开还原。</p>
 </section>
@@ -140,16 +155,16 @@ for source in destination上方逐格:
 <h4>1. 这个空位是否需要斜落</h4>
 <p><code>CalculateCrossFalls</code>只处理普通格，而且必须已被标记为需要寻找斜落来源、没有Target、也不属于下层棋盘。Target表示已经分配的下落目标关系：即使画面还是空的，只要直落规划已把A分给这个位置，就不再让B斜着抢进来。</p>
 <p>“需要寻找斜落”的标记由直落搜索在通路被挡时设置，并先经过<code>ShouldFindCross</code>：多棋盘关里当前棋盘的<code>CanCrossFall</code>为假，就直接不允许斜落；关内有冰块且上方有冰块时，还要检查斜落冻结计数和冰块下方邻格。<small>［B7］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="斜落落点资格伪代码"><code>for destination in 待处理格子:
+<details class="code-fold"><summary>伪代码：斜落落点资格<span>6行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="斜落落点资格伪代码"><code>for destination in 待处理格子:
     if not destination.IsNormalCell(): continue
     if not destination.shouldFindCross: continue
     if destination.Target != null: continue
     if destination.IsInBelowBoards(): continue
-    FindCrossItem(destination)</code></pre>
+    FindCrossItem(destination)</code></pre></details>
 <h4>2. 沿上方建立左右待检查位置，遇到阻断就停</h4>
 <p><code>FindCrossItem</code>从落点开始逐格向上走。每到一个位置，依次检查：是否冻结、能否通行、是否被多个可下落物体瞄准、boardId是否仍与落点相同。任意一项失败，就停止继续向上收集。能否通行由当前物体的<code>IsAvailableForFall</code>决定，与这格有没有棋子是两回事。</p>
 <p>在非空白格，程序分别检查紧邻的左格和右格。某侧邻格被冻结，就停止收集这一侧；另一侧仍可继续。其余情况下把<strong>当前访问位置</strong>压入对应栈，后面再取它的左上或右上来源验证。栈里保存的是待查位置，是否有可用棋子到弹出时再验证；左右两侧都停止后，向上搜索也结束。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="斜落向上搜索伪代码"><code>清空左栈、右栈
+<details class="code-fold"><summary>伪代码：斜落向上搜索<span>15行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="斜落向上搜索伪代码"><code>清空左栈、右栈
 leftOpen = rightOpen = true
 visited = destination
 while visited存在 and (leftOpen or rightOpen):
@@ -163,11 +178,11 @@ while visited存在 and (leftOpen or rightOpen):
             if 本侧已停止: 跳过本侧
             if 本侧紧邻格存在且被冻结: 停止本侧
             else: 把visited压入本侧栈
-    visited = visited.上邻格</code></pre>
+    visited = visited.上邻格</code></pre></details>
 <p>位置边向上走边压栈，弹出时后进先出：<strong>先验证最高处的待查位置</strong>，再逐个往下。<code>IsBlankCell</code>判断的是格子类型（空白格），与这格当前有没有棋子无关。</p>
 <h4>3. 从待查位置取对角来源，检查它是否真的能动</h4>
 <p><code>FindTargetItemFromCrossCell</code>先检查落点缓存的下方关联格。如果它存在、非空白且没有下落阻挡，就读取该格Target棋子的NextCell和CurrentCell：至少有一个存在，且Y小于本次访问位置的Y，才继续探对角来源；否则本次候选失败。下方关联格不存在、为空白或有阻挡时，跳过这一项检查。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="斜落来源棋子验证伪代码"><code>below = destination.缓存的下方关联格
+<details class="code-fold"><summary>伪代码：斜落来源棋子验证<span>19行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="斜落来源棋子验证伪代码"><code>below = destination.缓存的下方关联格
 if below存在 and not below.IsBlankCell() and not below.IsFallBlocked():
     moving = below.Target
     next = moving?.NextCell
@@ -185,11 +200,11 @@ if not item.CanFallCross(): return null
 if source.IsFallFrozen(): return null
 if item.TargetCell存在 and item.TargetCell != item.CurrentCell:
     return null
-return item</code></pre>
+return item</code></pre></details>
 <p><strong>例子：</strong>空位C的左上有A，但A所在格被冻结，A就不能成为斜落来源。即使A没有冻结，如果它已被分配到另一个目标D，也不能再让C领取它。玩家看见的是“旁边有颗棋没滑下来”，程序检查的是它此刻有没有资格被这个空位领取。</p>
 <h4>4. 合法候选之间怎样选左边或右边</h4>
 <p>通过资格检查之后，才进入左右挑选。左栈弹出的来源若是合法普通棋，立即选它；若是合法特殊道具，则还会检查右栈，合法的右侧候选可以替换它。右侧失败时，左侧特殊道具仍可使用。两边都没找到就继续弹栈，找到后先登记Target，实际移动由后续更新推进。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="斜落左右选择伪代码"><code>while 左栈非空 or 右栈非空:
+<details class="code-fold"><summary>伪代码：斜落左右选择<span>10行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="斜落左右选择伪代码"><code>while 左栈非空 or 右栈非空:
     chosen = 验证左栈弹出的对角来源（栈空则为null）
     if chosen存在 and not chosen.IsSpecialItem():
         SetTargetItem(destination, chosen)
@@ -198,7 +213,7 @@ return item</code></pre>
     if right存在: chosen = right
     if chosen存在:
         SetTargetItem(destination, chosen)
-        return</code></pre>
+        return</code></pre></details>
 <p><strong>构造例子：</strong>左边是合法红棋、右边是合法蓝棋，这轮直接选左边；左边是合法火箭、右边是合法蓝棋，这轮选右边；左边是合法火箭、右边无合法候选，则仍选火箭。这段选择没有左右各50%的随机，也没有按剩余关卡任务评分。</p>
 </section>
 
@@ -207,7 +222,7 @@ return item</code></pre>
 <p>这里的冻结是<strong>程序暂时占住格子的下落资格</strong>。例如交换已找到一组可以消除的棋，但交换表现还没结束，就先保护相关格子；下落搜索遇到冻结检查时，不能继续按普通格处理它们。这样可以避免已经认定的匹配被另一颗落子提前改写。这是运行状态，与冰块障碍无关。<small>［B8］</small></p>
 <h4>冻结次数大于0，就仍有人占用</h4>
 <p>同一个格子可能同时被多个操作占用，所以<code>FreezeFall</code>用计数而非开关：冻结一次加1，释放一次减1；<code>IsFallFrozen</code>只问计数是否大于0。两次冻结需要两次释放，先结束的操作只能撤回自己那一次。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="格子冻结计数伪代码"><code>FreezeFall():
+<details class="code-fold"><summary>伪代码：格子冻结计数<span>12行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="格子冻结计数伪代码"><code>FreezeFall():
     freezeCount += 1
     OperationStart(1)
 
@@ -218,7 +233,7 @@ UnFreezeFall():
         记录错误
 
 IsFallFrozen():
-    return freezeCount &gt; 0</code></pre>
+    return freezeCount &gt; 0</code></pre></details>
 <div class="data-scroll" tabindex="0" role="region" aria-label="冻结叠加与释放例子"><table><thead><tr><th>构造过程</th><th>计数</th><th>下落冻结检查</th></tr></thead><tbody>
 <tr><td>没有操作占用</td><td>0</td><td>通过此项检查</td></tr>
 <tr><td>操作A冻结这个格子</td><td>1</td><td>仍冻结</td></tr>
@@ -228,7 +243,7 @@ IsFallFrozen():
 </tbody></table></div>
 <h4>释放冻结不等于立即移动</h4>
 <p>计数回到0，只表示这一项限制已解除，下落还要通过阻挡、来源、Target和Next预订等条件。多释放一次会变成负数：记录错误，但不把负数改回0。</p>
-<p>斜落另有一个独立的有符号计数（CellModel+0x84），加减时不登记进行中操作。竖向火箭飞行时冻结整列和起点格，飞行结束再逐格释放；这个计数只在上文<code>ShouldFindCross</code>的冰块分支里被读取。</p>
+<p>斜落另有一个独立的有符号计数，加减时不登记进行中操作。竖向火箭飞行时冻结整列和起点格，飞行结束再逐格释放；这个计数只在上文<code>ShouldFindCross</code>的冰块分支里被读取。</p>
 </section>
 
 <section aria-labelledby="multiple-boards">
@@ -236,7 +251,7 @@ IsFallFrozen():
 <p>多棋盘是<strong>一关里有多段棋盘</strong>，当前只操作其中一段，流程推进时视图转到另一段继续玩。例如可以把它想成一张分段展示的长棋盘：前一段结束后画面移到下一段，仍在同一关里。程序用<code>boards[]</code>保存各段，用<code>CurrentBoardId</code>记录当前段；所以下落搜索必须检查boardId，只按画面上的上下左右取棋会跨段取错。<small>［B9］</small></p>
 <h4>进入切换流程后，先锁输入，再移动棋盘</h4>
 <p><code>StartChangingBoard</code>把IsChanging设为true，登记编号13的进行中操作，并禁用触摸。随后计算过渡时长，在时间0安排移动回调、在结束时间安排收尾回调，同时启动完成等待协程。起始回调用<code>DOMove</code>把棋盘移向传入的新位置，并使用传入的动画曲线；背景也有对应的滚动分支。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换启动伪代码"><code>StartChangingBoard(newPosition, boardCurve, backgroundCurve, speed):
+<details class="code-fold"><summary>伪代码：多棋盘切换启动<span>15行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换启动伪代码"><code>StartChangingBoard(newPosition, boardCurve, backgroundCurve, speed):
     IsChanging = true
     OperationStart(13)
     heightDiff = CalculateHeightDiffBetweenBoards()
@@ -250,11 +265,11 @@ IsFallFrozen():
 // 当前段编号的推进另在ChangeBoard中处理
 ChangeBoard():
     if CurrentBoardId != 0:
-        CurrentBoardId -= 1</code></pre>
+        CurrentBoardId -= 1</code></pre></details>
 <p>boardId是段的内部编号，减1即转到下一段。<code>ChangeBoard</code>与画面移动是两个方法：复现时既要改编号，也要处理输入锁定与在途落子。</p>
 <h4>画面移动结束，与切换状态结束，是两个时点</h4>
 <p>结束回调先检查当前棋盘是否还有正在进入的物体；没有时调用<code>AllowRefillOnNewBoard</code>，允许新棋盘补入。随后结束编号13的操作、重新启用触摸，并通知切换完成事件。另一个协程持续检查<code>HasAnyOperation</code>：只有没有任何进行中操作时，才调用<code>CompleteChangingBoard</code>清除IsChanging，并恢复对应的镜头方向控制。</p>
-<pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换收尾与等待伪代码"><code>切换动画收尾回调():
+<details class="code-fold"><summary>伪代码：多棋盘切换收尾与等待<span>16行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="多棋盘切换收尾与等待伪代码"><code>切换动画收尾回调():
     if not AreThereIncomingItemsToCurrentBoard():
         AllowRefillOnNewBoard(CurrentBoardId)
     OperationFinish(13)
@@ -269,37 +284,18 @@ WaitForCompletion(isWater=false):
 CompleteChangingBoard(isWater):
     IsChanging = false
     恢复对应的镜头方向控制
-    if isWater: 另行通知完成事件</code></pre>
+    if isWater: 另行通知完成事件</code></pre></details>
 <p><strong>构造例子：</strong>棋盘移动到位时，如果另一个操作仍未结束，收尾回调已经可以重新启用触摸，但IsChanging仍会保持true，直到等待协程看到所有操作结束。能否接受某次交换另有其他输入门槛；IsChanging由“所有操作结束”清除，不按固定秒数。</p>
 <h4>移动时长与切换入口</h4>
 <p>公式是<strong>0.3＋√heightDiff×0.32×speed</strong>。例如给定heightDiff=9、speed=1，得到1.26秒；heightDiff=16时为1.58秒（计算例子，speed为调用方传入）。</p>
 <p>切换由障碍物发起。<code>CellGridManager.ChangeBoard</code>在全库的直接调用方只有两类：传送门（<code>PortalDoorItemView</code>的爆炸协程与强制结束动画）和水（<code>WaterItemHelper</code>的切板协程）；另有一个无动画版本。带动画的路径经<code>GridPositioner.AnimateToNextBoard</code>进入上面的<code>StartChangingBoard</code>，水的路径对应<code>isWater</code>收尾分支。<small>［B9］</small></p>
 </section>
-
-<details class="evidence" id="board-code-evidence"><summary>原方法、原始字节与解释范围</summary>
-<p>静态样本为Royal Match build 38174。原ELF SHA-256：<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。以下位置可对应到正文。全部为静态证据，未做原客户端逐帧或整局回放对照。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="棋盘算法代码位置"><table><thead><tr><th>证据</th><th>方法与RVA</th><th>本文使用范围</th></tr></thead><tbody>
-<tr><td>B1</td><td><code>ManualUpdate 0x2A2B278</code>；<code>ClearTargetItems 0x2A2B5B8</code></td><td>目标清理、直落、斜落、运动更新的顺序与登记</td></tr>
-<tr><td>B2</td><td><code>ShouldPlaySwapAnimation 0x2A376A4</code>；<code>SetAllItems 0x2A3B618</code></td><td>临时交换、半径3搜索、端点匹配与特殊交换、写入端点生成格（0x2A378C4／0x2A37974）、失败恢复</td></tr>
-<tr><td>B2′</td><td><code>PlayValidSwapAnimation 0x2A3A810</code>；<code>ExplodeMatchGroups 0x2A385FC</code>；<code>ShouldExplodeMatchGroup 0x2A3BD78</code></td><td>交换移动0.135秒（0x3E73808）；结束后半径3重查、PatternType变化才替换、逐组派发</td></tr>
-<tr><td>B3</td><td><code>FindThreeMatchesAndPropellersForCell 0x137AAA0</code>；<code>CreateMatchesFromThrees 0x137AE2C</code>；<code>SortPossibleMatchGroups 0x137B8CC</code>；<code>CreateAndAddMatchGroup 0x137B9F8</code>；<code>FindAndProcessExtensionCandidates 0x137BD08</code>；<code>PatternToTiledId 0x20ED080</code></td><td>小形状、组装、稳定降序、整组占用拒绝、扩展与道具转换；四连方向在0x137B0CC；Pattern→TiledId映射表地址0x3EF395C，6个小端int32</td></tr>
-<tr><td>B4</td><td><code>CanAutoExplode 0x1378824</code>；<code>AllCellsReadyForExplode 0x13788A4</code>；<code>IsReadyForAutoExplode 0x1E92F0C</code>；<code>ShouldWaitForFallingMatchItems 0x1E92FD8</code></td><td>组准备与上方Target；0x1E93004跳到0x1E99A0C的8字节续段已另外保留。正文时间例子限定正常有限值；原FCMP/CSET LE也接受无序比较</td></tr>
-<tr><td>B5</td><td><code>AutoExplodeManager.ManualUpdate 0x20EE59C</code>；<code>LevelContext..ctor 0x2752E84</code>；<code>ContextContainer.ManualUpdate 0x3DEE708</code></td><td>默认注册与更新路径；洗牌挂起扫描、空闲帧差大于10停扫（0x20EE634）</td></tr>
-<tr><td>B6</td><td><code>FindTargetItemOrFillingCell 0x2A2BA0C</code>；<code>GetNextItemOfCell 0x2A2C1B4</code></td><td>普通直落核心；顶部队列、补入口与跨板分支未在伪代码中展开</td></tr>
-<tr><td>B7</td><td><code>CalculateCrossFalls 0x2A2B6EC</code>；<code>FindCrossItem 0x2A2C058</code>；<code>FindCrossItemInLeftOrRightColumn 0x2A2C7F8</code>；<code>FindTargetItemFromCrossCell 0x2A2C918</code></td><td>落点资格、向上通路、左右栈（方向7压左栈、3压右栈；左栈取左上0、右栈取右上2）、在途登记与对角来源检查。0x2A2C87C读取虚槽66，对应ItemModel.IsSpecialItem。<code>ShouldFindCross 0x2A2C350</code>：棋盘CanCrossFall与冰块分支</td></tr>
-<tr><td>B8</td><td><code>FreezeFall 0x2AC9B9C</code>；<code>UnFreezeFall 0x2AC9BCC</code>；<code>IsFallFrozen 0x2AC9D1C</code></td><td>格子计数与operation1</td></tr>
-<tr><td>B9</td><td><code>StartChangingBoard 0x2755B48</code>；<code>ChangeBoard 0x2756448</code>；起止回调<code>0x27565D0 / 0x2756644</code>；等待协程<code>0x2756838</code>；<code>CompleteChangingBoard 0x2756320</code></td><td>状态、operation13、禁触与恢复、移动和结束回调、等待全部操作、过渡公式与局部boardId推进；切换入口见调用扫描（传送门、水）</td></tr>
-<tr><td>B10</td><td><code>GetSpecialItemCell 0x13784F0</code>；<code>SelectItemCreationCell 0x1378554</code>；<code>ShuffleCells 0x1378710</code>；<code>MatchItemView..cctor 0x1E9759C</code>；<code>SpecialItemCreator..cctor 0x20EDDE8</code></td><td>已有生成格直接返回；洗牌只作用于栈上副本；跳过Chain、按时间与Y替换；CreationDelay＝0.2×0.85（0x3EF26A8）</td></tr>
-<tr><td>B11</td><td><code>ItemModel.Explode 0x338CC74</code>；<code>MushroomSoilItemHelper.ManualUpdate 0x15571E0</code>／<code>CanSpreadMushroom 0x1556D60</code>；<code>GrassSpreadAnimationView.GetDelayForIndex 0x2A6522C</code>；<code>PropellerRocketCombo／TntPropellerCombo.ExplodeExtraCombo 0x26B0D30／0x26B13B0</code></td><td>按爆炸编号去重、蘑菇扩散门槛与候选格条件、草地与飞机组合的分支延迟</td></tr>
-</tbody></table></div>
-<p><a href="../assets/evidence/board-algorithms/manifest.json">63份方法快照、续段、元数据与转换表JSON</a>，<a href="../assets/evidence/board-algorithms/call-sites.json">直接调用扫描</a>，<a href="../assets/evidence/board-algorithms/literals.json">时长常量</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；跨度按相邻元数据入口截取。调用扫描只覆盖直接BL／B，虚调用与委托另计。</p>
-</details>
 <section aria-labelledby="title-special-creation" id="special-creation">
 <h3 id="title-special-creation">特殊块生成位置与激活时机</h3>
 
 <h4>玩家交换出的道具，生成在交换端点</h4>
 <p>交换判定保存匹配组时，把组的生成格直接写成对应端点：被拖动的棋子换到哪格、所在组就在哪格生成；被换走的那颗如果也成组，就在另一端生成。消除阶段读取生成格时发现已有值，直接返回，不洗牌也不比较。<small>［B2、B10］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="特殊块生成格选择伪代码"><code>GetSpecialItemCell(group):
+<details class="code-fold"><summary>伪代码：特殊块生成格选择<span>15行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="特殊块生成格选择伪代码"><code>GetSpecialItemCell(group):
     if group.creationCell != null: return group.creationCell   // 交换组
     SelectItemCreationCell(group)
     return group.creationCell
@@ -313,7 +309,7 @@ SelectItemCreationCell(group):
         if cell有Chain: continue
         if t &gt; bestTime or best == null or cell.Y &gt; best.Y:
             best = cell; bestTime = t
-    group.creationCell = best</code></pre>
+    group.creationCell = best</code></pre></details>
 
 <h4>连锁出的道具，倾向最新落下或更高的格子</h4>
 <p>自动消除的组没有端点，才走比较：按组内原顺序逐格看，跳过锁链格（StaticItemType 6），新格的状态改变时间更晚，<strong>或</strong>位置更高（Y更大），就替换当前选择，所以结果与遍历顺序有关。状态改变时间这一字段按复刻工程的接口解析确认。</p>
@@ -358,7 +354,26 @@ SelectItemCreationCell(group):
 <p>一次爆炸扣几层、蘑菇是否等落子结束再长出、下一轮引爆什么时候接上，都会改变玩家看到的连锁结果。复现时既要对齐伤害和棋盘状态，也要对齐特效与回调。</p>
 
 </section>
-<details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>棋盘状态机的原字节快照与调用扫描</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读常量、全库直接调用扫描交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4／0x2A3A810；匹配0x137AAA0／0x137AE2C；生成格0x13784F0／0x1378554；创建延迟0x20EDDE8；自动消除0x20EE59C／0x1E92FD8；直斜落0x2A2BA0C／0x2A2C350／0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；命中去重0x338CC74；蘑菇0x15571E0；智能方向0x20EDA34。伪代码为标明省略范围的整理；静态证据，未做原端逐帧或整局回放对照。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/：manifest.json与63份方法快照、call-sites.json、literals.json、metadata-excerpts.json</code></p></div></details></div></section>
+
+<details class="evidence" id="board-code-evidence"><summary>原方法、原始字节与解释范围</summary>
+<p>静态样本为Royal Match build 38174。原ELF SHA-256：<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。以下位置可对应到正文。全部为静态证据，未做原客户端逐帧或整局回放对照。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="棋盘算法代码位置"><table><thead><tr><th>证据</th><th>方法与RVA</th><th>本文使用范围</th></tr></thead><tbody>
+<tr><td>B1</td><td><code>ManualUpdate 0x2A2B278</code>；<code>ClearTargetItems 0x2A2B5B8</code></td><td>目标清理、直落、斜落、运动更新的顺序与登记</td></tr>
+<tr><td>B2</td><td><code>ShouldPlaySwapAnimation 0x2A376A4</code>；<code>SetAllItems 0x2A3B618</code></td><td>临时交换、半径3搜索、端点匹配与特殊交换、写入端点生成格（0x2A378C4／0x2A37974）、失败恢复</td></tr>
+<tr><td>B2′</td><td><code>PlayValidSwapAnimation 0x2A3A810</code>；<code>ExplodeMatchGroups 0x2A385FC</code>；<code>ShouldExplodeMatchGroup 0x2A3BD78</code></td><td>交换移动0.135秒（0x3E73808）；结束后半径3重查、PatternType变化才替换、逐组派发</td></tr>
+<tr><td>B3</td><td><code>FindThreeMatchesAndPropellersForCell 0x137AAA0</code>；<code>CreateMatchesFromThrees 0x137AE2C</code>；<code>SortPossibleMatchGroups 0x137B8CC</code>；<code>CreateAndAddMatchGroup 0x137B9F8</code>；<code>FindAndProcessExtensionCandidates 0x137BD08</code>；<code>PatternToTiledId 0x20ED080</code></td><td>小形状、组装、稳定降序、整组占用拒绝、扩展与道具转换；四连方向在0x137B0CC；Pattern→TiledId映射表地址0x3EF395C，6个小端int32</td></tr>
+<tr><td>B4</td><td><code>CanAutoExplode 0x1378824</code>；<code>AllCellsReadyForExplode 0x13788A4</code>；<code>IsReadyForAutoExplode 0x1E92F0C</code>；<code>ShouldWaitForFallingMatchItems 0x1E92FD8</code></td><td>组准备与上方Target；0x1E93004跳到0x1E99A0C的8字节续段已另外保留。正文时间例子限定正常有限值；原FCMP/CSET LE也接受无序比较</td></tr>
+<tr><td>B5</td><td><code>AutoExplodeManager.ManualUpdate 0x20EE59C</code>；<code>LevelContext..ctor 0x2752E84</code>；<code>ContextContainer.ManualUpdate 0x3DEE708</code></td><td>默认注册与更新路径；洗牌挂起扫描、空闲帧差大于10停扫（0x20EE634）</td></tr>
+<tr><td>B6</td><td><code>FindTargetItemOrFillingCell 0x2A2BA0C</code>；<code>GetNextItemOfCell 0x2A2C1B4</code></td><td>普通直落核心；顶部队列、补入口与跨板分支未在伪代码中展开</td></tr>
+<tr><td>B7</td><td><code>CalculateCrossFalls 0x2A2B6EC</code>；<code>FindCrossItem 0x2A2C058</code>；<code>FindCrossItemInLeftOrRightColumn 0x2A2C7F8</code>；<code>FindTargetItemFromCrossCell 0x2A2C918</code></td><td>落点资格、向上通路、左右栈（方向7压左栈、3压右栈；左栈取左上0、右栈取右上2）、在途登记与对角来源检查。0x2A2C87C读取虚槽66，对应ItemModel.IsSpecialItem。<code>ShouldFindCross 0x2A2C350</code>：棋盘CanCrossFall与冰块分支</td></tr>
+<tr><td>B8</td><td><code>FreezeFall 0x2AC9B9C</code>；<code>UnFreezeFall 0x2AC9BCC</code>；<code>IsFallFrozen 0x2AC9D1C</code></td><td>格子计数与operation1</td></tr>
+<tr><td>B9</td><td><code>StartChangingBoard 0x2755B48</code>；<code>ChangeBoard 0x2756448</code>；起止回调<code>0x27565D0 / 0x2756644</code>；等待协程<code>0x2756838</code>；<code>CompleteChangingBoard 0x2756320</code></td><td>状态、operation13、禁触与恢复、移动和结束回调、等待全部操作、过渡公式与局部boardId推进；切换入口见调用扫描（传送门、水）</td></tr>
+<tr><td>B10</td><td><code>GetSpecialItemCell 0x13784F0</code>；<code>SelectItemCreationCell 0x1378554</code>；<code>ShuffleCells 0x1378710</code>；<code>MatchItemView..cctor 0x1E9759C</code>；<code>SpecialItemCreator..cctor 0x20EDDE8</code></td><td>已有生成格直接返回；洗牌只作用于栈上副本；跳过Chain、按时间与Y替换；CreationDelay＝0.2×0.85（0x3EF26A8）</td></tr>
+<tr><td>B11</td><td><code>ItemModel.Explode 0x338CC74</code>；<code>MushroomSoilItemHelper.ManualUpdate 0x15571E0</code>／<code>CanSpreadMushroom 0x1556D60</code>；<code>GrassSpreadAnimationView.GetDelayForIndex 0x2A6522C</code>；<code>PropellerRocketCombo／TntPropellerCombo.ExplodeExtraCombo 0x26B0D30／0x26B13B0</code></td><td>按爆炸编号去重、蘑菇扩散门槛与候选格条件、草地与飞机组合的分支延迟</td></tr>
+</tbody></table></div>
+<p><a href="../assets/evidence/board-algorithms/manifest.json">63份方法快照、续段、元数据与转换表JSON</a>，<a href="../assets/evidence/board-algorithms/call-sites.json">直接调用扫描</a>，<a href="../assets/evidence/board-algorithms/literals.json">时长常量</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；跨度按相邻元数据入口截取。调用扫描只覆盖直接BL／B，虚调用与委托另计。</p>
+</details>
+</div><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>棋盘状态机的原字节快照与调用扫描</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读常量、全库直接调用扫描交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4／0x2A3A810；匹配0x137AAA0／0x137AE2C；生成格0x13784F0／0x1378554；创建延迟0x20EDDE8；自动消除0x20EE59C／0x1E92FD8；直斜落0x2A2BA0C／0x2A2C350／0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；命中去重0x338CC74；蘑菇0x15571E0；智能方向0x20EDA34。伪代码为标明省略范围的整理；静态证据，未做原端逐帧或整局回放对照。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/：manifest.json与63份方法快照、call-sites.json、literals.json、metadata-excerpts.json</code></p></div></details></div></section>
 <section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能归纳交换、生成、扣层、落子和切板结果，测量可见节奏；内部预订、冻结叠加和同轮命中关系需要专门构造局面验证。</p><p>解包增量：提供状态登记、判断分支、执行先后和时长常量，可据此编写棋盘状态机并构造边界用例；道具生成格、火箭方向和切板入口都已能直接确定。蘑菇扩散排序与动态连锁帧序仍需补齐和实机对照。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-fall-rules">← 返回内容总览</a></footer></main>
 </body></html>

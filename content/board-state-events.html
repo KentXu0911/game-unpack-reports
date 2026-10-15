@@ -3,7 +3,7 @@
 
 <h4>玩家交换出的道具，生成在交换端点</h4>
 <p>交换判定保存匹配组时，把组的生成格直接写成对应端点：被拖动的棋子换到哪格、所在组就在哪格生成；被换走的那颗如果也成组，就在另一端生成。消除阶段读取生成格时发现已有值，直接返回，不洗牌也不比较。<small>［B2、B10］</small></p>
-<pre class="algorithm-code" tabindex="0" aria-label="特殊块生成格选择伪代码"><code>GetSpecialItemCell(group):
+<details class="code-fold"><summary>伪代码：特殊块生成格选择<span>15行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="特殊块生成格选择伪代码"><code>GetSpecialItemCell(group):
     if group.creationCell != null: return group.creationCell   // 交换组
     SelectItemCreationCell(group)
     return group.creationCell
@@ -17,7 +17,7 @@ SelectItemCreationCell(group):
         if cell有Chain: continue
         if t &gt; bestTime or best == null or cell.Y &gt; best.Y:
             best = cell; bestTime = t
-    group.creationCell = best</code></pre>
+    group.creationCell = best</code></pre></details>
 
 <h4>连锁出的道具，倾向最新落下或更高的格子</h4>
 <p>自动消除的组没有端点，才走比较：按组内原顺序逐格看，跳过锁链格（StaticItemType 6），新格的状态改变时间更晚，<strong>或</strong>位置更高（Y更大），就替换当前选择，所以结果与遍历顺序有关。状态改变时间这一字段按复刻工程的接口解析确认。</p>
@@ -62,3 +62,22 @@ SelectItemCreationCell(group):
 <p>一次爆炸扣几层、蘑菇是否等落子结束再长出、下一轮引爆什么时候接上，都会改变玩家看到的连锁结果。复现时既要对齐伤害和棋盘状态，也要对齐特效与回调。</p>
 
 </section>
+
+<details class="evidence" id="board-code-evidence"><summary>原方法、原始字节与解释范围</summary>
+<p>静态样本为Royal Match build 38174。原ELF SHA-256：<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。以下位置可对应到正文。全部为静态证据，未做原客户端逐帧或整局回放对照。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="棋盘算法代码位置"><table><thead><tr><th>证据</th><th>方法与RVA</th><th>本文使用范围</th></tr></thead><tbody>
+<tr><td>B1</td><td><code>ManualUpdate 0x2A2B278</code>；<code>ClearTargetItems 0x2A2B5B8</code></td><td>目标清理、直落、斜落、运动更新的顺序与登记</td></tr>
+<tr><td>B2</td><td><code>ShouldPlaySwapAnimation 0x2A376A4</code>；<code>SetAllItems 0x2A3B618</code></td><td>临时交换、半径3搜索、端点匹配与特殊交换、写入端点生成格（0x2A378C4／0x2A37974）、失败恢复</td></tr>
+<tr><td>B2′</td><td><code>PlayValidSwapAnimation 0x2A3A810</code>；<code>ExplodeMatchGroups 0x2A385FC</code>；<code>ShouldExplodeMatchGroup 0x2A3BD78</code></td><td>交换移动0.135秒（0x3E73808）；结束后半径3重查、PatternType变化才替换、逐组派发</td></tr>
+<tr><td>B3</td><td><code>FindThreeMatchesAndPropellersForCell 0x137AAA0</code>；<code>CreateMatchesFromThrees 0x137AE2C</code>；<code>SortPossibleMatchGroups 0x137B8CC</code>；<code>CreateAndAddMatchGroup 0x137B9F8</code>；<code>FindAndProcessExtensionCandidates 0x137BD08</code>；<code>PatternToTiledId 0x20ED080</code></td><td>小形状、组装、稳定降序、整组占用拒绝、扩展与道具转换；四连方向在0x137B0CC；Pattern→TiledId映射表地址0x3EF395C，6个小端int32</td></tr>
+<tr><td>B4</td><td><code>CanAutoExplode 0x1378824</code>；<code>AllCellsReadyForExplode 0x13788A4</code>；<code>IsReadyForAutoExplode 0x1E92F0C</code>；<code>ShouldWaitForFallingMatchItems 0x1E92FD8</code></td><td>组准备与上方Target；0x1E93004跳到0x1E99A0C的8字节续段已另外保留。正文时间例子限定正常有限值；原FCMP/CSET LE也接受无序比较</td></tr>
+<tr><td>B5</td><td><code>AutoExplodeManager.ManualUpdate 0x20EE59C</code>；<code>LevelContext..ctor 0x2752E84</code>；<code>ContextContainer.ManualUpdate 0x3DEE708</code></td><td>默认注册与更新路径；洗牌挂起扫描、空闲帧差大于10停扫（0x20EE634）</td></tr>
+<tr><td>B6</td><td><code>FindTargetItemOrFillingCell 0x2A2BA0C</code>；<code>GetNextItemOfCell 0x2A2C1B4</code></td><td>普通直落核心；顶部队列、补入口与跨板分支未在伪代码中展开</td></tr>
+<tr><td>B7</td><td><code>CalculateCrossFalls 0x2A2B6EC</code>；<code>FindCrossItem 0x2A2C058</code>；<code>FindCrossItemInLeftOrRightColumn 0x2A2C7F8</code>；<code>FindTargetItemFromCrossCell 0x2A2C918</code></td><td>落点资格、向上通路、左右栈（方向7压左栈、3压右栈；左栈取左上0、右栈取右上2）、在途登记与对角来源检查。0x2A2C87C读取虚槽66，对应ItemModel.IsSpecialItem。<code>ShouldFindCross 0x2A2C350</code>：棋盘CanCrossFall与冰块分支</td></tr>
+<tr><td>B8</td><td><code>FreezeFall 0x2AC9B9C</code>；<code>UnFreezeFall 0x2AC9BCC</code>；<code>IsFallFrozen 0x2AC9D1C</code></td><td>格子计数与operation1</td></tr>
+<tr><td>B9</td><td><code>StartChangingBoard 0x2755B48</code>；<code>ChangeBoard 0x2756448</code>；起止回调<code>0x27565D0 / 0x2756644</code>；等待协程<code>0x2756838</code>；<code>CompleteChangingBoard 0x2756320</code></td><td>状态、operation13、禁触与恢复、移动和结束回调、等待全部操作、过渡公式与局部boardId推进；切换入口见调用扫描（传送门、水）</td></tr>
+<tr><td>B10</td><td><code>GetSpecialItemCell 0x13784F0</code>；<code>SelectItemCreationCell 0x1378554</code>；<code>ShuffleCells 0x1378710</code>；<code>MatchItemView..cctor 0x1E9759C</code>；<code>SpecialItemCreator..cctor 0x20EDDE8</code></td><td>已有生成格直接返回；洗牌只作用于栈上副本；跳过Chain、按时间与Y替换；CreationDelay＝0.2×0.85（0x3EF26A8）</td></tr>
+<tr><td>B11</td><td><code>ItemModel.Explode 0x338CC74</code>；<code>MushroomSoilItemHelper.ManualUpdate 0x15571E0</code>／<code>CanSpreadMushroom 0x1556D60</code>；<code>GrassSpreadAnimationView.GetDelayForIndex 0x2A6522C</code>；<code>PropellerRocketCombo／TntPropellerCombo.ExplodeExtraCombo 0x26B0D30／0x26B13B0</code></td><td>按爆炸编号去重、蘑菇扩散门槛与候选格条件、草地与飞机组合的分支延迟</td></tr>
+</tbody></table></div>
+<p><a href="../assets/evidence/board-algorithms/manifest.json">63份方法快照、续段、元数据与转换表JSON</a>，<a href="../assets/evidence/board-algorithms/call-sites.json">直接调用扫描</a>，<a href="../assets/evidence/board-algorithms/literals.json">时长常量</a>。汇编含逐条指令字节，已按原ELF的PT_LOAD地址映射核对；跨度按相邻元数据入口截取。调用扫描只覆盖直接BL／B，虚调用与委托另计。</p>
+</details>
