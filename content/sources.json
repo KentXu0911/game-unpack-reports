@@ -57,7 +57,7 @@
     "title": "飞机目标与命中链",
     "basis": "静态入口、调用链与目标模型接口",
     "locator": "royal-match-apk-audit-38174/outputs/royal_match_obstacle_booster_cascade_rules_2026-09-16.md；indices/gate_resolution_full.csv",
-    "detail": "FindTarget 0x26A313C；IsTargetValid 0x26A1BDC；TryExplode 0x26A3704；TryExplodeItem 0x26A3750。配合GetScore缓存与目标派生策略，支持决策链解读；完整分值表、重选、同分与飞行曲线未闭合。"
+    "detail": "FindTarget 0x26A313C；IsTargetValid 0x26A1BDC；FindNewTarget 0x26A1E14；TryExplode 0x26A3704；TryExplodeItem 0x26A3750。普通选择已确认评分分组、高分优先、组内随机与在途攻击检查；已有目标有保留与受条件限制的重选。完整分值表、特殊重定向、全部重选通知及飞行曲线仍未闭合。"
   },
   "curve": {
     "title": "关卡配置统计与研究者压力模型",
@@ -100,5 +100,11 @@
     "basis": "全量包体配置／独立枚举映射",
     "locator": "indices/level_boards_fbs.csv；indices/level_obstacle_index.csv；indices/item_mechanism_taxonomy.csv；本站content/level-progression.json与scripts/extract_level_progression.py",
     "detail": "14500关无遗漏或重复；物体层98模型族、格子层14非空字段，按每类每关去重统计112条记录、105个首现关。只统计初始配置，不把模型族直接当独立玩法；JSON绑定5份源索引SHA-256。"
+  },
+  "propeller-selection": {
+    "title": "飞机与组合道具的目标评分原字节证据",
+    "basis": "build 38174 ARM64原字节、元数据继承与默认评分表交叉核对",
+    "locator": "本站 assets/evidence/propeller-selection/manifest.json；48份方法汇编与metadata-excerpts.json",
+    "detail": "原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FillScores 0x20EF844；单格选择0x20F1E24；箱子类型6与默认分456976；拳击手套0x2A67954最后命中取609301；在途扣减0x338C910；行列／范围检查0x20F38D0、0x20F4C70、0x20EFF70。已确认高分组优先及组内随机，不保证整关最少步数或最高胜率；完整物体状态、特殊重定向与实机对照仍待验证。"
   }
 }

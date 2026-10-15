@@ -124,11 +124,15 @@ def extras(topic):
             for key, title in LEVEL_LINKS) + '</nav>'
     if key == 'level-pressure':
         return level_page_content('level-pressure')
+    if key == 'obstacle-rules':
+        return (ROOT / 'content/booster-targeting.html').read_text()
     if key == 'propeller-targeting':
-        return ('<div class="flow" aria-label="已定位的飞机目标处理链">'
-                '<span>寻找候选目标</span><b>→</b><span>检查目标能否命中</span><b>→</b>'
-                '<span>飞往所选目标</span><b>→</b><span>引爆或接上组合攻击</span></div>'
-                '<p class="flow-note">完整的目标分值、重选规则与飞行曲线仍待确认。</p>')
+        return ('<div class="flow" aria-label="飞机选点与攻击流程">'
+                '<span>过滤与评分</span><b>→</b><span>高分组内抽取</span><b>→</b>'
+                '<span>剩余命中与重定向</span><b>→</b><span>登记攻击、飞行与命中</span></div>'
+                '<nav class="reading-links" aria-label="道具寻优详解">'
+                '<a href="obstacle-rules.html"><b>道具寻优：目标选择与通关收益</b>'
+                '<span>阅读选点步骤、箱子与拳击手套评分、四个具体局面和组合胜利检查 →</span></a></nav>')
     if key == 'smart-rocket':
         return ('<div class="rocket-demo"><h5>方向规则演示</h5>'
                 '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'

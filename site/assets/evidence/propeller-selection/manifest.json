@@ -1,0 +1,619 @@
+{
+  "sample": "Royal Match build 38174, ARM64",
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methodIndexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "boundary": "Next distinct metadata start; linear snapshots, complete CFG unproven. Instruction bytes verified against original ELF PT_LOAD segments.",
+  "methods": [
+    {
+      "address": "0x1ba7fe0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.GrassItem.GrassItemModel$$GetExplodeScore"
+      ],
+      "end": "0x1ba836c",
+      "sha256": "1ab7210babfce6d849df76d3911028f8e116945babecc10d08505b6fb4fbc43d",
+      "file": "01ba7fe0.s",
+      "listingSha256": "48e633f02743b9ad62a79021a7cecdac1eef01ebe98b5a752f3fc929ca9638af"
+    },
+    {
+      "address": "0x1e916f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemExplodeScoreCalculator$$CalculateScoreForMatchItem"
+      ],
+      "end": "0x1e91b00",
+      "sha256": "5de8ad804c1bdaec1784002b8dce18d59efa3b540c8854f64b51f63adb334eb7",
+      "file": "01e916f4.s",
+      "listingSha256": "3c65992f8d726c163171b80da013f956e8656c9593aa4ff960d01673a3eb15c3"
+    },
+    {
+      "address": "0x1e92ad8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemModel$$GetExplodeScore"
+      ],
+      "end": "0x1e92e48",
+      "sha256": "c377e1c82f9ed96a4c9b086410e9ecc1abf40d86fd1d05fc5f012ae5c0154d31",
+      "file": "01e92ad8.s",
+      "listingSha256": "0a354b94658f6675d863b548071745e1f27aab14548db351f5b74cc49773d6c8"
+    },
+    {
+      "address": "0x20e1378",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$IsCellWinningForSingleHitAreaExploder"
+      ],
+      "end": "0x20e13fc",
+      "sha256": "f192a72480b3dd92e0a28a71ad5cc0446eecbc746a3567d7481a4b9ce2e61915",
+      "file": "020e1378.s",
+      "listingSha256": "8c1e06af5416a6c8f4b12fda8dccbdd61c927078f3c98a09affbedfcf7be0c32"
+    },
+    {
+      "address": "0x20ee810",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$.ctor"
+      ],
+      "end": "0x20eea6c",
+      "sha256": "53a91fdb1055d597014e2acb3131ce48b4726c4a192efcce811d18c1925d6e28",
+      "file": "020ee810.s",
+      "listingSha256": "1f9cc14dc5ecd9e3a3871dbfced592d0bfa9ff3a5644f739613fadf0953f5c49"
+    },
+    {
+      "address": "0x20ef310",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindForExploder"
+      ],
+      "end": "0x20ef5bc",
+      "sha256": "e93225f3c5d7dd52e0f8925edb49b337e355fcb94eaa77b28c406ab701deae8c",
+      "file": "020ef310.s",
+      "listingSha256": "bf4c5630710645fb1f5e47d4b1b3eec53b23b4fd95c7e8964c2f88d1ef5faa4b"
+    },
+    {
+      "address": "0x20ef5c0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindPowerCubeOrSoilTargetForWinCondition"
+      ],
+      "end": "0x20ef78c",
+      "sha256": "9c632f7e4fd98dc7509a6b684afdbbc043c1ae59a0c2dcf6c14c5d243f6d2b6c",
+      "file": "020ef5c0.s",
+      "listingSha256": "928496b8eb903b580bc8e58647b46c069477d7fff9db166e7be40ff03c404622"
+    },
+    {
+      "address": "0x20ef78c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindAreaTarget"
+      ],
+      "end": "0x20ef840",
+      "sha256": "5d1276074c6b66f63eb03c134f3151936be8556ac964afa6411fb592d596a4c3",
+      "file": "020ef78c.s",
+      "listingSha256": "1981a63129d4dc46ea9f25b2eaeee62fd82a6deffd80abb578d7b7046ac88b77"
+    },
+    {
+      "address": "0x20ef844",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FillScores"
+      ],
+      "end": "0x20efcd0",
+      "sha256": "323f62a6c22d445ae0d5d2669995b386dfad46e633f27c1095d816faab967688",
+      "file": "020ef844.s",
+      "listingSha256": "bbe57bc51d7e6ba0124058e55774fed64567b69ac4a0f0225ae01a2281257d29"
+    },
+    {
+      "address": "0x20efcd0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindRowTarget"
+      ],
+      "end": "0x20efd80",
+      "sha256": "72e1fb57a6f78daad599401a95a4377607048b23f45b5da2286ec0fe24baee00",
+      "file": "020efcd0.s",
+      "listingSha256": "807127007145786df00f34b6255752e5913cec9c1b049eac18e1f26e33284ef2"
+    },
+    {
+      "address": "0x20efd80",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindColumnTarget"
+      ],
+      "end": "0x20efe34",
+      "sha256": "159e3b41a899b845025f6739e27358a7d899b345f28f12c16ac46018274911a9",
+      "file": "020efd80.s",
+      "listingSha256": "ab57c393dde4f71bd42addd0e1d4c52aa46d13dfc42344c846a4aa37c513e709"
+    },
+    {
+      "address": "0x20efe34",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTarget"
+      ],
+      "end": "0x20eff70",
+      "sha256": "c54fadfd99fe58c64b8c7a1ced49a6f1f61cd1a07b366c1eafdd521879c2ff26",
+      "file": "020efe34.s",
+      "listingSha256": "8917b988a1a41a73bbff105058c10986028c01b1c0b139e637b9fe80912ae6e9"
+    },
+    {
+      "address": "0x20eff70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestScoreForAreaExploder"
+      ],
+      "end": "0x20f0c98",
+      "sha256": "669a2fc3c27b424067172ab0cd9374b1628e7ea1befed28fc51de8bf98a59601",
+      "file": "020eff70.s",
+      "listingSha256": "1ab45e51afb6dfbe9eabcfa801258bf98114feafa5ca8381d15a33e2ce80c2d0"
+    },
+    {
+      "address": "0x20f1e24",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetCellForExploder"
+      ],
+      "end": "0x20f22e8",
+      "sha256": "d67cf4665184527ddcde9df5e1343c7ecb03e71e4d84cc1d7d3d3e1fbf60c073",
+      "file": "020f1e24.s",
+      "listingSha256": "c59aa8df6703d0eba3d42bfd4c6a7dca478acd0a8f2c2024a87a184e28b05d32"
+    },
+    {
+      "address": "0x20f3574",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ShouldAddToSingleTargetScore"
+      ],
+      "end": "0x20f3848",
+      "sha256": "0674f0dc86ea55100389f80e6ee840115dc831f44a8ea2c5be959cf5eeca12fa",
+      "file": "020f3574.s",
+      "listingSha256": "250cd058663e6e7588b806bceae0f1e63650b7cda9c37edd8d5d2592f5ba85b8"
+    },
+    {
+      "address": "0x20f38d0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestColumnScore"
+      ],
+      "end": "0x20f4c70",
+      "sha256": "08a39a1a0d1adb50e640df06ccd72b9d5a0e826038511207e3e8edd7d39e014a",
+      "file": "020f38d0.s",
+      "listingSha256": "22e9544e0079c0d7fea02fbfc3c4ae34368f29fd1a70af0b8074baa7ed2002c2"
+    },
+    {
+      "address": "0x20f4c70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestRowScore"
+      ],
+      "end": "0x20f5f68",
+      "sha256": "b2e00d7810ca322eef119137a59373d57202b9c0a59a41f3e77ce95da9423937",
+      "file": "020f4c70.s",
+      "listingSha256": "9a7d24787bc0af8633bc1163ba3f178cb009e0670957900b23305b51bd77c807"
+    },
+    {
+      "address": "0x20f5f68",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$CalculateScoreForAreaExploder"
+      ],
+      "end": "0x20f7650",
+      "sha256": "f509878863ebdfea8c99826bed31be684498e2c153c11d2b33d960d783e704f4",
+      "file": "020f5f68.s",
+      "listingSha256": "8a642fcdb91f9e802a92c7ffcde66c7e9cbd0033c4f272a2157b80b592742a5b"
+    },
+    {
+      "address": "0x20f7650",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetRandomItemFromAreaScores"
+      ],
+      "end": "0x20f7734",
+      "sha256": "751fbae779ad2c6fc92edcd9c2ddbad48801e9db199f18999471f7439d5a24c7",
+      "file": "020f7650.s",
+      "listingSha256": "ed347b233668ea5d9dfac5ad6bba40c6f82e70d0e239456b9264efc67f114250"
+    },
+    {
+      "address": "0x26a1bdc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$IsTargetValid"
+      ],
+      "end": "0x26a1e14",
+      "sha256": "292d172a4ab63d9124ea1a4f29ff7c93ef5502fe08b559e3cec653c83bc907ae",
+      "file": "026a1bdc.s",
+      "listingSha256": "bf7a70984aad4f072686199e07085b5f2199af4e7a34466559c558113cb6f518"
+    },
+    {
+      "address": "0x26a1e14",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FindNewTarget"
+      ],
+      "end": "0x26a22bc",
+      "sha256": "d76f5cb9a6b6d080a5f9513572d0314dc15d1e4e00d45b8f4c3c1d76c0f48872",
+      "file": "026a1e14.s",
+      "listingSha256": "c91651e77819b99aa1ab201758ecf9916ae4c8b1581f2076f0bd67194f32bd6e"
+    },
+    {
+      "address": "0x26a4668",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetChange"
+      ],
+      "end": "0x26a46a4",
+      "sha256": "36927cbd71a37f9203a834c9f367ed821b7bc8b48e96a7d877b934fae60548ea",
+      "file": "026a4668.s",
+      "listingSha256": "de07a1fcc8f43f5e5a9b54e7b52c71290b8e165f996439caeef209f575065906"
+    },
+    {
+      "address": "0x26a46a4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TargetHasZeroScore"
+      ],
+      "end": "0x26a483c",
+      "sha256": "9840b7571c9c710fff9a0d1726818bfb7dc06ac8d0ec9bf8875fc8b8975bec38",
+      "file": "026a46a4.s",
+      "listingSha256": "3a468b2dd326267309c40a5088bd76a65b1734789088c61537e01150f251f3a0"
+    },
+    {
+      "address": "0x26a4854",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetChangeOnce"
+      ],
+      "end": "0x26a4898",
+      "sha256": "1da534fdbb17af07350ceb644ebcc1ff27ca04322b9456722348ea2d1a677921",
+      "file": "026a4854.s",
+      "listingSha256": "02030709274005631f81d4c43694a2241928cd49353a0346e7b01d575c3b0672"
+    },
+    {
+      "address": "0x26a4898",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetIfCellWillBeDestroyed"
+      ],
+      "end": "0x26a4900",
+      "sha256": "9e4128291668506e9e59b7c3372513b22d98a23f724ec5ae27ca90f8f79e14d8",
+      "file": "026a4898.s",
+      "listingSha256": "54f0b0ffbe76c0d3489ceff85bdca888e22c1262a8303ead0a03f5dccebcf10c"
+    },
+    {
+      "address": "0x26a4900",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetIfTargetScoreIsZero"
+      ],
+      "end": "0x26a492c",
+      "sha256": "dba01ae1439c18b14c0c46f728fb358f31bd3ae019d8af18d2a37596fbf5f353",
+      "file": "026a4900.s",
+      "listingSha256": "83a43d10194c79c61008552b4f5c1d497c4d849f96e97299d6d2becdbf691889"
+    },
+    {
+      "address": "0x26a7e9c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsColumnWinning"
+      ],
+      "end": "0x26a8020",
+      "sha256": "b997d2c0b61e008439e733d2ba2d36b4d727bba04db998c3a35e473cd183d8b6",
+      "file": "026a7e9c.s",
+      "listingSha256": "78a231c11cc2b72c3ffc8c209c2a68d654f03560314fcc20eb6f12e5e1e7203a"
+    },
+    {
+      "address": "0x26a8020",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToPrerequisites"
+      ],
+      "end": "0x26a803c",
+      "sha256": "171c5bf8a1f39e6b55c1842bac09aab37c1c3a1c191b10dcc59376acc6916b72",
+      "file": "026a8020.s",
+      "listingSha256": "9452fc263cb508fe9d22613800d4c3f04d83ebbfe828ec9ad0fa29ff31d60ef5"
+    },
+    {
+      "address": "0x26a8168",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsWinningByHitCells"
+      ],
+      "end": "0x26a8224",
+      "sha256": "f59f22d2351a96a065a30186c7d439eee8df30b68e79f20a88929e37095b78dc",
+      "file": "026a8168.s",
+      "listingSha256": "7da5c2dc01d628b1db52a6eda5234e69f68d6c9911280877415a9d9d2f2e90be"
+    },
+    {
+      "address": "0x26a8498",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsCellWinningForAreaExploder"
+      ],
+      "end": "0x26a865c",
+      "sha256": "91e6751fff7e83eedfa97e4660ce190125844a631a7989c9f4e58f2ed55ea055",
+      "file": "026a8498.s",
+      "listingSha256": "8f7e6d86571521337b14b92a2036129387ff026412734a418a00e8a73f225957"
+    },
+    {
+      "address": "0x26a87a4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$ShouldCalculateSpecificWinConditions"
+      ],
+      "end": "0x26a87e8",
+      "sha256": "7570f82956e35aea723592f44bed82f32035663e3c8477ca21e84763ab50effa",
+      "file": "026a87a4.s",
+      "listingSha256": "d8bd30c137b53867c37e838c37affc4d915752b41c78026f9a83423e7034b8ce"
+    },
+    {
+      "address": "0x26a88cc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinCondition"
+      ],
+      "end": "0x26a8a70",
+      "sha256": "4e05c6e87a58a17436918cbb45f1e9f2f1007065dc8f68103a0480f078888dff",
+      "file": "026a88cc.s",
+      "listingSha256": "5bfd42788f1410556e0e48a623030aebec1c64cb0a8eee6e2f785642ef24ca52"
+    },
+    {
+      "address": "0x26a8d80",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsCellWinningForPropellerExploder"
+      ],
+      "end": "0x26a8e9c",
+      "sha256": "9d1ffa9443f750f87a43addc6bf5ab816020ce2ce2a3151d0eb959a90e881780",
+      "file": "026a8d80.s",
+      "listingSha256": "901ae4b51236248f160b96f2ec09e27019b5070a727e16c95565205111b5ccca"
+    },
+    {
+      "address": "0x2a65b1c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BoxItem.BoxItemModel$$get_ItemType"
+      ],
+      "end": "0x2a65b24",
+      "sha256": "5df1989c16767cd1d335f12745774eb72525d351309884cd8e2ac543e19f2ed0",
+      "file": "02a65b1c.s",
+      "listingSha256": "74f2b007050e378031081ef8829c33265f0ef97e7fe75e82ca040ae3fd0d5ca1"
+    },
+    {
+      "address": "0x2a67954",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BoxingGloveItem.BoxingGloveItemModel$$GetExplodeScore"
+      ],
+      "end": "0x2a67988",
+      "sha256": "008fc33ade3425a3c9c4ba4844b541d876da3e2e107d5f30bd9b93c2aa705d49",
+      "file": "02a67954.s",
+      "listingSha256": "9fd3ff549e24278a4fac5e117465868943b5bdc519bfea83e2dd4e0b00aebd14"
+    },
+    {
+      "address": "0x2a67a74",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BoxingGloveItem.BoxingGloveItemModel$$SetTntRocketComboExploders"
+      ],
+      "end": "0x2a67b1c",
+      "sha256": "b18ca627c957911c7b41c47852354dc672e50a875eeef5f04f99a047967f2f59",
+      "file": "02a67a74.s",
+      "listingSha256": "23d86a2f8c72836320628389b594f8704cd830c167fb89815f62e33fa70d0018"
+    },
+    {
+      "address": "0x2acf1e4",
+      "end": "0x2acf360",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$GetScore"
+      ],
+      "sha256": "b152fd233968131309bfe53dbf82d1fe747322765cfb1cc39081ae2151a3d135",
+      "file": "02acf1e4.s",
+      "listingSha256": "31e373896e1abb31eb9b50c5a00639fecece500f4d255edd5ecc08feb19353ea"
+    },
+    {
+      "address": "0x2acf360",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$CalculateScore"
+      ],
+      "end": "0x2acf600",
+      "sha256": "9491fdfc786103f6ff7299b491d54d0c0ef394492f46b37f9231d88333cda02e",
+      "file": "02acf360.s",
+      "listingSha256": "09a186c1b6a46d074fe17c4ba380f403b7eec4747c46132df4de3783c2015da1"
+    },
+    {
+      "address": "0x2acf600",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$RemainingExplodeCount"
+      ],
+      "end": "0x2acf800",
+      "sha256": "feee14f88f21922e8728b315688c229478e029d333bbcf2654eaf98142b3ae28",
+      "file": "02acf600.s",
+      "listingSha256": "89033c29ecb489314192b2f61d6ebda4f363b162814d1cb2fa13083d6ab9fa53"
+    },
+    {
+      "address": "0x2acf800",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$AddIncomingExploder"
+      ],
+      "end": "0x2acfa98",
+      "sha256": "e2bfa8188378f64f598cedaeecc58d9eae6fd99328950f9e23e69b70c6272db4",
+      "file": "02acf800.s",
+      "listingSha256": "88714fc27d796999ce821a05e6da2e618d4ea8ed5ca5f7f3aaa543ecae73931f"
+    },
+    {
+      "address": "0x2acfa98",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$TryRedirect"
+      ],
+      "end": "0x2acfcec",
+      "sha256": "9c3005ce1fd5f07e35e4c2d6fb8a522d5b336cdfbdfc1a278dd277bd434576a4",
+      "file": "02acfa98.s",
+      "listingSha256": "8899c7513e573768df8490d380d79f7a708e74b8276ac44629cc75a8ae729306"
+    },
+    {
+      "address": "0x30ed8e4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.StaticItemModel$$GetExplodeScore"
+      ],
+      "end": "0x30ed8f0",
+      "sha256": "77d5347add519fdeea607c87f0373bbf0583d9185d27237e4f28f5c24dafe86c",
+      "file": "030ed8e4.s",
+      "listingSha256": "fee2a90ef91b6b88a30fa19e6f02f8114ad412c29213eeb8ed589110f0c18e7d"
+    },
+    {
+      "address": "0x338493c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.GameplayExtensions$$IsSingleExploderStrategy"
+      ],
+      "end": "0x338496c",
+      "sha256": "8d35e27cc5785d550718036a48789f7c0de92297f74e865d3e571a5ccc391a98",
+      "file": "0338493c.s",
+      "listingSha256": "641d1af87dce2481206f75e661a3c32d35b9e190d9105726ea9cdc4d27b2fc45"
+    },
+    {
+      "address": "0x338496c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemModel$$GetExplodeScore"
+      ],
+      "end": "0x3384988",
+      "sha256": "41dd22e94915f4f02a7880bdc377655f696f066bb36bff80e2b2d5ce3acec506",
+      "file": "0338496c.s",
+      "listingSha256": "b1636ae7f3da8cbf0156182e151f87b1ddfd6dcb2e962b2962bae7508263b837"
+    },
+    {
+      "address": "0x3384988",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemExtensions$$ExplodeScore"
+      ],
+      "end": "0x33849ac",
+      "sha256": "f2aeef4bd59cbfce3183afa9f08aa1bb731721dd6f44b7d111b18999fe6aed3d",
+      "file": "03384988.s",
+      "listingSha256": "d61227e80c1c1a9d1d653628ca9058dd34862b54182f76f3c15493f6943bb244"
+    },
+    {
+      "address": "0x338bb58",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemExtensions$$ExplodeScore"
+      ],
+      "end": "0x338bb7c",
+      "sha256": "d77c9e2b318c19e43d182f612d5026cca89caf2de4eba9a660e0aebeb2c6b9b3",
+      "file": "0338bb58.s",
+      "listingSha256": "3bb4f13733db98c0a4837e1fbd2b6c29448db09e6da8fe932bf97e0b225ad276"
+    },
+    {
+      "address": "0x338c910",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemModel$$RemainingExplodeCount"
+      ],
+      "end": "0x338c93c",
+      "sha256": "33dece9948793aa4e7b6e0123e9c855a07dcd4a864935ae5e6e7fabc010c9322",
+      "file": "0338c910.s",
+      "listingSha256": "da845384762aeff68662590213bb234b371c640002c2f21116b237140f247d98"
+    },
+    {
+      "address": "0x33a2f00",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$OnTargetReached"
+      ],
+      "end": "0x33a2f9c",
+      "sha256": "21b9e4bd057527d5bb236c9d1c06025cba815a50b1cd62e880a0ba1b610c132c",
+      "file": "033a2f00.s",
+      "listingSha256": "78488b9b511560f1f3be3c586c42a229531f7e3821f4125574becd0301f749c6"
+    }
+  ],
+  "defaultItemScoreTable": {
+    "address": "0x3f092ec",
+    "encoding": "115 little-endian signed int32 values, indexed by ItemType - 1",
+    "sha256": "cc4c6906d7d43fb166ece1b86cd39d26c02de193bf3db858eb5965efaa6542ed",
+    "rawHex": "a4020000a4020000a4020000a4020000a402000010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f90600000000000000000010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f906000000000010f906000000000010f9060010f9060010f9060010f9060010f906001a00000010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f906000000000010f9060010f906000000000010f9060010f9060010f906001a0000000000000010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f906000000000010f906000000000010f9060010f9060010f9060010f906000000000010f90600000000000000000010f9060010f9060010f9060010f9060010f9060010f90600000000000000000010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f9060010f906000000000010f9060010f9060010f9060010f9060010f90600",
+    "values": [
+      676,
+      676,
+      676,
+      676,
+      676,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      456976,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      26,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      456976,
+      456976,
+      0,
+      456976,
+      456976,
+      456976,
+      26,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      456976,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      456976,
+      0,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976,
+      0,
+      456976,
+      456976,
+      456976,
+      456976,
+      456976
+    ],
+    "confirmedBoxItemType": 6,
+    "confirmedBoxScore": 456976,
+    "limit": "Default table only. Per-type overrides, layers and state may change final cell scores."
+  },
+  "metadata": {
+    "file": "metadata-excerpts.json",
+    "sha256": "99ed102624612e0290c85d1ca7d258ba131b10c85a0961649e2fcf93f94accfd"
+  },
+  "validation": "Static bytes and metadata only; code-derived examples are constructed, not recorded runtime boards."
+}
