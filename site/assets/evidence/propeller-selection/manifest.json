@@ -613,7 +613,7 @@
   },
   "metadata": {
     "file": "metadata-excerpts.json",
-    "sha256": "99ed102624612e0290c85d1ca7d258ba131b10c85a0961649e2fcf93f94accfd"
+    "sha256": "e42a4ffff6f831d63e0585288d1b111e3bdff4af6910ee992e958a43cfd20dda"
   },
   "validation": "Static bytes and metadata only; code-derived examples are constructed, not recorded runtime boards."
 }

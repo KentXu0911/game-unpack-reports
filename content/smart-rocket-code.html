@@ -1,0 +1,13 @@
+<section aria-labelledby="smart-rocket-code">
+<h3 id="smart-rocket-code">原算法对应的计算步骤</h3>
+<p>以下为<code>SelectSmartRocket</code>及横纵评分函数的可读伪代码。它决定<strong>指定生成格</strong>的火箭方向；不移动生成位置，不遍历未来几手。横向与纵向分别使用对应的攻击策略取分，不必假设同一格对两种攻击贡献完全相同。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="智能火箭方向伪代码"><code>horizontal = 生成格所在行各格.GetScore(横向火箭策略)之和
+vertical   = 生成格所在列各格.GetScore(纵向火箭策略)之和
+
+if horizontal &gt; vertical: return 30 // 横向火箭
+if vertical &gt; horizontal: return 20 // 纵向火箭
+return levelRandom.Next(0, 2) == 1 ? 20 : 30</code></pre>
+<p><strong>例子：</strong>假设按对应策略算出的横向贡献为“0、4、0、3、0”，总分7；纵向为“2、0、0、1、2”，总分5，就返回横向火箭30。把纵向总分改为8，才返回20；两边都是7时进入随机。示意贡献值只用于算清流程，真实物体仍走各自评分与状态规则。</p>
+<p>横函数从该行x=0的格子沿右邻居累加；纵函数从该列y=0的格子沿上邻居累加。原指令中两次<code>GetScore</code>的策略参数分别为2和1。候选是否受覆盖物或机关修正，发生在评分链中；数障碍数量不等于执行这段算法。</p>
+<p class="flow-note">静态证据：<code>SelectSmartRocket 0x20EDA34</code>、<code>CalculateHorizontalRocketScore 0x20EDAF4</code>、<code>CalculateVerticalRocketScore 0x20EDB94</code>。<a href="../assets/evidence/board-algorithms/manifest.json">查看原字节快照与方法清单</a>。代码比较已经确认，完整物体评分与所有生成入口的适用范围仍需逐项核对。</p>
+</section>

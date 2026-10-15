@@ -2,6 +2,7 @@
 """Render the overview, current report pages and player-experience algorithm pages."""
 
 from html import escape
+from hashlib import sha256
 import json
 from pathlib import Path
 import sys
@@ -10,6 +11,7 @@ from report_sections import Tree, preserved_chapters
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
+CSS_VERSION = sha256((ROOT / 'site/assets/site.css').read_bytes()).hexdigest()[:10]
 sys.path.insert(0, str(ROOT / "content"))
 from topics import GROUPS, TOPICS  # noqa: E402
 
@@ -126,6 +128,8 @@ def extras(topic):
             for key, title in LEVEL_LINKS) + '</nav>'
     if key == 'level-pressure':
         return level_page_content('level-pressure')
+    if key == 'fall-rules':
+        return (ROOT / 'content/board-algorithms.html').read_text()
     if key == 'obstacle-rules':
         return (ROOT / 'content/booster-targeting.html').read_text()
     if key == 'propeller-targeting':
@@ -136,7 +140,8 @@ def extras(topic):
                 '<a href="obstacle-rules.html"><b>道具寻优：目标选择与通关收益</b>'
                 '<span>阅读选点步骤、箱子与拳击手套评分、四个具体局面和组合胜利检查 →</span></a></nav>')
     if key == 'smart-rocket':
-        return ('<div class="rocket-demo"><h5>方向规则演示</h5>'
+        return ((ROOT / 'content/smart-rocket-code.html').read_text() +
+                '<div class="rocket-demo"><h5>方向规则演示</h5>'
                 '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
                 '<div class="rocket-inputs"><label for="rocket-horizontal">横向总分 '
                 '<input id="rocket-horizontal" type="number" value="12" step="1"></label>'
@@ -319,7 +324,7 @@ def reader_page(key, title, summary, body, related='', comparisons='', status=No
     availability = (f'<span class="availability {e(status)}">{e(STATUS[status])}</span>' if status else '')
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v={CSS_VERSION}"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
@@ -368,7 +373,7 @@ def render_recovery_report():
     links = ''.join(f'<a href="../{e(topic_url(t["key"]))}">{e(t["title"])}</a>' for t in TOPICS if t['group'] == 'replication-core')
     links += ''.join(f'<a href="../topics/{e(key)}.html">{e(title)}</a>' for key, title in LEVEL_LINKS)
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>玩法与客户端内容 · Royal Match</title><link rel="stylesheet" href="../assets/site.css">
+<title>玩法与客户端内容 · Royal Match</title><link rel="stylesheet" href="../assets/site.css?v={CSS_VERSION}">
 <script defer src="../assets/legacy-report-routes.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><a class="header-back" href="../index.html">← 返回内容总览</a><h1>玩法与客户端内容</h1></div></header>
 <main class="article-wrap">{spans}<nav class="reading-links" aria-label="独立内容页面">{links}</nav></main></body></html>'''
@@ -399,7 +404,7 @@ def render_site():
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Royal Match客户端规则与玩家体验解读：棋盘、飞机目标、智能火箭、补棋、活动与商业化，逐项比较人工／实机能力与解包带来的新增信息。">
 <title>Royal Match · 玩法、体验算法与研发可得性</title>
-<link rel="stylesheet" href="assets/site.css"><script defer src="assets/overview-links.js"></script>
+<link rel="stylesheet" href="assets/site.css?v={CSS_VERSION}"><script defer src="assets/overview-links.js"></script>
 </head><body>
 <header><div class="header-inner"><div><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <h1>从具体内容，读懂游戏规则</h1><p>三消玩法、外围 Meta 与商业化的统一结论。点击内容名称，进入独立报告页，阅读机制、体验影响、数据与证据。</p></div>

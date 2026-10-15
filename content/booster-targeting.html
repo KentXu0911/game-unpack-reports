@@ -9,6 +9,20 @@
 <li><strong>检查这个格子还需不需要命中。</strong>还需要的命中数小于等于0，就移出这一组、继续挑；等于1时，这次可以选它，但会先把它从当前候选列表移除；大于1则保留。当前组没有可用格后，再看下一组。</li>
 <li><strong>处理重定向，登记在途攻击。</strong>候选格可能把攻击交给另一个有效目标。选定后会登记一发即将到来的攻击，供后续飞机判断；飞行过程中还有目标有效性检查。</li>
 </ol>
+<p class="flow-note">下面是普通飞机首次单格选点的核心伪代码，依据原ARM64整理，省略异常处理与已有目标重选分支；不是原始C#源码。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="普通飞机高分组内选择伪代码"><code>groups = 按评分从高到低排列的候选列表
+for list in groups:
+    while list.Count &gt; 0:
+        index = levelRandom.Next(0, list.Count)
+        if list[index]是出发格 and list.Count &gt;= 2:
+            index = (index == 0) ? 1 : index - 1
+        cell = list[index]
+        hits = cell.RemainingExplodeCount()
+        if hits &lt;= 1: list.RemoveAt(index)
+        if hits &lt; 1: continue
+        return cell.TryRedirect(本次攻击, 其他选项)
+// 外层取得目标后，调用AddIncomingExploder登记在途攻击</code></pre>
+<p><strong>读这段代码：</strong>随机只决定当前评分组里先试谁；失效候选会被跳过。剩余命中等于1的候选这次仍可被选，只是先移出当前列表；不能把“移出列表”误读成“这次不打它”。<small>［P1、P2］</small></p>
 <div class="flow" aria-label="普通飞机选点流程"><span>过滤格子</span><b>→</b><span>按当前状态评分</span><b>→</b><span>高分组优先</span><b>→</b><span>组内随机、检查剩余命中</span><b>→</b><span>重定向与登记攻击</span></div>
 <p>这是普通飞机首次选点的主要路径。已有目标的重选还有保留原目标的分支；飞机与火箭、TNT组合时，会先进入不同的范围选择流程。</p>
 </section>
@@ -40,6 +54,53 @@
 <h4>例4：一个箱子堵着通道，另一个箱子在开阔区域</h4>
 <p>假设两格在已计算的分数和候选条件上相同，当前单格选择就仍然在同分组中随机。它不会在这个挑选步骤再模拟“清掉通道后，未来几手能掉下多少棋、再造出什么道具”。</p>
 <p>【设计解读】玩家可能看重打开通道后带来的后续机会，而程序当前这次攻击的评分未必区分这两个局面。是否真的少用步数，需要结合具体棋盘、后续补棋和操作验证，不能从同分随机本身推算胜率损失。</p>
+</section>
+
+<section aria-labelledby="target-refresh">
+<h3 id="target-refresh">飞行途中会不会改目标：检查有效性，不是一直追逐全盘最高分</h3>
+<p><code>IsTargetValid</code>会根据本次攻击类型询问当前目标是否仍有效，再检查失效标记。下面是<strong>已有目标</strong>时的主要分支；缺失目标的诊断路径省略。它说明检查被调用时怎样决定，不代表已经测出每架飞机每帧的调用频率。<small>［P7］</small></p>
+<pre class="algorithm-code" tabindex="0" aria-label="飞行中目标有效性与重选伪代码"><code>if forceCellAsTarget: return true
+
+if TargetItem.IsValidTarget(本次攻击类型) and not invalidateTarget:
+    LastValidCell = TargetItem.GetCell()
+    return true
+
+invalidateTarget = false
+if stoppedLookingForNewTargets:
+    return true  // 此状态保留当前处理，不再调用FindNewTarget
+return FindNewTarget()</code></pre>
+<p><strong>例1：</strong>飞机正飞向箱子A，旁边刚出现一个评分更高的B。只要A仍有效、未被标记失效，这段检查就保留A；这里没有“再扫一遍全盘、发现B更高分就转弯”的步骤。</p>
+<p><strong>例2：</strong>A被其他爆炸清掉，目标接口变为无效，且还允许继续找目标，才进入重选路径。重选会处理旧的在途登记，再找新目标；未找到目标时另有自爆或取消移动等分支，不能承诺任何失效都一定成功改打别处。</p>
+<p>还有强制重选入口。<code>ForceTargetChangeOnce</code>先检查是否已重定向过；使用<code>OnlyIfZero</code>策略时，还要求原目标评分为0。满足条件后设置失效／重定向标记、重新允许找目标，并取消强制格子目标状态。Default与OnlyIfZero不能混成一条“有更好目标就换”的规则。</p>
+<pre class="algorithm-code" tabindex="0" aria-label="只允许一次强制重选的条件伪代码"><code>ForceTargetChangeOnce():
+    if redirectedOnce: return
+    if strategy == OnlyIfZero and not TargetHasZeroScore():
+        return
+    redirectedOnce = true
+    stoppedLookingForNewTargets = false
+    invalidateTarget = true
+    forceCellAsTarget = false</code></pre>
+<p>这些入口与条件有原字节依据；全部触发通知来自哪些障碍、各飞行阶段何时停止重选，以及跨组合调用的完整频率，仍需继续追踪。代码支持的是<strong>有条件更新目标</strong>，不能写成“实时无限寻优”。</p>
+</section>
+
+<section aria-labelledby="booster-coordination">
+<h3 id="booster-coordination">多架飞机怎样协同：先登记还没命中的攻击，再算还缺几下</h3>
+<p>普通箱子继承的基类规则可以直接写成减法。<code>RemainingExplodeCount</code>读取当前层数，再减去在途攻击容器的计数；选点成功后的登记会影响后续读取。它是在协调尚未发生的命中，不是把所有飞机分配给全盘的统一最优求解。<small>［P4］</small></p>
+<pre class="algorithm-code" tabindex="0" aria-label="普通箱子的在途攻击扣减伪代码"><code>// ItemModel.RemainingExplodeCount，普通箱子沿用
+remaining = layerCount - incoming.GetIncomingCount()
+return remaining
+
+// 后续单格候选检查
+if remaining &lt; 1:
+    跳过这个候选
+else:
+    可以进入重定向与选定流程</code></pre>
+<div class="data-scroll" tabindex="0" role="region" aria-label="多架飞机先后选择同一箱子的例子"><table><thead><tr><th>普通箱子当前状态</th><th>后续选择读到的剩余命中</th><th>这个候选怎样处理</th></tr></thead><tbody>
+<tr><td>1层，已有1发在途</td><td>1−1＝0</td><td>跳过，避免再预订一次已够用的命中</td></tr>
+<tr><td>3层，已有1发在途</td><td>3−1＝2</td><td>仍可选择同一箱子</td></tr>
+<tr><td>3层，已有2发在途</td><td>3−2＝1</td><td>可选；在当前候选列表里移除，防止继续从该列表重复取它</td></tr>
+</tbody></table></div>
+<p>这些例子限定普通箱子的基础计数路径，并假设登记已经生效、没有其他状态变化。特殊物体、覆盖层和范围组合的计数／登记各有实现，不能据此保证所有道具绝不重复或浪费。棋盘的Current／Next／Target登记负责移动，本文的incoming登记负责攻击，两者用途不同。</p>
 </section>
 
 <section aria-labelledby="task-value">
@@ -81,6 +142,19 @@
 <p>【设计解读】这种做法可以让道具更常命中有用位置，同时保留同分随机；代价是玩家心中“最该打的格子”，未必在评分中独占最高优先级。一层与三层箱子同分，就是可以具体解释的例子。要判断它比人工选点好多少，需要在同一批棋盘上比较后续操作与结果；目前没有这样的胜率或节省步数数据。</p>
 </section>
 
+<section aria-labelledby="targeting-experience">
+<h3 id="targeting-experience">为什么有时感觉它“懂我”，有时又像选错了</h3>
+<p>【体验解读】这里把代码规则与玩家可能关注的结果对应起来；它不是玩家调研或原版胜率统计。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="道具选择与玩家预期的对应"><table><thead><tr><th>玩家期望</th><th>代码怎样处理</th><th>可能看到的结果</th></tr></thead><tbody>
+<tr><td>“这一下正好帮我收尾”</td><td>拳击手套最后命中加分；部分组合先查当前能否完成目标</td><td>在这些分支中，落点更贴近收尾需求</td></tr>
+<tr><td>“别打已经够了的目标”</td><td>在途登记扣减剩余命中，零以下跳过</td><td>普通箱子场景可减少无效追加攻击；多层目标仍可能连续被打</td></tr>
+<tr><td>“先打马上能清掉的那个箱子”</td><td>1层和3层普通箱子基础分相同</td><td>同分随机可能与玩家偏好相反</td></tr>
+<tr><td>“局面变好了，快转去新目标”</td><td>目标仍有效时保留，重选与强制更新受状态约束</td><td>并非随时追着新最高分移动；飞行意图也更容易持续辨认</td></tr>
+<tr><td>“帮我打开通道，方便后面几手”</td><td>本页选点未展开未来多手及补棋结果的通关搜索</td><td>当前评分高，不代表未来最省步数</td></tr>
+</tbody></table></div>
+<p>要衡量“道具体验精准度”，还需要在同一批具体棋盘上记录：候选是否合法、是否命中玩家预期的关键目标、有效任务减量，以及是否发生无效追加攻击。现在能解释选择原因与局部收益，尚不能给出这类实测比例。</p>
+</section>
+
 <section aria-labelledby="hit-result">
 <h3 id="hit-result">选中了目标，还要按它自己的受击规则结算</h3>
 <p>目标评分决定先考虑哪里，受击规则决定到达后发生什么。普通箱子命中后扣一层，剩余层数非零时受伤，到零才清除；彩箱还要检查攻击来源和颜色条件。道具能否选中、飞机能否伤害、是否阻挡，以及组合是否转向，是不同的条件，不能只看其中一个返回值。</p>
@@ -95,6 +169,7 @@
 <tr><td>P3</td><td><code>ItemModel.GetExplodeScore 0x338496C</code><br><code>ItemExtensions.ExplodeScore 0x3384988</code><br><code>Box.get_ItemType 0x2A65B1C</code><br><code>BoxingGlove.GetExplodeScore 0x2A67954</code></td><td>Box继承基础评分，ItemType为6；小端int32表地址0x3F092EC的第6项为456976；拳击手套剩余命中等于1取0x94C15，否则0x6F910。</td></tr>
 <tr><td>P4</td><td><code>ItemModel.RemainingExplodeCount 0x338C910</code><br><code>ExplodeTargetMediator.RemainingExplodeCount 0x2ACF600</code><br><code>AddIncomingExploder 0x2ACF800</code></td><td>普通物体层数减GetIncomingCount；格子汇总有独立路径，选点后登记攻击。多格与特殊物体不可一律套用普通箱子公式。</td></tr>
 <tr><td>P5</td><td><code>CalculateScoreForMatchItem 0x1E916F4</code><br><code>MatchItem.GetExplodeScore 0x1E92AD8</code><br><code>ExplodeTargetMediator.GetScore 0x2ACF1E4</code></td><td>读取目标剩余量与机关状态；叠加或替换局部分值；缓存与阻挡修正。没有完整的全物体、全状态最终分值表。</td></tr>
+<tr><td>P7</td><td><code>IsTargetValid 0x26A1BDC</code><br><code>FindNewTarget 0x26A1E14</code><br><code>ForceTargetChangeOnce 0x26A4854</code></td><td>目标有效／失效、停止寻找、强制格子目标与一次重定向条件；0xF4／0xF5／0xF6／0x108字段由元数据配对。完整通知来源和调用频率仍待核对。</td></tr>
 <tr><td>P6</td><td><code>FindHighestColumnScore 0x20F38D0</code><br><code>FindHighestRowScore 0x20F4C70</code><br><code>FindHighestScoreForAreaExploder 0x20EFF70</code><br><code>WinCalculationData.IsWinningByHitCells 0x26A8168</code></td><td>行列／范围的专用评分修正与当前胜利检查；列路径0x20F4838–0x20F4880先判断winningColumnsOrRows再回退评分。完整特殊目标仍待验证。</td></tr>
 </tbody></table></div>
 <p><a href="../assets/evidence/propeller-selection/manifest.json">读取原始字节哈希、方法清单与分值表快照JSON</a>。快照列出对应汇编文件，可按地址复核。</p>

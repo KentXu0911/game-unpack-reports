@@ -1,0 +1,473 @@
+{
+  "sample": "Royal Match build 38174, ARM64",
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methodIndexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "boundary": "Next distinct metadata start; linear snapshots do not establish complete CFG or exception cleanup. Instruction bytes verified against original ELF PT_LOAD segments.",
+  "methods": [
+    {
+      "address": "0x1378824",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchGroup$$CanAutoExplode"
+      ],
+      "end": "0x13788a4",
+      "sha256": "1bebc2b00441598357cbdc84dd06ae4aada505f27814ef9ae70fd5e22fd38793",
+      "file": "01378824.s",
+      "listingSha256": "2b77a9de27ff490f3a73dd349ac938802872c57846e36d948585d994357998ed"
+    },
+    {
+      "address": "0x13788a4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchGroup$$AllCellsReadyForExplode"
+      ],
+      "end": "0x1378c34",
+      "sha256": "1b6dd48288f8111a697b8148f2b2205b95d6c4bcaefbbaa9c3c1e1e55155aa39",
+      "file": "013788a4.s",
+      "listingSha256": "8d9ef315f1bf09af38d077e3dcb6a452424ec1b9b24a2234a7e9b72e6d57dfd7"
+    },
+    {
+      "address": "0x137a290",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$FindAllMatches"
+      ],
+      "end": "0x137a2b4",
+      "sha256": "4ab0ee50c9aa0576e932297f884023551923d49e87bc774bfa697424e1368d03",
+      "file": "0137a290.s",
+      "listingSha256": "63c87b386a708075912f8ed008db382408728db66746aeebf0b86dab0e9edb20"
+    },
+    {
+      "address": "0x137a888",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$IsValidToPatternSearch"
+      ],
+      "end": "0x137aaa0",
+      "sha256": "04850a6d7e608d7d3708fbd364632ef950f13834248d44807a2031b512332104",
+      "file": "0137a888.s",
+      "listingSha256": "2f953458ed55b5b0022211b387126e511c22e170e1f84e2b8d5b4937e923c44e"
+    },
+    {
+      "address": "0x137aaa0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$FindThreeMatchesAndPropellersForCell"
+      ],
+      "end": "0x137ae2c",
+      "sha256": "0669edccf93a23620e1c5f79d7bdf3cab817bfeeb2e037d2995ce9d940469cec",
+      "file": "0137aaa0.s",
+      "listingSha256": "a794cfbd5493ff465b3fd70a93a29c416da814a3447e3d5b47666f36f1d4ab0b"
+    },
+    {
+      "address": "0x137ae2c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$CreateMatchesFromThrees"
+      ],
+      "end": "0x137b754",
+      "sha256": "15895eca9b7cd4ec2e3c01d9282eaa281b7ccb2e12845d6d6500cc1ca8ebcb8e",
+      "file": "0137ae2c.s",
+      "listingSha256": "20e1967330ed5631c2da31da03132462d5549742a0db2d3d4955f555d619d884"
+    },
+    {
+      "address": "0x137b754",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$IsFallStateValidForMatch"
+      ],
+      "end": "0x137b794",
+      "sha256": "6b80b2a185122fc65688dbef1e893ec4e556e007e91582bf19306449e175959d",
+      "file": "0137b754.s",
+      "listingSha256": "0c294d22b1ae796c04e9b0b0255de1a9463407a982f19e0b1909a360b3093d84"
+    },
+    {
+      "address": "0x137b8cc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$SortPossibleMatchGroups"
+      ],
+      "end": "0x137b9f8",
+      "sha256": "d1f41275e1f73a510ae4ba0cb351eb9d9de02ee3e0514c925d7ba8aed3c0d618",
+      "file": "0137b8cc.s",
+      "listingSha256": "e013bffdae1a6d3e7a7f806a2538e89c4879fcf80ccf7258cc9d2755d27b5696"
+    },
+    {
+      "address": "0x137b9f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$CreateAndAddMatchGroup"
+      ],
+      "end": "0x137bd08",
+      "sha256": "d2971dc7cf25dbde4d448b9def9b527bf3b60d4ab004295059397b45d5248235",
+      "file": "0137b9f8.s",
+      "listingSha256": "740015d6f41f120cf741ea42f4bd3e8899b032cf105004240a9d0a635a0248d2"
+    },
+    {
+      "address": "0x137bd08",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchManager$$FindAndProcessExtensionCandidates"
+      ],
+      "end": "0x137c30c",
+      "sha256": "1413a6188526b842fd4798d470af87fe11742334f812eb30527280f2e671b8bc",
+      "file": "0137bd08.s",
+      "listingSha256": "4f480e0bc7fbeace72c7528139c4709ea1334499d72bdf95353675fa72912e10"
+    },
+    {
+      "address": "0x1e92f0c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemModel$$IsReadyForAutoExplode"
+      ],
+      "end": "0x1e92fd8",
+      "sha256": "a334be11e06c708a7570f1797a7aa59c755b3ac5edb5d63d035cfa0425967731",
+      "file": "01e92f0c.s",
+      "listingSha256": "23abe9bef4f0e6a945eb0d69babd0097337aafe334e5240e889c661d69e2282a"
+    },
+    {
+      "address": "0x1e92fd8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemModel$$ShouldWaitForFallingMatchItems"
+      ],
+      "end": "0x1e931f8",
+      "sha256": "9aea7812a18c1324a60bbe98df7c5f4aa5269e7cda309cd50fded51838e9f52f",
+      "file": "01e92fd8.s",
+      "listingSha256": "66033e488063a9d7e373a9da03349d58e6da6e7cd9d5dcd9b3c844982003d2ed"
+    },
+    {
+      "address": "0x20ed080",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.ItemCreation.SpecialItemCreator$$PatternToTiledId"
+      ],
+      "end": "0x20ed0a4",
+      "sha256": "57bf334cbedfa3fd344194eac328f39946ef00be3266eda7e44258794cd61d40",
+      "file": "020ed080.s",
+      "listingSha256": "6f08ca31e8de3d3cc38a5e80b19f1587227ced5319acd862298e6cef16abf4fb"
+    },
+    {
+      "address": "0x20eda34",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.ItemCreation.SpecialItemCreator$$SelectSmartRocket"
+      ],
+      "end": "0x20edaf4",
+      "sha256": "f5fb9e81cd171f08e8b61c76c294bd0ebade3fb68e3ed085d3c2a5526e8f0528",
+      "file": "020eda34.s",
+      "listingSha256": "ab7d6d5699b5948b304890bea52eb6705066ec3db3475c5bc824ee476b83a24e"
+    },
+    {
+      "address": "0x20edaf4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.ItemCreation.SpecialItemCreator$$CalculateHorizontalRocketScore"
+      ],
+      "end": "0x20edb94",
+      "sha256": "321369c4dcb7dfc1c5b34d7f7ed9dbaa82e16addef68df5c76bb735b13174d44",
+      "file": "020edaf4.s",
+      "listingSha256": "af53e0bd3e928fb2c16f4bf2520b3ec9901c3f6531fea514c8a60969f2d76d81"
+    },
+    {
+      "address": "0x20edb94",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.ItemCreation.SpecialItemCreator$$CalculateVerticalRocketScore"
+      ],
+      "end": "0x20edc44",
+      "sha256": "4bfc5364acb567f9d435007c8ef486cf55f50c55dc5bc9824a3edc6cf099cf88",
+      "file": "020edb94.s",
+      "listingSha256": "c302d089f8a2a22c21a0e3acdf1ae58ab915f879eccebc45cab399e3e6641cdd"
+    },
+    {
+      "address": "0x20ee59c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.AutoExplodeManager$$ManualUpdate"
+      ],
+      "end": "0x20ee648",
+      "sha256": "26614db7044efcf39b0123c03316bf73a2d1cc14942f6dc2f1a25004c8cc213b",
+      "file": "020ee59c.s",
+      "listingSha256": "a81b60d486a395b97a4b1767bf6698ddf74ce475b4736edc46aac8ae3997fdab"
+    },
+    {
+      "address": "0x20ee648",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.AutoExplodeManager$$DestroyAllMatches"
+      ],
+      "end": "0x20ee7ec",
+      "sha256": "dd2c460a2bac244544e068812a316e8bb215f0d794beef15ed458c0a9cadbff9",
+      "file": "020ee648.s",
+      "listingSha256": "73cfc559ef5966186868ffad93d725d4b3f7f5eb5163122f835fb98802ae589c"
+    },
+    {
+      "address": "0x2752e84",
+      "names": [
+        "Royal.Scenes.Game.Levels.LevelContext$$.ctor"
+      ],
+      "end": "0x27536c8",
+      "sha256": "104d058663b6019df941d8c3930bb8c1dde4a855dc40ff41cf022bbb2b4f031b",
+      "file": "02752e84.s",
+      "listingSha256": "ba4886879a73daa34e2200355f3aeed17b0f5fc07534acc11208d476055d82f2"
+    },
+    {
+      "address": "0x2755b48",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager$$StartChangingBoard"
+      ],
+      "end": "0x2755f18",
+      "sha256": "a24ef848a6b03c675b91764132ce1361eddc5ce0379ded90786cc4a8ab17754f",
+      "file": "02755b48.s",
+      "listingSha256": "2bb5bcf7100e675cd669a04772c1c89caa9399a906c6bcb86702ba5039c4b492"
+    },
+    {
+      "address": "0x2756448",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.BoardManager$$ChangeBoard"
+      ],
+      "end": "0x2756574",
+      "sha256": "863431054b4c56aae5aa481080ef62890a50ffe3b28d421b5e1caf031450c053",
+      "file": "02756448.s",
+      "listingSha256": "1a9e2e86bf9bc0500eeafc5f7468c0746913a822ec4a3f92477765a9a83439a1"
+    },
+    {
+      "address": "0x275831c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.CellGridManager$$GetFirstNormalBelow"
+      ],
+      "end": "0x27583cc",
+      "sha256": "4c25b383f816b8a8f43de02941d2df1538bfe21371c8febbef8d4e10228b9039",
+      "file": "0275831c.s",
+      "listingSha256": "04bec7b5116003d74920e28fd06e320d33c254ef55dcd1348735f6a57ad49a3a"
+    },
+    {
+      "address": "0x2a2b278",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$ManualUpdate"
+      ],
+      "end": "0x2a2b574",
+      "sha256": "64c5cdb31df291e1e9c24e6e77ae8e6c61e0dd86d5c1aea9c4b3592dcc5bd435",
+      "file": "02a2b278.s",
+      "listingSha256": "932e5cd4efb83a30e24ab89a26f0a848bb243e961012cf5cd8277d78309ba8ce"
+    },
+    {
+      "address": "0x2a2b5b8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$ClearTargetItems"
+      ],
+      "end": "0x2a2b650",
+      "sha256": "35ba9c5e0d97d0c4b4bbcdd564d4ca372d2b9ef08537c811e1734a30066e21cd",
+      "file": "02a2b5b8.s",
+      "listingSha256": "21e88e5035f3456eb24a9082f99b91c8bd18bd4a361cfd63290d3548e670422b"
+    },
+    {
+      "address": "0x2a2b650",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$CalculateStraightFalls"
+      ],
+      "end": "0x2a2b6ec",
+      "sha256": "fb08b0ddd9c36ad9ec9eb37b8764df0da3566ddd85d3ffe253f3e8743774d920",
+      "file": "02a2b650.s",
+      "listingSha256": "de4c33bad134f6270366949e50b9c125a1557d1439bef479f2b46615f479746b"
+    },
+    {
+      "address": "0x2a2b6ec",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$CalculateCrossFalls"
+      ],
+      "end": "0x2a2b77c",
+      "sha256": "c0e65f3f130972052344d4870bcf8be764dc9f0f4ed00983127638b21d4d1577",
+      "file": "02a2b6ec.s",
+      "listingSha256": "f6209013e22343cfed8af48512a24db0921744d6abffb74d2c9feefd865857eb"
+    },
+    {
+      "address": "0x2a2b77c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$CallFallUpdates"
+      ],
+      "end": "0x2a2b944",
+      "sha256": "1d86c290c3b13d82f29abf52a2aa3e37c69fed9854ea2457019da3e18a576417",
+      "file": "02a2b77c.s",
+      "listingSha256": "9349451c2deb9089f557c1d24c1b06d2ee2a626b76b37dbe1e35812ce4e1ea70"
+    },
+    {
+      "address": "0x2a2ba0c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$FindTargetItemOrFillingCell"
+      ],
+      "end": "0x2a2be94",
+      "sha256": "982f66f119681c1fd322d44586d2c3127a8873ae0fe2279a978fe60a3d0a2512",
+      "file": "02a2ba0c.s",
+      "listingSha256": "90d4f7eaa78c2fdcf8a3ffd09e4e0668d20ce232886b55c976807d92990789d7"
+    },
+    {
+      "address": "0x2a2be94",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$CreateItemFromFillingCell"
+      ],
+      "end": "0x2a2c058",
+      "sha256": "759fa50a4813b120271989684a3a59b59ab32401543c04ebf38f54faaba8f65a",
+      "file": "02a2be94.s",
+      "listingSha256": "cb0eb85ec20ac98cbc59dceca79d7b565a75b62a78df79eb30660e6c098e052f"
+    },
+    {
+      "address": "0x2a2c058",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$FindCrossItem"
+      ],
+      "end": "0x2a2c190",
+      "sha256": "e05ecd7b86a3f3e3caca75c9e954a8b1d1d6ae1312ce255c55c65b3998f1ea50",
+      "file": "02a2c058.s",
+      "listingSha256": "24934ce7500a0fbed20c250252c2303a9a0fad22d0e5e1dad2f9bbc7ef916451"
+    },
+    {
+      "address": "0x2a2c1b4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$GetNextItemOfCell"
+      ],
+      "end": "0x2a2c26c",
+      "sha256": "6730fa53c692b01622fa2a19fdcbf64cdbdedd5d8ffe007fa63e59ffc380ad04",
+      "file": "02a2c1b4.s",
+      "listingSha256": "0961f12c7ad8f7e1d3b347c5c89631e4e155fa537b119fead7c6fe8c107c442d"
+    },
+    {
+      "address": "0x2a2c26c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$IsFallPossibleFromCellToCell"
+      ],
+      "end": "0x2a2c2f8",
+      "sha256": "43ab25083398861b9d3ee99985d750c3be465c2564e4e25dfd95ead3ca1c7791",
+      "file": "02a2c26c.s",
+      "listingSha256": "f5acf5e8811eabc2f809a6c85f54b5e121c365cfbc54d2ada64e5e4d1e0f9a51"
+    },
+    {
+      "address": "0x2a2c350",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$ShouldFindCross"
+      ],
+      "end": "0x2a2c6a8",
+      "sha256": "4c2072fbd4f080e1782a2af001dbffc89f888a6b8295d59f90e57318ffdfab44",
+      "file": "02a2c350.s",
+      "listingSha256": "04e7009cefc2fe4ffa578e92db251fba93b67babeaf9a868eb4fe208360b7b11"
+    },
+    {
+      "address": "0x2a2c6a8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$IsCellTargetedByMultipleFallableItem"
+      ],
+      "end": "0x2a2c73c",
+      "sha256": "df49a4db9b31096ef207a91ac8dd6b1dab25e72b45d20b4228893f62eb36d622",
+      "file": "02a2c6a8.s",
+      "listingSha256": "27515105b1d2218e08f06feb215310afa8ecba832df3a302b171ab1990c13bae"
+    },
+    {
+      "address": "0x2a2c73c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$AddToCrossVisitCells"
+      ],
+      "end": "0x2a2c7f8",
+      "sha256": "0f06732220f2a7f2f685381aa0ab39bc8e6835c979846054bd02ba6bf722337d",
+      "file": "02a2c73c.s",
+      "listingSha256": "f80a9d7f4283cd1fd413331482ee2cbbaf81673f0773440fdfa5e29e6896b960"
+    },
+    {
+      "address": "0x2a2c7f8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$FindCrossItemInLeftOrRightColumn"
+      ],
+      "end": "0x2a2c918",
+      "sha256": "0e587c99d410a8361a21a858d674593cef2b2ceaa8941bf2bd89f0c1470d8be8",
+      "file": "02a2c7f8.s",
+      "listingSha256": "e5848f2fc09f499fceb7e30fe424fef976f6cdeec87ea2547c5aa50e468620da"
+    },
+    {
+      "address": "0x2a2c918",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.FallManager$$FindTargetItemFromCrossCell"
+      ],
+      "end": "0x2a2cb14",
+      "sha256": "1d51d77dabb75d1e42f609e92ce670c4ca715b2f694fbbf0c16795e86b80b3f1",
+      "file": "02a2c918.s",
+      "listingSha256": "9b72d8399653c524a287febcdd7ea5b4317a06cb5fde29639309643b83533199"
+    },
+    {
+      "address": "0x2a376a4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Touch.SwapAction$$ShouldPlaySwapAnimation"
+      ],
+      "end": "0x2a37b68",
+      "sha256": "60f78c3e093c066da5cfd9968e2a6f006d58119a210846fa24582491e0b3969b",
+      "file": "02a376a4.s",
+      "listingSha256": "75b97716c39b60de5decb6186e1031aeb10f88116ab77928e717b53e683cd296"
+    },
+    {
+      "address": "0x2a3b618",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Touch.SwapAction$$SetAllItems"
+      ],
+      "end": "0x2a3b670",
+      "sha256": "c0ee9c13812b4c92482b62d1cec7252a9694fdd36eadebacfe5a6fb764ddd2f7",
+      "file": "02a3b618.s",
+      "listingSha256": "dd11bb76b5bb1200240dd6cbacd38c7505046cb0bf7a255e741c42872266fb9b"
+    },
+    {
+      "address": "0x2ac9b9c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.CellModel$$FreezeFall"
+      ],
+      "end": "0x2ac9bcc",
+      "sha256": "2ca7f2a33ba333872ce172d6f22d31a273f12896846071add33d64f8336832d5",
+      "file": "02ac9b9c.s",
+      "listingSha256": "c1b665d9bca48fb9efaeec7a04838f0e251a3aca4261a35b6339ec9222b6dc27"
+    },
+    {
+      "address": "0x2ac9bcc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.CellModel$$UnFreezeFall"
+      ],
+      "end": "0x2ac9ca8",
+      "sha256": "a5141275f3c60fff77f14fd358f4719bd68616ea88e4034a10db3febf65a9954",
+      "file": "02ac9bcc.s",
+      "listingSha256": "deb3c4cfbbd2d3a40972ee884372e1ccbad7cdf0cbe957d18002b8b01d3522c9"
+    },
+    {
+      "address": "0x2ac9d1c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.CellModel$$IsFallFrozen"
+      ],
+      "end": "0x2ac9d2c",
+      "sha256": "453bbe54b7f3e0ff590759151d9416a203148dc01e4f2e480c3890b73b256ceb",
+      "file": "02ac9d1c.s",
+      "listingSha256": "13a3550e142260e660dc46997687f5d88a7da68e80fa043d5b6849417ac37f1d"
+    },
+    {
+      "address": "0x3dee708",
+      "names": [
+        "Royal.Infrastructure.Contexts.ContextContainer<object>$$ManualUpdate"
+      ],
+      "end": "0x3dee804",
+      "sha256": "53c8ab5013d9981c117d7b43c8bd38a86e5c2aee465423e84b48f7818fa5f3d4",
+      "file": "03dee708.s",
+      "listingSha256": "432b7391b555ee252bc4f8aeeac0aa4e870d6abd85d852dba78960934b81ce21"
+    }
+  ],
+  "metadata": {
+    "file": "metadata-excerpts.json",
+    "sha256": "e146cd20ddcfd87695a49481518b168535c1cf8279b69d93a4b2f5b27d210b41"
+  },
+  "patternToTiledId": {
+    "address": "0x3ef395c",
+    "encoding": "6 little-endian signed int32, index PatternType - 2",
+    "values": [
+      10,
+      20,
+      30,
+      40,
+      40,
+      50
+    ],
+    "rawHex": "0a000000140000001e000000280000002800000032000000",
+    "sha256": "05d2211acc56d92242bbca3ad2669de3c94977b060995986868484e09d74f601"
+  },
+  "outOfSpanContinuation": {
+    "caller": "0x1e93004",
+    "address": "0x1e99a0c",
+    "length": 8,
+    "file": "01e99a0c-continuation.s",
+    "rawHex": "b5de47f97ee5ff17",
+    "sha256": "73a073fb62cb1e8432864b14b4ddf83b60f2c3d6872cd8311ff85a8cdda3e4ed",
+    "listingSha256": "4805eeae0d7492fb811721e82890583959c9b081b3dd1bcbba850b219ec5808e"
+  },
+  "vtableResolution": {
+    "callsite": "0x2a2c87c",
+    "loadOffset": "0x558",
+    "vtableOffset": "0x138",
+    "slot": 66,
+    "metadataMethod": "ItemModel.IsSpecialItem"
+  },
+  "scope": "Static evidence. Pseudocode is a readable reconstruction; examples are constructed boards, not original gameplay records."
+}

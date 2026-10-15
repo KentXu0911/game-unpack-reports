@@ -1,0 +1,5 @@
+{
+  "dumpSha256": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+  "patternType": "public enum PatternType // TypeDefIndex: 7957\n{\n\t// Fields\n\tpublic int value__; // 0x0\n\tpublic const PatternType None = 0;\n\tpublic const PatternType Simple = 1;\n\tpublic const PatternType Propeller = 2;\n\tpublic const PatternType VerticalRocket = 3;\n\tpublic const PatternType HorizontalRocket = 4;\n\tpublic const PatternType TShaped = 5;\n\tpublic const PatternType LShaped = 6;\n\tpublic const PatternType Lightball = 7;\n}\n",
+  "specialItemSlot": "// RVA: 0x338CEFC Offset: 0x338CEFC VA: 0x338CEFC Slot: 66\n\tpublic virtual bool IsSpecialItem() { }\n\n\t"
+}

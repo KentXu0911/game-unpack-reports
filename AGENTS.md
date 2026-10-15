@@ -16,6 +16,7 @@
 - 初始棋盘中的障碍登场统计源为 `content/level-progression.json`，可用 `scripts/extract_level_progression.py --source-root ../royal-match-apk-audit-38174` 只读复算；CI只消费仓库内快照。每类每关只计一次，首现间隔按不同关卡去重；模型族数不等于独立机制数，初始配置不涵盖运行时生成。
 - 初始棋盘主页面用卡片进入六个独立内容页：`level-examples.html`、`tile-codes.html`、`obstacle-progression.html`、`obstacle-first-seen.html`、`level-pressure.html`、`level-rhythm.html`，不能用页内滚动替代。完整配置曲线、七轴、尾号与19项首现压力源保存在 `content/level-difficulty.html`；分别渲染到曲线页和尾号页。旧报告 `#curve`、`#colleague` 跳转到独立页。压力模型空颜色池按4色回退；所有轴截断到0–1。障碍分类直接说明玩家要处理的事情，页面不加入参考公众号文章的介绍或其样本比例。
 - 第四列逐项说明人工／实机（含视频、测评）原本能做到的范围和解包的具体增量；对原本已能取得的信息及解包仍无法取得的后台、实时结果须明确说明；没有同口径人时记录，不给提速倍数。设计解读、示意数字与原版实测分开标记。
+- 棋盘算法正文源为 `content/board-algorithms.html`，智能火箭代码段为 `content/smart-rocket-code.html`，原字节快照在 `site/assets/evidence/board-algorithms/`。代码为标明范围的整理伪代码，必须结合原方法、元数据和字节核对；构造例子不是原端实机记录。
 - 道具寻优正文源为 `content/booster-targeting.html`，原字节证据快照在 `site/assets/evidence/propeller-selection/`。普通飞机高分组优先、组内随机；箱子与拳击手套数值限定物体自身分支，不能写成全局最优或任意棋盘完整预测。保留原障碍门控表作为补充证据。
 - `main` 每次推送会通过 GitHub Actions 检查并部署 `site/`；不需要 WorkBuddy 发布工具。
 - `migration/workbuddy-snapshot.json` 记录迁移当时的原文件哈希，仅用于溯源，不代表后续版本必须保持原样。

@@ -106,5 +106,11 @@
     "basis": "build 38174 ARM64原字节、元数据继承与默认评分表交叉核对",
     "locator": "本站 assets/evidence/propeller-selection/manifest.json；48份方法汇编与metadata-excerpts.json",
     "detail": "原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FillScores 0x20EF844；单格选择0x20F1E24；箱子类型6与默认分456976；拳击手套0x2A67954最后命中取609301；在途扣减0x338C910；行列／范围检查0x20F38D0、0x20F4C70、0x20EFF70。已确认高分组优先及组内随机，不保证整关最少步数或最高胜率；完整物体状态、特殊重定向与实机对照仍待验证。"
+  },
+  "board-algorithms": {
+    "title": "交换、匹配、重力与智能方向的原字节快照",
+    "basis": "build 38174 ARM64原指令、元数据枚举与虚槽、只读数据表交叉核对",
+    "locator": "本站assets/evidence/board-algorithms/manifest.json与对应43份方法快照",
+    "detail": "绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4；匹配0x137AAA0/0x137AE2C/0x137B8CC；自动等待0x1E92FD8含0x1E99A0C续段；直斜落0x2A2BA0C/0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；智能方向0x20EDA34。伪代码为可读整理并标明省略范围，构造局面不是原端实机记录；未认证完整帧调度或整局回放。"
   }
 }
