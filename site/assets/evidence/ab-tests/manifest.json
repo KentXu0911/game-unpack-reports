@@ -1,0 +1,153 @@
+{
+  "binary": "research/rm-reunpack-2026-10-14/native/libil2cpp.so",
+  "sha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methodIndexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "methods": [
+    {
+      "address": "0x11849b4",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsOfferAbEnabled"
+      ],
+      "end": "0x11849f0",
+      "sha256": "3f3b738454200f5e1707f2dc56a6929076da5b9b86e0e4f16cad4ca02f81042f",
+      "file": "011849b4.s",
+      "listingSha256": "bc108c29aef2da7fcfc9b7caaf21fc0dc21a8356b71cffb828849cc77bc5aca8"
+    },
+    {
+      "address": "0x11849f0",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsLowPriceAbEnable"
+      ],
+      "end": "0x1184a18",
+      "sha256": "3a3bd54cf63e9ad4be9d72f6611b8376a1ed99a023d58d7d78738d57338cfbfc",
+      "file": "011849f0.s",
+      "listingSha256": "bfc635b9232369e37f88f4103176b0665496285cdc35a90c8ed8bcd6a8697198"
+    },
+    {
+      "address": "0x1184a18",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsCoinPurchaseAbEnable"
+      ],
+      "end": "0x1184a40",
+      "sha256": "e321b29e8419485e96f91b06f081a36ec201c2faa5b7f8691b76f3c0b2b54deb",
+      "file": "01184a18.s",
+      "listingSha256": "95c4574f3b5854edd4cc653668500813b2d1fa0d745ecaa2b7d8cb22f65fbac8"
+    },
+    {
+      "address": "0x24621d0",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$UpdateAbTestData"
+      ],
+      "end": "0x24624e8",
+      "sha256": "9f97d78a661056ee6e9ede87028d355bd9d6ae93c60db91af03f74ef9f429bfd",
+      "file": "024621d0.s",
+      "listingSha256": "fac98167d13f98a47b8c50c2be1e02b54d71c5a5828d7a913a897b690dad65b3"
+    },
+    {
+      "address": "0x24624e8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$BuildDictFromResponse"
+      ],
+      "end": "0x2462658",
+      "sha256": "f5e41c725ae721546356a8c0f51f359501a9ffdbd6a378cf1e4a6154fc08a88f",
+      "file": "024624e8.s",
+      "listingSha256": "91b40b86e3961ccea8fcb2562dba0297b5fa583ccc986d85ca1f9ff87cd98dc1"
+    },
+    {
+      "address": "0x2463f64",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsLevelEndRewardReductionAbEnabled"
+      ],
+      "end": "0x2463ff0",
+      "sha256": "ba40b4a60fe4a9a206c8040587bbc33886463f2c056820d6fdc78462d06601e1",
+      "file": "02463f64.s",
+      "listingSha256": "1eb81e7886ec724b8831b16b0fc62ed6f2f6c4a13db2f6c303390dc6157e97d3"
+    },
+    {
+      "address": "0x2463ff0",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsEventRewardReductionAbEnabled"
+      ],
+      "end": "0x246407c",
+      "sha256": "ffa5f6e44bca08807730362fb976d40e3104f9e6c4c61f31b3c470990da02ef3",
+      "file": "02463ff0.s",
+      "listingSha256": "3c820c830db5f0cf5263ad1e505d757e651c1163198a0512429815a6e687d10e"
+    },
+    {
+      "address": "0x24641b4",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsShopRedesignEnabled"
+      ],
+      "end": "0x24641f0",
+      "sha256": "c50748282f950db2faa04a521186a15751a7b343d316669e6569a153a49a1b0f",
+      "file": "024641b4.s",
+      "listingSha256": "2adf1c22eb1dab4897cab0ce19dfd4da8c20c26c5d61cd72584c4e5cf797a0dc"
+    },
+    {
+      "address": "0x24645a8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsBoosterRewardReductionEnabled"
+      ],
+      "end": "0x2464684",
+      "sha256": "e4190b543729bc1618706c1c94fd5c71930a44bba5ba02f1636d799a77791ddc",
+      "file": "024645a8.s",
+      "listingSha256": "d040df5cd91b94d5f8fa9d5943b1b25f285dbae5f3afdcc02cf4c40c55929955"
+    },
+    {
+      "address": "0x24646b4",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsWeeklyPassEnabled"
+      ],
+      "end": "0x2464740",
+      "sha256": "0e758cd92ed3f3b55dbde83adcebedbe1d3b263185ef2214ec27bb5aa407ff3a",
+      "file": "024646b4.s",
+      "listingSha256": "7057ab4718961afecbc66fa4dba0646de53a8330f274a8cf6ff46ca0233f8f39"
+    },
+    {
+      "address": "0x2464740",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsWeeklyPassMorePricingEnabled"
+      ],
+      "end": "0x246477c",
+      "sha256": "da2fa7b0a5370a77ac8e3ea4da0319945a7f0c807acf7524a8c7a4082e5a95a7",
+      "file": "02464740.s",
+      "listingSha256": "a7ba2f83c46653555489a5816e5b83b9d998b6102313780a2cc475e2ff4082cc"
+    },
+    {
+      "address": "0x24649bc",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled"
+      ],
+      "end": "0x24649f8",
+      "sha256": "88adb482434f1db06ad8c39f4b8ea251ebc80cf688d6cbac28e27a8dcb15dd8d",
+      "file": "024649bc.s",
+      "listingSha256": "a3b24b0853abde166fb9d33f2f36305f99bb665e0457e9442da8a2218802c553"
+    },
+    {
+      "address": "0x24649f8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsMultiplePurchaseEnabled"
+      ],
+      "end": "0x2464a34",
+      "sha256": "5775917b4dfc4a4352e2a7a079c3aeddf2a02b4a69858f934e508eed6e3519a9",
+      "file": "024649f8.s",
+      "listingSha256": "5000ae97d1ab0a23fa656ca36265a52f0a9355aa4633eef1ad980c8ea8f70307"
+    },
+    {
+      "address": "0x2464a34",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsLowDiscountEnabledAsAlternative"
+      ],
+      "end": "0x2464a70",
+      "sha256": "71690fb6ce1ff9f39cdb3548cff6928370b69049e15305a90e551ff013ff4c60",
+      "file": "02464a34.s",
+      "listingSha256": "f1bad13e3f1ef95c5f04b83ddc9e92c3fb24a624142abf6d0c5647cffeb24a41"
+    }
+  ],
+  "boundary": "Next distinct metadata start; linear bytes only, complete CFG unproven.",
+  "captureTool": "royal-match-unity/Tools/capture_native_methods.py",
+  "supplementaryFiles": {
+    "catalog.json": "5cab1571f5c504aa9301ba5e0d1cdd6d0be52f49c38e3fda5ce421875273731d",
+    "metadata-excerpts.txt": "1d2d3383bbe4fa6a3bb87afdcba108596dc6de219967d78ef3a60c067578f8d2"
+  }
+}

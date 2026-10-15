@@ -1,0 +1,17 @@
+<section id="expedition-segment-algorithm"><h3>远征日礼包：在换期时才计算下一档</h3>
+<p>Short Expedition日礼包使用1–5档。算法分别读取当前档位、上期买过low或high、是否展示过报价，以及之前的待降标记。原方法不是简单统计“连续几天没买”。</p>
+<pre class="algorithm-code"><code>// 按GetUpdatedSegment与ComputeNextSegmentDecreasePending整理。
+// bought、seen、oldPending均指这次换期检查的对应状态。
+if noCurrentSegment:
+    nextSegment = min(serverSegment, 5)
+else if boughtLow || boughtHigh:
+    nextSegment = min(currentSegment + 1, 5)
+else if seen &amp;&amp; oldPending &amp;&amp; currentSegment &gt;= 3:
+    nextSegment = currentSegment - 1
+else:
+    nextSegment = currentSegment
+
+nextPending = false if bought else (seen XOR oldPending)</code></pre>
+<p>例如，当前3档、上期买过礼包，下期升到4档；当前3档、看过但没买、原待降标记为false，这次不降档，但会把标记设为true；之后换期检查时仍然看过未买且旧标记为true，才会降到2档。无展示时虽然档位不降，pending计算仍会保留旧值，不能把它概括成“没看就清零”。</p>
+<p>原方法：GetUpdatedSegment · 0x37C3704；ComputeNextSegmentDecreasePending · 0x37C37FC。下方默认能量表说明每档的奖励规模；当前配置覆盖与地区售价仍需外部输入。</p>
+<p>分组实验的具体组值见<a href="experiments.html">A/B测试</a>；礼包怎样竞争展示见<a href="shop-rules.html">触发与展示</a>。分层标签本身没有证据支持“会改关卡seed或棋子概率”。</p></section>

@@ -1,0 +1,68 @@
+<section id="ab-test-scope">
+<h3>能从解包里看到实验的哪些部分</h3>
+<p>能看到实验的编号、客户端支持的版本，以及组值怎样改变行为。这个版本的 <code>AbTestHelper</code> 有107个实验ID常量，按末尾的NewUser／OldUser命名归并为55个主题；其中还包括隐私、赛事和功能实验，不能把它们全部算作商业化实验，也不能当作正在运行的实验数量。</p>
+<p>实验ID和组值是两个数。例如，ID 189／190对应Merge Smith的新／老用户命名项；4、5、6是该活动消费的组值。组6不是“第6档高价值用户”，也不表示6%的流量。</p>
+<div class="flow" aria-label="实验配置消费流程"><span>后台响应带回key／value</span><b>→</b><span>客户端保存实验表</span><b>→</b><span>各系统读取并执行条件</span></div>
+<p><code>NewABData.AllTests</code> 内每项 <code>SingleABData</code> 有Key与Value。<code>BuildDictFromResponse</code> 逐项建成字典，<code>UpdateAbTestData</code> 替换当前表、刷新本地存储并通知相关系统。能恢复的是这条消费链；服务端如何选择实验人群、随机分桶或分配比例，不在这两个函数中。</p>
+<p class="caption">原字节：<a href="../assets/evidence/ab-tests/024624e8.s">BuildDictFromResponse · 0x24624E8</a>；<a href="../assets/evidence/ab-tests/024621d0.s">UpdateAbTestData · 0x24621D0</a>。</p>
+</section>
+<section id="ab-merge-smith">
+<h3>例一：同一个活动，测试低价与金币解锁</h3>
+<p>Merge Smith的Offer模型读取活动进度中缓存的AbGroup，分别判断是否有Offer、是否选低价配置、是否允许金币购买。三个判断可以直接对应：</p>
+<div class="data-scroll"><table><thead><tr><th>活动AbGroup</th><th>Offer开关</th><th>低价分支</th><th>金币购买分支</th></tr></thead><tbody>
+<tr><td>4</td><td>开</td><td>开</td><td>关</td></tr><tr><td>5</td><td>开</td><td>关</td><td>关</td></tr><tr><td>6</td><td>开</td><td>关</td><td>开</td></tr><tr><td>其他值</td><td>此判断为关</td><td>关</td><td>关</td></tr>
+</tbody></table></div>
+<pre class="algorithm-code"><code>// 按三个原方法整理的条件伪代码；不是原C#源码。
+group = mergeSmithProgress.AbGroup
+hasOffer     = group == 4 || group == 5 || group == 6
+useLowPrice  = group == 4
+payWithCoins = group == 6</code></pre>
+<p>例如，活动已满足资格且AbGroup为6时，这三个条件支持“展示Offer、走金币购买、不走组4低价”。金币数还要读当期配置的<code>ocp</code>，不能由“组6”推出具体价格。分组开关通过，也不替代活动是否开启、资源是否就绪和奖励进度检查。</p>
+<p class="caption">原字节：<a href="../assets/evidence/ab-tests/011849b4.s">Offer · 0x11849B4</a>；<a href="../assets/evidence/ab-tests/011849f0.s">低价 · 0x11849F0</a>；<a href="../assets/evidence/ab-tests/01184a18.s">金币购买 · 0x1184A18</a>。三个条件已核对；账号当期命中与购买结果尚需对应响应／运行记录。</p>
+</section>
+<section id="ab-reward-reduction">
+<h3>例二：用同一组实验，分别控制不同奖励范围</h3>
+<p>关末奖励和活动奖励的两个判断，都读取ID 128／129。任意一个ID命中特定组值即返回true。它们是共享实验键下的不同条件，不能按函数数量算成两项独立实验。</p>
+<div class="data-scroll"><table><thead><tr><th>命中的组值</th><th>关末奖励缩减判断</th><th>活动奖励缩减判断</th></tr></thead><tbody>
+<tr><td>2</td><td>true</td><td>false</td></tr><tr><td>3</td><td>false</td><td>true</td></tr><tr><td>4</td><td>true</td><td>true</td></tr><tr><td>5</td><td>true</td><td>true</td></tr>
+</tbody></table></div>
+<p class="caption">表格假设另一实验键未命中相应条件；若两个键同时有值，原方法按各自的“或”条件判断。组4和组5在这两个判断中相同，不代表它们在其他奖励或功能中也完全相同。</p>
+<pre class="algorithm-code"><code>// 只整理这两个布尔条件；不包含奖励数量的消费者。
+levelEndReduction = AB[128] in {2,4,5} || AB[129] in {2,4,5}
+eventReduction    = AB[128] in {3,4,5} || AB[129] in {3,4,5}</code></pre>
+<p>因此解包能区分“只对关末判断生效”“只对活动判断生效”“两者都生效”这些版本。实际少发多少，还得继续读各奖励消费者与配置；不能从true推定统一减半，更不能据此断言某账号已被减奖。Booster奖励另读ID 183／184，其缩减判断对组2–6返回true。</p>
+<p class="caption">原字节：<a href="../assets/evidence/ab-tests/02463f64.s">关末奖励 · 0x2463F64</a>；<a href="../assets/evidence/ab-tests/02463ff0.s">活动奖励 · 0x2463FF0</a>；<a href="../assets/evidence/ab-tests/024645a8.s">Booster奖励 · 0x24645A8</a>。</p>
+</section>
+<section id="ab-repeat-purchase">
+<h3>例三：礼包实验同时测试折扣替代与重复购买</h3>
+<p>ID 199／200并非简单的“开／关”。客户端有三个单独判断：组3命中低折扣替代分支；组4命中Dynamic Offer可用性覆盖分支；组5命中多次购买分支。</p>
+<div class="data-scroll"><table><thead><tr><th>任一键命中</th><th>命中的客户端条件</th><th>还要核对什么</th></tr></thead><tbody>
+<tr><td>组3</td><td>IsLowDiscountEnabledAsAlternative</td><td>替代商品的具体折扣与内容</td></tr><tr><td>组4</td><td>IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled</td><td>可用性判断的调用位置与其他资格门</td></tr><tr><td>组5</td><td>IsMultiplePurchaseEnabled</td><td>商品maxPurchaseCount、本地已购次数与剩余时间</td></tr>
+</tbody></table></div>
+<p>例如，即使组5的条件为true，也不能把它理解成“任意礼包无限购买”：商品自身的购买上限和已购记录仍属于另一层规则。</p>
+<p class="caption">原字节：<a href="../assets/evidence/ab-tests/02464a34.s">组3判断</a>；<a href="../assets/evidence/ab-tests/024649bc.s">组4判断</a>；<a href="../assets/evidence/ab-tests/024649f8.s">组5判断</a>。</p>
+</section>
+<section id="ab-continue-pricing">
+<h3>例四：续关可以同时测试价格与给步量</h3>
+<p>客户端包含以下首档方案。它们是不同版本的基础报价；跨局给步变化属于另一条状态链，具体过程见<a href="failure-product.html">失败续关</a>。下表按价格列方案，不把自行命名的“A／B／C”当作原实验组名。</p>
+<div class="data-scroll" id="data-continue-experiments"><table><thead><tr><th>首档金币价</th><th>基础给步</th><th>与900／5比较</th></tr></thead><tbody>
+<tr><td>900</td><td>5</td><td>基准方案</td></tr><tr><td>990</td><td>5</td><td>只提高价格</td></tr><tr><td>1200</td><td>10</td><td>提高价格并增加步数</td></tr><tr><td>1500</td><td>10</td><td>同为10步，更高报价</td></tr><tr><td>1900</td><td>10</td><td>同为10步，更高报价</td></tr>
+</tbody></table></div>
+<p>元数据中EgoPriceChange命名项为ID 51／52。方案值来自既有续关商品与代码审查；本页未给出51／52的全部组值到五套方案的一一映射。知道有这些版本，仍不知道当期哪套得到多少流量，也无法判断哪套提高了购买率或降低了流失。</p>
+</section>
+<section id="ab-other-branches">
+<h3>其他已经定位的实验</h3>
+<div class="data-scroll"><table><thead><tr><th>主题与ID</th><th>可读到的差异</th><th>证据范围</th></tr></thead><tbody>
+<tr><td>Weekly Pass · 187／188</td><td>组3／4／5通过功能判断，组5另通过MorePricing判断；地区金额还需商品与商店数据。</td><td><a href="../assets/evidence/ab-tests/024646b4.s">功能条件</a>、<a href="../assets/evidence/ab-tests/02464740.s">价格分支条件</a>已逐条核对。</td></tr>
+<tr><td>商店改版 · 166／167</td><td>任一键为组2时，改版判断返回true。</td><td><a href="../assets/evidence/ab-tests/024641b4.s">条件原字节</a>；不代表当期一定展示新版商店。</td></tr>
+<tr><td>外部支付 · 181／182；V2 · 222／223</td><td>支付开关、界面与加赠有不同判断；金额消费less／more／firstPaymentCoinBonus配置。</td><td>既有商业化方法索引及<a href="payment.html">支付链分析</a>；本页未重验全部支付分支。</td></tr>
+<tr><td>Supercharge · 193／194</td><td>是否开放、是否弹窗与金币恢复价格有相关分支；Multiplier Selection状态也参与价格选择。</td><td>既有调用索引；不能只凭实验键给出唯一金币价。</td></tr>
+<tr><td>广告 · 205／206、220／221</td><td>局内广告组与续关首档激励广告有单独消费入口。</td><td>已定位方法；实际投放、素材和填充需运行数据。</td></tr>
+</tbody></table></div>
+</section>
+<section id="ab-live-data">
+<h3>实验结果还需要哪些数据</h3>
+<p>要知道某账号属于哪组，需要同一时点的实验key／value、活动配置和实际展示；改本地组值只能验证客户端分支。要知道各组的流量比例，需要实际分配／曝光记录和实验人群口径，不能按看到几个账号直接推全服比例。</p>
+<p>要判断哪组更好，还需要实验人群、分配规则、曝光时点、购买率、收入、留存与观察窗口。客户端有统计上报调用，不等于包里包含这些统计结果。没有这些数据，本页能解释版本差异，不能给出“某方案让收入增加多少”的结论。</p>
+<p>可查证材料：<a href="../assets/evidence/ab-tests/catalog.json">107个ID及28项既有方法索引</a> · <a href="../assets/evidence/ab-tests/metadata-excerpts.txt">AbTestHelper元数据</a> · <a href="../assets/evidence/ab-tests/manifest.json">14份原字节快照与哈希</a>。原方法快照按下一元数据起点截取，不声称完整控制流或全库认证。</p>
+</section>

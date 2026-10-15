@@ -1,0 +1,834 @@
+{
+  "sample": "Royal Match build 38174, ARM64",
+  "constantCount": 107,
+  "normalizedThemeCount": 55,
+  "normalization": "Remove terminal (NewUser|OldUser)(AbId)?; names are metadata labels, not confirmed active experiments.",
+  "sources": {
+    "tools/il2cppdumper/output-arm64/dump.cs": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+    "indices/commercialization_method_evidence.csv": "451528e47303f601f048e55f0cab24adfccef9aecaa8e9226a9cbcd656470fa3"
+  },
+  "constants": [
+    {
+      "name": "EgoPriceChangeAbNewUser",
+      "id": 51,
+      "theme": "EgoPriceChangeAb"
+    },
+    {
+      "name": "EgoPriceChangeAbOldUser",
+      "id": 52,
+      "theme": "EgoPriceChangeAb"
+    },
+    {
+      "name": "AndroidProgressTransferNewUser",
+      "id": 59,
+      "theme": "AndroidProgressTransfer"
+    },
+    {
+      "name": "AndroidProgressTransferOldUser",
+      "id": 60,
+      "theme": "AndroidProgressTransfer"
+    },
+    {
+      "name": "ArcheryArenaNewUserAbId",
+      "id": 61,
+      "theme": "ArcheryArena"
+    },
+    {
+      "name": "ArcheryArenaOldUserAbId",
+      "id": 62,
+      "theme": "ArcheryArena"
+    },
+    {
+      "name": "DmaConsentRequestNewUserAbId",
+      "id": 67,
+      "theme": "DmaConsentRequest"
+    },
+    {
+      "name": "DmaConsentRequestOldUserAbId",
+      "id": 68,
+      "theme": "DmaConsentRequest"
+    },
+    {
+      "name": "ButlersGiftMultiplierRewardV2NewUser",
+      "id": 79,
+      "theme": "ButlersGiftMultiplierRewardV2"
+    },
+    {
+      "name": "ButlersGiftMultiplierRewardV2OldUser",
+      "id": 80,
+      "theme": "ButlersGiftMultiplierRewardV2"
+    },
+    {
+      "name": "HomeSectionTouchLockNewUserAbId",
+      "id": 85,
+      "theme": "HomeSectionTouchLock"
+    },
+    {
+      "name": "HomeSectionTouchLockOldUserAbId",
+      "id": 86,
+      "theme": "HomeSectionTouchLock"
+    },
+    {
+      "name": "OffersHomeSceneIconHideNewUserAbId",
+      "id": 91,
+      "theme": "OffersHomeSceneIconHide"
+    },
+    {
+      "name": "OffersHomeSceneIconHideOldUserAbId",
+      "id": 92,
+      "theme": "OffersHomeSceneIconHide"
+    },
+    {
+      "name": "CardCollectionRewardsFixNewUserAbId",
+      "id": 99,
+      "theme": "CardCollectionRewardsFix"
+    },
+    {
+      "name": "CardCollectionRewardsFixOldUserAbId",
+      "id": 100,
+      "theme": "CardCollectionRewardsFix"
+    },
+    {
+      "name": "AgePopupNewUserAbId",
+      "id": 101,
+      "theme": "AgePopup"
+    },
+    {
+      "name": "AgePopupOldUserAbId",
+      "id": 102,
+      "theme": "AgePopup"
+    },
+    {
+      "name": "NoOfferNewUserAbId",
+      "id": 105,
+      "theme": "NoOffer"
+    },
+    {
+      "name": "NoOfferOldUserAbId",
+      "id": 106,
+      "theme": "NoOffer"
+    },
+    {
+      "name": "AgeConsentV2NewUserAbId",
+      "id": 116,
+      "theme": "AgeConsentV2"
+    },
+    {
+      "name": "AgeConsentV2OldUserAbId",
+      "id": 117,
+      "theme": "AgeConsentV2"
+    },
+    {
+      "name": "PrivacySettingsRedesignNewUser",
+      "id": 126,
+      "theme": "PrivacySettingsRedesign"
+    },
+    {
+      "name": "PrivacySettingsRedesignOldUser",
+      "id": 127,
+      "theme": "PrivacySettingsRedesign"
+    },
+    {
+      "name": "RewardReductionNewUserAbId",
+      "id": 128,
+      "theme": "RewardReduction"
+    },
+    {
+      "name": "RewardReductionOldUserAbId",
+      "id": 129,
+      "theme": "RewardReduction"
+    },
+    {
+      "name": "RoyalPassNextStageNewUserAbId",
+      "id": 134,
+      "theme": "RoyalPassNextStage"
+    },
+    {
+      "name": "RoyalPassNextStageOldUserAbId",
+      "id": 135,
+      "theme": "RoyalPassNextStage"
+    },
+    {
+      "name": "PropellerRush3StepNewUserAbId",
+      "id": 136,
+      "theme": "PropellerRush3Step"
+    },
+    {
+      "name": "PropellerRush3StepOldUserAbId",
+      "id": 137,
+      "theme": "PropellerRush3Step"
+    },
+    {
+      "name": "NewLeagueNewUserAbId",
+      "id": 138,
+      "theme": "NewLeague"
+    },
+    {
+      "name": "NewLeagueOldUserAbId",
+      "id": 139,
+      "theme": "NewLeague"
+    },
+    {
+      "name": "NewLeagueV2NewUserAbId",
+      "id": 140,
+      "theme": "NewLeagueV2"
+    },
+    {
+      "name": "NewLeagueV2OldUserAbId",
+      "id": 141,
+      "theme": "NewLeagueV2"
+    },
+    {
+      "name": "KingsCupMatchmakingNewUserAbId",
+      "id": 142,
+      "theme": "KingsCupMatchmaking"
+    },
+    {
+      "name": "KingsCupMatchmakingOldUserAbId",
+      "id": 143,
+      "theme": "KingsCupMatchmaking"
+    },
+    {
+      "name": "TeamBattleMatchmakingNewUserAbId",
+      "id": 144,
+      "theme": "TeamBattleMatchmaking"
+    },
+    {
+      "name": "TeamBattleMatchmakingOldUserAbId",
+      "id": 145,
+      "theme": "TeamBattleMatchmaking"
+    },
+    {
+      "name": "AncientAdventureNewUserAbId",
+      "id": 146,
+      "theme": "AncientAdventure"
+    },
+    {
+      "name": "AncientAdventureOldUserAbId",
+      "id": 147,
+      "theme": "AncientAdventure"
+    },
+    {
+      "name": "SeasonalCardCollectionImprovementNewUserAbId",
+      "id": 148,
+      "theme": "SeasonalCardCollectionImprovement"
+    },
+    {
+      "name": "SeasonalCardCollectionImprovementOldUserAbId",
+      "id": 149,
+      "theme": "SeasonalCardCollectionImprovement"
+    },
+    {
+      "name": "MultiplierTokentNewUserAbId",
+      "id": 150,
+      "theme": "MultiplierTokent"
+    },
+    {
+      "name": "MultiplierTokentOldUserAbId",
+      "id": 151,
+      "theme": "MultiplierTokent"
+    },
+    {
+      "name": "AncientAdventureV2NewUserAbId",
+      "id": 152,
+      "theme": "AncientAdventureV2"
+    },
+    {
+      "name": "AncientAdventureV2OldUserAbId",
+      "id": 153,
+      "theme": "AncientAdventureV2"
+    },
+    {
+      "name": "RobotRivalsNewUserAbId",
+      "id": 158,
+      "theme": "RobotRivals"
+    },
+    {
+      "name": "RobotRivalsOldUserAbId",
+      "id": 159,
+      "theme": "RobotRivals"
+    },
+    {
+      "name": "MultiplierTokenV2NewUserAbId",
+      "id": 160,
+      "theme": "MultiplierTokenV2"
+    },
+    {
+      "name": "MultiplierTokenV2OldUserAbId",
+      "id": 161,
+      "theme": "MultiplierTokenV2"
+    },
+    {
+      "name": "DailySkyRaceSpaceMissionNewUserAbId",
+      "id": 164,
+      "theme": "DailySkyRaceSpaceMission"
+    },
+    {
+      "name": "DailySkyRaceSpaceMissionOldUserAbId",
+      "id": 165,
+      "theme": "DailySkyRaceSpaceMission"
+    },
+    {
+      "name": "ShopRedesignNewUserAbId",
+      "id": 166,
+      "theme": "ShopRedesign"
+    },
+    {
+      "name": "ShopRedesignOldUserAbId",
+      "id": 167,
+      "theme": "ShopRedesign"
+    },
+    {
+      "name": "PrivacySettingsKoreaNewUserAbId",
+      "id": 175,
+      "theme": "PrivacySettingsKorea"
+    },
+    {
+      "name": "PrivacySettingsKoreaOldUserAbId",
+      "id": 176,
+      "theme": "PrivacySettingsKorea"
+    },
+    {
+      "name": "NotificationReductionNewUserAbId",
+      "id": 177,
+      "theme": "NotificationReduction"
+    },
+    {
+      "name": "NotificationReductionOldUserAbId",
+      "id": 178,
+      "theme": "NotificationReduction"
+    },
+    {
+      "name": "ClashOfChampionsNewUserAbId",
+      "id": 179,
+      "theme": "ClashOfChampions"
+    },
+    {
+      "name": "ClashOfChampionsOldUserAbId",
+      "id": 180,
+      "theme": "ClashOfChampions"
+    },
+    {
+      "name": "ExternalPaymentNewUserAbId",
+      "id": 181,
+      "theme": "ExternalPayment"
+    },
+    {
+      "name": "ExternalPaymentOldUserAbId",
+      "id": 182,
+      "theme": "ExternalPayment"
+    },
+    {
+      "name": "BoosterRewardReductionNewUserAbId",
+      "id": 183,
+      "theme": "BoosterRewardReduction"
+    },
+    {
+      "name": "BoosterRewardReductionOldUserAbId",
+      "id": 184,
+      "theme": "BoosterRewardReduction"
+    },
+    {
+      "name": "AgeConsentV3NewUserAbId",
+      "id": 185,
+      "theme": "AgeConsentV3"
+    },
+    {
+      "name": "AgeConsentV3OldUserAbId",
+      "id": 186,
+      "theme": "AgeConsentV3"
+    },
+    {
+      "name": "WeeklyPassNewUserAbId",
+      "id": 187,
+      "theme": "WeeklyPass"
+    },
+    {
+      "name": "WeeklyPassOldUserAbId",
+      "id": 188,
+      "theme": "WeeklyPass"
+    },
+    {
+      "name": "MergeSmithNewUserAbId",
+      "id": 189,
+      "theme": "MergeSmith"
+    },
+    {
+      "name": "MergeSmithOldUserAbId",
+      "id": 190,
+      "theme": "MergeSmith"
+    },
+    {
+      "name": "RushEventsReplayableNewUserAbId",
+      "id": 191,
+      "theme": "RushEventsReplayable"
+    },
+    {
+      "name": "RushEventsReplayableOldUserAbId",
+      "id": 192,
+      "theme": "RushEventsReplayable"
+    },
+    {
+      "name": "SuperchargeOfferNewUserAbId",
+      "id": 193,
+      "theme": "SuperchargeOffer"
+    },
+    {
+      "name": "SuperchargeOfferOldUserAbId",
+      "id": 194,
+      "theme": "SuperchargeOffer"
+    },
+    {
+      "name": "ExtremelyHardLevelOfferNewUserAbId",
+      "id": 195,
+      "theme": "ExtremelyHardLevelOffer"
+    },
+    {
+      "name": "ExtremelyHardLevelOfferOldUserAbId",
+      "id": 196,
+      "theme": "ExtremelyHardLevelOffer"
+    },
+    {
+      "name": "AgeConsentV4NewUserAbId",
+      "id": 197,
+      "theme": "AgeConsentV4"
+    },
+    {
+      "name": "AgeConsentV4OldUserAbId",
+      "id": 198,
+      "theme": "AgeConsentV4"
+    },
+    {
+      "name": "MultiplePurchaseDynamicOfferNewUserAbId",
+      "id": 199,
+      "theme": "MultiplePurchaseDynamicOffer"
+    },
+    {
+      "name": "MultiplePurchaseDynamicOfferOldUserAbId",
+      "id": 200,
+      "theme": "MultiplePurchaseDynamicOffer"
+    },
+    {
+      "name": "NewUserEventFlowChangeAbId",
+      "id": 201,
+      "theme": "NewUserEventFlowChangeAbId"
+    },
+    {
+      "name": "SuperLightballLevelChangeNewUserAbId",
+      "id": 203,
+      "theme": "SuperLightballLevelChange"
+    },
+    {
+      "name": "SuperLightballLevelChangeOldUserAbId",
+      "id": 204,
+      "theme": "SuperLightballLevelChange"
+    },
+    {
+      "name": "LimitedInGameAdsNewUserAbId",
+      "id": 205,
+      "theme": "LimitedInGameAds"
+    },
+    {
+      "name": "LimitedInGameAdsOldUserAbId",
+      "id": 206,
+      "theme": "LimitedInGameAds"
+    },
+    {
+      "name": "LadderOfferShopCardNewUserAbId",
+      "id": 207,
+      "theme": "LadderOfferShopCard"
+    },
+    {
+      "name": "LadderOfferShopCardOldUserAbId",
+      "id": 208,
+      "theme": "LadderOfferShopCard"
+    },
+    {
+      "name": "AgeConsentV5NewUserAbId",
+      "id": 209,
+      "theme": "AgeConsentV5"
+    },
+    {
+      "name": "AgeConsentV5OldUserAbId",
+      "id": 210,
+      "theme": "AgeConsentV5"
+    },
+    {
+      "name": "MultiplierLevelTypeNewUserAbId",
+      "id": 213,
+      "theme": "MultiplierLevelType"
+    },
+    {
+      "name": "MultiplierLevelTypeOldUserAbId",
+      "id": 214,
+      "theme": "MultiplierLevelType"
+    },
+    {
+      "name": "EarlyKingsNightmareNewUserAbId",
+      "id": 215,
+      "theme": "EarlyKingsNightmare"
+    },
+    {
+      "name": "TeamBattleContributionLimitNewUserAbId",
+      "id": 216,
+      "theme": "TeamBattleContributionLimit"
+    },
+    {
+      "name": "TeamBattleContributionLimitOldUserAbId",
+      "id": 217,
+      "theme": "TeamBattleContributionLimit"
+    },
+    {
+      "name": "ShortExpeditionEventNewUserAbId",
+      "id": 218,
+      "theme": "ShortExpeditionEvent"
+    },
+    {
+      "name": "ShortExpeditionEventOldUserAbId",
+      "id": 219,
+      "theme": "ShortExpeditionEvent"
+    },
+    {
+      "name": "EgoRewardedFirstStepOnlyNewUserAbId",
+      "id": 220,
+      "theme": "EgoRewardedFirstStepOnly"
+    },
+    {
+      "name": "EgoRewardedFirstStepOnlyOldUserAbId",
+      "id": 221,
+      "theme": "EgoRewardedFirstStepOnly"
+    },
+    {
+      "name": "ExternalPaymentV2NewUserAbId",
+      "id": 222,
+      "theme": "ExternalPaymentV2"
+    },
+    {
+      "name": "ExternalPaymentV2OldUserAbId",
+      "id": 223,
+      "theme": "ExternalPaymentV2"
+    },
+    {
+      "name": "NextEventCollectibleNewUserAbId",
+      "id": 224,
+      "theme": "NextEventCollectible"
+    },
+    {
+      "name": "NextEventCollectibleOldUserAbId",
+      "id": 225,
+      "theme": "NextEventCollectible"
+    },
+    {
+      "name": "SuperLightballLevelChangeV2NewUserAbId",
+      "id": 226,
+      "theme": "SuperLightballLevelChangeV2"
+    },
+    {
+      "name": "SuperLightballLevelChangeV2OldUserAbId",
+      "id": 227,
+      "theme": "SuperLightballLevelChangeV2"
+    },
+    {
+      "name": "DailyRewardsNewUserAbId",
+      "id": 228,
+      "theme": "DailyRewards"
+    },
+    {
+      "name": "DailyRewardsOldUserAbId",
+      "id": 229,
+      "theme": "DailyRewards"
+    },
+    {
+      "name": "TableGameAbId",
+      "id": 230,
+      "theme": "TableGameAbId"
+    }
+  ],
+  "indexedMethods": [
+    {
+      "method": "AbTestHelper$$ClearAndUpdateAbTestData",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$ClearAndUpdateAbTestData",
+      "rva": "0x246213c",
+      "instruction_count": "37",
+      "direct_calls": "0xfb1300 | System.Collections.Generic.Dictionary<int, int>$$Clear | Royal.Player.Context.Data.Persistent.AbTestHelper$$UpdateAbTestData | 0xfb1428",
+      "short_strings": "",
+      "immediates": "sub:80 | mov:1 | and:1 | add:80",
+      "direct_callers": "Royal.Player.Context.Units.UserManager$$MigrateTempUser | Royal.Player.Context.Units.UserManager$$ChangeUserToBackendDecidedUser"
+    },
+    {
+      "method": "AbTestHelper$$GetLimitedInGameAdsAbGroup",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$GetLimitedInGameAdsAbGroup",
+      "rva": "0x246498c",
+      "instruction_count": "12",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:205 | cmp:0",
+      "direct_callers": ""
+    },
+    {
+      "method": "AbTestHelper$$IsBoosterRewardReductionEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsBoosterRewardReductionEnabled",
+      "rva": "0x24645a8",
+      "instruction_count": "55",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:183 | cmp:2 | mov:184 | cmp:3 | cmp:4 | cmp:5 | cmp:6 | mov:1",
+      "direct_callers": "Royal.Scenes.Home.Ui.Dialogs.EpisodeChest.EpisodeChestRewards$$PrepareBoosterReductionAbArrangement | Royal.Player.Context.Units.TeamBattleManager$$CacheBoosterRewardReductionAb | Royal.Scenes.Home.Context.Units.Area.AreaManager$$GetAreaChestRewards"
+    },
+    {
+      "method": "AbTestHelper$$IsEgoRewardedFirstStepOnlyAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsEgoRewardedFirstStepOnlyAbEnabled",
+      "rva": "0x2464bf0",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:220 | cmp:2 | mov:1 | mov:221",
+      "direct_callers": "Royal.Scenes.Game.Ui.Dialogs.LevelFail.EgoDialog$$EnableRewardedAdButton"
+    },
+    {
+      "method": "AbTestHelper$$IsEventRewardReductionAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsEventRewardReductionAbEnabled",
+      "rva": "0x2463ff0",
+      "instruction_count": "35",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:128 | cmp:3 | mov:129 | cmp:4 | cmp:5 | mov:1",
+      "direct_callers": ""
+    },
+    {
+      "method": "AbTestHelper$$IsExternalPaymentEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentEnabled",
+      "rva": "0x24642c8",
+      "instruction_count": "10",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentV1Enabled",
+      "short_strings": "",
+      "immediates": "mov:1",
+      "direct_callers": "Royal.Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager$$OnUserChanged | Royal.Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager$$TryInitialize"
+    },
+    {
+      "method": "AbTestHelper$$IsExternalPaymentLessCoinBonusEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentLessCoinBonusEnabled",
+      "rva": "0x2464408",
+      "instruction_count": "25",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:181 | cmp:2 | mov:182 | cmp:4 | mov:1",
+      "direct_callers": "Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetBonusAmount | Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetPaymentCoinBonus"
+    },
+    {
+      "method": "AbTestHelper$$IsExternalPaymentSimpleDialogEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentSimpleDialogEnabled",
+      "rva": "0x246446c",
+      "instruction_count": "25",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:181 | cmp:4 | mov:182 | cmp:5 | mov:1",
+      "direct_callers": "Royal.Scenes.Home.Ui.Sections.Shop.ShowPaymentSelectionDialogAction$$Execute"
+    },
+    {
+      "method": "AbTestHelper$$IsExternalPaymentV2BonusEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentV2BonusEnabled",
+      "rva": "0x246456c",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:222 | cmp:3 | mov:1 | mov:223",
+      "direct_callers": "Royal.Player.Context.Units.ExternalPaymentFirstPurchaseBonusHelper$$get_ShouldPlayTutorial | Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetBonusAmount | Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetPaymentCoinBonus | Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$SetCoinBonusEnabled | Royal.Scenes.Home.Ui.Sections.Shop.FirstPurchaseBonus.FirstPurchaseBonusHelper$$IsFirstPurchaseBonusEnabled"
+    },
+    {
+      "method": "AbTestHelper$$IsExternalPaymentV2DefaultBonusEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExternalPaymentV2DefaultBonusEnabled",
+      "rva": "0x24644d0",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:222 | cmp:2 | mov:1 | mov:223",
+      "direct_callers": "Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetBonusAmount | Royal.Scenes.Home.Ui.Sections.Shop.Package.PaymentCoinBonusConfig$$GetPaymentCoinBonus | Royal.Scenes.Home.Ui.Sections.Shop.ShowPaymentSelectionDialogAction$$Execute"
+    },
+    {
+      "method": "AbTestHelper$$IsExtremelyHardLevelOfferAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsExtremelyHardLevelOfferAbEnabled",
+      "rva": "0x24648ec",
+      "instruction_count": "25",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:195 | cmp:2 | mov:196 | cmp:3 | mov:1",
+      "direct_callers": ""
+    },
+    {
+      "method": "AbTestHelper$$IsLadderOfferShopCardEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsLadderOfferShopCardEnabled",
+      "rva": "0x2464b18",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:207 | cmp:2 | mov:1 | mov:208",
+      "direct_callers": "Royal.Player.Context.Units.LadderOfferManager$$get_ShouldShowShopCard"
+    },
+    {
+      "method": "AbTestHelper$$IsLevelEndRewardReductionAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsLevelEndRewardReductionAbEnabled",
+      "rva": "0x2463f64",
+      "instruction_count": "35",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:128 | cmp:2 | mov:129 | cmp:4 | cmp:5 | mov:1",
+      "direct_callers": "Royal.Scenes.Game.Ui.Dialogs.LevelFail.LevelFailDialog$$UpdateCoinRewardValue | Royal.Scenes.Home.Ui.Dialogs.Madness.Multiplier.MultiplierRewardTag$$UpdateCoinRewardValue | Royal.Scenes.Game.Levels.Units.RemainingMoves.RemainingMovesManager$$GetInitialCoinAmount | Royal.Scenes.Home.Ui.Dialogs.Prelevel.PrelevelDialog$$UpdateCoinRewardValue"
+    },
+    {
+      "method": "AbTestHelper$$IsLowDiscountEnabledAsAlternative",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsLowDiscountEnabledAsAlternative",
+      "rva": "0x2464a34",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:199 | cmp:3 | mov:1 | mov:200",
+      "direct_callers": "Royal.Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.DynamicOffer$$GetSegmentConfig | Royal.Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.DynamicOffer$$GetPrefabSelector"
+    },
+    {
+      "method": "AbTestHelper$$IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled",
+      "rva": "0x24649bc",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:199 | cmp:4 | mov:1 | mov:200",
+      "direct_callers": "Royal.Scenes.Home.Ui.Dialogs.Offer.DynamicOffers.MultiplePurchaseDynamicOffer$$get_MaxPurchaseCount | Royal.Player.Context.Units.DynamicOfferManager$$LoadOffersFromTable | Royal.Player.Context.Units.DynamicOfferManager$$CreateActiveOffer"
+    },
+    {
+      "method": "AbTestHelper$$IsMultiplePurchaseEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsMultiplePurchaseEnabled",
+      "rva": "0x24649f8",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:199 | cmp:5 | mov:1 | mov:200",
+      "direct_callers": "Royal.Player.Context.Units.DynamicOfferManager$$LoadOffersFromTable | Royal.Player.Context.Units.DynamicOfferManager$$CreateActiveOffer"
+    },
+    {
+      "method": "AbTestHelper$$IsNoOfferAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsNoOfferAbEnabled",
+      "rva": "0x24636e8",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:105 | cmp:2 | mov:1 | mov:106",
+      "direct_callers": "Royal.Scenes.Game.Ui.Dialogs.LevelFail.RoyalFavorOfferSliderView$$AddItemsToSliderAndPrepare | Royal.Scenes.Home.Ui.Sections.Social.Chat.ChatView$$AddMessage | Royal.Player.Context.Units.TeamOfferManager$$get_ShouldShowIcon | Royal.Player.Context.Units.DynamicOfferManager$$UpdateInfo"
+    },
+    {
+      "method": "AbTestHelper$$IsRewardReductionAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsRewardReductionAbEnabled",
+      "rva": "0x2463eb0",
+      "instruction_count": "45",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:128 | cmp:2 | mov:129 | cmp:3 | cmp:4 | cmp:5 | mov:1",
+      "direct_callers": "Royal.Player.Context.Units.WeeklyLeaderboardManager$$IsThereRewardReductionAb"
+    },
+    {
+      "method": "AbTestHelper$$IsShopRedesignEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsShopRedesignEnabled",
+      "rva": "0x24641b4",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:166 | cmp:2 | mov:1 | mov:167",
+      "direct_callers": "Royal.Infrastructure.Services.Native.Purchase.PurchaseManager$$SetShopRedesignEnabled"
+    },
+    {
+      "method": "AbTestHelper$$IsSuperchargeOfferAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsSuperchargeOfferAbEnabled",
+      "rva": "0x246477c",
+      "instruction_count": "65",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:193 | cmp:2 | mov:194 | cmp:3 | cmp:4 | cmp:5 | cmp:6 | cmp:7 | mov:1",
+      "direct_callers": ""
+    },
+    {
+      "method": "AbTestHelper$$IsSuperchargeOfferNoPopupAbEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsSuperchargeOfferNoPopupAbEnabled",
+      "rva": "0x2464880",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:193 | cmp:4 | mov:1 | mov:194",
+      "direct_callers": ""
+    },
+    {
+      "method": "AbTestHelper$$IsWeeklyPassEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsWeeklyPassEnabled",
+      "rva": "0x24646b4",
+      "instruction_count": "35",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:187 | cmp:3 | mov:188 | cmp:4 | cmp:5 | mov:1",
+      "direct_callers": "Royal.Player.Context.Units.WeeklyPassManager$$IsEventReadyToLock | Royal.Player.Context.Units.RoyalPassManager$$IsEventReadyToLock"
+    },
+    {
+      "method": "AbTestHelper$$IsWeeklyPassMorePricingEnabled",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$IsWeeklyPassMorePricingEnabled",
+      "rva": "0x2464740",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.AbTestHelper$$get_Item",
+      "short_strings": "",
+      "immediates": "mov:187 | cmp:5 | mov:1 | mov:188",
+      "direct_callers": "Royal.Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy$$GetWeeklyPassConfig"
+    },
+    {
+      "method": "AbTestHelper$$UpdateAbTestData",
+      "full_name": "Royal.Player.Context.Data.Persistent.AbTestHelper$$UpdateAbTestData",
+      "rva": "0x24621d0",
+      "instruction_count": "198",
+      "direct_calls": "0xfb1300 | System.Nullable<NewABData>$$get_Value | Royal.Player.Context.Data.Persistent.AbTestHelper$$BuildDictFromResponse | Royal.Player.Context.Data.Persistent.AbTestHelper$$GetUpdatedAbTestKeys | Royal.Player.Context.Data.Persistent.AbTestHelper$$UpdateNotificationRequiredAbTestKeys | 0xfb12ac | Royal.Player.Context.Data.Persistent.AbTestHelper$$ConvertAbTestData | Royal.Infrastructure.Services.Storage.Tables.AbTestTable$$RefreshList | Royal.Player.Context.Data.Persistent.AbTestHelper$$LogAbTestData | Royal.Player.Context.Data.Persistent.AbTestHelper$$SendAnalytics | Royal.Infrastructure.Services.Notification.GameNotificationService$$UpdateAbTestStatusesTag | Royal.Player.Context.Data.Persistent.AbTestHelper$$RequeueRoyalBundlesForNewUserFlowChange | System.Collections.Generic.HashSet<int>$$Contains | 0xfb1404 | Royal.Player.Context.UserContext$$Get<object> | Royal.Player.Context.Units.EventLockManager$$TryUpdateAbGroups | Royal.Scenes.Start.Context.Units.Ads.AdManager$$get_Current | Royal.Scenes.Start.Context.Units.Ads.AdManager$$OnInGameAdsAbTestDataUpdated | Royal.Infrastructure.Services.Native.Purchase.Xsolla.XsollaPurchaseManager$$OnAbTestDataUpdated | 0xf80fe4 | 0xfb1428",
+      "short_strings": "Random Insertion is semantically invalid, since this structure does not guarantee ordering. | Backend did not return any data!",
+      "immediates": "mov:1 | and:1 | mov:201 | mov:76 | mov:205 | mov:206 | mov:220 | mov:221 | mov:181 | mov:182 | mov:222 | mov:223 | mov:14",
+      "direct_callers": "Royal.Player.Context.Data.Persistent.AbTestHelper$$ClearAndUpdateAbTestData | Royal.Infrastructure.Services.Backend.Http.Command.AssignCampaignABHttpCommand$$Finish | Royal.Infrastructure.Services.Backend.Http.Command.PingHttpCommand$$ProcessUserData | Royal.Infrastructure.Services.Backend.Http.Command.UpdateUserProgressHttpCommand$$Finish"
+    },
+    {
+      "method": "MergeSmithOfferModel$$get_IsCoinPurchaseAbEnable",
+      "full_name": "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsCoinPurchaseAbEnable",
+      "rva": "0x1184a18",
+      "instruction_count": "10",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.MergeSmithProgress$$get_AbGroup | 0xfb1428",
+      "short_strings": "",
+      "immediates": "cmp:6",
+      "direct_callers": "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferController$$Init"
+    },
+    {
+      "method": "MergeSmithOfferModel$$get_IsLowPriceAbEnable",
+      "full_name": "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsLowPriceAbEnable",
+      "rva": "0x11849f0",
+      "instruction_count": "10",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.MergeSmithProgress$$get_AbGroup | 0xfb1428",
+      "short_strings": "",
+      "immediates": "cmp:4",
+      "direct_callers": "Royal.Scenes.Home.Ui.Sections.Shop.Package.APricingStrategy$$GetMergeSmithOfferConfig"
+    },
+    {
+      "method": "MergeSmithOfferModel$$get_IsOfferAbEnabled",
+      "full_name": "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_IsOfferAbEnabled",
+      "rva": "0x11849b4",
+      "instruction_count": "15",
+      "direct_calls": "Royal.Player.Context.Data.Persistent.MergeSmithProgress$$get_AbGroup | 0xfb1428",
+      "short_strings": "",
+      "immediates": "cmp:4 | mov:1 | sub:5 | cmp:2",
+      "direct_callers": "Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_ShouldShowOfferTutorial | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_ShouldPushOfferDialogOnClose | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_ShouldPushOfferDialogOnEventDialogShow | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferModel$$get_ShouldShowIconNotification | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithDialog.<TryOpenEventEndTooltip>d__45$$MoveNext | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferController$$Init | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferController$$TryUpdateOfferIconClaimableNotification | Royal.Scenes.Home.Ui.Dialogs.MergeSmith.Scripts.MergeSmithOfferController$$OnGridSlideAnimationsEnd"
+    },
+    {
+      "method": "SuperBoosterManager$$GetAbCoinPrice",
+      "full_name": "Royal.Player.Context.Units.SuperBoosterManager$$GetAbCoinPrice",
+      "rva": "0x1daba18",
+      "instruction_count": "90",
+      "direct_calls": "0xfb1300 | 0xfb1404 | Royal.Player.Context.UserContext$$Get<object> | Royal.Player.Context.Units.MultiplierSelectionManager$$IsSelectionFeatureActive | Royal.Player.Context.Units.MultiplierSelectionManager$$IsLowEgoGroup | Royal.Player.Context.Units.MultiplierSelectionManager$$IsLockOnFailGroup | Royal.Player.Context.Units.MultiplierSelectionManager$$IsControlTokenGroup | Royal.Player.Context.Units.MultiplierSelectionManager$$IsHighRefillPricingActive | Royal.Player.Context.Data.Persistent.AbTestHelper$$GetSuperchargeOfferAbGroup | 0xfb1428",
+      "short_strings": "",
+      "immediates": "mov:1 | mov:79 | mov:1500 | mov:1900 | tst:1 | mov:2900",
+      "direct_callers": "Royal.Player.Context.Units.SuperBoosterManager$$IsReadyToShowSuperChargeOffer | Royal.Scenes.Home.Ui.Dialogs.SuperchargeOffer.Scripts.SuperchargeOfferDialog$$Init | Royal.Scenes.Home.Ui.Dialogs.SuperchargeOffer.Scripts.SuperchargeOfferPurchaseStrategy$$BuySuperchargeOfferWithCoins | Royal.Scenes.Home.Ui.Dialogs.SuperchargeOffer.Scripts.SuperChargeOfferPrelevelPanel$$Init"
+    }
+  ],
+  "limits": [
+    "Metadata constants are not live assignments or traffic shares.",
+    "Native snapshots cover selected conditions only; method names alone do not verify behavior.",
+    "Reward predicates may share experiment keys. Different functions are not automatically independent experiments."
+  ]
+}

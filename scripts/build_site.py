@@ -34,6 +34,8 @@ MERGED_TOPICS = {
     'hit-spread-timing': ('fall-rules', 'hit-spread-timing'),
     'propeller-targeting': ('obstacle-rules', 'propeller-targeting'),
     'smart-rocket': ('obstacle-rules', 'smart-rocket'),
+    'account-offers': ('shop-rules', 'account-offers'),
+    'live-price-ads': ('payment', 'live-price-ads'),
 }
 MERGED_ROUTES_VERSION = sha256(json.dumps(MERGED_TOPICS, sort_keys=True).encode()).hexdigest()[:10]
 LEVEL_PAGES = {
@@ -53,23 +55,39 @@ LEGACY_CHAPTERS = {
     'obstacle-rules': ('04-gate-resolution.html', ['gate-matrix']),
     'win-settlement': ('03-mechanism-difficulty.html', ['adaptation']),
     'activity-defaults': ('02-activity-config.html', ['s1', 's2']),
-    'passes': ('02-activity-config.html', ['s3']),
     'schedule-boundaries': ('01-activity-schedule.html', ['activity-2', 'activity-3', 'activity-4', 'activity-5', 'activity-7', 'activity-8']),
     'failure-product': ('06-commercialization-audit.html', ['failure-product', 'rescue']),
-    'user-tiers': ('06-commercialization-audit.html', ['user-tiers', 'segments']),
-    'shop-rules': ('06-commercialization-audit.html', ['product-activities', 'shelves', 'golden']),
-    'account-offers': ('06-commercialization-audit.html', ['dynamic', 'adaptive-product', 'adaptive']),
+    'user-tiers': ('06-commercialization-audit.html', ['shelves']),
+    'shop-rules': ('06-commercialization-audit.html', ['decision', 'moments', 'unlock-timeline', 'dynamic', 'golden']),
+    'passes': ('06-commercialization-audit.html', ['product-activities']),
     'payment': ('06-commercialization-audit.html', ['payment']),
-    'live-price-ads': ('06-commercialization-audit.html', ['boundaries']),
-    'experiments': ('06-commercialization-audit.html', ['experiments']),
-    'commerce-backend': ('06-commercialization-audit.html', ['gaps']),
 }
+COMMERCE_ALIASES = {
+    'user-tiers': 'user-tiers', 'segments': 'user-tiers',
+    'adaptive-product': 'user-tiers', 'adaptive': 'user-tiers',
+    'experiments': 'experiments', 'boundaries': 'payment', 'gaps': 'commerce-backend',
+    'product-decision': 'shop-rules', 'shelf-product': 'user-tiers', 'activities': 'passes',
+}
+
+
+def commerce_aliases(key):
+    tree = Tree((ROOT / 'content/report-pages/06-commercialization-audit.html').read_text())
+    anchors = set()
+    for chapter, owner in COMMERCE_ALIASES.items():
+        if owner == key:
+            anchors.update(re.findall(r'\bid="([^"]+)"', tree.chapter(chapter)))
+    return ''.join(f'<span id="original-{e(anchor)}" class="legacy-anchor"></span>' for anchor in sorted(anchors))
 
 
 def legacy_routes():
     routes = {}
     for key, (filename, anchors) in LEGACY_CHAPTERS.items():
         routes.setdefault(filename, {}).update({anchor: '../' + topic_url(key) for anchor in anchors})
+    routes['06-commercialization-audit.html'].update({
+        chapter: '../' + topic_url(owner) + '#original-' + chapter
+        for chapter, owner in COMMERCE_ALIASES.items()})
+    routes['02-activity-config.html']['s3'] = '../topics/passes.html#data-passes'
+    routes['02-activity-config.html']['ar'] = '../topics/passes.html#data-passes'
     routes['03-mechanism-difficulty.html'].update({'curve': '../topics/level-pressure.html', 'colleague': '../topics/level-rhythm.html'})
     routes['07-rea-recovery.html'] = {key: '../' + topic_url(key) for key in [
         'level-config', 'fall-rules', 'obstacle-rules', 'area-tasks', 'distributed-assets',
@@ -107,28 +125,6 @@ def reference_tables(name):
     return ''.join(chunks)
 
 
-def profiles():
-    items = [
-        ("Dynamic Offer", "资格与分组决定配置行，首页、Favor、商店有三套优先级；最大购买次数与本地已购记录参与过滤。实际活动正文与账号分组需要响应。", None),
-        ("Royal／Weekly Pass", "进度免费／付费双轨；购买激活当期付费轨，可按状态回补已达节点，不计入常规Bundle／Single最高购买档。两种Pass有独立SKU与实验路径。", "pass-scene.webp"),
-        ("Ladder／Journey", "付费和免费节点交替；产品路径由分组消费，3／6是领取节奏。未取得后台分组公式，当期主题与正文需响应。", "journey-background.webp"),
-        ("Short Expedition", "日礼包、Pass、能量商店、单次能量包与结束礼包并存。日礼包1–5档换期更新，具体状态机见“用户分层”；包内默认能量表不是当地售价。", "expedition-daily-offer.webp"),
-        ("Merge Smith", "组4／5／6支持活动Offer，组4走低价分支，组6开启金币解锁；金币价在当期活动配置，付费奖励跟随活动进度。", "merge-offer-scene.webp"),
-        ("Team Offer", "客户端L24资格、24小时活动与12小时提醒，金／银／铜三档。购买后有本人奖励与团队聊天领取路径；当期正文和队友到账仍需验证。", None),
-        ("Golden Offers／Coin Shop", "服务器发活动ID、剩余时间、配置版本和正文；客户端根据视图选3商品或全表，排除已购。失败页Coin Shop Ego与此共用配置池。", "coin-shop-coin.webp"),
-        ("Extremely Hard Offer", "最低客户端资格L149，再检查实验、后台禁用、资源就绪和关型；付费身份决定产品版本。解锁资格不代表当期必投放。", "extreme-background.webp"),
-        ("Supercharge", "金币恢复局前强化状态，有远端配置与本地实验分支；失败页可给入口，实际恢复发生在相关局前流程。当前账号价格需要对应配置，不列过期快照为实时价。", "supercharge-frame.webp"),
-        ("限时外观", "头像框、昵称样式或合包具有独立领取状态；主题、外观ID、价格与投放范围由当期内容决定。产品档20／30不表示美元金额。", "worldcup-crown.webp"),
-        ("激励广告／No Ads", "资格、冷却和实验决定可达入口。No Ads对插屏／失败续关广告和生命／金币激励广告的作用范围不同；自动弹窗路径在所查build返回false。", "no-ads-icon.webp"),
-    ]
-    output = ['<details class="references"><summary>展开11类活动与商品的具体档案</summary>']
-    for name, text, asset in items:
-        picture = (f'<img loading="lazy" src="../assets/commercialization/{asset}" alt="{e(name)}包内分发素材示例">'
-                   '<p class="caption">包内分发素材示例；用于识别商品主题，不是当期实机页面或实价证明。</p>') if asset else ''
-        output.append(f'<details class="activity-profile"><summary>{e(name)}</summary><p>{e(text)}</p>{picture}</details>')
-    return ''.join(output) + '</details>'
-
-
 def rocket_demo():
     return ('<div class="rocket-demo"><h4>方向规则演示</h4>'
             '<p class="demo-label">输入是自行设定的示意评分，不计算原版障碍权重，不模拟完整棋盘。</p>'
@@ -142,6 +138,8 @@ def rocket_demo():
 
 def extras(topic):
     key = topic['key']
+    if key == 'passes':
+        return '<span id="original-s3" class="legacy-anchor"></span><span id="original-ar" class="legacy-anchor"></span>'
     if key == 'distributed-assets':
         return asset_gallery()
     if key == 'level-config':
@@ -167,8 +165,11 @@ def extras(topic):
                 '<h3 id="title-smart-rocket">智能火箭：方向与范围收益</h3>' +
                 (ROOT / 'content/smart-rocket-overview.html').read_text() +
                 (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>')
-    if key == 'shop-rules':
-        return profiles()
+    if key == 'experiments':
+        return (ROOT / 'content/ab-tests.html').read_text()
+    if key in ('shop-rules', 'user-tiers', 'payment', 'commerce-backend'):
+        alias = '<span id="data-commercial-moments" class="legacy-anchor"></span>' if key == 'shop-rules' else ''
+        return alias + (ROOT / f'content/commerce-{key}.html').read_text()
     return ''
 
 
@@ -376,11 +377,13 @@ def detail(topic):
 
 def reader_page(key, title, summary, body, related='', comparisons='', status=None):
     availability = (f'<span class="availability {e(status)}">{e(STATUS[status])}</span>' if status else '')
+    commerce_script = '<script defer src="../assets/commerce-routes.js"></script>' if any(
+        t['key'] == key and t['group'] == 'replication-money' for t in TOPICS) else ''
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} · Royal Match</title>
 <link rel="stylesheet" href="../assets/site.css?v={CSS_VERSION}"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
-<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<script defer src="../assets/report-deep-links.js"></script>{commerce_script}</head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-{e(key if key in DESTINATIONS else 'level-config')}">← 返回内容总览</a></p>
 <h1>{e(title)}</h1><p>{e(summary)}</p></div></header>
@@ -398,7 +401,12 @@ def render_topic_page(topic):
         related = ''.join(f'<a href="{e(k)}.html">{e(title)}</a>' for k, title in LEVEL_LINKS if k != key) + related
     comparisons = '<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2>' + ''.join(
         f'<p>{e(text)}</p>' for text in topic['comparison']) + '</section>'
-    body = detail(topic)
+    commerce = topic['group'] == 'replication-money'
+    navigation = ('<nav class="commerce-navigation" aria-label="商业化内容">' + ''.join(
+        f'<a href="{e(t["key"])}.html"' + (' aria-current="page"' if t['key'] == key else '') +
+        f'><small>{i:02d}</small>{e(t["title"])}</a>'
+        for i, t in enumerate((t for t in TOPICS if t['group'] == 'replication-money'), 1)) + '</nav>') if commerce else ''
+    body = navigation + (commerce_aliases(key) if commerce else '') + detail(topic)
     if key in LEGACY_CHAPTERS:
         filename, anchors = LEGACY_CHAPTERS[key]
         routes = {anchor: url.replace('../topics/', '') for anchor, url in legacy_routes()[filename].items()}
@@ -497,6 +505,10 @@ def render_site():
 
 def write_legacy_routes():
     routes = legacy_routes()
+    commercial = Tree((ROOT / 'content/report-pages/06-commercialization-audit.html').read_text())
+    for chapter, owner in COMMERCE_ALIASES.items():
+        for nested in re.findall(r'\bid="([^"]+)"', commercial.chapter(chapter)):
+            routes['06-commercialization-audit.html'][nested] = f'../topics/{owner}.html#original-{nested}'
     for key, (filename, anchors) in LEGACY_CHAPTERS.items():
         tree = Tree((ROOT / 'content/report-pages' / filename).read_text())
         for anchor in anchors:
@@ -529,6 +541,18 @@ def write_legacy_routes():
 
 
 def main():
+    evidence_root = ROOT / 'site/assets/evidence/ab-tests'
+    ab_manifest = json.loads((evidence_root / 'manifest.json').read_text())
+    ab_catalog = json.loads((evidence_root / 'catalog.json').read_text())
+    assert len(ab_catalog['constants']) == ab_catalog['constantCount'] == 107
+    assert len({row['theme'] for row in ab_catalog['constants']}) == ab_catalog['normalizedThemeCount'] == 55
+    for method in ab_manifest['methods']:
+        path = evidence_root / Path(method['file']).with_suffix('.bin')
+        assert sha256(path.read_bytes()).hexdigest() == method['sha256'], path
+        listing = evidence_root / method['file']
+        assert sha256(listing.read_bytes()).hexdigest() == method['listingSha256'], listing
+    for name, checksum in ab_manifest['supplementaryFiles'].items():
+        assert sha256((evidence_root / name).read_bytes()).hexdigest() == checksum, name
     keys = [topic['key'] for topic in TOPICS]
     assert len(keys) == len(set(keys)), 'Duplicate topic key'
     assert set(keys) == set(DESTINATIONS), 'Every content item needs a detail page'
@@ -563,12 +587,46 @@ def main():
     for key, (title, summary) in LEVEL_PAGES.items():
         (ROOT / f'site/topics/{key}.html').write_text(render_level_page(key, title, summary))
     write_legacy_routes()
+    commerce_targets = {f'original-{chapter}': f'{owner}.html' for chapter, owner in COMMERCE_ALIASES.items()}
+    commercial = Tree((ROOT / 'content/report-pages/06-commercialization-audit.html').read_text())
+    for owner, (filename, chapters) in LEGACY_CHAPTERS.items():
+        if filename != '06-commercialization-audit.html':
+            continue
+        for chapter in chapters:
+            for nested in re.findall(r'\bid="([^"]+)"', commercial.chapter(chapter)):
+                commerce_targets[f'original-{nested}'] = f'{owner}.html'
+    for chapter, owner in COMMERCE_ALIASES.items():
+        for nested in re.findall(r'\bid="([^"]+)"', commercial.chapter(chapter)):
+            commerce_targets[f'original-{nested}'] = f'{owner}.html'
+    (ROOT / 'site/assets/commerce-routes.js').write_text(
+        '(() => {\n  const targets = ' + json.dumps(commerce_targets, ensure_ascii=True) + ';\n'
+        "  function navigate() {\n"
+        "    let hash; try { hash = decodeURIComponent(location.hash.slice(1)); } catch { return; }\n"
+        "    if (!targets[hash] || document.getElementById(hash)) return;\n"
+        "    if (location.pathname.split('/').pop() === targets[hash]) return;\n"
+        "    const url = new URL(targets[hash], location.href);\n"
+        "    url.search = location.search; url.hash = location.hash; location.replace(url.href);\n"
+        "  }\n  window.addEventListener('hashchange', navigate);\n  navigate();\n})();\n")
     merged_routes = {f'{key}.html': f'{parent}.html#{anchor}'
                      for key, (parent, anchor) in MERGED_TOPICS.items()}
+    merged_hashes = {}
+    for chapter in ('dynamic', 'adaptive-product', 'adaptive'):
+        owner = COMMERCE_ALIASES.get(chapter, 'shop-rules')
+        for nested in re.findall(r'\bid="([^"]+)"', Tree((ROOT / 'content/report-pages/06-commercialization-audit.html').read_text()).chapter(chapter)):
+            merged_hashes[f'original-{nested}'] = f'{owner}.html#original-{nested}'
     (ROOT / 'site/assets/merged-board-routes.js').write_text(
         '(() => {\n  const targets = ' + json.dumps(merged_routes, ensure_ascii=True) + ';\n'
-        "  const target = targets[location.pathname.split('/').pop()];\n"
-        "  if (target) location.replace(location.hash ? target.split('#')[0] + location.hash : target);\n"
+        '  const accountHashes = ' + json.dumps(merged_hashes, ensure_ascii=True) + ';\n'
+        "  const page = location.pathname.split('/').pop();\n"
+        "  let hash; try { hash = decodeURIComponent(location.hash.slice(1)); } catch { hash = ''; }\n"
+        "  const mapped = page === 'account-offers.html' && accountHashes[hash];\n"
+        "  const target = mapped || targets[page];\n"
+        "  if (target) {\n"
+        "    const url = new URL(target, location.href);\n"
+        "    url.search = location.search;\n"
+        "    if (location.hash && !mapped) url.hash = location.hash;\n"
+        "    location.replace(url.href);\n"
+        "  }\n"
         '})();\n')
     redirects = dict(DESTINATIONS, **{'gate-matrix': 'topics/obstacle-rules.html'})
     for key, (parent, anchor) in MERGED_TOPICS.items():
@@ -579,6 +637,8 @@ def main():
             if name in TABLES and name != 'gate-matrix':
                 redirects[f'data-{name}'] = topic_url(topic['key'])
     redirects['data-level-patterns'] = 'topics/level-rhythm.html'
+    redirects['data-continue-experiments'] = 'topics/experiments.html#ab-continue-pricing'
+    redirects['data-commercial-moments'] = 'topics/shop-rules.html#original-moments'
     (ROOT / 'site/assets/overview-links.js').write_text(
         '(() => {\n  const targets = ' + json.dumps(redirects, ensure_ascii=True) + ';\n'
         "  function navigate() {\n    let key;\n    try { key = decodeURIComponent(location.hash.slice(1)); } catch { return; }\n"

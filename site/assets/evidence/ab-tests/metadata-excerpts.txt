@@ -1,0 +1,464 @@
+public class AbTestHelper // TypeDefIndex: 10547
+{
+	// Fields
+	private readonly Dictionary<int, string> abTestDefinitionMap; // 0x10
+	private Dictionary<int, int> currentAbTestData; // 0x18
+	private List<int> notificationTagRequiredABTestKeys; // 0x20
+	private readonly StringBuilder stringBuilder; // 0x28
+	private const int EgoPriceChangeAbNewUser = 51;
+	private const int EgoPriceChangeAbOldUser = 52;
+	private const int AndroidProgressTransferNewUser = 59;
+	private const int AndroidProgressTransferOldUser = 60;
+	private const int ArcheryArenaNewUserAbId = 61;
+	private const int ArcheryArenaOldUserAbId = 62;
+	private const int DmaConsentRequestNewUserAbId = 67;
+	private const int DmaConsentRequestOldUserAbId = 68;
+	private const int ButlersGiftMultiplierRewardV2NewUser = 79;
+	private const int ButlersGiftMultiplierRewardV2OldUser = 80;
+	private const int HomeSectionTouchLockNewUserAbId = 85;
+	private const int HomeSectionTouchLockOldUserAbId = 86;
+	private const int OffersHomeSceneIconHideNewUserAbId = 91;
+	private const int OffersHomeSceneIconHideOldUserAbId = 92;
+	private const int CardCollectionRewardsFixNewUserAbId = 99;
+	private const int CardCollectionRewardsFixOldUserAbId = 100;
+	private const int AgePopupNewUserAbId = 101;
+	private const int AgePopupOldUserAbId = 102;
+	private const int NoOfferNewUserAbId = 105;
+	private const int NoOfferOldUserAbId = 106;
+	private const int AgeConsentV2NewUserAbId = 116;
+	private const int AgeConsentV2OldUserAbId = 117;
+	private const int PrivacySettingsRedesignNewUser = 126;
+	private const int PrivacySettingsRedesignOldUser = 127;
+	private const int RewardReductionNewUserAbId = 128;
+	private const int RewardReductionOldUserAbId = 129;
+	private const int RoyalPassNextStageNewUserAbId = 134;
+	private const int RoyalPassNextStageOldUserAbId = 135;
+	private const int PropellerRush3StepNewUserAbId = 136;
+	private const int PropellerRush3StepOldUserAbId = 137;
+	private const int NewLeagueNewUserAbId = 138;
+	private const int NewLeagueOldUserAbId = 139;
+	private const int NewLeagueV2NewUserAbId = 140;
+	private const int NewLeagueV2OldUserAbId = 141;
+	private const int KingsCupMatchmakingNewUserAbId = 142;
+	private const int KingsCupMatchmakingOldUserAbId = 143;
+	private const int TeamBattleMatchmakingNewUserAbId = 144;
+	private const int TeamBattleMatchmakingOldUserAbId = 145;
+	private const int AncientAdventureNewUserAbId = 146;
+	private const int AncientAdventureOldUserAbId = 147;
+	private const int SeasonalCardCollectionImprovementNewUserAbId = 148;
+	private const int SeasonalCardCollectionImprovementOldUserAbId = 149;
+	private const int MultiplierTokentNewUserAbId = 150;
+	private const int MultiplierTokentOldUserAbId = 151;
+	private const int AncientAdventureV2NewUserAbId = 152;
+	private const int AncientAdventureV2OldUserAbId = 153;
+	private const int RobotRivalsNewUserAbId = 158;
+	private const int RobotRivalsOldUserAbId = 159;
+	private const int MultiplierTokenV2NewUserAbId = 160;
+	private const int MultiplierTokenV2OldUserAbId = 161;
+	private const int DailySkyRaceSpaceMissionNewUserAbId = 164;
+	private const int DailySkyRaceSpaceMissionOldUserAbId = 165;
+	private const int ShopRedesignNewUserAbId = 166;
+	private const int ShopRedesignOldUserAbId = 167;
+	private const int PrivacySettingsKoreaNewUserAbId = 175;
+	private const int PrivacySettingsKoreaOldUserAbId = 176;
+	private const int NotificationReductionNewUserAbId = 177;
+	private const int NotificationReductionOldUserAbId = 178;
+	private const int ClashOfChampionsNewUserAbId = 179;
+	private const int ClashOfChampionsOldUserAbId = 180;
+	private const int ExternalPaymentNewUserAbId = 181;
+	private const int ExternalPaymentOldUserAbId = 182;
+	private const int BoosterRewardReductionNewUserAbId = 183;
+	private const int BoosterRewardReductionOldUserAbId = 184;
+	private const int AgeConsentV3NewUserAbId = 185;
+	private const int AgeConsentV3OldUserAbId = 186;
+	private const int WeeklyPassNewUserAbId = 187;
+	private const int WeeklyPassOldUserAbId = 188;
+	private const int MergeSmithNewUserAbId = 189;
+	private const int MergeSmithOldUserAbId = 190;
+	private const int RushEventsReplayableNewUserAbId = 191;
+	private const int RushEventsReplayableOldUserAbId = 192;
+	private const int SuperchargeOfferNewUserAbId = 193;
+	private const int SuperchargeOfferOldUserAbId = 194;
+	private const int ExtremelyHardLevelOfferNewUserAbId = 195;
+	private const int ExtremelyHardLevelOfferOldUserAbId = 196;
+	private const int AgeConsentV4NewUserAbId = 197;
+	private const int AgeConsentV4OldUserAbId = 198;
+	private const int MultiplePurchaseDynamicOfferNewUserAbId = 199;
+	private const int MultiplePurchaseDynamicOfferOldUserAbId = 200;
+	private const int NewUserEventFlowChangeAbId = 201;
+	private const int SuperLightballLevelChangeNewUserAbId = 203;
+	private const int SuperLightballLevelChangeOldUserAbId = 204;
+	private const int LimitedInGameAdsNewUserAbId = 205;
+	private const int LimitedInGameAdsOldUserAbId = 206;
+	private const int LadderOfferShopCardNewUserAbId = 207;
+	private const int LadderOfferShopCardOldUserAbId = 208;
+	private const int AgeConsentV5NewUserAbId = 209;
+	private const int AgeConsentV5OldUserAbId = 210;
+	private const int MultiplierLevelTypeNewUserAbId = 213;
+	private const int MultiplierLevelTypeOldUserAbId = 214;
+	private const int EarlyKingsNightmareNewUserAbId = 215;
+	private const int TeamBattleContributionLimitNewUserAbId = 216;
+	private const int TeamBattleContributionLimitOldUserAbId = 217;
+	private const int ShortExpeditionEventNewUserAbId = 218;
+	private const int ShortExpeditionEventOldUserAbId = 219;
+	private const int EgoRewardedFirstStepOnlyNewUserAbId = 220;
+	private const int EgoRewardedFirstStepOnlyOldUserAbId = 221;
+	private const int ExternalPaymentV2NewUserAbId = 222;
+	private const int ExternalPaymentV2OldUserAbId = 223;
+	private const int NextEventCollectibleNewUserAbId = 224;
+	private const int NextEventCollectibleOldUserAbId = 225;
+	private const int SuperLightballLevelChangeV2NewUserAbId = 226;
+	private const int SuperLightballLevelChangeV2OldUserAbId = 227;
+	private const int DailyRewardsNewUserAbId = 228;
+	private const int DailyRewardsOldUserAbId = 229;
+	private const int TableGameAbId = 230;
+	public bool isCorruptedDBFixDisabledByBackend; // 0x30
+
+	// Properties
+	private int Item { get; }
+
+	// Methods
+
+	// RVA: 0x24605E0 Offset: 0x24605E0 VA: 0x24605E0
+	private int get_Item(int mapIndex) { }
+
+	// RVA: 0x246063C Offset: 0x246063C VA: 0x246063C
+	private void SetAbTestsMap() { }
+
+	// RVA: 0x24618EC Offset: 0x24618EC VA: 0x24618EC
+	public void .ctor() { }
+
+	// RVA: 0x2461A10 Offset: 0x2461A10 VA: 0x2461A10
+	public void Reset() { }
+
+	// RVA: 0x2461BF0 Offset: 0x2461BF0 VA: 0x2461BF0
+	private void SendAnalytics(long userId, HashSet<int> updatedAbTestList, bool fromRegister) { }
+
+	// RVA: 0x246213C Offset: 0x246213C VA: 0x246213C
+	public void ClearAndUpdateAbTestData(long userId, Nullable<NewABData> newAbData, bool fromRegister = False) { }
+
+	// RVA: 0x24621D0 Offset: 0x24621D0 VA: 0x24621D0
+	public void UpdateAbTestData(long userId, Nullable<NewABData> newAbData, bool fromRegister = False) { }
+
+	// RVA: 0x2462D5C Offset: 0x2462D5C VA: 0x2462D5C
+	private void RequeueRoyalBundlesForNewUserFlowChange() { }
+
+	// RVA: 0x24628B4 Offset: 0x24628B4 VA: 0x24628B4
+	private void UpdateNotificationRequiredAbTestKeys(NewABData newAbData) { }
+
+	// RVA: 0x2462658 Offset: 0x2462658 VA: 0x2462658
+	private static HashSet<int> GetUpdatedAbTestKeys(Dictionary<int, int> oldAbTestData, Dictionary<int, int> newAbTestData) { }
+
+	// RVA: 0x2462C38 Offset: 0x2462C38 VA: 0x2462C38
+	private void LogAbTestData() { }
+
+	// RVA: 0x2463094 Offset: 0x2463094 VA: 0x2463094
+	public string GetAbTestData() { }
+
+	// RVA: 0x2462E2C Offset: 0x2462E2C VA: 0x2462E2C
+	private void UpdateStringBuilder() { }
+
+	// RVA: 0x24624E8 Offset: 0x24624E8 VA: 0x24624E8
+	private Dictionary<int, int> BuildDictFromResponse(NewABData newAbData) { }
+
+	// RVA: 0x24629CC Offset: 0x24629CC VA: 0x24629CC
+	private List<AbTestTableItem> ConvertAbTestData(Dictionary<int, int> currentAbTestDataLocal) { }
+
+	// RVA: 0x2461A3C Offset: 0x2461A3C VA: 0x2461A3C
+	private Dictionary<int, int> ConvertAbTestData(List<AbTestTableItem> abTestTableItems) { }
+
+	// RVA: 0x2463130 Offset: 0x2463130 VA: 0x2463130
+	public bool IsCorruptedDbFixEnabled() { }
+
+	// RVA: 0x2463140 Offset: 0x2463140 VA: 0x2463140
+	public AbTestStatus[] GetAbTestStatusesForNotificationTag() { }
+
+	// RVA: 0x2463250 Offset: 0x2463250 VA: 0x2463250
+	public bool IsOneMoveRemoveAbEnabled() { }
+
+	// RVA: 0x2463260 Offset: 0x2463260 VA: 0x2463260
+	public bool IsButlersGiftMultiplierRewardAbEnabled() { }
+
+	// RVA: 0x24632E0 Offset: 0x24632E0 VA: 0x24632E0
+	public bool IsMultiplierDynamicOfferAbEnabled() { }
+
+	// RVA: 0x246331C Offset: 0x246331C VA: 0x246331C
+	public bool IsMultiplierBundleOfferAbEnabled() { }
+
+	// RVA: 0x2463358 Offset: 0x2463358 VA: 0x2463358
+	public bool IsPriceChange10MovesAbEnabled() { }
+
+	// RVA: 0x2463440 Offset: 0x2463440 VA: 0x2463440
+	public bool Is990CoinAbEnabled() { }
+
+	// RVA: 0x246338C Offset: 0x246338C VA: 0x246338C
+	public bool Is1200CoinAbEnabled() { }
+
+	// RVA: 0x24633C8 Offset: 0x24633C8 VA: 0x24633C8
+	public bool Is1500CoinAbEnabled() { }
+
+	// RVA: 0x2463404 Offset: 0x2463404 VA: 0x2463404
+	public bool Is1900CoinAbEnabled() { }
+
+	// RVA: 0x246347C Offset: 0x246347C VA: 0x246347C
+	public bool IsSaveProgressReminderAbGroupEnabled() { }
+
+	// RVA: 0x24634FC Offset: 0x24634FC VA: 0x24634FC
+	public bool IsSaveProgressReminderAlternativeAbGroupEnabled() { }
+
+	// RVA: 0x2463574 Offset: 0x2463574 VA: 0x2463574
+	public bool IsDmaConsentRequestEnabled() { }
+
+	// RVA: 0x24635B0 Offset: 0x24635B0 VA: 0x24635B0
+	public bool IsSuperDukeAbEnabled() { }
+
+	// RVA: 0x24635B8 Offset: 0x24635B8 VA: 0x24635B8
+	public bool IsSuperDukeVisibleEnabled() { }
+
+	// RVA: 0x24635C0 Offset: 0x24635C0 VA: 0x24635C0
+	private bool IsSuperDukeNonVisibleEnabled() { }
+
+	// RVA: 0x2463258 Offset: 0x2463258 VA: 0x2463258
+	private bool IsSuperDukeVisibleMinusMoveEnabled() { }
+
+	// RVA: 0x24635C8 Offset: 0x24635C8 VA: 0x24635C8
+	public bool IsHomeSectionTouchLockAbEnabled() { }
+
+	// RVA: 0x2463604 Offset: 0x2463604 VA: 0x2463604
+	public bool IsPreselectedBoosterAbEnabled() { }
+
+	// RVA: 0x246360C Offset: 0x246360C VA: 0x246360C
+	public bool IsOffersHomeSceneIconHideAbEnabled() { }
+
+	// RVA: 0x2463670 Offset: 0x2463670 VA: 0x2463670
+	public bool IsOffersHomeSceneIconHideExceptLadderOfferAbEnabled() { }
+
+	// RVA: 0x24636AC Offset: 0x24636AC VA: 0x24636AC
+	public bool IsAgePopupV1Enabled() { }
+
+	// RVA: 0x24636E8 Offset: 0x24636E8 VA: 0x24636E8
+	public bool IsNoOfferAbEnabled() { }
+
+	// RVA: 0x2463724 Offset: 0x2463724 VA: 0x2463724
+	public bool IsAncientAdventureOneStaged() { }
+
+	// RVA: 0x2463788 Offset: 0x2463788 VA: 0x2463788
+	public bool IsAncientAdventureHeistEnabled() { }
+
+	// RVA: 0x246383C Offset: 0x246383C VA: 0x246383C
+	public bool IsMergeSmithEnabled() { }
+
+	// RVA: 0x2463940 Offset: 0x2463940 VA: 0x2463940
+	public int GetMergeSmithAb() { }
+
+	// RVA: 0x2463970 Offset: 0x2463970 VA: 0x2463970
+	public bool IsAgePopupV2Enabled() { }
+
+	// RVA: 0x24639CC Offset: 0x24639CC VA: 0x24639CC
+	public bool IsAgeYearDropdownEnabled() { }
+
+	// RVA: 0x2463A08 Offset: 0x2463A08 VA: 0x2463A08
+	public bool IsAgeSliderEnabled() { }
+
+	// RVA: 0x2463A44 Offset: 0x2463A44 VA: 0x2463A44
+	public bool IsAgeRangeButtonEnabled() { }
+
+	// RVA: 0x2463A80 Offset: 0x2463A80 VA: 0x2463A80
+	public bool IsAgeConsentV3Enabled() { }
+
+	// RVA: 0x2463AE4 Offset: 0x2463AE4 VA: 0x2463AE4
+	public bool IsAgeConsentV3NewRestrictionsEnabled() { }
+
+	// RVA: 0x2463B20 Offset: 0x2463B20 VA: 0x2463B20
+	public bool IsAgeConsentV4Enabled() { }
+
+	// RVA: 0x2463B84 Offset: 0x2463B84 VA: 0x2463B84
+	public bool IsAgeConsentV4NewRestrictionsEnabled() { }
+
+	// RVA: 0x2463BC0 Offset: 0x2463BC0 VA: 0x2463BC0
+	public bool IsAgeConsentV5Enabled() { }
+
+	// RVA: 0x2463C24 Offset: 0x2463C24 VA: 0x2463C24
+	public bool IsAgeConsentV5NewRestrictionsEnabled() { }
+
+	// RVA: 0x2463C60 Offset: 0x2463C60 VA: 0x2463C60
+	public bool AreRushEventsReplayable() { }
+
+	// RVA: 0x2463C9C Offset: 0x2463C9C VA: 0x2463C9C
+	public bool IsRobotRivalsEventEnabled() { }
+
+	// RVA: 0x2463D28 Offset: 0x2463D28 VA: 0x2463D28
+	public bool IsSkyRaceAndSpaceMissionEventsInLessRewardAb() { }
+
+	// RVA: 0x2463DB4 Offset: 0x2463DB4 VA: 0x2463DB4
+	public bool IsDailySkyRaceSpaceMissionEnabled() { }
+
+	// RVA: 0x2463DF0 Offset: 0x2463DF0 VA: 0x2463DF0
+	public bool IsClashOfChampionsReplayableEnabled() { }
+
+	// RVA: 0x2463E54 Offset: 0x2463E54 VA: 0x2463E54
+	public bool IsClashOfChampionsLowRewardReplayableEnabled() { }
+
+	// RVA: 0x2463E90 Offset: 0x2463E90 VA: 0x2463E90
+	public int GetMagicDukeAb() { }
+
+	// RVA: 0x2463E98 Offset: 0x2463E98 VA: 0x2463E98
+	public bool IsMagicDukeEnabled() { }
+
+	// RVA: 0x2463EA0 Offset: 0x2463EA0 VA: 0x2463EA0
+	public bool IsMagicDuke5Enabled() { }
+
+	// RVA: 0x2463EA8 Offset: 0x2463EA8 VA: 0x2463EA8
+	public bool IsMagicDuke15Enabled() { }
+
+	// RVA: 0x2463EB0 Offset: 0x2463EB0 VA: 0x2463EB0
+	public bool IsRewardReductionAbEnabled() { }
+
+	// RVA: 0x2463F64 Offset: 0x2463F64 VA: 0x2463F64
+	public bool IsLevelEndRewardReductionAbEnabled() { }
+
+	// RVA: 0x24632A4 Offset: 0x24632A4 VA: 0x24632A4
+	private bool IsMultiplierRewardReductionAbEnabled() { }
+
+	// RVA: 0x2463FF0 Offset: 0x2463FF0 VA: 0x2463FF0
+	public bool IsEventRewardReductionAbEnabled() { }
+
+	// RVA: 0x246407C Offset: 0x246407C VA: 0x246407C
+	public int GetRewardReductionAb() { }
+
+	// RVA: 0x24640AC Offset: 0x24640AC VA: 0x24640AC
+	public bool IsPrivacySettingsRedesignEnabled() { }
+
+	// RVA: 0x24640E8 Offset: 0x24640E8 VA: 0x24640E8
+	public bool IsRoyalPassNextStageLessPricingEnabled() { }
+
+	// RVA: 0x2464124 Offset: 0x2464124 VA: 0x2464124
+	public bool IsNewRoyalLeagueAbEnabled() { }
+
+	// RVA: 0x246412C Offset: 0x246412C VA: 0x246412C
+	public bool IsLeagueRowChangeAbEnabled() { }
+
+	// RVA: 0x2464134 Offset: 0x2464134 VA: 0x2464134
+	public int GetSeasonalCardCollectionImprovementAb() { }
+
+	// RVA: 0x2464164 Offset: 0x2464164 VA: 0x2464164
+	public int GetMultiplierTokenAb() { }
+
+	// RVA: 0x246418C Offset: 0x246418C VA: 0x246418C
+	public int GetMultiplierTokenV2Ab() { }
+
+	// RVA: 0x24641B4 Offset: 0x24641B4 VA: 0x24641B4
+	public bool IsShopRedesignEnabled() { }
+
+	// RVA: 0x24641F0 Offset: 0x24641F0 VA: 0x24641F0
+	public bool IsEarlyKingNightmareAbEnabled() { }
+
+	// RVA: 0x246422C Offset: 0x246422C VA: 0x246422C
+	public bool IsTableGameAbEnabled() { }
+
+	// RVA: 0x2464248 Offset: 0x2464248 VA: 0x2464248
+	public int GetTableGameAb() { }
+
+	// RVA: 0x2464250 Offset: 0x2464250 VA: 0x2464250
+	public bool IsNotificationReductionEnabled() { }
+
+	// RVA: 0x246428C Offset: 0x246428C VA: 0x246428C
+	public bool IsPrivacySettingsKoreaEnabled() { }
+
+	// RVA: 0x24642C8 Offset: 0x24642C8 VA: 0x24642C8
+	public bool IsExternalPaymentEnabled() { }
+
+	// RVA: 0x24642F0 Offset: 0x24642F0 VA: 0x24642F0
+	private bool IsExternalPaymentV1Enabled() { }
+
+	// RVA: 0x2464408 Offset: 0x2464408 VA: 0x2464408
+	public bool IsExternalPaymentLessCoinBonusEnabled() { }
+
+	// RVA: 0x246446C Offset: 0x246446C VA: 0x246446C
+	public bool IsExternalPaymentSimpleDialogEnabled() { }
+
+	// RVA: 0x24643A4 Offset: 0x24643A4 VA: 0x24643A4
+	private bool IsExternalPaymentV2Enabled() { }
+
+	// RVA: 0x24644D0 Offset: 0x24644D0 VA: 0x24644D0
+	public bool IsExternalPaymentV2DefaultBonusEnabled() { }
+
+	// RVA: 0x246450C Offset: 0x246450C VA: 0x246450C
+	private AbTestUserGroup GetExternalPaymentAbGroup() { }
+
+	// RVA: 0x246453C Offset: 0x246453C VA: 0x246453C
+	private AbTestUserGroup GetExternalPaymentV2AbGroup() { }
+
+	// RVA: 0x246456C Offset: 0x246456C VA: 0x246456C
+	public bool IsExternalPaymentV2BonusEnabled() { }
+
+	// RVA: 0x24645A8 Offset: 0x24645A8 VA: 0x24645A8
+	public bool IsBoosterRewardReductionEnabled() { }
+
+	// RVA: 0x2464684 Offset: 0x2464684 VA: 0x2464684
+	public int GetBoosterRewardReductionAb() { }
+
+	// RVA: 0x24646B4 Offset: 0x24646B4 VA: 0x24646B4
+	public bool IsWeeklyPassEnabled() { }
+
+	// RVA: 0x2464740 Offset: 0x2464740 VA: 0x2464740
+	public bool IsWeeklyPassMorePricingEnabled() { }
+
+	// RVA: 0x246477C Offset: 0x246477C VA: 0x246477C
+	public bool IsSuperchargeOfferAbEnabled() { }
+
+	// RVA: 0x2464880 Offset: 0x2464880 VA: 0x2464880
+	public bool IsSuperchargeOfferNoPopupAbEnabled() { }
+
+	// RVA: 0x24648BC Offset: 0x24648BC VA: 0x24648BC
+	public int GetSuperchargeOfferAbGroup() { }
+
+	// RVA: 0x24648EC Offset: 0x24648EC VA: 0x24648EC
+	public bool IsExtremelyHardLevelOfferAbEnabled() { }
+
+	// RVA: 0x2464950 Offset: 0x2464950 VA: 0x2464950
+	public bool IsExtremelyHardLevelOfferBiLevelAbEnabled() { }
+
+	// RVA: 0x246498C Offset: 0x246498C VA: 0x246498C
+	public AbTestUserGroup GetLimitedInGameAdsAbGroup() { }
+
+	// RVA: 0x24649BC Offset: 0x24649BC VA: 0x24649BC
+	public bool IsMultiplePurchaseDynamicOfferAvailabilityOverrideEnabled() { }
+
+	// RVA: 0x24649F8 Offset: 0x24649F8 VA: 0x24649F8
+	public bool IsMultiplePurchaseEnabled() { }
+
+	// RVA: 0x2464A34 Offset: 0x2464A34 VA: 0x2464A34
+	public bool IsLowDiscountEnabledAsAlternative() { }
+
+	// RVA: 0x2462DF0 Offset: 0x2462DF0 VA: 0x2462DF0
+	public bool IsNewUserEventFlowChangeEnabled() { }
+
+	// RVA: 0x2464A70 Offset: 0x2464A70 VA: 0x2464A70
+	public bool IsNewUserEventFlowChangePartiallyLockEnabled() { }
+
+	// RVA: 0x2464A8C Offset: 0x2464A8C VA: 0x2464A8C
+	public int GetSlbLevelChangeAbGroup() { }
+
+	// RVA: 0x2464B18 Offset: 0x2464B18 VA: 0x2464B18
+	public bool IsLadderOfferShopCardEnabled() { }
+
+	// RVA: 0x2464B54 Offset: 0x2464B54 VA: 0x2464B54
+	public int GetMultiplierSelectionAb() { }
+
+	// RVA: 0x2464B84 Offset: 0x2464B84 VA: 0x2464B84
+	public bool IsTeamBattleRewardScoreThresholdEnabled() { }
+
+	// RVA: 0x2464BC0 Offset: 0x2464BC0 VA: 0x2464BC0
+	public int GetShortExpeditionEventAb() { }
+
+	// RVA: 0x2464BF0 Offset: 0x2464BF0 VA: 0x2464BF0
+	public bool IsEgoRewardedFirstStepOnlyAbEnabled() { }
+
+	// RVA: 0x24596E0 Offset: 0x24596E0 VA: 0x24596E0
+	public bool IsRemainingCollectablesConversionAbEnabled() { }
+
+	// RVA: 0x2464C2C Offset: 0x2464C2C VA: 0x2464C2C
+	public AbTestUserGroup GetDailyRewardsAbGroup() { }
+}
+
