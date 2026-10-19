@@ -1,0 +1,100 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "cases": [
+    {
+      "name": "all-zero",
+      "injectedState": "0",
+      "decoded": {
+        "tryCount2": 0,
+        "deltaMove": 0,
+        "lastUpdatedSection": 0,
+        "currentLevel": 0
+      },
+      "inputMoves": 25,
+      "outputMoves": 25,
+      "dynaDiffReads": []
+    },
+    {
+      "name": "encoded-zero",
+      "injectedState": "3470339162126",
+      "decoded": {
+        "tryCount2": 7,
+        "deltaMove": 0,
+        "lastUpdatedSection": 21,
+        "currentLevel": 101
+      },
+      "inputMoves": 25,
+      "outputMoves": 25,
+      "dynaDiffReads": []
+    },
+    {
+      "name": "minus-three",
+      "injectedState": "3470339137550",
+      "decoded": {
+        "tryCount2": 7,
+        "deltaMove": -3,
+        "lastUpdatedSection": 21,
+        "currentLevel": 101
+      },
+      "inputMoves": 25,
+      "outputMoves": 25,
+      "dynaDiffReads": []
+    },
+    {
+      "name": "plus-three",
+      "injectedState": "3470339186702",
+      "decoded": {
+        "tryCount2": 7,
+        "deltaMove": 3,
+        "lastUpdatedSection": 21,
+        "currentLevel": 101
+      },
+      "inputMoves": 25,
+      "outputMoves": 25,
+      "dynaDiffReads": []
+    },
+    {
+      "name": "plus-twenty-one",
+      "injectedState": "3470339334158",
+      "decoded": {
+        "tryCount2": 7,
+        "deltaMove": 21,
+        "lastUpdatedSection": 21,
+        "currentLevel": 101
+      },
+      "inputMoves": 25,
+      "outputMoves": 25,
+      "dynaDiffReads": []
+    }
+  ],
+  "positiveControl": [
+    {
+      "phase": "positive-control",
+      "pc": "0x2a097f4",
+      "address": "0x710000b0",
+      "size": 8
+    }
+  ],
+  "stubs": [
+    "0xfb1300"
+  ],
+  "stubMeaning": "Metadata/class initialization only; no gameplay getter stub.",
+  "bindings": {
+    "userManagerTypeSlot": "0x5208380",
+    "inventory": "0x71000000",
+    "user": "0x71005000",
+    "activeLevel": "0x71007000",
+    "leagueField": 0
+  },
+  "methods": {
+    "propertySet": "0x2A097FC",
+    "propertyGet": "0x2A097F4",
+    "tryCount2": "0x2A0E82C",
+    "deltaMove": "0x2A0E84C",
+    "section": "0x2A0E8A8",
+    "currentLevel": "0x2A0E8F4",
+    "updatedMoves": "0x1C8532C",
+    "isLeague": "0x245B578"
+  },
+  "boundary": "Injected account state, intact property/accessor and ordinary move-count code. Not real server data; no server response, SQL, Unity session, seed/refill or full-game execution tested."
+}

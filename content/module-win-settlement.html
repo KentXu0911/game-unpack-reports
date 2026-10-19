@@ -2,12 +2,12 @@
 <h3 id="m-summary">一屏结论</h3>
 <div class="data-scroll" tabindex="0" role="region" aria-label="难度算法提取结论"><table><thead><tr><th>内容</th><th>已经提取到什么</th><th>当前边界</th></tr></thead><tbody>
 <tr><td><a href="#difficulty-role">两张表的作用</a></td><td>按关卡段记录尝试次数上下限；Easy列一致，Hard文件多了Hard侧阈值</td><td>本版已查普通主线路径未接入；不能当成正在工作的自动调难算法</td></tr>
-<tr><td><a href="#difficulty-state">账号难度状态</a></td><td>64位long的4个字段、解码工具、重置顺序和服务端写入入口</td><td>可读结构，不能由结构猜出账号实际收到的值</td></tr>
+<tr><td><a href="#dynadiff-effects">DynaDiff传来会改什么</a></td><td>替换账号long、保存并标记已同步；重启恢复。能解码字段，已核对普通步数分支</td><td>构造状态中的DeltaMove改变，普通关卡步数仍回传原值；未找到seed、补棋或飞机的读取连接</td></tr>
 <tr><td><a href="#difficulty-policy">实际策略代码</a></td><td>策略入口固定创建SemiDynamicDifficulty；主线回传原始步数，失败回调为空</td><td>L101实机与静态一致：种子变了，初始步数未变，动态状态未命中</td></tr>
 </tbody></table></div>
 <p class="flow-note">续关报价与给步见<a href="failure-product.html">失败续关</a>；实验条件见<a href="experiments.html">A/B测试</a>。本页的“难度表”“随机种子”“付费续关”分别取证。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#difficulty-role"><b>01</b>两表用途与核查</a><a href="#difficulty-tables"><b>02</b>完整配置</a><a href="#difficulty-state"><b>03</b>难度状态</a><a href="#m-analysis"><b>04</b>算法解读</a><a href="#m-unknown"><b>05</b>未确认与边界</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#difficulty-role"><b>01</b>两表用途与核查</a><a href="#difficulty-tables"><b>02</b>完整配置</a><a href="#difficulty-state"><b>03</b>难度状态</a><a href="#dynadiff-effects"><b>04</b>传来后改什么</a><a href="#m-analysis"><b>05</b>算法解读</a><a href="#m-unknown"><b>06</b>未确认与边界</a></nav>
 <section aria-labelledby="m-facts">
 <h3 id="m-facts">拆包事实：配置有没有接入实际玩法</h3>
 <span class="layer layer-fact">事实层</span>
@@ -35,7 +35,28 @@ deltaMove = (raw == 0) ? 0 : raw - 10
 lastSection = extract(state, 18, 34)
 currentLevel = extract(state, 35, 49)</code></pre></details>
 <p>构造例：<code>3470339186702</code>解码为关101、段21、TryCount2为7、DeltaMove为3。这只是核对位段的例子，并非实际账号记录。<a href="../assets/evidence/difficulty-deep/decode-state.py" download>下载独立解码工具</a>，运行<code>python3 decode-state.py 3470339186702</code>即可复算。<!--REF:diff-state--></p>
+<h4 id="dynadiff-effects">服务器传来DynaDiff，客户端到底改什么</h4>
+<p><b>直接改变的是账号里保存的难度long。当前已查到的普通关卡算法没有把它接到开局步数上，也未找到它改变seed、补棋或飞机评分的读取连接。</b>这里的“传来”是响应处理代码支持这种输入；现有记录没有抓到账号实际收到非零DynaDiff，不能写成服务器正在这样调难。<!--REF:diff-sync--><!--REF:diff-consumers--></p>
+<details class="code-fold"><summary>整理代码：收到、保存、重启恢复与按需上传</summary><pre class="algorithm-code" tabindex="0"><code>// 按原机器码整理；省略日志、空对象检查与通用数据库实现。
+ProcessKeyValueResponse(key, value):
+    if key == "DynaDiff":
+        inventory.DynamicDifficultyInventory = value  // 整个long替换，不是加到原值上
+        UserKeyValue.SetLong("DynaDiff", value)       // 写本地键值表
+        UserKeyValue.SetSynced("DynaDiff", true)      // 响应处理的共同收尾
+
+UpdateDataFromLocalStorage():
+    inventory.DynamicDifficultyInventory = UserKeyValue.GetLong("DynaDiff", 0)
+
+GetUpdatedKeyValues(counts):
+    if counts.DynaDiff &gt;= 1:                        // 待同步记录数，不是失败次数
+        pending.Add("DynaDiff", inventory.DynamicDifficultyInventory)</code></pre></details>
 <!--TABLE:diff-sync-->
+<p>例如把状态换成前面的构造值，解码函数就能读出关号、段号、尝试计数和步数差。这里的<code>CurrentLevel</code>是难度long内部记录的关号；这条写入没有直接修改玩家过关进度或切换关卡。<b>“读出步数差”与“把步数差加到关卡步数上”也需要不同的代码。</b>实际的普通关卡步数入口只判断是否League；普通关卡直接返回原始步数，没有调用这个步数差读取函数。<!--REF:diff-state--><!--REF:diff-sync--><!--REF:settlement-methods--></p>
+<!--TABLE:diff-native-cases-->
+<p>表中每一行都执行原来的位段读取函数和普通关卡步数函数，得到的字段确实随注入状态改变，输出步数却相同，步数函数也没有读取难度long。这是对该入口的原字节执行验证；没有执行完整响应处理、真实数据库或整局游戏，不能替代全客户端的实机对照。<!--REF:diff-native-cases--></p>
+<!--TABLE:diff-consumers-->
+<p>读取核查同时检查整值getter、位段getter、内联的账号字段读取和DynaDiff字符串键。数据库构造函数中的键引用只是把它加入可管理的键名数组；已定位的其他字段读写用于同步、解码与重置。没有找到“取出这个值，再交给普通玩法计算”的连接；未知的间接读取仍是扫描边界。<!--REF:diff-consumers--></p>
+<p><a href="../assets/evidence/dynadiff-consumers/README.md">核查范围与复算方式</a> · <a href="../assets/evidence/dynadiff-consumers/trace.json">键、字段与调用点清单</a> · <a href="../assets/evidence/dynadiff-consumers/verification.json">构造状态的原字节执行回执</a> · <a href="../assets/evidence/dynadiff-consumers/native.zip" download>相关原字节与带方法名汇编</a></p>
 <h4 id="difficulty-policy">实际策略与调用入口</h4>
 <!--TABLE:settlement-methods-->
 </section>
@@ -46,7 +67,7 @@ currentLevel = extract(state, 35, 49)</code></pre></details>
 <div class="finding"><b>这些数不能直接解读为“每关失败几次就放水”。</b>表按一段关卡配置min／max，区间长度会变化，上下限也有回落。它具体统计什么、何时比较、-1如何判断，需要实际消费者才能确定；它也不是单调难度曲线。<!--REF:diff-table--></div>
 <div class="finding"><b>代码里有两套TryCount，存储与调用并不相同。</b><code>GetTryCount2</code>读难度long；<code>SemiDynamicDifficulty.GetTryCount</code>则读<code>PreLevelInventory</code>里的另一段。后者由成功结算与首次显示续关的入口转入递增函数，排除League／Story，且只在关号不超过100时更新。仅凭名字不能把它们合并为“这关连败次数”。<!--REF:settlement-methods--><!--REF:diff-state--></div>
 <div class="finding"><b>当前这个主线路径没有读取DeltaMove来加初始步数。</b><code>GetUpdatedMoveCount</code>在非League分支直接返回传入步数；League另有加步。难度状态确实能从响应写入、保存和解码，但从“能存”到“改变主线步数”还不能画等号。<!--REF:settlement-methods--></div>
-<div class="finding"><b>DynaDiff是状态同步链路，不是两表已经启用的证据。</b>服务端响应可以写入这个long；客户端在该键需要同步时，也会把当前long加入上传字典。同步计数只决定是否上报，不负责判定玩家属于Easy还是Hard，这些收发入口也没有解析两表。<!--REF:diff-sync--></div>
+<div class="finding"><b>DynaDiff收发能复刻，调难效果不能凭字段名补出来。</b>接收后替换状态、保存并标记已同步，重启读回；有待同步记录时才组装上传。当前确认的是状态管理能力，未找到它在普通玩法中的有效消费者，也没有实抓的非零服务器输入。<!--REF:diff-sync--><!--REF:diff-consumers--></div>
 <div class="finding"><b>DifficultyNext是随机入口，不是动态难度判定函数。</b>它把随机生成计数加一，再调用难度随机流的Next。初始颜色、补棋、洗牌等调用方会使用这条流；该函数自身不读Easy／Hard阈值，不检查失败次数，也不评价这个种子更难还是更容易。<!--REF:settlement-methods--></div>
 <details class="code-fold"><summary>整理代码：主线／League步数与早期计数</summary><pre class="algorithm-code" tabindex="0"><code>// LevelEpisodeHelper固定创建该策略；接口调用转交给它。
 strategy = new SemiDynamicDifficulty()
@@ -74,6 +95,7 @@ IncrementTryCount():
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度未确认事项"><table><thead><tr><th>还缺什么</th><th>目前能确定的边界</th></tr></thead><tbody>
 <tr><td>两表最初设计用途与历史状态</td><td>字段表达按段尝试次数上下限；没有消费者证明比较口径、-1含义、Easy／Hard方案选择或后续动作。遗留／闲置是综合判断，不能当作开发历史事实。</td></tr>
 <tr><td>阈值如何改变难度</td><td>尚未确认阈值到Skill、DeltaMove、种子选择或补棋权重的完整映射。</td></tr>
+<tr><td>DynaDiff的真实服务器输入与玩法消费者</td><td>收发、保存、恢复与字段解码已定位；普通步数分支不读取它。键与类型字段扫描未发现其他玩法连接，但不穷尽间接调用、别名或外部代码。构造long不是服务器抓包，也没有证明后台如何计算它。</td></tr>
 <tr><td>其他账号、版本与外部配置</td><td>当前普通主线路径有明确的未接入证据；未覆盖账号、间接读取、外部代码与未来版本需独立取证。本表止于1,100关，不等于之后自动由服务器接管。</td></tr>
 <tr><td>真实胜率与动态调控效果</td><td>位宽、默认表、局部函数执行均不提供玩家遥测或因果效果。</td></tr>
 </tbody></table></div>

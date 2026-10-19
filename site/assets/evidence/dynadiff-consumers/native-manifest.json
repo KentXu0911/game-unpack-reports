@@ -1,0 +1,214 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methods": [
+    {
+      "address": "0x1c8532c",
+      "methods": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetUpdatedMoveCount"
+      ],
+      "bytes": 296,
+      "sha256": "8016a79769c15ae6b57803050bdc66d5ec8583bf38d15c378649d8c1f85ced1b"
+    },
+    {
+      "address": "0x1f0a340",
+      "methods": [
+        "Royal.Player.Context.Units.UserManager$$ProcessKeyValueResponse"
+      ],
+      "bytes": 6368,
+      "sha256": "ad4964b362a58da0fdb127c2a31361446008f8a8fc6d2953e4f273ea1ed3cb9a"
+    },
+    {
+      "address": "0x245b578",
+      "methods": [
+        "Royal.Player.Context.Data.Session.UserActiveLevelData$$get_IsLeague"
+      ],
+      "bytes": 16,
+      "sha256": "5e043f19fe13b3563cfa45202f8fc3ef36ae8e750b1fb01c550dc9fa00f90790"
+    },
+    {
+      "address": "0x26849f4",
+      "methods": [
+        "Royal.Player.Context.Data.SyncManager$$UpdateDataFromLocalStorage"
+      ],
+      "bytes": 1648,
+      "sha256": "ab7895974927399c895a48c90303ab2fbf60a32e2e4c61019802cfcbb5fad8c2"
+    },
+    {
+      "address": "0x2685a18",
+      "methods": [
+        "Royal.Player.Context.Data.SyncManager$$GetUpdatedKeyValues"
+      ],
+      "bytes": 3000,
+      "sha256": "5e250597cdb6a222f8225729fa31a1bced57c874d9201f098f17ee728bb226c8"
+    },
+    {
+      "address": "0x2a097f4",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$get_DynamicDifficultyInventory"
+      ],
+      "bytes": 8,
+      "sha256": "a28213a16d3021900ec3b7340d6d01776144729f69c6b144002f7adc208d868f"
+    },
+    {
+      "address": "0x2a097fc",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$set_DynamicDifficultyInventory"
+      ],
+      "bytes": 8,
+      "sha256": "77f74c4cabd29ac86af518b324f4431e55b89e4759784a0334fa7acba3850bdf"
+    },
+    {
+      "address": "0x2a0e5d8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "bytes": 296,
+      "sha256": "acfd74ec9b335a6a5d46f46b5199d957413f3979a356349660ab499ff243b628"
+    },
+    {
+      "address": "0x2a0e700",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "bytes": 300,
+      "sha256": "9946cfb5ba2683e025d1945daf44d59205fc0be7a1d69838616bd13c6403cd71"
+    },
+    {
+      "address": "0x2a0e82c",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount2"
+      ],
+      "bytes": 32,
+      "sha256": "16b4a9da01f22704d129afe1ad136f5603c388b6eaba1873bd3f9c3bf94b8bee"
+    },
+    {
+      "address": "0x2a0e84c",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetDeltaMove"
+      ],
+      "bytes": 44,
+      "sha256": "48e307007d334a268257dd3230c08c5855ef0e8a5491f4c39fb3b562daa0d81b"
+    },
+    {
+      "address": "0x2a0e878",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "bytes": 48,
+      "sha256": "3642a7c69930c44e900e2f96e5ce55ff7a1f2a9a9ed65ab43478568e5193f3d2"
+    },
+    {
+      "address": "0x2a0e8a8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetLastUpdatedSection"
+      ],
+      "bytes": 32,
+      "sha256": "9eef10701b43d274a41fa4a91174ee5f21d542fd397195d5762e1c3dc604349a"
+    },
+    {
+      "address": "0x2a0e8c8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "bytes": 44,
+      "sha256": "fb3d866aed9b86ea56365d597ad52441d7f835d898e5657526a00867da2662ab"
+    },
+    {
+      "address": "0x2a0e8f4",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetCurrentLevel"
+      ],
+      "bytes": 32,
+      "sha256": "cc585827c1cf1839c184069a5defab9437e08f53750d8eb252a5014fd2282c95"
+    },
+    {
+      "address": "0x2a0e914",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "bytes": 44,
+      "sha256": "c16d48bd5c8a6ee80a520164f4c7390038864c2ef3f1995c65ce9bc429dd7320"
+    },
+    {
+      "address": "0x2a0e940",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "bytes": 132,
+      "sha256": "e8f8558a8ad6d6fffb595f07b48b7bd0469835426cff39ed34acf12693e8b3a0"
+    },
+    {
+      "address": "0x2a0e9c4",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetKeyValues"
+      ],
+      "bytes": 2000,
+      "sha256": "c772af51157d1774cdb8cd1aa74522cb31751b23140ec75a57eb0054fd589e6d"
+    },
+    {
+      "address": "0x2e59ff0",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$InsertOrReplace"
+      ],
+      "bytes": 40,
+      "sha256": "8fe2549c19a4a07e196f0adb20d90565a80568bd6b15bc5d387a4e5a888edb7d"
+    },
+    {
+      "address": "0x2e5a504",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "bytes": 5104,
+      "sha256": "439198fe28ece8a2eb38acd20c9745f63190723638555c4d3608bc91c4691fc4"
+    },
+    {
+      "address": "0x2e5bbac",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "bytes": 5116,
+      "sha256": "df29ea1738bcb65d6822f6ab74c8cb54c9f55c4b20705f2ea8c1e5b326b057b4"
+    },
+    {
+      "address": "0x2e60270",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.Tables.KeyValueTable$$SetLong"
+      ],
+      "bytes": 220,
+      "sha256": "f4ca00f7bbbae42e042ba4db4459ffdf4141e1cec41ee5345d13b12a2c936066"
+    },
+    {
+      "address": "0x2e60374",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.Tables.KeyValueTable$$GetLong"
+      ],
+      "bytes": 144,
+      "sha256": "fb912147e43b0450c07383a895bbe6aa9efc5ebebc727c76cf0d285b387a8426"
+    },
+    {
+      "address": "0x2e7012c",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.Tables.UserKeyValue$$SetLong"
+      ],
+      "bytes": 44,
+      "sha256": "f56b38897acfa97b5031619a3ee9fae164d0a381f785435e1e3b44bfe8bebe73"
+    },
+    {
+      "address": "0x2e70158",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.Tables.UserKeyValue$$GetLong"
+      ],
+      "bytes": 40,
+      "sha256": "71ddce9abf24d566e68c6728217d4d383940c5673bd7536a4b0e4aa846cc4845"
+    },
+    {
+      "address": "0x2e70220",
+      "methods": [
+        "Royal.Infrastructure.Services.Storage.Tables.UserKeyValue$$SetSynced"
+      ],
+      "bytes": 40,
+      "sha256": "7058262d09fc187e4900a8505519a774e76d622fdfb954afe90ab2f46ffb4c5d"
+    }
+  ],
+  "archiveSha256": "70a48fca2dd91a8d2c1733eab7aa8c789e4673733377d8e78ce7784dd96856e4"
+}

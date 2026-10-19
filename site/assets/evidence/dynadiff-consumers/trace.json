@@ -1,0 +1,690 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "indexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "keyLiteral": "0x544f0b8",
+  "keyLiteralPointerSlots": [
+    "0x6212d0",
+    "0x51bd900"
+  ],
+  "keyReferences": [
+    {
+      "site": "0x1f0a4b8",
+      "method": [
+        "Royal.Player.Context.Units.UserManager$$ProcessKeyValueResponse"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x1f0a5c0",
+      "method": [
+        "Royal.Player.Context.Units.UserManager$$ProcessKeyValueResponse"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x27, [x27, #0x900]"
+    },
+    {
+      "site": "0x2684b04",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$UpdateDataFromLocalStorage"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x2684f8c",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$UpdateDataFromLocalStorage"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x8, [x8, #0x900]"
+    },
+    {
+      "site": "0x2685ba0",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$GetUpdatedKeyValues"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x2685d48",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$GetUpdatedKeyValues"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x9, [x9, #0x900]"
+    },
+    {
+      "site": "0x2a0e758",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x2a0e7dc",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x22, [x22, #0x900]"
+    },
+    {
+      "site": "0x2e5a670",
+      "method": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x2e5a7b4",
+      "method": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x21, [x21, #0x900]"
+    },
+    {
+      "site": "0x2e5bd20",
+      "method": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x0, [x0, #0x900]"
+    },
+    {
+      "site": "0x2e5be64",
+      "method": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$.ctor"
+      ],
+      "slot": "0x51bd900",
+      "instruction": "ldr x22, [x22, #0x900]"
+    }
+  ],
+  "typedFieldReferences": [
+    {
+      "site": "0x2684fb4",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$UpdateDataFromLocalStorage"
+      ],
+      "instruction": "str x0, [x19, #0xb0]",
+      "context": [
+        "2684f94: str q0, [x19, #0xa0]",
+        "2684f98: ldr x19, [x20, #0x20]",
+        "2684f9c: ldr x0, [x8]",
+        "2684fa0: mov x2, xzr",
+        "2684fa4: bl #0x2e70158",
+        "2684fa8: cbz x19, #0x2685060",
+        "2684fac: adrp x8, #0x5236000",
+        "2684fb0: ldr x8, [x8, #0x8d0]",
+        "2684fb4: str x0, [x19, #0xb0]",
+        "2684fb8: ldr x19, [x20, #0x20]",
+        "2684fbc: mov x1, xzr",
+        "2684fc0: ldr x0, [x8]",
+        "2684fc4: mov x2, xzr"
+      ]
+    },
+    {
+      "site": "0x2685d4c",
+      "method": [
+        "Royal.Player.Context.Data.SyncManager$$GetUpdatedKeyValues"
+      ],
+      "instruction": "ldr x2, [x8, #0xb0]",
+      "context": [
+        "2685d2c: ldr x8, [x22]",
+        "2685d30: ldr x8, [x8, #0xb8]",
+        "2685d34: ldr x8, [x8]",
+        "2685d38: cbz x8, #0x26865cc",
+        "2685d3c: ldr x8, [x8, #0x20]",
+        "2685d40: cbz x8, #0x26865cc",
+        "2685d44: adrp x9, #0x51bd000",
+        "2685d48: ldr x9, [x9, #0x900]",
+        "2685d4c: ldr x2, [x8, #0xb0]",
+        "2685d50: ldr x3, [x21]",
+        "2685d54: mov x0, x20",
+        "2685d58: ldr x1, [x9]",
+        "2685d5c: bl #0x3bea080"
+      ]
+    },
+    {
+      "site": "0x2a097f4",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$get_DynamicDifficultyInventory"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a097f4: ldr x0, [x0, #0xb0]",
+        "2a097f8: ret "
+      ]
+    },
+    {
+      "site": "0x2a097fc",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$set_DynamicDifficultyInventory"
+      ],
+      "instruction": "str x1, [x0, #0xb0]",
+      "context": [
+        "2a097fc: str x1, [x0, #0xb0]",
+        "2a09800: ret "
+      ]
+    },
+    {
+      "site": "0x2a0e6c8",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "instruction": "ldr x0, [x19, #0xb0]",
+      "context": [
+        "2a0e6a8: bl #0xf80fe4",
+        "2a0e6ac: ldr x8, [x0, #0xb8]",
+        "2a0e6b0: mov w1, #0xa",
+        "2a0e6b4: mov x0, x19",
+        "2a0e6b8: mov x2, x21",
+        "2a0e6bc: ldr x3, [x8]",
+        "2a0e6c0: mov x4, xzr",
+        "2a0e6c4: bl #0x2800920",
+        "2a0e6c8: ldr x0, [x19, #0xb0]",
+        "2a0e6cc: mov w2, #1",
+        "2a0e6d0: mov w3, #0xc",
+        "2a0e6d4: mov w1, w20",
+        "2a0e6d8: mov x4, xzr"
+      ]
+    },
+    {
+      "site": "0x2a0e804",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "instruction": "str x19, [x20, #0xb0]",
+      "context": [
+        "2a0e7e4: bl #0xf80fe4",
+        "2a0e7e8: ldr x8, [x0, #0xb8]",
+        "2a0e7ec: mov w1, #0xa",
+        "2a0e7f0: mov x0, x20",
+        "2a0e7f4: mov x2, x21",
+        "2a0e7f8: ldr x3, [x8]",
+        "2a0e7fc: mov x4, xzr",
+        "2a0e800: bl #0x2800920",
+        "2a0e804: str x19, [x20, #0xb0]",
+        "2a0e808: ldr x0, [x22]",
+        "2a0e80c: mov x1, x19",
+        "2a0e810: mov x2, xzr",
+        "2a0e814: bl #0x2e7012c"
+      ]
+    },
+    {
+      "site": "0x2a0e830",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount2"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e82c: str x30, [sp, #-0x10]!",
+        "2a0e830: ldr x0, [x0, #0xb0]",
+        "2a0e834: mov w1, #1",
+        "2a0e838: mov w2, #0xc",
+        "2a0e83c: mov x3, xzr",
+        "2a0e840: bl #0x32843b8"
+      ]
+    },
+    {
+      "site": "0x2a0e850",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetDeltaMove"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e84c: str x30, [sp, #-0x10]!",
+        "2a0e850: ldr x0, [x0, #0xb0]",
+        "2a0e854: mov w1, #0xd",
+        "2a0e858: mov w2, #0x11",
+        "2a0e85c: mov x3, xzr",
+        "2a0e860: bl #0x32843b8"
+      ]
+    },
+    {
+      "site": "0x2a0e880",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e878: stp x19, x30, [sp, #-0x10]!",
+        "2a0e87c: mov x19, x0",
+        "2a0e880: ldr x0, [x0, #0xb0]",
+        "2a0e884: add w1, w1, #0xa",
+        "2a0e888: mov w2, #0xd",
+        "2a0e88c: mov w3, #0x11",
+        "2a0e890: mov x4, xzr"
+      ]
+    },
+    {
+      "site": "0x2a0e8ac",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetLastUpdatedSection"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e8a8: str x30, [sp, #-0x10]!",
+        "2a0e8ac: ldr x0, [x0, #0xb0]",
+        "2a0e8b0: mov w1, #0x12",
+        "2a0e8b4: mov w2, #0x22",
+        "2a0e8b8: mov x3, xzr",
+        "2a0e8bc: bl #0x32843b8"
+      ]
+    },
+    {
+      "site": "0x2a0e8d0",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e8c8: stp x19, x30, [sp, #-0x10]!",
+        "2a0e8cc: mov x19, x0",
+        "2a0e8d0: ldr x0, [x0, #0xb0]",
+        "2a0e8d4: mov w2, #0x12",
+        "2a0e8d8: mov w3, #0x22",
+        "2a0e8dc: mov x4, xzr",
+        "2a0e8e0: bl #0x32844a8"
+      ]
+    },
+    {
+      "site": "0x2a0e8f8",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetCurrentLevel"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e8f4: str x30, [sp, #-0x10]!",
+        "2a0e8f8: ldr x0, [x0, #0xb0]",
+        "2a0e8fc: mov w1, #0x23",
+        "2a0e900: mov w2, #0x31",
+        "2a0e904: mov x3, xzr",
+        "2a0e908: bl #0x32843b8"
+      ]
+    },
+    {
+      "site": "0x2a0e91c",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e914: stp x19, x30, [sp, #-0x10]!",
+        "2a0e918: mov x19, x0",
+        "2a0e91c: ldr x0, [x0, #0xb0]",
+        "2a0e920: mov w2, #0x23",
+        "2a0e924: mov w3, #0x31",
+        "2a0e928: mov x4, xzr",
+        "2a0e92c: bl #0x32844a8"
+      ]
+    },
+    {
+      "site": "0x2a0e948",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "instruction": "ldr x0, [x0, #0xb0]",
+      "context": [
+        "2a0e940: stp x19, x30, [sp, #-0x10]!",
+        "2a0e944: mov x19, x0",
+        "2a0e948: ldr x0, [x0, #0xb0]",
+        "2a0e94c: mov w2, #0x23",
+        "2a0e950: mov w3, #0x31",
+        "2a0e954: mov w1, wzr",
+        "2a0e958: mov x4, xzr"
+      ]
+    },
+    {
+      "site": "0x2a0e96c",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "instruction": "ldr x0, [x19, #0xb0]",
+      "context": [
+        "2a0e94c: mov w2, #0x23",
+        "2a0e950: mov w3, #0x31",
+        "2a0e954: mov w1, wzr",
+        "2a0e958: mov x4, xzr",
+        "2a0e95c: bl #0x32844a8",
+        "2a0e960: mov x1, x0",
+        "2a0e964: mov x0, x19",
+        "2a0e968: bl #0x2a0e700",
+        "2a0e96c: ldr x0, [x19, #0xb0]",
+        "2a0e970: mov w2, #0x12",
+        "2a0e974: mov w3, #0x22",
+        "2a0e978: mov w1, wzr",
+        "2a0e97c: mov x4, xzr"
+      ]
+    },
+    {
+      "site": "0x2a0e990",
+      "method": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "instruction": "ldr x0, [x19, #0xb0]",
+      "context": [
+        "2a0e970: mov w2, #0x12",
+        "2a0e974: mov w3, #0x22",
+        "2a0e978: mov w1, wzr",
+        "2a0e97c: mov x4, xzr",
+        "2a0e980: bl #0x32844a8",
+        "2a0e984: mov x1, x0",
+        "2a0e988: mov x0, x19",
+        "2a0e98c: bl #0x2a0e700",
+        "2a0e990: ldr x0, [x19, #0xb0]",
+        "2a0e994: mov w1, #0xa",
+        "2a0e998: mov w2, #0xd",
+        "2a0e99c: mov w3, #0x11",
+        "2a0e9a0: mov x4, xzr"
+      ]
+    }
+  ],
+  "directCalls": [
+    {
+      "site": "0x1f0b364",
+      "caller": [
+        "Royal.Player.Context.Units.UserManager$$ProcessKeyValueResponse"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e6e8",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e8a4",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e8f0",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e93c",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e968",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e98c",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e9b0",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "target": "0x2a0e700",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ]
+    },
+    {
+      "site": "0x2a0e9c0",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "target": "0x2a0e5d8",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ]
+    },
+    {
+      "site": "0x2a0eb84",
+      "caller": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetKeyValues"
+      ],
+      "target": "0x2a0e940",
+      "callee": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ]
+    }
+  ],
+  "targetMethodPointers": [
+    {
+      "address": "0x2a097f4",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$get_DynamicDifficultyInventory"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc23760",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553a778",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a097fc",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$set_DynamicDifficultyInventory"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc23778",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553a780",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e5d8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24090",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aa88",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e700",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24150",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aac8",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e82c",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount2"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc240a8",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aa90",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e84c",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetDeltaMove"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc240c0",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aa98",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e878",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc240d8",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aaa0",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e8a8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetLastUpdatedSection"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc240f0",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aaa8",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e8c8",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24108",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aab0",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e8f4",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetCurrentLevel"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24120",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aab8",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e914",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24138",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aac0",
+          "section": ".data"
+        }
+      ]
+    },
+    {
+      "address": "0x2a0e940",
+      "methods": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "alignedSlots": [
+        {
+          "address": "0xc24168",
+          "section": ".rela.dyn"
+        },
+        {
+          "address": "0x553aad0",
+          "section": ".data"
+        }
+      ]
+    }
+  ],
+  "candidateMetadataSpans": 12763,
+  "scannedMetadataSpans": 12762,
+  "rawOffsetCandidates": 34496,
+  "skippedUnboundedFinalSpans": [
+    "0x3e67328"
+  ],
+  "boundary": "Immediate B/BL and aligned pointer scans cover executable/data PT_LOAD. Typed tracing is linear register propagation on candidates, includes common inlined UserManager.CurrentUser.Inventory roots and typed this fields. No complete alias/CFG/indirect/reflection or all load/store encoding proof. Same offset on other objects is not DynaDiff. .rela.dyn hits are relocation addends, not executable consumers. Positive field/key sites manually reviewed."
+}

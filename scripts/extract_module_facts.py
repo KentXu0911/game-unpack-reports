@@ -691,11 +691,37 @@ def settlement(ws):
           '开局计数为LevelTryCount。两份日志中的GetUpdatedMoveCount调用均25→25；两次Start记录原始25步，再强制为1。Restart沿用强制1步状态，没有独立的自然初始步数记录。动态状态、TryCount2、DeltaMove及DynaDiff钩子均0命中，无安装错误；共3次开局、1次正式Fail，不是自然胜率或跨阈值实测。')
     table('diff-sync', 'DynaDiff状态同步：存在的链路', ['入口', '原字节所做的事'], [
         ['ProcessKeyValueResponse 0x1F0A340', '响应中的long写入UserInventory+0xB0，并保存到DynaDiff键'],
+        ['响应处理的共同收尾 0x1F0BA4C–0x1F0BA54', 'DynaDiff分支跳到这里，调用SetSynced(DynaDiff,true)；收到后不直接重复上传'],
+        ['SyncManager.UpdateDataFromLocalStorage 0x26849F4', 'GetLong(DynaDiff,0)后在0x2684FB4写回UserInventory+0xB0；重启恢复的是状态'],
         ['SyncManager.GetUpdatedKeyValues 0x2685A18', '检查同步计数结构+0x4；≥1时把账号+0xB0当前值加入待上传字典'],
+        ['UserKeyValue.SetLong → KeyValueTable.SetLong', '将long转成字符串，InsertOrReplace到本地键值表；DatabaseService标记待保存'],
         ['键地址核对', '0x51BD900重定位槽指向0x544F0B8，对应字符串DynaDiff'],
         ['与两表的关系', '这些入口负责状态收发、保存，不解析difficultyData或Easy／Hard阈值'],
-    ], src + 'role-checks.json · metadata-excerpts.json · native.zip；difficulty-deep/native.zip',
+    ], src + 'role-checks.json · metadata-excerpts.json · native.zip；dynadiff-consumers/native.zip',
           '同步计数不是玩家尝试次数。存在状态同步能力不等于服务器实际下发了调难策略。')
+    consumers = ROOT / 'site/assets/evidence/dynadiff-consumers'
+    trace = json.loads((consumers / 'trace.json').read_text())
+    probe = json.loads((consumers / 'verification.json').read_text())
+    getters = [r for r in trace['targetMethodPointers'] if any(
+        '$$get_DynamicDifficultyInventory' in n or any('$$'+g in n for g in
+        ['GetTryCount2', 'GetDeltaMove', 'GetLastUpdatedSection', 'GetCurrentLevel']) for n in r['methods'])]
+    getter_addresses = {r['address'] for r in getters}
+    getter_calls = [r for r in trace['directCalls'] if r['target'] in getter_addresses]
+    table('diff-consumers', 'DynaDiff从存档字段到玩法的读取核查', ['检查', '原字节与扫描结果'], [
+        ['检查范围', f"{fmt(trace['scannedMetadataSpans'])}个候选元数据区间；按DynaDiff键、类型根及+0xB0读写筛选"],
+        ['DynaDiff键引用', f"{len(trace['keyReferences'])}个指令点，属于响应处理、存档恢复、同步上传、状态保存与数据库键名数组构造"],
+        ['确认类型的字段读写', f"{len(trace['typedFieldReferences'])}个指令点：恢复／上传、整值存取、位段读写和重置；未发现玩法计算消费者"],
+        ['整值与位段读取函数', f"{len(getters)}个读取函数；立即数B／BL调用点{len(getter_calls)}个；另查内联字段读写，不能只凭getter调用数下结论"],
+        ['已核对的普通步数分支', 'GetUpdatedMoveCount → IsLeague；非League直接返回输入步数，不读取难度long'],
+        ['扫描边界', f"跳过{len(trace['skippedUnboundedFinalSpans'])}个缺少后继边界的末区间；非完整控制流、别名或间接调用证明"],
+    ], 'site/assets/evidence/dynadiff-consumers/trace.json · native-manifest.json · native.zip',
+          '同样的+0xB0偏移可能属于其他对象，不能一律算DynaDiff。线性类型传播的正命中已核对；未发现不等于排除了任意间接读取。')
+    table('diff-native-cases', '构造DynaDiff后执行原生普通关卡步数函数',
+          ['注入long（非服务器实抓）', 'TryCount2／段／关', 'DeltaMove', '输入步数 → 输出步数', '步数函数读取DynaDiff次数'],
+          [[r['injectedState'], f"{r['decoded']['tryCount2']}／{r['decoded']['lastUpdatedSection']}／{r['decoded']['currentLevel']}",
+            r['decoded']['deltaMove'], f"{r['inputMoves']} → {r['outputMoves']}", len(r['dynaDiffReads'])] for r in probe['cases']],
+          'site/assets/evidence/dynadiff-consumers/verification.json',
+          'Unicorn执行同版原字节：原整值setter／getter、位段getter、GetUpdatedMoveCount和IsLeague。仅元数据初始化替代；账号对象为构造输入，非完整实机或服务器响应实验。内存读取探针用整值getter做正对照，确实捕获该字段读取。')
 
 
 def pressure(ws):

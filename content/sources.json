@@ -29,6 +29,12 @@
     "locator": "site/assets/evidence/difficulty-role/README.md；asset-references.json；runtime-l101.json；native.zip",
     "detail": "24个bundle、166,986对象仅见两条ResourceManager目录引用；策略构造固定为SemiDynamicDifficulty。DynaDiff收发保存存在，但不等于两表被使用。L101三次开局seed895／429／174；步数函数调用均25→25，两次Start记录原始25步，Restart无独立自然初始步数记录。动态字段钩子0命中；探针强制步数，非跨阈值或全账号实验。"
   },
+  "dynadiff-consumers": {
+    "title": "DynaDiff收发后果、字段消费者与普通步数原字节验证",
+    "basis": "同版ARM64代码／类型字段追踪／构造状态执行",
+    "locator": "site/assets/evidence/dynadiff-consumers/README.md；trace.json；verification.json；native.zip",
+    "detail": "响应替换UserInventory+0xB0、保存并标记已同步；重启恢复，按需上传。补查整值getter、位段getter、键引用与内联类型字段。构造不同DeltaMove后，原普通步数函数均回传输入，未读取难度long。未取得真实非零服务器响应，也未穷尽间接读取或执行整局差分。"
+  },
   "boundaries": {
     "title": "账号状态、调难、后台与原工具边界",
     "basis": "指定客户端函数与现有样本边界",
