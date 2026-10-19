@@ -1,0 +1,698 @@
+{
+  "address": "0x3f092ec",
+  "sha256": "cc4c6906d7d43fb166ece1b86cd39d26c02de193bf3db858eb5965efaa6542ed",
+  "index": "ItemType - 1; 0 and out of range return 0",
+  "limit": "Base score only; overrides and cell layers can change final score.",
+  "rows": [
+    {
+      "itemType": 1,
+      "name": "Match",
+      "baseScore": 676,
+      "tableIndex": 0
+    },
+    {
+      "itemType": 2,
+      "name": "Rocket",
+      "baseScore": 676,
+      "tableIndex": 1
+    },
+    {
+      "itemType": 3,
+      "name": "Propeller",
+      "baseScore": 676,
+      "tableIndex": 2
+    },
+    {
+      "itemType": 4,
+      "name": "Tnt",
+      "baseScore": 676,
+      "tableIndex": 3
+    },
+    {
+      "itemType": 5,
+      "name": "Lightball",
+      "baseScore": 676,
+      "tableIndex": 4
+    },
+    {
+      "itemType": 6,
+      "name": "Box",
+      "baseScore": 456976,
+      "tableIndex": 5
+    },
+    {
+      "itemType": 7,
+      "name": "Vase",
+      "baseScore": 456976,
+      "tableIndex": 6
+    },
+    {
+      "itemType": 8,
+      "name": "Cupboard",
+      "baseScore": 456976,
+      "tableIndex": 7
+    },
+    {
+      "itemType": 9,
+      "name": "Egg",
+      "baseScore": 456976,
+      "tableIndex": 8
+    },
+    {
+      "itemType": 10,
+      "name": "OwlStatue",
+      "baseScore": 456976,
+      "tableIndex": 9
+    },
+    {
+      "itemType": 11,
+      "name": "MailBox",
+      "baseScore": 456976,
+      "tableIndex": 10
+    },
+    {
+      "itemType": 12,
+      "name": "Potion",
+      "baseScore": 456976,
+      "tableIndex": 11
+    },
+    {
+      "itemType": 13,
+      "name": "Bush",
+      "baseScore": 456976,
+      "tableIndex": 12
+    },
+    {
+      "itemType": 14,
+      "name": "Safe",
+      "baseScore": 456976,
+      "tableIndex": 13
+    },
+    {
+      "itemType": 15,
+      "name": "Coin",
+      "baseScore": 456976,
+      "tableIndex": 14
+    },
+    {
+      "itemType": 16,
+      "name": "Bird",
+      "baseScore": 0,
+      "tableIndex": 15
+    },
+    {
+      "itemType": 17,
+      "name": "GiantBird",
+      "baseScore": 0,
+      "tableIndex": 16
+    },
+    {
+      "itemType": 18,
+      "name": "ColorBox",
+      "baseScore": 456976,
+      "tableIndex": 17
+    },
+    {
+      "itemType": 19,
+      "name": "IceCrusher",
+      "baseScore": 456976,
+      "tableIndex": 18
+    },
+    {
+      "itemType": 20,
+      "name": "Piggy",
+      "baseScore": 456976,
+      "tableIndex": 19
+    },
+    {
+      "itemType": 21,
+      "name": "Oyster",
+      "baseScore": 456976,
+      "tableIndex": 20
+    },
+    {
+      "itemType": 22,
+      "name": "Hat",
+      "baseScore": 456976,
+      "tableIndex": 21
+    },
+    {
+      "itemType": 23,
+      "name": "FlowerPot",
+      "baseScore": 456976,
+      "tableIndex": 22
+    },
+    {
+      "itemType": 24,
+      "name": "DynamiteBox",
+      "baseScore": 456976,
+      "tableIndex": 23
+    },
+    {
+      "itemType": 25,
+      "name": "Cup",
+      "baseScore": 456976,
+      "tableIndex": 24
+    },
+    {
+      "itemType": 26,
+      "name": "BirdNest",
+      "baseScore": 456976,
+      "tableIndex": 25
+    },
+    {
+      "itemType": 27,
+      "name": "Rock",
+      "baseScore": 456976,
+      "tableIndex": 26
+    },
+    {
+      "itemType": 28,
+      "name": "Soil",
+      "baseScore": 456976,
+      "tableIndex": 27
+    },
+    {
+      "itemType": 29,
+      "name": "Drill",
+      "baseScore": 0,
+      "tableIndex": 28
+    },
+    {
+      "itemType": 30,
+      "name": "LightBulb",
+      "baseScore": 456976,
+      "tableIndex": 29
+    },
+    {
+      "itemType": 31,
+      "name": "Frog",
+      "baseScore": 0,
+      "tableIndex": 30
+    },
+    {
+      "itemType": 32,
+      "name": "MetalCrusher",
+      "baseScore": 456976,
+      "tableIndex": 31
+    },
+    {
+      "itemType": 33,
+      "name": "CookieJar",
+      "baseScore": 456976,
+      "tableIndex": 32
+    },
+    {
+      "itemType": 34,
+      "name": "BowTie",
+      "baseScore": 456976,
+      "tableIndex": 33
+    },
+    {
+      "itemType": 35,
+      "name": "Caldron",
+      "baseScore": 456976,
+      "tableIndex": 34
+    },
+    {
+      "itemType": 36,
+      "name": "Pumpkin",
+      "baseScore": 456976,
+      "tableIndex": 35
+    },
+    {
+      "itemType": 37,
+      "name": "Pouch",
+      "baseScore": 26,
+      "tableIndex": 36
+    },
+    {
+      "itemType": 38,
+      "name": "Lantern",
+      "baseScore": 456976,
+      "tableIndex": 37
+    },
+    {
+      "itemType": 39,
+      "name": "Bowling",
+      "baseScore": 456976,
+      "tableIndex": 38
+    },
+    {
+      "itemType": 40,
+      "name": "SeedBox",
+      "baseScore": 456976,
+      "tableIndex": 39
+    },
+    {
+      "itemType": 41,
+      "name": "GummyMaker",
+      "baseScore": 456976,
+      "tableIndex": 40
+    },
+    {
+      "itemType": 42,
+      "name": "GummyBarHorizontal",
+      "baseScore": 456976,
+      "tableIndex": 41
+    },
+    {
+      "itemType": 43,
+      "name": "GummyBarVertical",
+      "baseScore": 456976,
+      "tableIndex": 42
+    },
+    {
+      "itemType": 44,
+      "name": "Gummy",
+      "baseScore": 456976,
+      "tableIndex": 43
+    },
+    {
+      "itemType": 45,
+      "name": "Ufo",
+      "baseScore": 456976,
+      "tableIndex": 44
+    },
+    {
+      "itemType": 46,
+      "name": "Soap",
+      "baseScore": 456976,
+      "tableIndex": 45
+    },
+    {
+      "itemType": 47,
+      "name": "WhackAMole",
+      "baseScore": 456976,
+      "tableIndex": 46
+    },
+    {
+      "itemType": 48,
+      "name": "MapScrollCollect",
+      "baseScore": 456976,
+      "tableIndex": 47
+    },
+    {
+      "itemType": 49,
+      "name": "HoneyJar",
+      "baseScore": 456976,
+      "tableIndex": 48
+    },
+    {
+      "itemType": 50,
+      "name": "HelmetPiggy",
+      "baseScore": 456976,
+      "tableIndex": 49
+    },
+    {
+      "itemType": 51,
+      "name": "IceCube",
+      "baseScore": 456976,
+      "tableIndex": 50
+    },
+    {
+      "itemType": 52,
+      "name": "<no named enum>",
+      "baseScore": 0,
+      "tableIndex": 51
+    },
+    {
+      "itemType": 53,
+      "name": "DuckShooting",
+      "baseScore": 456976,
+      "tableIndex": 52
+    },
+    {
+      "itemType": 54,
+      "name": "SlotMachine",
+      "baseScore": 456976,
+      "tableIndex": 53
+    },
+    {
+      "itemType": 55,
+      "name": "<no named enum>",
+      "baseScore": 0,
+      "tableIndex": 54
+    },
+    {
+      "itemType": 56,
+      "name": "Magnet",
+      "baseScore": 456976,
+      "tableIndex": 55
+    },
+    {
+      "itemType": 57,
+      "name": "CandyCane",
+      "baseScore": 456976,
+      "tableIndex": 56
+    },
+    {
+      "itemType": 58,
+      "name": "ConveyorBelt",
+      "baseScore": 456976,
+      "tableIndex": 57
+    },
+    {
+      "itemType": 59,
+      "name": "Fireworks",
+      "baseScore": 26,
+      "tableIndex": 58
+    },
+    {
+      "itemType": 60,
+      "name": "FireworkRocket",
+      "baseScore": 0,
+      "tableIndex": 59
+    },
+    {
+      "itemType": 61,
+      "name": "Coil",
+      "baseScore": 456976,
+      "tableIndex": 60
+    },
+    {
+      "itemType": 62,
+      "name": "CoilCollect",
+      "baseScore": 456976,
+      "tableIndex": 61
+    },
+    {
+      "itemType": 63,
+      "name": "Mushroom",
+      "baseScore": 456976,
+      "tableIndex": 62
+    },
+    {
+      "itemType": 64,
+      "name": "Tablet",
+      "baseScore": 456976,
+      "tableIndex": 63
+    },
+    {
+      "itemType": 65,
+      "name": "Crystal",
+      "baseScore": 456976,
+      "tableIndex": 64
+    },
+    {
+      "itemType": 66,
+      "name": "Ivy",
+      "baseScore": 456976,
+      "tableIndex": 65
+    },
+    {
+      "itemType": 67,
+      "name": "GiantPiggy",
+      "baseScore": 456976,
+      "tableIndex": 66
+    },
+    {
+      "itemType": 68,
+      "name": "SeaMine",
+      "baseScore": 456976,
+      "tableIndex": 67
+    },
+    {
+      "itemType": 69,
+      "name": "VendingMachine",
+      "baseScore": 456976,
+      "tableIndex": 68
+    },
+    {
+      "itemType": 70,
+      "name": "Porcelain",
+      "baseScore": 456976,
+      "tableIndex": 69
+    },
+    {
+      "itemType": 71,
+      "name": "MagicGem",
+      "baseScore": 456976,
+      "tableIndex": 70
+    },
+    {
+      "itemType": 72,
+      "name": "Furnace",
+      "baseScore": 456976,
+      "tableIndex": 71
+    },
+    {
+      "itemType": 73,
+      "name": "ToyBoxVertical",
+      "baseScore": 456976,
+      "tableIndex": 72
+    },
+    {
+      "itemType": 74,
+      "name": "ToyBoxHorizontal",
+      "baseScore": 456976,
+      "tableIndex": 73
+    },
+    {
+      "itemType": 75,
+      "name": "AncientVault",
+      "baseScore": 456976,
+      "tableIndex": 74
+    },
+    {
+      "itemType": 76,
+      "name": "MagicCube",
+      "baseScore": 456976,
+      "tableIndex": 75
+    },
+    {
+      "itemType": 77,
+      "name": "Igloo",
+      "baseScore": 456976,
+      "tableIndex": 76
+    },
+    {
+      "itemType": 78,
+      "name": "Penguin",
+      "baseScore": 456976,
+      "tableIndex": 77
+    },
+    {
+      "itemType": 79,
+      "name": "Log",
+      "baseScore": 456976,
+      "tableIndex": 78
+    },
+    {
+      "itemType": 80,
+      "name": "LogCollect",
+      "baseScore": 456976,
+      "tableIndex": 79
+    },
+    {
+      "itemType": 81,
+      "name": "Pin",
+      "baseScore": 456976,
+      "tableIndex": 80
+    },
+    {
+      "itemType": 82,
+      "name": "Shuttle",
+      "baseScore": 0,
+      "tableIndex": 81
+    },
+    {
+      "itemType": 83,
+      "name": "Capsule",
+      "baseScore": 456976,
+      "tableIndex": 82
+    },
+    {
+      "itemType": 84,
+      "name": "Laser",
+      "baseScore": 0,
+      "tableIndex": 83
+    },
+    {
+      "itemType": 85,
+      "name": "PowerCube",
+      "baseScore": 456976,
+      "tableIndex": 84
+    },
+    {
+      "itemType": 86,
+      "name": "PotionTube",
+      "baseScore": 456976,
+      "tableIndex": 85
+    },
+    {
+      "itemType": 87,
+      "name": "Cuckoo",
+      "baseScore": 456976,
+      "tableIndex": 86
+    },
+    {
+      "itemType": 88,
+      "name": "GrassBomb",
+      "baseScore": 456976,
+      "tableIndex": 87
+    },
+    {
+      "itemType": 89,
+      "name": "PortalDoor",
+      "baseScore": 0,
+      "tableIndex": 88
+    },
+    {
+      "itemType": 90,
+      "name": "Sapphire",
+      "baseScore": 456976,
+      "tableIndex": 89
+    },
+    {
+      "itemType": 91,
+      "name": "RoyalCapsuleHorizontal",
+      "baseScore": 0,
+      "tableIndex": 90
+    },
+    {
+      "itemType": 92,
+      "name": "RoyalCapsuleVertical",
+      "baseScore": 0,
+      "tableIndex": 91
+    },
+    {
+      "itemType": 93,
+      "name": "ChocoMaker",
+      "baseScore": 456976,
+      "tableIndex": 92
+    },
+    {
+      "itemType": 94,
+      "name": "Choco",
+      "baseScore": 456976,
+      "tableIndex": 93
+    },
+    {
+      "itemType": 95,
+      "name": "BowlingRack",
+      "baseScore": 456976,
+      "tableIndex": 94
+    },
+    {
+      "itemType": 96,
+      "name": "RoyalBot",
+      "baseScore": 456976,
+      "tableIndex": 95
+    },
+    {
+      "itemType": 97,
+      "name": "PropellerMachine",
+      "baseScore": 456976,
+      "tableIndex": 96
+    },
+    {
+      "itemType": 98,
+      "name": "Sword",
+      "baseScore": 456976,
+      "tableIndex": 97
+    },
+    {
+      "itemType": 99,
+      "name": "Boomerang",
+      "baseScore": 0,
+      "tableIndex": 98
+    },
+    {
+      "itemType": 100,
+      "name": "BoomerangBox",
+      "baseScore": 0,
+      "tableIndex": 99
+    },
+    {
+      "itemType": 101,
+      "name": "JellyBomb",
+      "baseScore": 456976,
+      "tableIndex": 100
+    },
+    {
+      "itemType": 102,
+      "name": "Squirrel",
+      "baseScore": 456976,
+      "tableIndex": 101
+    },
+    {
+      "itemType": 103,
+      "name": "Radar",
+      "baseScore": 456976,
+      "tableIndex": 102
+    },
+    {
+      "itemType": 104,
+      "name": "ClockTower",
+      "baseScore": 456976,
+      "tableIndex": 103
+    },
+    {
+      "itemType": 105,
+      "name": "MagicLantern",
+      "baseScore": 456976,
+      "tableIndex": 104
+    },
+    {
+      "itemType": 106,
+      "name": "Pair",
+      "baseScore": 456976,
+      "tableIndex": 105
+    },
+    {
+      "itemType": 107,
+      "name": "RoofMachine",
+      "baseScore": 456976,
+      "tableIndex": 106
+    },
+    {
+      "itemType": 108,
+      "name": "BoxingGlove",
+      "baseScore": 456976,
+      "tableIndex": 107
+    },
+    {
+      "itemType": 109,
+      "name": "Lava",
+      "baseScore": 456976,
+      "tableIndex": 108
+    },
+    {
+      "itemType": 110,
+      "name": "Turtle",
+      "baseScore": 0,
+      "tableIndex": 109
+    },
+    {
+      "itemType": 111,
+      "name": "ToyBoat",
+      "baseScore": 456976,
+      "tableIndex": 110
+    },
+    {
+      "itemType": 112,
+      "name": "ColorMixer",
+      "baseScore": 456976,
+      "tableIndex": 111
+    },
+    {
+      "itemType": 113,
+      "name": "PaintBucket",
+      "baseScore": 456976,
+      "tableIndex": 112
+    },
+    {
+      "itemType": 114,
+      "name": "Otter",
+      "baseScore": 456976,
+      "tableIndex": 113
+    },
+    {
+      "itemType": 115,
+      "name": "Bathtub",
+      "baseScore": 456976,
+      "tableIndex": 114
+    }
+  ]
+}

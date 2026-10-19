@@ -625,32 +625,50 @@ def refill(ws):
 
 
 def settlement(ws):
-    aud = ws / AUD / 'indices'
-    matrix = read_csv(aud / 'dynamic_difficulty_matrix.csv')
-    raw = read_csv(aud / 'dynamic_difficulty.csv')
-    src = f'{AUD}/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv'
-    hard_on = [r for r in matrix if r['hard_enabled'] == '1']
-    NUMBERS.update(diff_sections=len(matrix), diff_hard_on=len(hard_on), diff_rows=len(raw))
+    cfg = ws / AUD / 'decoded/config'
+    easy = json.loads((cfg / 'DynamicDifficultyEasy.json').read_text())['difficultyData']
+    hard = json.loads((cfg / 'DynamicDifficultyHard.json').read_text())['difficultyData']
+    assert len(easy) == len(hard) == 43
+    for e, h in zip(easy, hard):
+        assert all(e[k] == h[k] for k in ('section', 'levelStart', 'levelEnd', 'minTryCountEasy', 'maxTryCountEasy'))
+    src = f'{AUD}/decoded/config/DynamicDifficultyEasy.json · DynamicDifficultyHard.json'
+    present = [r for r in hard if r['minTryCountHard'] != -1 or r['maxTryCountHard'] != -1]
+    NUMBERS.update(diff_sections=len(hard), diff_hard_on=len(present), diff_rows=len(easy)+len(hard))
     table('diff-sections', '动态难度默认表', ['指标', '数值'], [
-        ['Easy 段数', f"{sum(1 for r in raw if r['table'] == 'Easy')}"],
-        ['Hard 段数', f"{sum(1 for r in raw if r['table'] == 'Hard')}"],
-        ['矩阵行数（段）', fmt(len(matrix))],
-        ['其中启用 Hard', fmt(len(hard_on))],
-        ['关卡覆盖', f"{matrix[0]['level_start']}–{matrix[-1]['level_end']}"],
-    ], src, 'minTryCount 为 -1 表示该侧不设限；矩阵把两侧合成一行便于对照。')
-    table('diff-table', '分段与尝试次数阈值', ['段', '关卡区间', 'Easy min／max', 'Hard min／max', '启用 Hard'],
-          [[r['section'], f"{r['level_start']}–{r['level_end']}", f"{r['easy_min_try']}／{r['easy_max_try']}",
-            f"{r['hard_min_try']}／{r['hard_max_try']}", '是' if r['hard_enabled'] == '1' else '否'] for r in matrix], src)
-    table('settlement-methods', '胜负与难度相关方法（主板路径）', ['方法', 'RVA', '行为'],
-          [['SemiDynamicDifficulty.OnLevelFail', '0x1C85250', '原字节为 ret，不做失败处理'],
-           ['SemiDynamicDifficulty.SetLevelNumber', '0x1C85324', '原字节为 ret'],
-           ['SemiDynamicDifficulty.GetSection', '0x1C854B0', '返回 0'],
-           ['SemiDynamicDifficulty.GetGroupMove', '0x1C854B8', '返回 0'],
-           ['SemiDynamicDifficulty.GetUpdatedMoveCount', '0x1C8532C', '主线回传输入；League 分支另加步'],
-           ['UserManager.ProcessKeyValueResponse', '0x1F0A340', '取协议 KeyValue.Value 并交给 UpdateDynamicDifficultyInventory'],
-           ['UpdateDynamicDifficultyInventory', '0x2A0E700', '把 long 写到实例 +0xB0，并用 UserKeyValue.SetLong 保存']],
-          f'{REA}/native-gap/FINDINGS.md · {REA}/BOUNDARIES.md',
-          '这些方法支持“主线连败不会自动加步、客户端具备难度状态读写代码”，但不排除其他入口，也不等于难度已被服务端实际调整。')
+        ['Easy／Hard 文件段数', f"{len(easy)}／{len(hard)}"],
+        ['Hard 字段有非 -1 值的段数', str(len(present))],
+        ['覆盖关卡', f"{hard[0]['levelStart']}–{hard[-1]['levelEnd']}"],
+        ['两文件 Easy 列', '逐行一致'],
+        ['Easy 文件 Hard 列', '全部为 -1'],
+    ], src, '这里只统计表内有无值，不代表运行时启用。-1 的业务含义及配置消费者尚未确认。')
+    table('diff-table', '完整分段阈值（Hard 列取自 Hard 文件）', ['段', '关卡区间', 'Easy min／max', 'Hard min／max'],
+          [[str(r['section']), f"{r['levelStart']}–{r['levelEnd']}", f"{r['minTryCountEasy']}／{r['maxTryCountEasy']}",
+            f"{r['minTryCountHard']}／{r['maxTryCountHard']}"] for r in hard], src,
+          'L101–120 是 Easy 34／60、Hard 21／26；L121–140 的 Easy 才是 36／66。阈值并非逐段单调递增，也不是补步数量。')
+    native = 'site/assets/evidence/difficulty-deep/manifest.json · native.zip · direct-calls.json'
+    table('settlement-methods', '难度策略与状态读写的实际行为', ['方法', 'RVA', '行为'],
+          [['OnLevelFail／OnEgoAccepted', '0x1C85250／0x1C85254', '直接 ret'],
+           ['SetLevelNumber／SetTryCount／Reset／SetAdminMode', '0x1C85324／0x1C85458／0x1C854C0／0x1C854C4', '直接 ret'],
+           ['GetSection／GetGroupMove', '0x1C854B0／0x1C854B8', '返回 0'],
+           ['GetUpdatedMoveCount', '0x1C8532C', '主线回传输入；League 分支另加步'],
+           ['OnLevelSuccess／OnEgoShownFirst', '0x1C85328／0x1C85454', '尾跳到 IncrementTryCount'],
+           ['IncrementTryCount', '0x1C850C4', '排除 League／Story；关号≤100 时读取旧 TryCount，加 1 后写回'],
+           ['UserInventory.GetTryCount／UpdateTryCount', '0x2A0DC20／0x2A0DC40', 'PreLevelInventory (+0x30) 的位54–60；写入前夹到 0–127'],
+           ['UserInventory.GetSkill', '0x2A0DC7C', 'PreLevelInventory 位51–53；NoSkill=0／Beginner=1／Intermediate=2／Pro=3'],
+           ['ProcessKeyValueResponse', '0x1F0A340', '在0x1F0B350读取 KeyValue.Value；0x1F0B364更新难度 long'],
+           ['UpdateDynamicDifficultyInventory', '0x2A0E700', '写入实例 +0xB0，并用 UserKeyValue.SetLong 保存'],
+           ['ResetDynamicDifficulty', '0x2A0E940', '依次清关号、段号、把 DeltaRaw 写成10、清 TryCount2；其余位保留'],
+           ['DifficultyNext／GetDifficultyNext', '0x2A31474／0x2A31478', '随机生成计数+1，然后调用 difficultyRandom.Next；不读取阈值表']],
+          native, '静态分支可确定方法行为；不证明每个入口都在当前玩法执行，直接调用扫描也不覆盖接口／委托。')
+    table('diff-state', 'DynamicDifficultyInventory 的已知位段', ['字段', '位（从0起、含两端）', '位宽／可解码值', '读取入口'], [
+        ['TryCount2', '1–12', '12位；0–4095', '0x2A0E82C'],
+        ['DeltaMove', '13–17', '5位；raw=0返回0，否则raw−10；可解码−9至21', '0x2A0E84C'],
+        ['LastUpdatedSection', '18–34', '17位；0–131071', '0x2A0E8A8'],
+        ['CurrentLevel', '35–49', '15位；0–32767', '0x2A0E8F4'],
+        ['未解释位', '0、50–63', '没有在这组 getter 中解码', '不赋予业务含义'],
+        ['构造例', '0x000003280055a00e', '关101／段21／TryCount2=7／DeltaMove=3', '十进制3470339186702；非账号实抓'],
+    ], native + ' · site/assets/evidence/difficulty-deep/verification.json',
+          '范围是位宽可表示范围，不是当前运营策略或允许业务值。原 UpdateLong 不屏蔽越界输入，不能假设 setter 会自动夹限。')
 
 
 def pressure(ws):

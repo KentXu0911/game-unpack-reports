@@ -37,7 +37,7 @@ TOPICS = [
           [],
           ["propeller-selection", "propeller", "gates", "special", "native", "board-algorithms"], ["gate-matrix", "propeller-chain", "rocket-demo"]),
     topic("win-settlement", "replication-core", "胜负、结算与难度适应",
-          "客户端胜负与结算路径可继续恢复；指定主线路径未支持“连败自动加初始步数”，不构成全局排除。", "available",
+          "已提取43段动态难度阈值、难度状态的位段与解码工具；主线路径回传原始步数，表到局内调控的生效链仍未确认。", "available",
           ["人工／实机：能观察胜负、奖励和重试变化，也能通过控制购买与局前道具，分别测试续关加步、初始步数和重开后的变化。",
            "解包增量：能区分种子、尝试次数、付费续关与初始步数的状态链。所查主线路径未支持连败自动加初始步数，但不能排除其他入口，也不能据此给出真实胜率。"],
           [], ["boundaries", "native", "rng"]),

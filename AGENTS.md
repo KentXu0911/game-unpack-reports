@@ -32,3 +32,5 @@
 - 2026-10-15 第二批（11 个模块）：refill、win-settlement、level-pressure、activity-defaults、schedule-boundaries、passes、shop-rules、user-tiers、failure-product、production-tools、source-projects 已按三层改写，至此 20 个模块页全部为「拆包事实→分析提炼→未确认与边界」。原报告章节改为页尾 `<details class="matrix-fold">补充：原报告章节（LABEL）</details>`，深链由 report-deep-links.js 自动展开。
 - 模块页可追加附属内容：`asset_gallery()`（distributed-assets）、关卡入口导航（level-config）、`level_page_content()`（level-pressure）、`content/commerce-<key>.html`（payment、shop-rules、user-tiers）。新增模块时若旧页面带 `id` 锚点，必须保留，否则 check_site 会报缺锚点。
 - 分析层长方法名要能断行：`.module-page .finding/.layer-lead/.flow-note` 已设 `overflow-wrap:anywhere`；`.finding` 内是不带 `p` 的直接文本，不能只依赖 `.topic-body p` 的断行规则。
+
+- 飞机与动态难度深入提取：`scripts/extract_plane_difficulty.py --workspace ..` 只读原 ELF、元数据与 TextAsset，输出 `site/assets/evidence/plane-deep/` 和 `difficulty-deep/`；`scripts/verify_plane_difficulty.py` 用 Unicorn 执行原字节，明确记录注入的类型、在途计数和元数据。飞机增补正文为 `content/plane-deep.html`，动态难度正文为 `content/module-win-settlement.html`。443个快照与95个评分入口只表示捕获范围，不等于全部语义已恢复；Hard字段有值不等于运行时启用，不能给 -1 臆定业务含义。

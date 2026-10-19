@@ -3,7 +3,7 @@
 <div class="data-scroll" tabindex="0" role="region" aria-label="道具寻优结论速览"><table><thead><tr><th>问题</th><th>答案</th><th>关键数值</th></tr></thead><tbody>
 <tr><td><a href="#selection-process">普通飞机打哪</a></td><td>每格按当前状态评分，从最高分组里随机抽一个</td><td>同分组内随机</td></tr>
 <tr><td><a href="#actual-priorities">分数怎么定</a></td><td>五个档位，每档是上一档的26倍；一个高档目标压过25个低一档目标</td><td>1／26／676／17,576／456,976</td></tr>
-<tr><td><a href="#actual-priorities">残血箱子优先吗</a></td><td>不优先：1层和3层箱子同分；只有拳击手套最后一击加分</td><td>箱子456,976；手套609,301</td></tr>
+<tr><td><a href="#actual-priorities">残血箱子优先吗</a></td><td>不优先：1层和3层箱子同分；拳击手套、多格物体等有各自收尾加分</td><td>箱子456,976；手套609,301</td></tr>
 <tr><td><a href="#actual-priorities">被挡住的目标</a></td><td>被原木、拳击手套、钻头挡住时，正分统一压到一个低值</td><td>4,569</td></tr>
 <tr><td><a href="#booster-coordination">多架飞机会打重吗</a></td><td>选中即登记在途攻击；剩余命中＝层数－在途数，≤0就跳过</td><td>—</td></tr>
 <tr><td><a href="#target-refresh">飞行中改目标吗</a></td><td>目标仍有效就不改；失效或被强制重选才换，强制重选每架只一次</td><td>—</td></tr>
@@ -13,12 +13,12 @@
 </tbody></table></div>
 <p class="flow-note">伪代码按build 38174的ARM64机器码与元数据整理，省略异常处理与无关调用，默认收起；例子是按代码构造的局面。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>普通飞机选点</a><a href="#actual-priorities"><b>02</b>评分档位</a><a href="#selection-examples"><b>03</b>三个局面</a><a href="#booster-coordination"><b>04</b>多架协同</a><a href="#target-refresh"><b>05</b>飞行中改目标</a><a href="#combo-selection"><b>06</b>组合飞机</a><a href="#smart-rocket"><b>07</b>智能火箭</a><a href="#optimality"><b>08</b>是否最优</a><a href="#hit-result"><b>09</b>命中结算</a><a href="#selection-evidence"><b>10</b>原字节证据</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>普通飞机选点</a><a href="#actual-priorities"><b>02</b>评分档位</a><a href="#selection-examples"><b>03</b>三个局面</a><a href="#booster-coordination"><b>04</b>多架协同</a><a href="#target-refresh"><b>05</b>飞行中改目标</a><a href="#combo-selection"><b>06</b>组合飞机</a><a href="#smart-rocket"><b>07</b>智能火箭</a><a href="#optimality"><b>08</b>是否最优</a><a href="#hit-result"><b>09</b>命中结算</a><a href="#plane-deep-facts"><b>10</b>状态评分与完整提取</a><a href="#selection-evidence"><b>11</b>原字节证据</a></nav>
 <span id="propeller-targeting" class="legacy-anchor"></span><span id="title-propeller-targeting" class="legacy-anchor"></span>
 
 <section aria-labelledby="selection-process">
 <h3 id="selection-process">普通飞机怎样选中一个目标</h3>
-<p>先按规则给每格评分，再从当前最高的可用分组里随机挑一个。高分组先于低分组；同一组内没有“最近”“层数最少”之类的二次排序。<small>［P1、P2］</small></p>
+<p>先按规则给每格评分，再从当前最高的可用分组里随机挑一个。高分组先于低分组；同一组内没有“最近”“层数最少”之类的二次排序；出发格避让会局部改变最终抽样概率。<small>［P1、P2］</small></p>
 <ol>
 <li><strong>过滤格子。</strong>非普通格，以及被挡飞机的覆盖物盖住的格子，不进入候选。</li>
 <li><strong>评分。</strong>按上层覆盖物、格内物体、底层物体的顺序交给对应评分规则；物体种类、当前状态、攻击类型都会改变结果，底部收集关还会给清路的格子加分。</li>
@@ -70,7 +70,7 @@ for list in groups:
 <h4>例1：左边箱子剩1层，右边箱子剩3层</h4>
 <p>两者都是456,976分，同在最高组时随机挑一个。左边一下就能打掉，并不会让它胜出——这就是玩家觉得飞机“打错了”的典型情况。</p>
 <h4>例2：一个普通箱子，对比只差一下的拳击手套</h4>
-<p>拳击手套609,301分，高于箱子的456,976，先被考虑。这是拳击手套专用的收尾加分，其他障碍没有这条规则。</p>
+<p>拳击手套609,301分，高于箱子的456,976，先被考虑。这是拳击手套的收尾加分。碗柜等多格物体还有按释放格数计算的另一种加分，见下方状态评分。</p>
 <h4>例3：一个箱子堵着通道，另一个在开阔区域</h4>
 <p>两格分数和候选条件相同时，仍然组内随机。评分不模拟“清掉通道后会掉下多少棋、再造出什么道具”。</p>
 <p>【设计解读】玩家看重的是打开通道带来的后续机会，而这一击的评分不区分这两个局面。</p>

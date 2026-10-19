@@ -1,0 +1,396 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methodIndexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "dumpSha256": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+  "boundary": "Linear span to next distinct metadata address; full CFG and full semantic recovery not claimed.",
+  "methods": [
+    {
+      "address": "0x1c850c4",
+      "end": "0x1c85194",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$IncrementTryCount"
+      ],
+      "bytes": 208,
+      "sha256": "e3f8099455f57e508b327d4d23a98ae2666b822ab1bfd83e17215e642999d0f2"
+    },
+    {
+      "address": "0x1c85194",
+      "end": "0x1c85250",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$get_NotApplicableForSkill"
+      ],
+      "bytes": 188,
+      "sha256": "1dc369d8f7404af30d87db4d21effa6114a26a74c2571cdfcb2e58d8255d5098"
+    },
+    {
+      "address": "0x1c85250",
+      "end": "0x1c85254",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnLevelFail"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85254",
+      "end": "0x1c85258",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnEgoAccepted"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85258",
+      "end": "0x1c85324",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetSkill"
+      ],
+      "bytes": 204,
+      "sha256": "c0aa00bd5efa6ee9a114dad615c39e1995fc89d644b5e61848333b03a00ed1c8"
+    },
+    {
+      "address": "0x1c85324",
+      "end": "0x1c85328",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetLevelNumber"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85328",
+      "end": "0x1c8532c",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnLevelSuccess"
+      ],
+      "bytes": 4,
+      "sha256": "4bdf3fe4991575af6872f7ac8eb11c2da910e03f8a45e01c0dae45fbf7136589"
+    },
+    {
+      "address": "0x1c8532c",
+      "end": "0x1c85454",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetUpdatedMoveCount"
+      ],
+      "bytes": 296,
+      "sha256": "8016a79769c15ae6b57803050bdc66d5ec8583bf38d15c378649d8c1f85ced1b"
+    },
+    {
+      "address": "0x1c85454",
+      "end": "0x1c85458",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnEgoShownFirst"
+      ],
+      "bytes": 4,
+      "sha256": "fc38981c7d5605697b2263affcb8825813aad5312376c9f9b84c12a000b357cf"
+    },
+    {
+      "address": "0x1c85458",
+      "end": "0x1c8545c",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetTryCount"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c8545c",
+      "end": "0x1c854b0",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetTryCount"
+      ],
+      "bytes": 84,
+      "sha256": "c6d9d4ffd91fce04b979bfa5645b3b5a141960ea9cb38827152f46d0a1c689fc"
+    },
+    {
+      "address": "0x1c854b0",
+      "end": "0x1c854b8",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetSection"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c854b8",
+      "end": "0x1c854c0",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetGroupMove"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c854c0",
+      "end": "0x1c854c4",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$Reset"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c854c4",
+      "end": "0x1c854c8",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetAdminMode"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c854c8",
+      "end": "0x1c854d0",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "3e050c60028fa3d58639be1eedccf817a5419f5cc701370a136df04a0db08649"
+    },
+    {
+      "address": "0x1f0a340",
+      "end": "0x1f0bc20",
+      "names": [
+        "Royal.Player.Context.Units.UserManager$$ProcessKeyValueResponse"
+      ],
+      "bytes": 6368,
+      "sha256": "ad4964b362a58da0fdb127c2a31361446008f8a8fc6d2953e4f273ea1ed3cb9a"
+    },
+    {
+      "address": "0x268b474",
+      "end": "0x268b490",
+      "names": [
+        "Royal.Player.Context.Data.User$$get_Skill"
+      ],
+      "bytes": 28,
+      "sha256": "009aa61acec8c09341bdc6139601210cf8b06d2bf4e07a7e3f3c63fcc6bfc9db"
+    },
+    {
+      "address": "0x2a0dc20",
+      "end": "0x2a0dc40",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount"
+      ],
+      "bytes": 32,
+      "sha256": "46b88a383b5649b6823f029bacdc22035f0e7af1c54f8ce24fc4e65aeed1a427"
+    },
+    {
+      "address": "0x2a0dc40",
+      "end": "0x2a0dc7c",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateTryCount"
+      ],
+      "bytes": 60,
+      "sha256": "501e78894c61605588d13c2d5b3ee04af3737a1dd845b169e490335326b0a898"
+    },
+    {
+      "address": "0x2a0dc7c",
+      "end": "0x2a0dca0",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetSkill"
+      ],
+      "bytes": 36,
+      "sha256": "74cce3012fcfd1d3c1c8fa28e71d42c6c2783f277b8ec9b9fb0e38bd9ea544d3"
+    },
+    {
+      "address": "0x2a0e5d8",
+      "end": "0x2a0e700",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "bytes": 296,
+      "sha256": "acfd74ec9b335a6a5d46f46b5199d957413f3979a356349660ab499ff243b628"
+    },
+    {
+      "address": "0x2a0e700",
+      "end": "0x2a0e82c",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "bytes": 300,
+      "sha256": "9946cfb5ba2683e025d1945daf44d59205fc0be7a1d69838616bd13c6403cd71"
+    },
+    {
+      "address": "0x2a0e82c",
+      "end": "0x2a0e84c",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount2"
+      ],
+      "bytes": 32,
+      "sha256": "16b4a9da01f22704d129afe1ad136f5603c388b6eaba1873bd3f9c3bf94b8bee"
+    },
+    {
+      "address": "0x2a0e84c",
+      "end": "0x2a0e878",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetDeltaMove"
+      ],
+      "bytes": 44,
+      "sha256": "48e307007d334a268257dd3230c08c5855ef0e8a5491f4c39fb3b562daa0d81b"
+    },
+    {
+      "address": "0x2a0e878",
+      "end": "0x2a0e8a8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "bytes": 48,
+      "sha256": "3642a7c69930c44e900e2f96e5ce55ff7a1f2a9a9ed65ab43478568e5193f3d2"
+    },
+    {
+      "address": "0x2a0e8a8",
+      "end": "0x2a0e8c8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetLastUpdatedSection"
+      ],
+      "bytes": 32,
+      "sha256": "9eef10701b43d274a41fa4a91174ee5f21d542fd397195d5762e1c3dc604349a"
+    },
+    {
+      "address": "0x2a0e8c8",
+      "end": "0x2a0e8f4",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "bytes": 44,
+      "sha256": "fb3d866aed9b86ea56365d597ad52441d7f835d898e5657526a00867da2662ab"
+    },
+    {
+      "address": "0x2a0e8f4",
+      "end": "0x2a0e914",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetCurrentLevel"
+      ],
+      "bytes": 32,
+      "sha256": "cc585827c1cf1839c184069a5defab9437e08f53750d8eb252a5014fd2282c95"
+    },
+    {
+      "address": "0x2a0e914",
+      "end": "0x2a0e940",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "bytes": 44,
+      "sha256": "c16d48bd5c8a6ee80a520164f4c7390038864c2ef3f1995c65ce9bc429dd7320"
+    },
+    {
+      "address": "0x2a0e940",
+      "end": "0x2a0e9c4",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "bytes": 132,
+      "sha256": "e8f8558a8ad6d6fffb595f07b48b7bd0469835426cff39ed34acf12693e8b3a0"
+    },
+    {
+      "address": "0x2a31474",
+      "end": "0x2a31478",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$DifficultyNext"
+      ],
+      "bytes": 4,
+      "sha256": "788f1512f26f87f558ccda89030f23036527961be061f31e047ad5b93b8aafe2"
+    },
+    {
+      "address": "0x2a31478",
+      "end": "0x2a314a8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetDifficultyNext"
+      ],
+      "bytes": 48,
+      "sha256": "3e6bccdda883660cdf381e8bad8108171f819d7666cc9a9ad150cab560063675"
+    },
+    {
+      "address": "0x3283b3c",
+      "end": "0x3283b50",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$IsBitSet"
+      ],
+      "bytes": 20,
+      "sha256": "ccf58426011b3bad7f9b4681c4111cb1569476683e60ed52b7c257a6da235b63"
+    },
+    {
+      "address": "0x328439c",
+      "end": "0x32843b8",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$SetBit"
+      ],
+      "bytes": 28,
+      "sha256": "435b48b115841e7308a371b792a0dd909e1e33483ca71d0cd30c73b654fd2395"
+    },
+    {
+      "address": "0x32843b8",
+      "end": "0x32843d4",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$ExtractLong"
+      ],
+      "bytes": 28,
+      "sha256": "49581541a6b84a4881c3d4aa390de8144e66569c7dcf9f36aa487a7cce917592"
+    },
+    {
+      "address": "0x32843d4",
+      "end": "0x32843f0",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$ExtractInt"
+      ],
+      "bytes": 28,
+      "sha256": "4bdccd9d5d2c2d16e224a8ded1e888ec1f81d6256f927feb1d58656d0cce9a6e"
+    },
+    {
+      "address": "0x32843f0",
+      "end": "0x3284410",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$ExtractByte"
+      ],
+      "bytes": 32,
+      "sha256": "d1ce026777a42b4a1daa53c49c5fbf4970b890ac9e02ae453ca605504085b4cf"
+    },
+    {
+      "address": "0x3284410",
+      "end": "0x32844a8",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$UpdateInt"
+      ],
+      "bytes": 152,
+      "sha256": "ea65c5ecef7c6a88c3c6d61330e12a149271381343bc42f4a9d1666923ce6e18"
+    },
+    {
+      "address": "0x32844a8",
+      "end": "0x3284544",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$UpdateLong"
+      ],
+      "bytes": 156,
+      "sha256": "ede9e54c712de39355618b71e96d11c60d656823e6f18a47a13cc71806532b7b"
+    },
+    {
+      "address": "0x3284544",
+      "end": "0x32845dc",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$UpdateLong"
+      ],
+      "bytes": 152,
+      "sha256": "75ce88723bfa0adcba5006318a3fda2f89bb33262bbecaa067bb6f43e224308b"
+    },
+    {
+      "address": "0x32845dc",
+      "end": "0x3284600",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$GetMaxValueForIndexes"
+      ],
+      "bytes": 36,
+      "sha256": "11147bc2c67a658ac49d179b4f694acec024c60d8be48772b51b0c93397ee4c1"
+    },
+    {
+      "address": "0x3284600",
+      "end": "0x3284618",
+      "names": [
+        "Royal.Infrastructure.Utils.Math.BitwiseOperations$$ClampByBits"
+      ],
+      "bytes": 24,
+      "sha256": "ea0dfc38e686abf1eeb056c0ec8b7c549da69344b3e5e0db18185a8c35673f30"
+    }
+  ],
+  "archiveSha256": "035826f44ddd557b8d87e55e1fc2ff1f431a040c914b736f91691dfcd1e8a650"
+}

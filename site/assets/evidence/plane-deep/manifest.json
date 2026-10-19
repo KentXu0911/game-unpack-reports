@@ -1,0 +1,3996 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methodIndexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "dumpSha256": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+  "boundary": "Linear span to next distinct metadata address; full CFG and full semantic recovery not claimed.",
+  "methods": [
+    {
+      "address": "0x1102d14",
+      "end": "0x1102dd4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SwordItem.SwordItemModel$$GetExplodeScore"
+      ],
+      "bytes": 192,
+      "sha256": "8d532e07e86305f7dee15d6fcfc917048aa81c54f0a17e257980e77140a700b0"
+    },
+    {
+      "address": "0x1104b28",
+      "end": "0x1104d18",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.WaterSoilItem.WaterSoilItemModel$$GetExplodeScore"
+      ],
+      "bytes": 496,
+      "sha256": "f19894e0222702afe5ab01e56b453dadf79fd09232893f03d9b01c6e71c25888"
+    },
+    {
+      "address": "0x110c860",
+      "end": "0x110c868",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.WaterItem.WaterItemModel$$GetExplodeScore"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x135e45c",
+      "end": "0x135e6dc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.JellyItem.JellyItemModel$$GetExplodeScore"
+      ],
+      "bytes": 640,
+      "sha256": "c3f26ed22592ff8897c6a6761e8a85a4934f6a7fea6287363df1e7867b5b7f2e"
+    },
+    {
+      "address": "0x155539c",
+      "end": "0x1555728",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.PurpleGrassItem.PurpleGrassItemModel$$GetExplodeScore"
+      ],
+      "bytes": 908,
+      "sha256": "6f7634e5aade71e53624ab47846b4baa6b71ccd556a390d1596a51bc19be33e0"
+    },
+    {
+      "address": "0x15591b0",
+      "end": "0x1559544",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.MushroomSoilItem.MushroomSoilItemModel$$GetExplodeScore"
+      ],
+      "bytes": 916,
+      "sha256": "6c7f62291a5347dba05e7a0b458692db7c87a3b5c0a4168f2c786ca4375b6763"
+    },
+    {
+      "address": "0x155dfd4",
+      "end": "0x155e0ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.MetalPlateItem.MetalPlateItemModel$$GetExplodeScore"
+      ],
+      "bytes": 216,
+      "sha256": "774594584f7440d2df5342a96ab200695e2eccb34250e0d1f1a5eb25331d3939"
+    },
+    {
+      "address": "0x187b498",
+      "end": "0x187b4c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.ChainItem.ChainItemModel$$GetExplodeScore"
+      ],
+      "bytes": 48,
+      "sha256": "b9919358186c0795299ae2a2585685108213796ae7301a7a00bbd0a3b5b78b9c"
+    },
+    {
+      "address": "0x187c53c",
+      "end": "0x187c918",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.CeramicItem.CeramicItemModel$$GetExplodeScore"
+      ],
+      "bytes": 988,
+      "sha256": "8f5538e6dc395cce4c24892300139a348b859e2321d76536d9e7f3c32078904e"
+    },
+    {
+      "address": "0x18ea1f8",
+      "end": "0x18ea2a4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.ForceFieldItem.ForceFieldItemModel$$GetExplodeScore"
+      ],
+      "bytes": 172,
+      "sha256": "da4a1fed3c75944d23b227cfaf3b072d895f3862ac0ff79af6b0417711c783a8"
+    },
+    {
+      "address": "0x1ba7fe0",
+      "end": "0x1ba836c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.GrassItem.GrassItemModel$$GetExplodeScore"
+      ],
+      "bytes": 908,
+      "sha256": "1ab7210babfce6d849df76d3911028f8e116945babecc10d08505b6fb4fbc43d"
+    },
+    {
+      "address": "0x1c0ba30",
+      "end": "0x1c0ba38",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PortalDoorItem.PortalDoorItemModel$$GetExplodeScore"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c141a0",
+      "end": "0x1c141f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PorcelainItem.PorcelainItemModel$$GetExplodeScore"
+      ],
+      "bytes": 88,
+      "sha256": "17fa98ee5a1e4273276c9fc50b66a0434ffff5a06e0ce269a9f55535868841ef"
+    },
+    {
+      "address": "0x1c1c448",
+      "end": "0x1c1c450",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.LogItem.LogItemModel$$GetExplodeScore"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c1ffe8",
+      "end": "0x1c20090",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.LogCollectItem.LogCollectItemModel$$GetExplodeScore"
+      ],
+      "bytes": 168,
+      "sha256": "d41d38dfde444cb2581bb2ef591cef688eb5337c48b518bd236ee8c54f9d04f0"
+    },
+    {
+      "address": "0x1c23750",
+      "end": "0x1c2379c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.LightBulbItem.LightBulbItemModel$$GetExplodeScore"
+      ],
+      "bytes": 76,
+      "sha256": "cd22c1dd5db214666385c96f28d0be9f5b0024aae425130eac7755f1043f204f"
+    },
+    {
+      "address": "0x1e250f8",
+      "end": "0x1e25218",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MagicLanternItem.MagicLanternItemModel$$GetExplodeScore"
+      ],
+      "bytes": 288,
+      "sha256": "61307b268973cfd56bb9aa787911a375522e623c25e892f968732ba00ec70d7e"
+    },
+    {
+      "address": "0x1e29b68",
+      "end": "0x1e29c34",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MagicGemItem.MagicGemItemModel$$GetExplodeScore"
+      ],
+      "bytes": 204,
+      "sha256": "19fe423835930cfc1d0734a9a5cb185d804b840c14a97f6b021b8744b50d816b"
+    },
+    {
+      "address": "0x1e2d68c",
+      "end": "0x1e2d81c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MagicCubeItem.MagicCubeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 400,
+      "sha256": "192e47ef9e77228355c97083141f98b2535a0255db98d425f832af284e277a8c"
+    },
+    {
+      "address": "0x1e36bf0",
+      "end": "0x1e36ca0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PowerCubeItem.PowerCubeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 176,
+      "sha256": "5920fa576c6690ec30d6db97b48e2df4ffa31abb6c90c17c83a1837ba11a3c9e"
+    },
+    {
+      "address": "0x1e39ed8",
+      "end": "0x1e39f78",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PouchItem.PouchItemModel$$GetExplodeScore"
+      ],
+      "bytes": 160,
+      "sha256": "ac3f13f2615c83e8b73bc8b10e047d1369583bc12cc1c42fb83f420304e14e4b"
+    },
+    {
+      "address": "0x1e3d320",
+      "end": "0x1e3d378",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PotionTubeItem.PotionTubeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 88,
+      "sha256": "b6a938b7e9fcc8d6e9c51a73a9d0ffa97f35fc6ac839788ab6086da8c17b4830"
+    },
+    {
+      "address": "0x1e8c510",
+      "end": "0x1e8c568",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MetalCrusherItem.MetalCrusherItemModel$$GetExplodeScore"
+      ],
+      "bytes": 88,
+      "sha256": "b53c6a4aef6d1506cb3eb51897c4d138ba07fdd160ec3348eed1810f5cc85a14"
+    },
+    {
+      "address": "0x1e92ad8",
+      "end": "0x1e92e48",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemModel$$GetExplodeScore"
+      ],
+      "bytes": 880,
+      "sha256": "c377e1c82f9ed96a4c9b086410e9ecc1abf40d86fd1d05fc5f012ae5c0154d31"
+    },
+    {
+      "address": "0x1ecd21c",
+      "end": "0x1ecd300",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.RoyalCapsuleHorizontalItem.RoyalCapsuleHorizontalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 228,
+      "sha256": "1ed0551be7f567c3ec3feb59763d3cd0470c582c7b4006ad8c4011be73251d83"
+    },
+    {
+      "address": "0x1ed0bd8",
+      "end": "0x1ed0bf0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.RoyalBotItem.RoyalBotItemModel$$GetExplodeScore"
+      ],
+      "bytes": 24,
+      "sha256": "3cd3254bfa5acca8a04305751d44c00c2d3dd13f7d4b1f433f32f338293fa26c"
+    },
+    {
+      "address": "0x1ed5c28",
+      "end": "0x1ed5c74",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.RoofMachineItem.RoofMachineItemModel$$GetExplodeScore"
+      ],
+      "bytes": 76,
+      "sha256": "76b233079eb0bd3c6a8f5e11554e98da799a398fae23e96b37e978de19d727d9"
+    },
+    {
+      "address": "0x2093f18",
+      "end": "0x2093fc0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.RadarItem.RadarItemModel$$GetExplodeScore"
+      ],
+      "bytes": 168,
+      "sha256": "3c33c3d91d232a06dd6a6353181a3e66b80e850442289bb982ae106ba3519ebc"
+    },
+    {
+      "address": "0x209a158",
+      "end": "0x209a1f0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PropellerMachineItem.PropellerMachineItemModel$$GetExplodeScore"
+      ],
+      "bytes": 152,
+      "sha256": "85aaa8ae6afdc5182310181fbf465a678e25164f684599bc428ab977e8702499"
+    },
+    {
+      "address": "0x20cd7f0",
+      "end": "0x20cd89c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MapScrollCollectItem.MapScrollCollectItemModel$$GetExplodeScore"
+      ],
+      "bytes": 172,
+      "sha256": "916d158f279c04f16d02a3a9b8a59b72fbcbe7cefdd9d82bdc0e234c7e8c8abf"
+    },
+    {
+      "address": "0x20d1e88",
+      "end": "0x20d1ecc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MailBoxItem.MailBoxItemModel$$GetExplodeScore"
+      ],
+      "bytes": 68,
+      "sha256": "38e3f3185be2edb212a318f2890e2e928b8ff6966e46f824810de1df20e729ab"
+    },
+    {
+      "address": "0x20dab6c",
+      "end": "0x20dabb4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.MagnetItem.MagnetItemModel$$GetExplodeScore"
+      ],
+      "bytes": 72,
+      "sha256": "b8b1d74aec4567cca263c97d9bc26731d10d17203ce89832157887556d757e96"
+    },
+    {
+      "address": "0x20e1378",
+      "end": "0x20e13fc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$IsCellWinningForSingleHitAreaExploder"
+      ],
+      "bytes": 132,
+      "sha256": "f192a72480b3dd92e0a28a71ad5cc0446eecbc746a3567d7481a4b9ce2e61915"
+    },
+    {
+      "address": "0x20ee810",
+      "end": "0x20eea6c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$.ctor"
+      ],
+      "bytes": 604,
+      "sha256": "53a91fdb1055d597014e2acb3131ce48b4726c4a192efcce811d18c1925d6e28"
+    },
+    {
+      "address": "0x20eea6c",
+      "end": "0x20eeca4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$Bind"
+      ],
+      "bytes": 568,
+      "sha256": "4df9d65ad79a79937249d006de5bc5ef3ce46b0db515d884ca90ccf47b113d65"
+    },
+    {
+      "address": "0x20eeca4",
+      "end": "0x20eecf0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ResetSortingOffset"
+      ],
+      "bytes": 76,
+      "sha256": "4d86d6eb2872224a3ec4ee72d3dde574ca05585ff46eafe93d0801c416327c3c"
+    },
+    {
+      "address": "0x20eecf0",
+      "end": "0x20eeecc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$OnCellGridViewsInitialized"
+      ],
+      "bytes": 476,
+      "sha256": "71b992a84bb8a80a013a001dcee549a7c3f6fc637bc4fc0e90af45711911d18f"
+    },
+    {
+      "address": "0x20eeecc",
+      "end": "0x20eefc4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ArrangeWinCalculationData"
+      ],
+      "bytes": 248,
+      "sha256": "04ef4f09d22d781c8f27a9a73efd394cc30df0afabb333cfcfafb9526956a233"
+    },
+    {
+      "address": "0x20eefc4",
+      "end": "0x20eefd8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$UpdateWaterWinCalculationData"
+      ],
+      "bytes": 20,
+      "sha256": "49e47df6f454a889f911087a94e102f21f36ca3587736a995bdba4012bde0565"
+    },
+    {
+      "address": "0x20eefd8",
+      "end": "0x20eefe0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$get_Id"
+      ],
+      "bytes": 8,
+      "sha256": "da213f955b8f14a0c0111dc8b2cfb634e53abeb514f662c0fb6f962dbf4e5f3e"
+    },
+    {
+      "address": "0x20eefe0",
+      "end": "0x20ef058",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$Clear"
+      ],
+      "bytes": 120,
+      "sha256": "aa8d7a04d8f574d98a7cb97605d79bccd8786aaeb22d2def63597f49c3874ff9"
+    },
+    {
+      "address": "0x20ef058",
+      "end": "0x20ef280",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ClearLists"
+      ],
+      "bytes": 552,
+      "sha256": "e2ef230cd862ba41e8568f2100aaf379ef3444ece4ea0757774562f50a3a717f"
+    },
+    {
+      "address": "0x20ef280",
+      "end": "0x20ef310",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetNextSortingOffset"
+      ],
+      "bytes": 144,
+      "sha256": "94e75a293b3ac431bd65b965a4336912626f6f50e5b6b20c6e79ca6a189f3f95"
+    },
+    {
+      "address": "0x20ef310",
+      "end": "0x20ef5bc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindForExploder"
+      ],
+      "bytes": 684,
+      "sha256": "e93225f3c5d7dd52e0f8925edb49b337e355fcb94eaa77b28c406ab701deae8c"
+    },
+    {
+      "address": "0x20ef5bc",
+      "end": "0x20ef5c0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$BeginProfile"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x20ef5c0",
+      "end": "0x20ef78c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindPowerCubeOrSoilTargetForWinCondition"
+      ],
+      "bytes": 460,
+      "sha256": "9c632f7e4fd98dc7509a6b684afdbbc043c1ae59a0c2dcf6c14c5d243f6d2b6c"
+    },
+    {
+      "address": "0x20ef78c",
+      "end": "0x20ef840",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindAreaTarget"
+      ],
+      "bytes": 180,
+      "sha256": "5d1276074c6b66f63eb03c134f3151936be8556ac964afa6411fb592d596a4c3"
+    },
+    {
+      "address": "0x20ef840",
+      "end": "0x20ef844",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$EndProfile"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x20ef844",
+      "end": "0x20efcd0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FillScores"
+      ],
+      "bytes": 1164,
+      "sha256": "323f62a6c22d445ae0d5d2669995b386dfad46e633f27c1095d816faab967688"
+    },
+    {
+      "address": "0x20efcd0",
+      "end": "0x20efd80",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindRowTarget"
+      ],
+      "bytes": 176,
+      "sha256": "72e1fb57a6f78daad599401a95a4377607048b23f45b5da2286ec0fe24baee00"
+    },
+    {
+      "address": "0x20efd80",
+      "end": "0x20efe34",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindColumnTarget"
+      ],
+      "bytes": 180,
+      "sha256": "159e3b41a899b845025f6739e27358a7d899b345f28f12c16ac46018274911a9"
+    },
+    {
+      "address": "0x20efe34",
+      "end": "0x20eff70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTarget"
+      ],
+      "bytes": 316,
+      "sha256": "c54fadfd99fe58c64b8c7a1ced49a6f1f61cd1a07b366c1eafdd521879c2ff26"
+    },
+    {
+      "address": "0x20eff70",
+      "end": "0x20f0c98",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestScoreForAreaExploder"
+      ],
+      "bytes": 3368,
+      "sha256": "669a2fc3c27b424067172ab0cd9374b1628e7ea1befed28fc51de8bf98a59601"
+    },
+    {
+      "address": "0x20f0c98",
+      "end": "0x20f108c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetPrioritizedCellInColumnForChainBottomCollect"
+      ],
+      "bytes": 1012,
+      "sha256": "0d6476ac4fc78de8dae31623e61152c3dfa8ef2dbb0a44be7f1f0c84e98d16b9"
+    },
+    {
+      "address": "0x20f108c",
+      "end": "0x20f12f8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetPrioritizedCellForJellySpread"
+      ],
+      "bytes": 620,
+      "sha256": "8c058642b244d1bdc752b99598ad119932423934ae55923b55244d43de08e7fb"
+    },
+    {
+      "address": "0x20f12f8",
+      "end": "0x20f16fc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetColumnScore"
+      ],
+      "bytes": 1028,
+      "sha256": "b6ae9ea104e4dca2b8ee217c59fbd91314f26758a675f9f1be6457be7ede1ea5"
+    },
+    {
+      "address": "0x20f16fc",
+      "end": "0x20f1764",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetCellScoreForRocket"
+      ],
+      "bytes": 104,
+      "sha256": "2d0e3ae0d9d074c3e6e047d324941fcb36ece8fe7503e52138e522c0ac3c252b"
+    },
+    {
+      "address": "0x20f1764",
+      "end": "0x20f1878",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$HasTargetableBelowItemUnderLightball"
+      ],
+      "bytes": 276,
+      "sha256": "038436cf6c7f0954ab00e60693d021024ddbfee60442af801727279a064a08c0"
+    },
+    {
+      "address": "0x20f1878",
+      "end": "0x20f1c58",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetRowScore"
+      ],
+      "bytes": 992,
+      "sha256": "9d5a7f8f8746cc289b8b101b95512b61cf86f659cf8c5404284602c6994e1c34"
+    },
+    {
+      "address": "0x20f1c58",
+      "end": "0x20f1e24",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ShouldAddToTotalScore"
+      ],
+      "bytes": 460,
+      "sha256": "0e8eb4ca39bf21ef690a4e4186ea32a715dd7dde133b9975051abefc8dfd75b8"
+    },
+    {
+      "address": "0x20f1e24",
+      "end": "0x20f22e8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetCellForExploder"
+      ],
+      "bytes": 1220,
+      "sha256": "d67cf4665184527ddcde9df5e1343c7ecb03e71e4d84cc1d7d3d3e1fbf60c073"
+    },
+    {
+      "address": "0x20f22e8",
+      "end": "0x20f2360",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetForCellExploder"
+      ],
+      "bytes": 120,
+      "sha256": "3a08f1f6550ed74d9bf8e56a2d202817c59b8733aff72ff70f1f0b6bf29714f9"
+    },
+    {
+      "address": "0x20f2360",
+      "end": "0x20f3174",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetCellForBoomerang"
+      ],
+      "bytes": 3604,
+      "sha256": "b0aa01954415d97a437624fcdf4a8f0e2829a7a224d318875cd62de573e4da49"
+    },
+    {
+      "address": "0x20f3174",
+      "end": "0x20f324c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestScoreForRocket"
+      ],
+      "bytes": 216,
+      "sha256": "12859b29ed8c46f66c04e6e00b8ac6753361dd438a8d466639bd93f6d5327080"
+    },
+    {
+      "address": "0x20f324c",
+      "end": "0x20f3458",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$CalculateHighestScoreForRocket"
+      ],
+      "bytes": 524,
+      "sha256": "87a2ebb6a62500bbaae24dcb597162b8e245a3c3b7da45b49d6a6f7a7e4a3347"
+    },
+    {
+      "address": "0x20f3458",
+      "end": "0x20f3558",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$CalculateHighestNegativeScoreForRocket"
+      ],
+      "bytes": 256,
+      "sha256": "96a95354ac3c0102eb02cf83550e30ca199f8b5a12f84abb4ceb4e265e99275c"
+    },
+    {
+      "address": "0x20f3558",
+      "end": "0x20f3574",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ClearGoalDependentItems"
+      ],
+      "bytes": 28,
+      "sha256": "03dac9f17dfe3201c67b01dd8f85cd323e9d27385448ed3ab4e0dcf9edf468ba"
+    },
+    {
+      "address": "0x20f3574",
+      "end": "0x20f3848",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ShouldAddToSingleTargetScore"
+      ],
+      "bytes": 724,
+      "sha256": "0674f0dc86ea55100389f80e6ee840115dc831f44a8ea2c5be959cf5eeca12fa"
+    },
+    {
+      "address": "0x20f3848",
+      "end": "0x20f38d0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ShouldAddDueToBelowItem"
+      ],
+      "bytes": 136,
+      "sha256": "3156f03a8f495793851bdc55c2d4e9acc425db3071a6794d22dcbddbd68bd8c4"
+    },
+    {
+      "address": "0x20f38d0",
+      "end": "0x20f4c70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestColumnScore"
+      ],
+      "bytes": 5024,
+      "sha256": "08a39a1a0d1adb50e640df06ccd72b9d5a0e826038511207e3e8edd7d39e014a"
+    },
+    {
+      "address": "0x20f4c70",
+      "end": "0x20f5f68",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindHighestRowScore"
+      ],
+      "bytes": 4856,
+      "sha256": "b2e00d7810ca322eef119137a59373d57202b9c0a59a41f3e77ce95da9423937"
+    },
+    {
+      "address": "0x20f5f68",
+      "end": "0x20f7650",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$CalculateScoreForAreaExploder"
+      ],
+      "bytes": 5864,
+      "sha256": "f509878863ebdfea8c99826bed31be684498e2c153c11d2b33d960d783e704f4"
+    },
+    {
+      "address": "0x20f7650",
+      "end": "0x20f7734",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$GetRandomItemFromAreaScores"
+      ],
+      "bytes": 228,
+      "sha256": "751fbae779ad2c6fc92edcd9c2ddbad48801e9db199f18999471f7439d5a24c7"
+    },
+    {
+      "address": "0x20f7734",
+      "end": "0x20f7738",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$ResetPerformanceData"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x20f7738",
+      "end": "0x20f773c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$AddExploderMetrics"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x211b868",
+      "end": "0x211b8e4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.IglooItem.IglooItemModel$$GetExplodeScore"
+      ],
+      "bytes": 124,
+      "sha256": "93ff8539b3694db8100a6747c43df197f4bf40ccd7af43e8ab8a9c41d34620b4"
+    },
+    {
+      "address": "0x21229e8",
+      "end": "0x2122aa4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.IceCubeItem.IceCubeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 188,
+      "sha256": "8159a109e9141daf4d1b9cd4d4e54ddba61d799ec7497bc50f67454dcecadb97"
+    },
+    {
+      "address": "0x2129040",
+      "end": "0x2129098",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.IceCrusherItem.IceCrusherItemModel$$GetExplodeScore"
+      ],
+      "bytes": 88,
+      "sha256": "1b3ee7833b8c1d272a415895d57328c1b70045e0e8cc4946172b40e83bfa766f"
+    },
+    {
+      "address": "0x2166258",
+      "end": "0x21665b4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SlotMachineItem.SlotMachineItemModel$$GetExplodeScore"
+      ],
+      "bytes": 860,
+      "sha256": "888a0c1f91ec83a93f1962d603e7052b9ef7151270b11a183c0e8f26761dbbd0"
+    },
+    {
+      "address": "0x216c6bc",
+      "end": "0x216c6c4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ShuttleItem.ShuttleItemModel$$GetExplodeScore"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x21774c0",
+      "end": "0x21776a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BathtubItem.BathtubItemModel$$GetExplodeScore"
+      ],
+      "bytes": 488,
+      "sha256": "2b02b4a7e0d90affc9293897c1e9a00bc24d5b584a2af4e606ed5a39b886339c"
+    },
+    {
+      "address": "0x217d6dc",
+      "end": "0x217d728",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.AncientVaultItem.AncientVaultItemModel$$GetExplodeScore"
+      ],
+      "bytes": 76,
+      "sha256": "80af2805ec69974e6f8105c1e59f33eb81f1cb95930d51523f711e39ff992efe"
+    },
+    {
+      "address": "0x2385698",
+      "end": "0x2385830",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BowlingRackItem.BowlingRackItemModel$$GetExplodeScore"
+      ],
+      "bytes": 408,
+      "sha256": "8a85ee5b11c7f94fcb1a9c79dbf546428e57ca9d2f818a1608d75f5e4d1d4986"
+    },
+    {
+      "address": "0x238ca1c",
+      "end": "0x238ca78",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BoomerangBoxItem.BoomerangBoxItemModel$$GetExplodeScore"
+      ],
+      "bytes": 92,
+      "sha256": "716569ff4376b09fd9cb982e3caf6d107a9f28adc447dfaf946622d62db9bd4b"
+    },
+    {
+      "address": "0x23a3b84",
+      "end": "0x23a3c34",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SoilItem.SoilItemModel$$GetExplodeScore"
+      ],
+      "bytes": 176,
+      "sha256": "c30284d214a02c15b4b6c1d17f8ecc385612c3c79d23111b652141ddd533cea1"
+    },
+    {
+      "address": "0x23da320",
+      "end": "0x23da354",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.LaserItem.LaserItemModel$$GetExplodeScore"
+      ],
+      "bytes": 52,
+      "sha256": "008fc33ade3425a3c9c4ba4844b541d876da3e2e107d5f30bd9b93c2aa705d49"
+    },
+    {
+      "address": "0x23dd77c",
+      "end": "0x23dd860",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.LanternItem.LanternItemModel$$GetExplodeScore"
+      ],
+      "bytes": 228,
+      "sha256": "90a65dab134690856216a28c3f65a58131b148dc2063aee23cec74888eebc3d1"
+    },
+    {
+      "address": "0x23e7f28",
+      "end": "0x23e7fd0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.IvyItem.IvyItemModel$$GetExplodeScore"
+      ],
+      "bytes": 168,
+      "sha256": "b63c6979e628ec83aad5870de11474d4a5ba1145dec9e3b78817b3e2a483f52c"
+    },
+    {
+      "address": "0x240c564",
+      "end": "0x240c5e0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SeedBoxItem.SeedBoxItemModel$$GetExplodeScore"
+      ],
+      "bytes": 124,
+      "sha256": "9abca6d6902415d6a5cc9178caff4e5e7d5430ae695c7f601ec778d15c5f28df"
+    },
+    {
+      "address": "0x241cf58",
+      "end": "0x241cfd4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.HatItem.HatItemModel$$GetExplodeScore"
+      ],
+      "bytes": 124,
+      "sha256": "c95275ad3c4169732cddee773e75557074d572fc3a17b50c126cbd063b5afa8f"
+    },
+    {
+      "address": "0x26a19d4",
+      "end": "0x26a19dc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$get_LastValidCell"
+      ],
+      "bytes": 8,
+      "sha256": "6f31fb6211de5c405fdb64cb9ec9eea954ea2d52a5a34649d5943f6df7a59480"
+    },
+    {
+      "address": "0x26a19dc",
+      "end": "0x26a19e4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$set_LastValidCell"
+      ],
+      "bytes": 8,
+      "sha256": "a1b342fc68d14a1c73c9d375def36bcb62acf85ccade886d2de21cbb5230eee2"
+    },
+    {
+      "address": "0x26a19e4",
+      "end": "0x26a19ec",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$get_ItemView"
+      ],
+      "bytes": 8,
+      "sha256": "23c8cd26d5ae71e2b941a005fab14d9165cc525ac58267621bb0e69e4a263bb3"
+    },
+    {
+      "address": "0x26a19ec",
+      "end": "0x26a19f4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$set_ItemView"
+      ],
+      "bytes": 8,
+      "sha256": "678f6897515a27d6a753a1bb9ca37b95c65615fe7765b9171e5dad303600bd51"
+    },
+    {
+      "address": "0x26a19f4",
+      "end": "0x26a19fc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$get_GetMoveType"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x26a19fc",
+      "end": "0x26a1b10",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$.ctor"
+      ],
+      "bytes": 276,
+      "sha256": "1f99af509dac17188a41a96ee6f94dea11445821aa17e393adcfadb23708694e"
+    },
+    {
+      "address": "0x26a1b10",
+      "end": "0x26a1b30",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$get_TargetExplodeData"
+      ],
+      "bytes": 32,
+      "sha256": "256dddf69185a0f932ac5e004339b2ca174ed6fca28bc698acc86dfd57d9b8e8"
+    },
+    {
+      "address": "0x26a1b30",
+      "end": "0x26a1b50",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$set_TargetExplodeData"
+      ],
+      "bytes": 32,
+      "sha256": "da0608564975c133e88b2d0ed0b37139f2dc898043ca792753f4be55cf471c3b"
+    },
+    {
+      "address": "0x26a1b50",
+      "end": "0x26a1b58",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$get_TargetItem"
+      ],
+      "bytes": 8,
+      "sha256": "953c57623b1a6c3113b825a80bfb71ef19f1f810675f8ef6217a3d64c2cd5f1b"
+    },
+    {
+      "address": "0x26a1b58",
+      "end": "0x26a1b68",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$set_TargetItem"
+      ],
+      "bytes": 16,
+      "sha256": "2fa84d55ae94806b3424db57596bcb513a452f519e707a0c1f8a3e4d0707149a"
+    },
+    {
+      "address": "0x26a1b68",
+      "end": "0x26a1b70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$GetItemView"
+      ],
+      "bytes": 8,
+      "sha256": "23c8cd26d5ae71e2b941a005fab14d9165cc525ac58267621bb0e69e4a263bb3"
+    },
+    {
+      "address": "0x26a1b70",
+      "end": "0x26a1bd4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TargetFound"
+      ],
+      "bytes": 100,
+      "sha256": "a1131b4f941c6bb8d41d6c1f5eb254b9b3035dee32fdb341a4178ada8420cef0"
+    },
+    {
+      "address": "0x26a1bd4",
+      "end": "0x26a1bdc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$CanExplodeWithNearMatch"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x26a1bdc",
+      "end": "0x26a1e14",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$IsTargetValid"
+      ],
+      "bytes": 568,
+      "sha256": "292d172a4ab63d9124ea1a4f29ff7c93ef5502fe08b559e3cec653c83bc907ae"
+    },
+    {
+      "address": "0x26a1e14",
+      "end": "0x26a22bc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FindNewTarget"
+      ],
+      "bytes": 1192,
+      "sha256": "d76f5cb9a6b6d080a5f9513572d0314dc15d1e4e00d45b8f4c3c1d76c0f48872"
+    },
+    {
+      "address": "0x26a22bc",
+      "end": "0x26a22ec",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ExplodeSelf"
+      ],
+      "bytes": 48,
+      "sha256": "465be3028ec200bd907d041e74f49c6fc9212cefcd259099922979be150281fe"
+    },
+    {
+      "address": "0x26a22ec",
+      "end": "0x26a2480",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FakeTargetReached"
+      ],
+      "bytes": 404,
+      "sha256": "5700382d15a376e8074ac4b8d94cc6df4d424f5351898d3f9fa593311fbe5d2b"
+    },
+    {
+      "address": "0x26a2480",
+      "end": "0x26a2cec",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TryDeregisterForTargetChange"
+      ],
+      "bytes": 2156,
+      "sha256": "349d5fa250752ada9251bf4ac0f87bc11318a8d003fab209e0db13569910e993"
+    },
+    {
+      "address": "0x26a2cec",
+      "end": "0x26a2cf4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$IsTargetAmountReached"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x26a2cf4",
+      "end": "0x26a2cf8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FinishGuidedExplodeOperation"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x26a2cf8",
+      "end": "0x26a2e54",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$UnFreezeCells"
+      ],
+      "bytes": 348,
+      "sha256": "3e5b5d8e47efdf6d430323fa87375b4b84c9740f06ad32e3fc73e994ecc028c4"
+    },
+    {
+      "address": "0x26a2e54",
+      "end": "0x26a3090",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$GetTargetPosition"
+      ],
+      "bytes": 572,
+      "sha256": "ba629b945c945bbf0a50e2cb05ea17d93e8e6d3da3af135796629aaf3ada74ad"
+    },
+    {
+      "address": "0x26a3090",
+      "end": "0x26a3134",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$GetNewPilot"
+      ],
+      "bytes": 164,
+      "sha256": "991fb4faac07eb751aa1b8344955d623d06dae010f9299fa7e8cede707c47782"
+    },
+    {
+      "address": "0x26a3134",
+      "end": "0x26a313c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$UpdateStrategy"
+      ],
+      "bytes": 8,
+      "sha256": "f8fbc9879f610c5957d856d44c68b2d2b402f58192430b2125305c413d4d5c61"
+    },
+    {
+      "address": "0x26a313c",
+      "end": "0x26a34cc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FindTarget"
+      ],
+      "bytes": 912,
+      "sha256": "08a2d4b3501ab2e8f745c905278092b9ad6d90bb77ed3c3ecd128807f7b37df0"
+    },
+    {
+      "address": "0x26a34cc",
+      "end": "0x26a3704",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$FreezeColumn"
+      ],
+      "bytes": 568,
+      "sha256": "2bdb8d3d24f4362dfd0eb371efa566d31e8b160473b4dacc36eed1595264a9d5"
+    },
+    {
+      "address": "0x26a3704",
+      "end": "0x26a3750",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TryExplode"
+      ],
+      "bytes": 76,
+      "sha256": "5f56d9e299abe1b164d69d523d21944de902f82131ebb0c3da2e6f631a88f5fe"
+    },
+    {
+      "address": "0x26a3750",
+      "end": "0x26a3978",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TryExplodeItem"
+      ],
+      "bytes": 552,
+      "sha256": "a1ca69732ae2e95704920de1b7ccda7ecb52f89ffe05235563f2140aba2a3dd4"
+    },
+    {
+      "address": "0x26a3978",
+      "end": "0x26a41e4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TryRegisterForTargetChange"
+      ],
+      "bytes": 2156,
+      "sha256": "84bd59e4b32eb2c31d26429f3710787d0bd59794ae10eef63b0b00b2d0cb853e"
+    },
+    {
+      "address": "0x26a41e4",
+      "end": "0x26a41e8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$SwapWith"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x26a41e8",
+      "end": "0x26a41f0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$Tap"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x26a41f0",
+      "end": "0x26a45cc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TargetReached"
+      ],
+      "bytes": 988,
+      "sha256": "61cf547bfc3e58d2d15472f466d499255264db55e999e9c6a9748edbf92d0287"
+    },
+    {
+      "address": "0x26a45cc",
+      "end": "0x26a4640",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$UnfreezeCellsWithDelay"
+      ],
+      "bytes": 116,
+      "sha256": "732a8ebca242a8cd331d41c22569cd7453c112bea0037092e8c4a8fd0401b4c7"
+    },
+    {
+      "address": "0x26a4668",
+      "end": "0x26a46a4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetChange"
+      ],
+      "bytes": 60,
+      "sha256": "36927cbd71a37f9203a834c9f367ed821b7bc8b48e96a7d877b934fae60548ea"
+    },
+    {
+      "address": "0x26a46a4",
+      "end": "0x26a483c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$TargetHasZeroScore"
+      ],
+      "bytes": 408,
+      "sha256": "9840b7571c9c710fff9a0d1726818bfb7dc06ac8d0ec9bf8875fc8b8975bec38"
+    },
+    {
+      "address": "0x26a483c",
+      "end": "0x26a4854",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$InvalidateTarget"
+      ],
+      "bytes": 24,
+      "sha256": "2d7099cdbba891449ea7c8c79a87ba3231c372e3036e18dd275feee198154620"
+    },
+    {
+      "address": "0x26a4854",
+      "end": "0x26a4898",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetChangeOnce"
+      ],
+      "bytes": 68,
+      "sha256": "1da534fdbb17af07350ceb644ebcc1ff27ca04322b9456722348ea2d1a677921"
+    },
+    {
+      "address": "0x26a4898",
+      "end": "0x26a4900",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetIfCellWillBeDestroyed"
+      ],
+      "bytes": 104,
+      "sha256": "9e4128291668506e9e59b7c3372513b22d98a23f724ec5ae27ca90f8f79e14d8"
+    },
+    {
+      "address": "0x26a4900",
+      "end": "0x26a492c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.GuidedExploderItemModel$$ForceTargetIfTargetScoreIsZero"
+      ],
+      "bytes": 44,
+      "sha256": "dba01ae1439c18b14c0c46f728fb358f31bd3ae019d8af18d2a37596fbf5f353"
+    },
+    {
+      "address": "0x26a4d08",
+      "end": "0x26a4fa4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$.ctor"
+      ],
+      "bytes": 668,
+      "sha256": "d001363bf0ab83f2462ba8c2cb959c07fb3f653b61ec896ad68398acc444b518"
+    },
+    {
+      "address": "0x26a7a04",
+      "end": "0x26a7ad0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$ClearGoalData"
+      ],
+      "bytes": 204,
+      "sha256": "203396f4c916391d995855c27d8c070c651dd8580a196da4d03ea209ceef5274"
+    },
+    {
+      "address": "0x26a7ad0",
+      "end": "0x26a7b20",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$ClearCumulativeHittableItemLists"
+      ],
+      "bytes": 80,
+      "sha256": "568539aab3b68ba17bcecdc6bfb0d6d7a755cd03fe65a3615f9883ececd883be"
+    },
+    {
+      "address": "0x26a7b20",
+      "end": "0x26a7bb8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$TryAddGoalHitWithMaster"
+      ],
+      "bytes": 152,
+      "sha256": "7ccbb62b5a830e71a543cb75851ae9d14e2ddfc587cc4dbae48a148a8a66a582"
+    },
+    {
+      "address": "0x26a7bb8",
+      "end": "0x26a7c10",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$HasMasterId"
+      ],
+      "bytes": 88,
+      "sha256": "6edf8ef0c8566b9481426a8894bb5e28c9b39e3c58b8aa825d41193dcf4fde12"
+    },
+    {
+      "address": "0x26a7c10",
+      "end": "0x26a7c48",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$AddGoalHit"
+      ],
+      "bytes": 56,
+      "sha256": "ab0e2cfc72826f91a97b619ae1111a9dc4b6aa9ebebe2cb64385cb11ddffd3b6"
+    },
+    {
+      "address": "0x26a7c48",
+      "end": "0x26a7cfc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$AddMultipleHittableMultiCellItemHit"
+      ],
+      "bytes": 180,
+      "sha256": "7d27b8f7794523f6b9cb3a11c18350a2cf9003d676914c317d4e12f4332b0a37"
+    },
+    {
+      "address": "0x26a7cfc",
+      "end": "0x26a7d6c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$GetMultipleHittableMultiCellHitCount"
+      ],
+      "bytes": 112,
+      "sha256": "95b03c34f2011e92126af2c5472f729a90cfe668eeaa1338220da3673818ab56"
+    },
+    {
+      "address": "0x26a7d6c",
+      "end": "0x26a7e28",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$AddCumulativeHittableMultiCellItemHit"
+      ],
+      "bytes": 188,
+      "sha256": "bf6c0e4aced416a69a5a08e2e695c92edfe75a4a750ce680a56f4d2b86aab10e"
+    },
+    {
+      "address": "0x26a7e28",
+      "end": "0x26a7e98",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$GetCumulativeHittableMultiCellHitCount"
+      ],
+      "bytes": 112,
+      "sha256": "7570f157dc226f2150703bc47d614ff55cf2811cfc3678f068459cb6df8aa0ff"
+    },
+    {
+      "address": "0x26a7e98",
+      "end": "0x26a7e9c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$MapAreas"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x26a7e9c",
+      "end": "0x26a8020",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsColumnWinning"
+      ],
+      "bytes": 388,
+      "sha256": "b997d2c0b61e008439e733d2ba2d36b4d727bba04db998c3a35e473cd183d8b6"
+    },
+    {
+      "address": "0x26a8020",
+      "end": "0x26a803c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToPrerequisites"
+      ],
+      "bytes": 28,
+      "sha256": "171c5bf8a1f39e6b55c1842bac09aab37c1c3a1c191b10dcc59376acc6916b72"
+    },
+    {
+      "address": "0x26a803c",
+      "end": "0x26a8168",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinConditionForVerticalRocket"
+      ],
+      "bytes": 300,
+      "sha256": "1c5b51badefd833223bf8bffb66b6ee32d1bb6ec9ecc1c762693c3ed71cf2c17"
+    },
+    {
+      "address": "0x26a8168",
+      "end": "0x26a8224",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsWinningByHitCells"
+      ],
+      "bytes": 188,
+      "sha256": "f59f22d2351a96a065a30186c7d439eee8df30b68e79f20a88929e37095b78dc"
+    },
+    {
+      "address": "0x26a8224",
+      "end": "0x26a8394",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsRowWinning"
+      ],
+      "bytes": 368,
+      "sha256": "591e358002ec28d50075f8c05609175360ba79267f2dddbd07aaf47b63847bba"
+    },
+    {
+      "address": "0x26a8394",
+      "end": "0x26a8498",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinConditionForHorizontalRocket"
+      ],
+      "bytes": 260,
+      "sha256": "87cbcd86b939ee9b428f05498c194ef04f8e9940ad9f6cdc35318a18fff7604e"
+    },
+    {
+      "address": "0x26a8498",
+      "end": "0x26a865c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsCellWinningForAreaExploder"
+      ],
+      "bytes": 452,
+      "sha256": "91e6751fff7e83eedfa97e4660ce190125844a631a7989c9f4e58f2ed55ea055"
+    },
+    {
+      "address": "0x26a865c",
+      "end": "0x26a87a4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinConditionForAreaExploder"
+      ],
+      "bytes": 328,
+      "sha256": "26b81ab4d754c0987372099dd46e522f8268b8cf3626bbc6831ae7f598fec2b1"
+    },
+    {
+      "address": "0x26a87a4",
+      "end": "0x26a87e8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$ShouldCalculateSpecificWinConditions"
+      ],
+      "bytes": 68,
+      "sha256": "7570f82956e35aea723592f44bed82f32035663e3c8477ca21e84763ab50effa"
+    },
+    {
+      "address": "0x26a87e8",
+      "end": "0x26a88cc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$AddTemporaryIncomingExploder"
+      ],
+      "bytes": 228,
+      "sha256": "6e711825f568b70585ea28c4aeeae031299f685cc0b28e25d84862401ccf7060"
+    },
+    {
+      "address": "0x26a88cc",
+      "end": "0x26a8a70",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinCondition"
+      ],
+      "bytes": 420,
+      "sha256": "4e05c6e87a58a17436918cbb45f1e9f2f1007065dc8f68103a0480f078888dff"
+    },
+    {
+      "address": "0x26a8a70",
+      "end": "0x26a8b54",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$RemoveTemporaryIncomingExploder"
+      ],
+      "bytes": 228,
+      "sha256": "eee0a8319b8082cb5615d95fb4397164f608c3486a4048ee5604c2a024434b6b"
+    },
+    {
+      "address": "0x26a8b54",
+      "end": "0x26a8c8c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsCellWinningForSingleHitAreaExploder"
+      ],
+      "bytes": 312,
+      "sha256": "4fbaef69ab4fa6843f8e411abd7c208e9250c6e9516bac7e73a45e81628071bb"
+    },
+    {
+      "address": "0x26a8c8c",
+      "end": "0x26a8d80",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$WillNotWinDueToSpecificWinConditionForSingleHitAreaExploder"
+      ],
+      "bytes": 244,
+      "sha256": "ca8b6dedf5dfa83ad0fcdeeb2b56370b5a7899fb5011b1634b54cd6568e4e087"
+    },
+    {
+      "address": "0x26a8d80",
+      "end": "0x26a8e9c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.WinCalculationData$$IsCellWinningForPropellerExploder"
+      ],
+      "bytes": 284,
+      "sha256": "9d1ffa9443f750f87a43addc6bf5ab816020ce2ce2a3151d0eb959a90e881780"
+    },
+    {
+      "address": "0x26d8b40",
+      "end": "0x26d8bf8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.GummyItem.GummyBarHorizontalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 184,
+      "sha256": "f4f7b0966fa5800a7c888b02625d2e60a201a7bf6fc98b8589e9a4b96ab219b1"
+    },
+    {
+      "address": "0x26d97b8",
+      "end": "0x26d9870",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.GummyItem.GummyBarVerticalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 184,
+      "sha256": "fab5bb3403749e36695deda27c5d0649c7c7c852eba40034f5cf98fbdb0050ef"
+    },
+    {
+      "address": "0x26e5aec",
+      "end": "0x26e5b40",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.GrassBombItem.GrassBombItemModel$$GetExplodeScore"
+      ],
+      "bytes": 84,
+      "sha256": "2d3d9ac6fa9c20cb6c9bfd2b9406c01bfc74b393eec5ab10bc374739eb51842d"
+    },
+    {
+      "address": "0x26e8784",
+      "end": "0x26e87b8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SeaMineItem.SeaMineItemModel$$GetExplodeScore"
+      ],
+      "bytes": 52,
+      "sha256": "008fc33ade3425a3c9c4ba4844b541d876da3e2e107d5f30bd9b93c2aa705d49"
+    },
+    {
+      "address": "0x26efd4c",
+      "end": "0x26efdfc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SapphireItem.SapphireItemModel$$GetExplodeScore"
+      ],
+      "bytes": 176,
+      "sha256": "0e09b0950f28e2567d62a2beecb956f3cfc36ddbd9ddc97448da8c36c0932d0d"
+    },
+    {
+      "address": "0x26f8888",
+      "end": "0x26f896c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.RoyalCapsuleVerticalItem.RoyalCapsuleVerticalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 228,
+      "sha256": "7433d4ce73d25c464d7bb33ad29db250b598b65e3771e12e53715a6eba6a5cdb"
+    },
+    {
+      "address": "0x271c084",
+      "end": "0x271c2d0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CandyCaneItem.CandyCaneItemModel$$GetExplodeScore"
+      ],
+      "bytes": 588,
+      "sha256": "06f06d4832ee61b6533da1b941eb297707442942018632c4da75cad2297c61b1"
+    },
+    {
+      "address": "0x272322c",
+      "end": "0x27232a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CaldronItem.CaldronItemModel$$GetExplodeScore"
+      ],
+      "bytes": 124,
+      "sha256": "20e9792aea0de6e61f839c0bafe24fba72c888950a7e1fa72d09d2650ca39276"
+    },
+    {
+      "address": "0x2a67954",
+      "end": "0x2a67988",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BoxingGloveItem.BoxingGloveItemModel$$GetExplodeScore"
+      ],
+      "bytes": 52,
+      "sha256": "008fc33ade3425a3c9c4ba4844b541d876da3e2e107d5f30bd9b93c2aa705d49"
+    },
+    {
+      "address": "0x2a6cd84",
+      "end": "0x2a6cd9c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.BowTieItem.BowTieItemModel$$GetExplodeScore"
+      ],
+      "bytes": 24,
+      "sha256": "b3fd8c3bd261ac4be836b7f5e37939014c9a0c86e61526012707476cd062592a"
+    },
+    {
+      "address": "0x2aa460c",
+      "end": "0x2aa4860",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.FireworksItem.FireworksItemModel$$GetExplodeScore"
+      ],
+      "bytes": 596,
+      "sha256": "bb5b17a5460e9ea0ac8690e2055d234dbd62a4f838a0d2abe8cd6f39efa6d4ab"
+    },
+    {
+      "address": "0x2aaa240",
+      "end": "0x2aaa2bc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.DynamiteBoxItem.DynamiteBoxItemModel$$GetExplodeScore"
+      ],
+      "bytes": 124,
+      "sha256": "a2463be60277c72b68fbc51e1ff43e40040e527700b31ed07905dde827e03cd7"
+    },
+    {
+      "address": "0x2aae9d4",
+      "end": "0x2aaea5c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.DuckShootingItem.DuckShootingItemModel$$GetExplodeScore"
+      ],
+      "bytes": 136,
+      "sha256": "9c8c4c63908103b8c1b886b8a3fd9bb46ab7944a952f3e51225438f64a06ae3b"
+    },
+    {
+      "address": "0x2ab70d0",
+      "end": "0x2ab70f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.FakeItemModel<object>$$GetExplodeScore"
+      ],
+      "bytes": 36,
+      "sha256": "655d0312395787f31e99ac07610817d76e6f5eeda865b0a415a7204b22e22f07"
+    },
+    {
+      "address": "0x2ac9124",
+      "end": "0x2ac91cc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$.ctor"
+      ],
+      "bytes": 168,
+      "sha256": "5432b482c553bab589062316211367b924e8e766a1945afa352f6ba1257fb8d4"
+    },
+    {
+      "address": "0x2acc640",
+      "end": "0x2acc71c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$ShouldBlockPropellerForLog"
+      ],
+      "bytes": 220,
+      "sha256": "c78f54a06fed90bc3553be1d4d026e68307d4c8e3d62be91ee3a5fd08d66e821"
+    },
+    {
+      "address": "0x2acf080",
+      "end": "0x2acf114",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$ShouldInvalidateCacheForNonSingleExploder"
+      ],
+      "bytes": 148,
+      "sha256": "ed124b585d0fd655d948fb0b30d98fe21706b26ec0a0b76d0f236f3719388151"
+    },
+    {
+      "address": "0x2acf114",
+      "end": "0x2acf1e4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$IsThereAnyExplodeCacheInvalidatingOperation"
+      ],
+      "bytes": 208,
+      "sha256": "0372f26083351debcf543ffa7cc546728f9356aa97f179542a370e11ec510ab1"
+    },
+    {
+      "address": "0x2acf1e4",
+      "end": "0x2acf360",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$GetScore"
+      ],
+      "bytes": 380,
+      "sha256": "b152fd233968131309bfe53dbf82d1fe747322765cfb1cc39081ae2151a3d135"
+    },
+    {
+      "address": "0x2acf360",
+      "end": "0x2acf600",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$CalculateScore"
+      ],
+      "bytes": 672,
+      "sha256": "9491fdfc786103f6ff7299b491d54d0c0ef394492f46b37f9231d88333cda02e"
+    },
+    {
+      "address": "0x2acf600",
+      "end": "0x2acf800",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$RemainingExplodeCount"
+      ],
+      "bytes": 512,
+      "sha256": "feee14f88f21922e8728b315688c229478e029d333bbcf2654eaf98142b3ae28"
+    },
+    {
+      "address": "0x2acf800",
+      "end": "0x2acfa98",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$AddIncomingExploder"
+      ],
+      "bytes": 664,
+      "sha256": "e2bfa8188378f64f598cedaeecc58d9eae6fd99328950f9e23e69b70c6272db4"
+    },
+    {
+      "address": "0x2acfa98",
+      "end": "0x2acfcec",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$TryRedirect"
+      ],
+      "bytes": 596,
+      "sha256": "9c3005ce1fd5f07e35e4c2d6fb8a522d5b336cdfbdfc1a278dd277bd434576a4"
+    },
+    {
+      "address": "0x2acfcec",
+      "end": "0x2acfe1c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.ExplodeTargetMediator$$HasIncomingExploder"
+      ],
+      "bytes": 304,
+      "sha256": "556d84311bfb75414d77dacb89d509b55bc89737cd99f75567c26a1c7912199d"
+    },
+    {
+      "address": "0x2add400",
+      "end": "0x2add4f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CoilCollectItem.CoilCollectItemModel$$GetExplodeScore"
+      ],
+      "bytes": 248,
+      "sha256": "deec0f468258cb7e6296f2e01fe9cc84ffa1b3cb19b07765c99c56806cefb8ec"
+    },
+    {
+      "address": "0x2adf1f0",
+      "end": "0x2adf2a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ClockTowerItem.ClockTowerItemModel$$GetExplodeScore"
+      ],
+      "bytes": 184,
+      "sha256": "b1cdded537d78ffde66ebf376b430766e5b2f3af6bb3a8e34a0c78f87c2d83e8"
+    },
+    {
+      "address": "0x2ae3660",
+      "end": "0x2ae3810",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ChocoMakerItem.ChocoMakerItemModel$$GetExplodeScore"
+      ],
+      "bytes": 432,
+      "sha256": "2808c512dbafa51634185c25bad2c30c2d6a1dcf09aa6d35f4ef09ce5e276a51"
+    },
+    {
+      "address": "0x2d32cf4",
+      "end": "0x2d32dc4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CoilItem.CoilItemModel$$GetExplodeScore"
+      ],
+      "bytes": 208,
+      "sha256": "f88b3b24f50361fd16fd3679a1542dc273745400a1fa5cd5ea4da58500fe3c1b"
+    },
+    {
+      "address": "0x2d3a4b0",
+      "end": "0x2d3a4f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Explode.IncomingExploderContainer$$GetIncomingCount"
+      ],
+      "bytes": 72,
+      "sha256": "f66743bb17bcfa0389bcc7a5177b0df510030fa445c39025a967591f97386dcd"
+    },
+    {
+      "address": "0x2d6d950",
+      "end": "0x2d6d974",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.GiantBirdItem.GiantBirdFakeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 36,
+      "sha256": "343c63ea465b5c6ca8308eb18a9a0554de44b78a8f0a21b11e9544d8ce20d28e"
+    },
+    {
+      "address": "0x2d71010",
+      "end": "0x2d710b8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.FurnaceItem.FurnaceItemModel$$GetExplodeScore"
+      ],
+      "bytes": 168,
+      "sha256": "68e2b67fa173cc8e099a6624167fe044175e5bcadc1379f4d9df3b8f4b825a9b"
+    },
+    {
+      "address": "0x2dc5a0c",
+      "end": "0x2dc5a14",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.DrillItem.DrillItemModel$$GetExplodeScore"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x2dcd798",
+      "end": "0x2dcd864",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CupItem.CupItemModel$$GetExplodeScore"
+      ],
+      "bytes": 204,
+      "sha256": "a83d8b3d15e4e87ed7a341209d01462ea150f43d33285dd90306821bdeefaf00"
+    },
+    {
+      "address": "0x2dd0558",
+      "end": "0x2dd05cc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CupboardItem.CupboardItemModel$$GetExplodeScore"
+      ],
+      "bytes": 116,
+      "sha256": "99fd28ae037985316033294535bcbe356ea0fd4f840ff0a9bff7e0abe842c1a4"
+    },
+    {
+      "address": "0x2de62e8",
+      "end": "0x2de6394",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PinItem.PinItemModel$$GetExplodeScore"
+      ],
+      "bytes": 172,
+      "sha256": "d24ce624ae470d82114c9d022ba7fc2b4e0896592bcb8afa971e340c76cce167"
+    },
+    {
+      "address": "0x2ded8f4",
+      "end": "0x2ded958",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PairItem.PairFakeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 100,
+      "sha256": "7ef4974b9c98c22ac8c75f1fe3f8c6df82e9701e889c4600cfffb6fd04b6676c"
+    },
+    {
+      "address": "0x2df1148",
+      "end": "0x2df11a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PairItem.PairItemModel$$GetExplodeScore"
+      ],
+      "bytes": 96,
+      "sha256": "b8644eea5075155d5400c96cab3d040fefbf4cbcd6ace52c15c522c53bf3e2f9"
+    },
+    {
+      "address": "0x30800b4",
+      "end": "0x30801ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.PaintBucketItem.PaintBucketItemModel$$GetExplodeScore"
+      ],
+      "bytes": 248,
+      "sha256": "4d96f66b1e9a9e63619302ab1ccd92b4d1f90285091aa4194dda4e5889ed1b73"
+    },
+    {
+      "address": "0x3089314",
+      "end": "0x30894c4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.OtterItem.OtterItemModel$$GetExplodeScore"
+      ],
+      "bytes": 432,
+      "sha256": "48c2842295da520cb6acbdf7b029ecbecdd764b7667da1818278cb8cc2e579a7"
+    },
+    {
+      "address": "0x309b6cc",
+      "end": "0x309b7a0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CuckooItem.CuckooItemModel$$GetExplodeScore"
+      ],
+      "bytes": 212,
+      "sha256": "fd0fef85899192d4aa5295df2c3a2e112f1449dc6f58b98d61ec9028b828635b"
+    },
+    {
+      "address": "0x30a0638",
+      "end": "0x30a068c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CrystalItem.CrystalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 84,
+      "sha256": "9aef382804c7107552481948ce36f3e70de7bbc5d3ae1c337dcaf3914fecb4b3"
+    },
+    {
+      "address": "0x30a5fb8",
+      "end": "0x30a6160",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.CookieJarItem.CookieJarItemModel$$GetExplodeScore"
+      ],
+      "bytes": 424,
+      "sha256": "1783660ec90c126280ffedd953f582c1658ad901eef0a6fe361acf308aba06d9"
+    },
+    {
+      "address": "0x30ed8e4",
+      "end": "0x30ed8f0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.StaticItemModel$$GetExplodeScore"
+      ],
+      "bytes": 12,
+      "sha256": "77d5347add519fdeea607c87f0373bbf0583d9185d27237e4f28f5c24dafe86c"
+    },
+    {
+      "address": "0x30ed930",
+      "end": "0x30ed960",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.StaticItemModel$$GetSpecialItemExplodeScore"
+      ],
+      "bytes": 48,
+      "sha256": "675dd88a6a718e7c73e21d9160b66bd5307c9eead8678a83a1f08f384cce7af7"
+    },
+    {
+      "address": "0x30f3fbc",
+      "end": "0x30f4064",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ColorMixerItem.ColorMixerItemModel$$GetExplodeScore"
+      ],
+      "bytes": 168,
+      "sha256": "67157fd0dd165c3f0e0b1071ba5e8555ac53e643f2e5e89bdb330ad0a0066897"
+    },
+    {
+      "address": "0x3384734",
+      "end": "0x3384920",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ConveyorBeltItem.ConveyorBeltItemModel$$GetExplodeScore"
+      ],
+      "bytes": 492,
+      "sha256": "1844d16e6e0d3d310b925db2cc516bacd21eb2bb8542759b98cef1055f693df9"
+    },
+    {
+      "address": "0x3384920",
+      "end": "0x338493c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.GameplayExtensions$$IsMultipleExploder"
+      ],
+      "bytes": 28,
+      "sha256": "f08a53ed93ef0db00601519d9eb142891b0001c2150d36b55c4f7c93a2deee59"
+    },
+    {
+      "address": "0x338493c",
+      "end": "0x338496c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.GameplayExtensions$$IsSingleExploderStrategy"
+      ],
+      "bytes": 48,
+      "sha256": "8d35e27cc5785d550718036a48789f7c0de92297f74e865d3e571a5ccc391a98"
+    },
+    {
+      "address": "0x338496c",
+      "end": "0x3384988",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemModel$$GetExplodeScore"
+      ],
+      "bytes": 28,
+      "sha256": "41dd22e94915f4f02a7880bdc377655f696f066bb36bff80e2b2d5ce3acec506"
+    },
+    {
+      "address": "0x3384988",
+      "end": "0x33849ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemExtensions$$ExplodeScore"
+      ],
+      "bytes": 36,
+      "sha256": "f2aeef4bd59cbfce3183afa9f08aa1bb731721dd6f44b7d111b18999fe6aed3d"
+    },
+    {
+      "address": "0x33849ac",
+      "end": "0x33849c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.GameplayExtensions$$IsAreaExploderStrategy"
+      ],
+      "bytes": 28,
+      "sha256": "9396023ee623baca6500d7d7e35b72b108af7f1d439eda5bbdf6ea70f1ff1277"
+    },
+    {
+      "address": "0x338bab0",
+      "end": "0x338bb58",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemExtensions$$CellsFreedAfterExplode"
+      ],
+      "bytes": 168,
+      "sha256": "62e1bf70bcc1f19039d4e51d0774d2cc873bd85eb4165dcec90a8b59cc29ff4e"
+    },
+    {
+      "address": "0x338c910",
+      "end": "0x338c93c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.ItemModel$$RemainingExplodeCount"
+      ],
+      "bytes": 44,
+      "sha256": "33dece9948793aa4e7b6e0123e9c855a07dcd4a864935ae5e6e7fabc010c9322"
+    },
+    {
+      "address": "0x3391c90",
+      "end": "0x3391d58",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.Config.MultipleCellItemModel$$GetExplodeScore"
+      ],
+      "bytes": 200,
+      "sha256": "0a32bfbdf5187d6b09d50a7abb3867ca375b144afb65c9da52598e4482b6ff12"
+    },
+    {
+      "address": "0x3397524",
+      "end": "0x339752c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$get_ItemType"
+      ],
+      "bytes": 8,
+      "sha256": "008816324250c06e66ca174f257c933b0d3a7d05ae19334ddb101a72517eaadd"
+    },
+    {
+      "address": "0x339752c",
+      "end": "0x3397560",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$.ctor"
+      ],
+      "bytes": 52,
+      "sha256": "963113db006ccb32429af5468693e7bf0d4e44dd9df24d4f6ed2902403a966d9"
+    },
+    {
+      "address": "0x3397560",
+      "end": "0x339765c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$CreateView"
+      ],
+      "bytes": 252,
+      "sha256": "dcbf65ec60f2b111d6402b547e939ae7d9f1399051f7fe780c45409b8b7f7f37"
+    },
+    {
+      "address": "0x339765c",
+      "end": "0x339766c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$CanReceiveAboveStaticItem"
+      ],
+      "bytes": 16,
+      "sha256": "370db2f201acb13d9ad1cd7cf3d8475a1fcad8bb780921bf38a03ff941717a00"
+    },
+    {
+      "address": "0x339766c",
+      "end": "0x33976b8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$SwapWith"
+      ],
+      "bytes": 76,
+      "sha256": "347af51686a5d72f88fc55ba6052d8ce2abb9fc3df2deeb9a1de980f4d83aec9"
+    },
+    {
+      "address": "0x33976b8",
+      "end": "0x3397724",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$Tap"
+      ],
+      "bytes": 108,
+      "sha256": "16e0ca3c1536cad87f1f3ba73d401bac12dd4043299abd6a6d70a71ed801375b"
+    },
+    {
+      "address": "0x3397724",
+      "end": "0x33979a4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$TryExplode"
+      ],
+      "bytes": 640,
+      "sha256": "b45c93d54531252aef98ce0f4d297abb8131a4d7ef5375b1d98653c7009880c1"
+    },
+    {
+      "address": "0x33979a4",
+      "end": "0x3397a3c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$TryCollectRemainingMoveCoins"
+      ],
+      "bytes": 152,
+      "sha256": "6014ef63434c9e5c9a917f08a8cb6c8b0408d54783669dc9b0b43c611734316e"
+    },
+    {
+      "address": "0x3397a3c",
+      "end": "0x3397a5c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.PropellerItemModel$$SetRestoredData"
+      ],
+      "bytes": 32,
+      "sha256": "98723fff6ce13358faa1bc7807f61d6e2f3bd055857148e7dfb9c0e1519d633d"
+    },
+    {
+      "address": "0x3397a5c",
+      "end": "0x3397aec",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetViewPrefab"
+      ],
+      "bytes": 144,
+      "sha256": "8e2e571bd5634b907b59bd0a6b3ce50d56a0aa0c3311c339d0bf7be8f7e37250"
+    },
+    {
+      "address": "0x3397aec",
+      "end": "0x3397b80",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetExplodePrefabs"
+      ],
+      "bytes": 148,
+      "sha256": "96b6e62a42d6af2d8ce7cba884f6e8bb8d5d11d577af25e95abcc8fb6231a71e"
+    },
+    {
+      "address": "0x3397b80",
+      "end": "0x3397c14",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetTargetExplodePrefabs"
+      ],
+      "bytes": 148,
+      "sha256": "2931361f0c6270bb9a8f33e2ebf7818f28100c6805c2bc6121acd1f485c13931"
+    },
+    {
+      "address": "0x3397c14",
+      "end": "0x3397ca8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetPropellerRocketComboParticlePrefab"
+      ],
+      "bytes": 148,
+      "sha256": "2732410a4875c701313b1a63feac960aa07272d3e3c99ec38b10e623b77e0f9d"
+    },
+    {
+      "address": "0x3397ca8",
+      "end": "0x3397cd0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetPropellerCreationSfx"
+      ],
+      "bytes": 40,
+      "sha256": "f2f5957c9039b9472c4722a593df72e07db0fc023016c32fc380749abcfc5c72"
+    },
+    {
+      "address": "0x3397cd0",
+      "end": "0x3397cfc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetPropellerFlySfx"
+      ],
+      "bytes": 44,
+      "sha256": "686f4485e91223f1a47e6700a820b0b7e4a428404d063187cd9ec475d746fec2"
+    },
+    {
+      "address": "0x3397cfc",
+      "end": "0x3397d28",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetPropellerHitSfx"
+      ],
+      "bytes": 44,
+      "sha256": "69a0206decde0c967aebca9358d0ff3e676fa60e4e7037b98d962308a4189dbe"
+    },
+    {
+      "address": "0x3397d28",
+      "end": "0x3397d54",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$GetPropellerTakeOffSfx"
+      ],
+      "bytes": 44,
+      "sha256": "5fb6176b90a64ccee2ebe98e51f91b8ab753f4fa43d800a9069541c411edd131"
+    },
+    {
+      "address": "0x3397d54",
+      "end": "0x3397e7c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$CreateItemPools"
+      ],
+      "bytes": 296,
+      "sha256": "af08aa17734a7520810de095f9116c7d165e3384f28b772857db93742d4c4e37"
+    },
+    {
+      "address": "0x3397e7c",
+      "end": "0x3397f68",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$ClearItemPools"
+      ],
+      "bytes": 236,
+      "sha256": "7a8a9083df83e0b995cc0aae91d085cab8f92e0ffc4743e973a77eee84e08273"
+    },
+    {
+      "address": "0x3397f68",
+      "end": "0x3397f70",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemAssets$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "c27c904ad047cddb4328387996297cd182e6f2726047979618080d7094fbace2"
+    },
+    {
+      "address": "0x3397f70",
+      "end": "0x3397fd4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemExplodeParticles$$Play"
+      ],
+      "bytes": 100,
+      "sha256": "cc533b757bd73a3eb277e1e534f1f5cdc2938bcb27facdda23f20358e1611b50"
+    },
+    {
+      "address": "0x3397fd4",
+      "end": "0x3397fdc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemExplodeParticles$$GetPoolId"
+      ],
+      "bytes": 8,
+      "sha256": "78583cb90ad13e712ee5163aea9c5efe9cbc3402f4096685a45821db97a1cd2a"
+    },
+    {
+      "address": "0x3397fdc",
+      "end": "0x3397fe4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemExplodeParticles$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "dd1c21443f3efd2a28b372fb0f1c5ba72c3d2f52a8ec29da4aef81fcfaab2bab"
+    },
+    {
+      "address": "0x3397fe4",
+      "end": "0x339803c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_CreationStateId"
+      ],
+      "bytes": 88,
+      "sha256": "5e283e4f9fd5ee27867355f30d502f06061b9b8a540e9d9d3946b2f4f45c86d6"
+    },
+    {
+      "address": "0x339803c",
+      "end": "0x3398094",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_TapStartFlyStateId"
+      ],
+      "bytes": 88,
+      "sha256": "008cf45f71e8eecead10e0f3ec04502994064a694953812ef73aa02a850fc0fb"
+    },
+    {
+      "address": "0x3398094",
+      "end": "0x33980ec",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_SwipeStartFlyStateId"
+      ],
+      "bytes": 88,
+      "sha256": "83e5e91799d63daef67391a80def3248e8b862013c63fa73c3aee5e825cf22bd"
+    },
+    {
+      "address": "0x33980ec",
+      "end": "0x3398144",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_StartFallStateId"
+      ],
+      "bytes": 88,
+      "sha256": "f298f1b520eee73ed04c8825bf12f30fb539dbd7ca0c212d0f4b49c560cd1118"
+    },
+    {
+      "address": "0x3398144",
+      "end": "0x339819c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_EndFallStateId"
+      ],
+      "bytes": 88,
+      "sha256": "3690c726f39d93ca96c89a3c788cddf62f99d7fd0bfccec9f11bf218977af0e5"
+    },
+    {
+      "address": "0x339819c",
+      "end": "0x33981f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_EndFallAltStateId"
+      ],
+      "bytes": 88,
+      "sha256": "2ed65563822f66978fc1c05a43dd7c36c3f35cc0ad2c2c9e5dabbaf876fa9066"
+    },
+    {
+      "address": "0x33981f4",
+      "end": "0x33981fc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_FlyAudioClipType"
+      ],
+      "bytes": 8,
+      "sha256": "01211cfc5556095cecf58ebdf831d73571812576f4b5bd55dec7eb0f7914db6f"
+    },
+    {
+      "address": "0x33981fc",
+      "end": "0x3398204",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_HitAudioClipType"
+      ],
+      "bytes": 8,
+      "sha256": "22f96369c4a075037a03c8b87ac075c4bde27e5dd6413b08d1b2d7c149857702"
+    },
+    {
+      "address": "0x3398204",
+      "end": "0x339820c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$get_TakeOffAudioClipType"
+      ],
+      "bytes": 8,
+      "sha256": "03b4fe82cc54f476ac783be1a2ddc8e3a0d9799266ebcd98fc031b6d3b02a68b"
+    },
+    {
+      "address": "0x339820c",
+      "end": "0x3398210",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$ChangeAlpha"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x3398210",
+      "end": "0x3398214",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$ResetAlpha"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x3398214",
+      "end": "0x339821c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$GetPoolId"
+      ],
+      "bytes": 8,
+      "sha256": "f2a41acf67c1de0eee5443c8fa2e53019a2650b802e011084b07064fdddf8e82"
+    },
+    {
+      "address": "0x339821c",
+      "end": "0x339827c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$SwapAnimationStarted"
+      ],
+      "bytes": 96,
+      "sha256": "a18206c5629030787d6ca77f45c0281ded6d24efc1530e0af2ce6b28db765f5d"
+    },
+    {
+      "address": "0x339827c",
+      "end": "0x33983b0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$FallStarted"
+      ],
+      "bytes": 308,
+      "sha256": "104685d9c3a1ffd9a9ec4ad9e7b96f3c70be1fffe18f53b5cf04a7311ee44a7c"
+    },
+    {
+      "address": "0x33983b0",
+      "end": "0x33986ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$FallEnded"
+      ],
+      "bytes": 764,
+      "sha256": "f6b3fcfdec82039a45b4edfbb1e6fb9f4a1371b37d66a073cabf365e2889038a"
+    },
+    {
+      "address": "0x33986ac",
+      "end": "0x33986e8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$PlayEndFallAnimation"
+      ],
+      "bytes": 60,
+      "sha256": "b2cc13a4b3c262fbeb2dc27a0cf136042e6c918e2e7fa335c55ee11e90b62e32"
+    },
+    {
+      "address": "0x33986e8",
+      "end": "0x3398724",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$PlayEndFallAltAnimation"
+      ],
+      "bytes": 60,
+      "sha256": "2a80e6b3611b2582346bb25ebd643f5861912239bee92eaadb5dfa97a86394e3"
+    },
+    {
+      "address": "0x3398724",
+      "end": "0x3398790",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$OnRecycle"
+      ],
+      "bytes": 108,
+      "sha256": "de31e5bbb72fd781f79319f94c1b452fa8132ac35dfd9b0546b816915556d0ab"
+    },
+    {
+      "address": "0x3398790",
+      "end": "0x3398798",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "4512b179438c24d579716e06096b0a55ed78fe8874552155adf2b51fd80bdd12"
+    },
+    {
+      "address": "0x3398798",
+      "end": "0x33988f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerItemView$$.cctor"
+      ],
+      "bytes": 348,
+      "sha256": "83c5efb6ad6ccafa402079a42f26b3f9555052125443f280f8f6ea3b59423536"
+    },
+    {
+      "address": "0x33988f4",
+      "end": "0x3398914",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerRocketComboParticles$$Awake"
+      ],
+      "bytes": 32,
+      "sha256": "5043b7247dc2e9508b363b436b6c744116834619d345c12d222c6b4dbc7255fd"
+    },
+    {
+      "address": "0x3398914",
+      "end": "0x3398920",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerRocketComboParticles$$Play"
+      ],
+      "bytes": 12,
+      "sha256": "5a80164fb391fbdcc0ce672f39b0736ba1317bafcb08cab34a3f439a72a64c74"
+    },
+    {
+      "address": "0x3398920",
+      "end": "0x3398928",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerRocketComboParticles$$GetPoolId"
+      ],
+      "bytes": 8,
+      "sha256": "da213f955b8f14a0c0111dc8b2cfb634e53abeb514f662c0fb6f962dbf4e5f3e"
+    },
+    {
+      "address": "0x3398928",
+      "end": "0x3398930",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerRocketComboParticles$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "8b234df3e54abb46e39cee1eda564376b73ac37f278cc4577adcb54ecde1939e"
+    },
+    {
+      "address": "0x3398930",
+      "end": "0x3398994",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerTargetExplodeParticles$$Play"
+      ],
+      "bytes": 100,
+      "sha256": "fb58342e95e0b814d60505941b9f4203360a28b52d4687c96461129fad0140a2"
+    },
+    {
+      "address": "0x3398994",
+      "end": "0x339899c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerTargetExplodeParticles$$GetPoolId"
+      ],
+      "bytes": 8,
+      "sha256": "2f81b8ca92806467f52c028a8889f581e61fd7fbb047f552b98233e6afd468ac"
+    },
+    {
+      "address": "0x339899c",
+      "end": "0x33989a4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerTargetExplodeParticles$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "deb696ebf3cd0428da31ed6a50c5fb3e945dbd43e60bb4043380b15dcbc117a0"
+    },
+    {
+      "address": "0x33989a4",
+      "end": "0x33989ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_ScaleUpSpeedConst"
+      ],
+      "bytes": 8,
+      "sha256": "9bc56c0f9497f6502c558b65c2e0ad36db4928a3e060fc2031df6f776d5b5fe2"
+    },
+    {
+      "address": "0x33989ac",
+      "end": "0x33989b8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_MinOutSpeedConst"
+      ],
+      "bytes": 12,
+      "sha256": "db2fecc5135463ad4f9e8a85aca1ee8f1a4c216e583101f6cba57696f13a4c30"
+    },
+    {
+      "address": "0x33989b8",
+      "end": "0x33989c0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_MaxOutSpeedConst"
+      ],
+      "bytes": 8,
+      "sha256": "4be95efdfa62b814a282a0fbcc71ff61edddf338b2a4363ec4681091a6761699"
+    },
+    {
+      "address": "0x33989c0",
+      "end": "0x33989c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_GoSpeedMultiplierConst"
+      ],
+      "bytes": 8,
+      "sha256": "0880b12b9cb3dc9391ddfbcc3e62642cbd6e849e12ffcb5557ea490cc3b00658"
+    },
+    {
+      "address": "0x33989c8",
+      "end": "0x33989d4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_MaxGoSpeedConst"
+      ],
+      "bytes": 12,
+      "sha256": "743ff4f66edcef0dc5331eec8205799f6f78c02c656d670d00765f5bd25ee4b9"
+    },
+    {
+      "address": "0x33989d4",
+      "end": "0x33989dc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_MinDistanceToScaleDown"
+      ],
+      "bytes": 8,
+      "sha256": "4be95efdfa62b814a282a0fbcc71ff61edddf338b2a4363ec4681091a6761699"
+    },
+    {
+      "address": "0x33989dc",
+      "end": "0x33989e4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_ShouldPlaySfxInLoop"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33989e4",
+      "end": "0x33989ec",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$get_FlyState"
+      ],
+      "bytes": 8,
+      "sha256": "ba575986dc1ab7330916797e2bd959021721fa4f384983e31b268900023397a8"
+    },
+    {
+      "address": "0x33989ec",
+      "end": "0x3398c90",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$StartFlying"
+      ],
+      "bytes": 676,
+      "sha256": "063e347396864c567fb39574545ddace7b3f55831ad0d23af7efb25785369536"
+    },
+    {
+      "address": "0x3398c90",
+      "end": "0x3398c98",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$GetStartState"
+      ],
+      "bytes": 8,
+      "sha256": "0becf359e148792c5ed24ca79a91209e5f15e0f015d2a0b9f4d69c2e82d59f3a"
+    },
+    {
+      "address": "0x3398c98",
+      "end": "0x3398ce4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$TargetChanged"
+      ],
+      "bytes": 76,
+      "sha256": "92c6500c3c0d2a7e8e2be294c632bb6c6a7bdf74469e6b838d91cb65b21b5334"
+    },
+    {
+      "address": "0x3398ce4",
+      "end": "0x3398de8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$Move"
+      ],
+      "bytes": 260,
+      "sha256": "ee9ad8595117b8b633344704061c9ca3bde6f03fbe1f832861a47b9da5ad0cf3"
+    },
+    {
+      "address": "0x3398de8",
+      "end": "0x33997b0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$MoveToTarget"
+      ],
+      "bytes": 2504,
+      "sha256": "39a338d23c0218118abe1889ae462be3c79e68645af062ad04d5cb5a280a1f91"
+    },
+    {
+      "address": "0x33997b0",
+      "end": "0x33999e0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$ArrangeScale"
+      ],
+      "bytes": 560,
+      "sha256": "89d6b19fc8c083a0e6d64368c18f8a6622b8f62664921e33513a8a60dba258d8"
+    },
+    {
+      "address": "0x33999e0",
+      "end": "0x33999e8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$GetMinFlyTime"
+      ],
+      "bytes": 8,
+      "sha256": "be9efd469ca9b957061b5f667a8a0bf2981cea4d8f749f7d463ad6527f3b8898"
+    },
+    {
+      "address": "0x33999e8",
+      "end": "0x3399ec4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$InitializeCurveVariables"
+      ],
+      "bytes": 1244,
+      "sha256": "19b6cf7f6a5f3cd55beecb2c5debfb56967032a88afbea30c31c73901f2a0533"
+    },
+    {
+      "address": "0x3399ec4",
+      "end": "0x3399f34",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$TargetReached"
+      ],
+      "bytes": 112,
+      "sha256": "13c89fdae5d6d69f019f641b4352c62a59d7afd21f1375001cf7b712a53a56f0"
+    },
+    {
+      "address": "0x3399f34",
+      "end": "0x3399f3c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$IsPropRocketCombo"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x3399f3c",
+      "end": "0x3399f44",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$IsPropSpecialCombo"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x3399f44",
+      "end": "0x339a684",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$ArrangePosition"
+      ],
+      "bytes": 1856,
+      "sha256": "992af6c4c31d4d202cbc96f64e119b50aeb44ac74c4b83370aad65018a17314d"
+    },
+    {
+      "address": "0x339a684",
+      "end": "0x339a968",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$ArrangeRotation"
+      ],
+      "bytes": 740,
+      "sha256": "4c27dced6fc03bbbc12822bc1988bc87bca277c38a8d0f7570c66ecb49f15c3d"
+    },
+    {
+      "address": "0x339a968",
+      "end": "0x339a9a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$CalculateAngleSmoothCoefficient"
+      ],
+      "bytes": 64,
+      "sha256": "285ef496b2a26039904ba26fa433281f135339ead979cacc907e33dc47774d61"
+    },
+    {
+      "address": "0x339a9a8",
+      "end": "0x339abfc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$ArrangeScaleDown"
+      ],
+      "bytes": 596,
+      "sha256": "90c3b6211b03464567308ebe04ee782950a40835bcd0100980d63c7bd8499d8c"
+    },
+    {
+      "address": "0x339abfc",
+      "end": "0x339aef4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$ArrangeScaleUp"
+      ],
+      "bytes": 760,
+      "sha256": "309f253bf09132f2928e774af29d1cf9c38be80624cf435b879be68e87090202"
+    },
+    {
+      "address": "0x339aef4",
+      "end": "0x339aefc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "b7aec88e0e7ce528e2772fb80a689c8d772214c81966bed76ed27041358bebff"
+    },
+    {
+      "address": "0x339aefc",
+      "end": "0x339af50",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.DefaultPropellerPilot$$.cctor"
+      ],
+      "bytes": 84,
+      "sha256": "2051b9a106926943300b4d452a6e9cc95fb986751d8f6f53d31c47c7a812000e"
+    },
+    {
+      "address": "0x339af50",
+      "end": "0x339af54",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.IGuidedExploderPilot$$TargetStepUpdated"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x339af54",
+      "end": "0x339afc0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$.ctor"
+      ],
+      "bytes": 108,
+      "sha256": "2e293c83b5d00e69c904f892d88d307696fdaea3653745d03b69311bad7d2997"
+    },
+    {
+      "address": "0x339afc0",
+      "end": "0x339afc8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$GetStartState"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x339afc8",
+      "end": "0x339afdc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$TargetChanged"
+      ],
+      "bytes": 20,
+      "sha256": "c6c4fb44e3c349b510eb37acd571aa9e7e90c9c6996eff31524e654d507cb314"
+    },
+    {
+      "address": "0x339afdc",
+      "end": "0x339b198",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$InitializeCurveVariables"
+      ],
+      "bytes": 444,
+      "sha256": "0b186049bb0b926f998a2580359d309edaaee54fcfbcc2d1003ed25432c551fa"
+    },
+    {
+      "address": "0x339b198",
+      "end": "0x339b1ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$MoveToTarget"
+      ],
+      "bytes": 20,
+      "sha256": "d48905516299a95f31380d4598813aa216ffc745d5feafed4b9808ccaa6d1674"
+    },
+    {
+      "address": "0x339b1ac",
+      "end": "0x339b514",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$ArrangeComboExpandPosition"
+      ],
+      "bytes": 872,
+      "sha256": "721dfcc7c68729b523895f16cc968ca015e631209e2ba732c25a13305400adc7"
+    },
+    {
+      "address": "0x339b514",
+      "end": "0x339b574",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerPropellerComboPilot$$CalculateAngleSmoothCoefficient"
+      ],
+      "bytes": 96,
+      "sha256": "0393321e0a377e8433b196344f637b589fc1b6ddf782bfdaa989e8e6bd84047b"
+    },
+    {
+      "address": "0x339b574",
+      "end": "0x339b57c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_ScaleUpSpeedConst"
+      ],
+      "bytes": 8,
+      "sha256": "8001473ff00eafd1d9a5aef2b38cf38b58b5a69ab568a2b000998d7ed3d41a2e"
+    },
+    {
+      "address": "0x339b57c",
+      "end": "0x339b584",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_MinOutSpeedConst"
+      ],
+      "bytes": 8,
+      "sha256": "be9efd469ca9b957061b5f667a8a0bf2981cea4d8f749f7d463ad6527f3b8898"
+    },
+    {
+      "address": "0x339b584",
+      "end": "0x339b590",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_MaxOutSpeedConst"
+      ],
+      "bytes": 12,
+      "sha256": "cc1011bcb1e14d39723629686ecd8ee8429bc80dd8b213fa6ec31f5eec335f19"
+    },
+    {
+      "address": "0x339b590",
+      "end": "0x339b598",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_GoSpeedMultiplierConst"
+      ],
+      "bytes": 8,
+      "sha256": "96920fbe82c7e0685142088ea2b62f73c57666ffc860c91e93c29568bb62d9d1"
+    },
+    {
+      "address": "0x339b598",
+      "end": "0x339b5a4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_MaxGoSpeedConst"
+      ],
+      "bytes": 12,
+      "sha256": "d5109b1ec4fb2844f275f29979384503102bc714967b9525e4c31dee0ad7fba6"
+    },
+    {
+      "address": "0x339b5a4",
+      "end": "0x339b5ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_MinDistanceToScaleDown"
+      ],
+      "bytes": 8,
+      "sha256": "a5f2f98c5777077224b70085cb92692910ac3d91cc1869e3ee0c121ee9046cd8"
+    },
+    {
+      "address": "0x339b5ac",
+      "end": "0x339b5b4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_ShouldPlaySfxInLoop"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x339b5b4",
+      "end": "0x339b5bc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$get_OutAngle"
+      ],
+      "bytes": 8,
+      "sha256": "b0867db56099c0e1ad648a0b620e6c453a0be3c1d20fbf7914473978be2ea15a"
+    },
+    {
+      "address": "0x339b5bc",
+      "end": "0x339b698",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$.ctor"
+      ],
+      "bytes": 220,
+      "sha256": "9fb5020054e5776915fbe6f29108601c54ad5605df4a27fdd56790735e78a151"
+    },
+    {
+      "address": "0x339b698",
+      "end": "0x339b6ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$GetStartState"
+      ],
+      "bytes": 20,
+      "sha256": "bc2c11e6096509d4c4a6560cdfb47d09991f88a138893c4ee047e843696cf181"
+    },
+    {
+      "address": "0x339b6ac",
+      "end": "0x339b6c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$TargetChanged"
+      ],
+      "bytes": 28,
+      "sha256": "59812a9e420909b1e79a1617223077ff764158ca67283f784aff86346b6a37c5"
+    },
+    {
+      "address": "0x339b6c8",
+      "end": "0x339b6d4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$GetMinFlyTime"
+      ],
+      "bytes": 12,
+      "sha256": "7cf0fce7f5abc1f22f800508a4949e0f8024d91f8bc5771eacb459c1d6eb6320"
+    },
+    {
+      "address": "0x339b6d4",
+      "end": "0x339b744",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$StartFlying"
+      ],
+      "bytes": 112,
+      "sha256": "58d20fd47874603c8d7467973e652393835d6f421b4e0a6a3292114dc04ec178"
+    },
+    {
+      "address": "0x339b744",
+      "end": "0x339b774",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$IsPropRocketCombo"
+      ],
+      "bytes": 48,
+      "sha256": "cb9f5e978dcb0b9be4c7ac1fd112f2d59fd78324d52fafa9011560bf739ecc92"
+    },
+    {
+      "address": "0x339b774",
+      "end": "0x339b77c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$IsPropSpecialCombo"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x339b77c",
+      "end": "0x339bb80",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$InitializeCurveVariables"
+      ],
+      "bytes": 1028,
+      "sha256": "4d4295962eaa770c54d51648cd312bae0210b7170fcc7d884df08d785a74acae"
+    },
+    {
+      "address": "0x339bb80",
+      "end": "0x339bc68",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangeSorting"
+      ],
+      "bytes": 232,
+      "sha256": "33ae2b65910bc30d4c155f52ff6b2510116537c939da0f7c7ec193d355bb7651"
+    },
+    {
+      "address": "0x339bc68",
+      "end": "0x339bd9c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$TargetReached"
+      ],
+      "bytes": 308,
+      "sha256": "5bf96863283f2a4473f9ab0d7f8b8e7994bb9742a5c02f673e2690aa95034136"
+    },
+    {
+      "address": "0x339bd9c",
+      "end": "0x339be10",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangePosition"
+      ],
+      "bytes": 116,
+      "sha256": "77208038f7eda8c0e360c0a4190336ffe6ac1e1e1b9215d56c9558ec857c4e2b"
+    },
+    {
+      "address": "0x339be10",
+      "end": "0x339c1c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangeRootPositions"
+      ],
+      "bytes": 952,
+      "sha256": "91af423d7d62612f847317376f1dae8b97033559d49390493ec7a508cacec1a0"
+    },
+    {
+      "address": "0x339c1c8",
+      "end": "0x339c380",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangeScaleDown"
+      ],
+      "bytes": 440,
+      "sha256": "cbb0a1ad85fe43580e3fe3e687f6f8c4f3c8170774a1c1155cf0743950d31a38"
+    },
+    {
+      "address": "0x339c380",
+      "end": "0x339c570",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangeScaleUp"
+      ],
+      "bytes": 496,
+      "sha256": "d481cb0a71917f883ae454e110d5f1864e4e250f959cf0c7eb9fbe1db6b9ea3c"
+    },
+    {
+      "address": "0x339c570",
+      "end": "0x339c814",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$MoveToTarget"
+      ],
+      "bytes": 676,
+      "sha256": "b98635c140d02bf1f9267274f1afed6613da7f1075bb18d5486d3cb238f7f693"
+    },
+    {
+      "address": "0x339c814",
+      "end": "0x339cb7c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$ArrangeComboExpandPosition"
+      ],
+      "bytes": 872,
+      "sha256": "ea8c925d67e65924ee505ddfb57a819ef598317d497394196a7add17a016808e"
+    },
+    {
+      "address": "0x339cb7c",
+      "end": "0x339cbf8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.PropellerPilot.PropellerSpecialComboPilot$$CalculateAngleSmoothCoefficient"
+      ],
+      "bytes": 124,
+      "sha256": "0c89f027a369c397844eafe9e06c451502b806460cc1354c8d8a22c4e50a1e0d"
+    },
+    {
+      "address": "0x339cbf8",
+      "end": "0x339ccc0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$.ctor"
+      ],
+      "bytes": 200,
+      "sha256": "d9af6a2f953ed38421d23ef81cb9d746b7a476338af48c3ddefabba50e9d8f38"
+    },
+    {
+      "address": "0x339ccc0",
+      "end": "0x339ccc8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$get_ShouldPlaySfxInLoop"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x339ccc8",
+      "end": "0x339ccd0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$get_FlyState"
+      ],
+      "bytes": 8,
+      "sha256": "629c044fe32313e0c2fe9ea704532b3f04f9a6b5cc7466f2c50efc28dea73852"
+    },
+    {
+      "address": "0x339ccd0",
+      "end": "0x339cee8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$StartFlying"
+      ],
+      "bytes": 536,
+      "sha256": "402d55bbaf2ab5f82b179554d6b8a4ff5151ed20d292f66215e976009ef267cb"
+    },
+    {
+      "address": "0x339cee8",
+      "end": "0x339cef0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$GetStartState"
+      ],
+      "bytes": 8,
+      "sha256": "0becf359e148792c5ed24ca79a91209e5f15e0f015d2a0b9f4d69c2e82d59f3a"
+    },
+    {
+      "address": "0x339cef0",
+      "end": "0x339cfb0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$InitializeCurveVariables"
+      ],
+      "bytes": 192,
+      "sha256": "4746b6b5700699fd0b9bf2a5408174ab665261f7bfd29ebe62dc01e8bc4b1506"
+    },
+    {
+      "address": "0x339cfb0",
+      "end": "0x339d0a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$Move"
+      ],
+      "bytes": 248,
+      "sha256": "3ca34e6acf4f2de9394d9b0b6c3773e74e6b7d861f4765b96db844c61bd1cb97"
+    },
+    {
+      "address": "0x339d0a8",
+      "end": "0x339d0fc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$TargetChanged"
+      ],
+      "bytes": 84,
+      "sha256": "cf29aefbc39fafef4dc5c3154b6b89f48064152647380296b7aaa4f008d3dabc"
+    },
+    {
+      "address": "0x339d0fc",
+      "end": "0x339d74c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$CalculateRedirectAngleVariables"
+      ],
+      "bytes": 1616,
+      "sha256": "52bc4225e03862e74083ddc89f748eaf96fb34dac36f2ca1a3771daa4e0e9277"
+    },
+    {
+      "address": "0x339d74c",
+      "end": "0x339e094",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$MoveToTarget"
+      ],
+      "bytes": 2376,
+      "sha256": "3ce5843bc2bfeb91ece329882ee7a7a33762f9cd15531f4cdce2b6302703239e"
+    },
+    {
+      "address": "0x339e094",
+      "end": "0x339e1e0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangeScale"
+      ],
+      "bytes": 332,
+      "sha256": "0d39dfb24c3121608137bd122665a9bceca39dafaeb590f9ceace8d706e18c04"
+    },
+    {
+      "address": "0x339e1e0",
+      "end": "0x339eb28",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangePosition"
+      ],
+      "bytes": 2376,
+      "sha256": "ccab06ab81f9ad35f2d9bb4228920348f7027166f67f6bb6a5262a906b3e33ea"
+    },
+    {
+      "address": "0x339eb28",
+      "end": "0x339ebe8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$TargetReached"
+      ],
+      "bytes": 192,
+      "sha256": "606a6cdaf64407558d8f7c7923f8cc276668e717cb9f2de4f7e054598f2e5bfd"
+    },
+    {
+      "address": "0x339ebe8",
+      "end": "0x339ebf0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$GetMinFlyTime"
+      ],
+      "bytes": 8,
+      "sha256": "d8e1cbd9e9685eb9de59dcde52e455df7cf686eb44ca6e6963c1338bb8ec83fe"
+    },
+    {
+      "address": "0x339ebf0",
+      "end": "0x339f2b4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$InitAngleVariables"
+      ],
+      "bytes": 1732,
+      "sha256": "4bc8371dee02c80feb27b89fbfa01210237c84924c23202dc423ee5e30e88ea0"
+    },
+    {
+      "address": "0x339f2b4",
+      "end": "0x339f894",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangeSteadyFlightPosition"
+      ],
+      "bytes": 1504,
+      "sha256": "252a8fcef78aec0b3b081e3e78dfa6e3630a6b3c15616cfe1d4c6ce70a9a45ce"
+    },
+    {
+      "address": "0x339f894",
+      "end": "0x339f8d4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$CalculateAngleSmoothCoefficient"
+      ],
+      "bytes": 64,
+      "sha256": "bbdc2e8b20abcaff004c7ee05a6f92337e11ca0f1664315b7a6c1136c8275114"
+    },
+    {
+      "address": "0x339f8d4",
+      "end": "0x339fa50",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangeRotation"
+      ],
+      "bytes": 380,
+      "sha256": "e9033a4c09557d7d18f8fee6e87f4d69a99ec6f088ec7a8b49aae2e484012ebd"
+    },
+    {
+      "address": "0x339fa50",
+      "end": "0x339fbdc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangeScaleDown"
+      ],
+      "bytes": 396,
+      "sha256": "6a0f02bfeea46a7a30c9023acaf84c5e44e6cbd76e80c8a6526fa50c0a92450c"
+    },
+    {
+      "address": "0x339fbdc",
+      "end": "0x339fe80",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$ArrangeScaleUp"
+      ],
+      "bytes": 676,
+      "sha256": "78bf35eb68dece72850a90cf476c9b602fa7ec678459889ed7834d6272c2872b"
+    },
+    {
+      "address": "0x339fe80",
+      "end": "0x339fed4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.FireworkRocketPilot.FireworkRocketPilot$$.cctor"
+      ],
+      "bytes": 84,
+      "sha256": "fabd4642e6b8f468185cafd1e31246bc33be9667844709f67bee6514639fcc1e"
+    },
+    {
+      "address": "0x339fed4",
+      "end": "0x339ff18",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$.ctor"
+      ],
+      "bytes": 68,
+      "sha256": "5753318ea6423047e9975c707a383fa687c519c6b73e469a8c7b3d32507f2789"
+    },
+    {
+      "address": "0x339ff18",
+      "end": "0x339ff20",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$get_ShouldPlaySfxInLoop"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x339ff20",
+      "end": "0x339ff28",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$get_FlyState"
+      ],
+      "bytes": 8,
+      "sha256": "629c044fe32313e0c2fe9ea704532b3f04f9a6b5cc7466f2c50efc28dea73852"
+    },
+    {
+      "address": "0x339ff28",
+      "end": "0x33a00cc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$StartFlying"
+      ],
+      "bytes": 420,
+      "sha256": "aa82c848db4bdf5134ada3ad579ae5285272ada90e9e86f1aa1ebe566d2eac41"
+    },
+    {
+      "address": "0x33a00cc",
+      "end": "0x33a00d4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetStartState"
+      ],
+      "bytes": 8,
+      "sha256": "0becf359e148792c5ed24ca79a91209e5f15e0f015d2a0b9f4d69c2e82d59f3a"
+    },
+    {
+      "address": "0x33a00d4",
+      "end": "0x33a0108",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$TargetChanged"
+      ],
+      "bytes": 52,
+      "sha256": "9c1cfd2cbb5f7d99147e63d700db35c87c679969386b1ae1f82bd04327e621d0"
+    },
+    {
+      "address": "0x33a0108",
+      "end": "0x33a0154",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$TargetStepUpdated"
+      ],
+      "bytes": 76,
+      "sha256": "75e3fd05c46146a3dd64cfc9d1770ebdee4ef9a938146f11e5cbfb24a41558c3"
+    },
+    {
+      "address": "0x33a0154",
+      "end": "0x33a02ac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$Move"
+      ],
+      "bytes": 344,
+      "sha256": "6a5a4f909a11be16f52fb4ecd31362beca221fd5920ec1fa8de8a5fcf0799080"
+    },
+    {
+      "address": "0x33a02ac",
+      "end": "0x33a0c5c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$MoveToTarget"
+      ],
+      "bytes": 2480,
+      "sha256": "7db44b110abb89cb1ec85b623dd67989485a9c4db24797d785634d280a808e25"
+    },
+    {
+      "address": "0x33a0c5c",
+      "end": "0x33a0ea4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$ArrangeScale"
+      ],
+      "bytes": 584,
+      "sha256": "20f38bb04db55735c27d7e06cf5dd58d3b0db9255a8208658db247ec9e2866df"
+    },
+    {
+      "address": "0x33a0ea4",
+      "end": "0x33a1070",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$TargetReached"
+      ],
+      "bytes": 460,
+      "sha256": "67f542bf908d1e0674abc906a5c16c2756b673957e2bc96eba930dc71494e3de"
+    },
+    {
+      "address": "0x33a1070",
+      "end": "0x33a107c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetMinFlyTime"
+      ],
+      "bytes": 12,
+      "sha256": "f14af6f9b9eeaad548d1d2c21ed218bb75bd4cab8c8239b85ae3970dd755dc54"
+    },
+    {
+      "address": "0x33a107c",
+      "end": "0x33a1578",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$InitializeCurveVariables"
+      ],
+      "bytes": 1276,
+      "sha256": "ead608e90fc8ad2da3fee7286d4fa2c3676f18615ebcfab29d0f64dccd76113d"
+    },
+    {
+      "address": "0x33a1578",
+      "end": "0x33a1bb4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$ArrangePosition"
+      ],
+      "bytes": 1596,
+      "sha256": "95c500aa4706140a5f30843a30663a192b8b3703dd833113760334c9a41ab6fa"
+    },
+    {
+      "address": "0x33a1bb4",
+      "end": "0x33a20d8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$TryResetForNextTarget"
+      ],
+      "bytes": 1316,
+      "sha256": "e9a5198bc25c80b7b6120eca3921197e8f97d9ad4bff9845158ce6bc86020669"
+    },
+    {
+      "address": "0x33a20d8",
+      "end": "0x33a21e4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$CalculateVelocitySmoother"
+      ],
+      "bytes": 268,
+      "sha256": "0ab9b2445c4e490dea515ae5c5e65a73ca3ed6b273b3ff348e3772da86fdc1c5"
+    },
+    {
+      "address": "0x33a21e4",
+      "end": "0x33a2234",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetRedirectSmoother"
+      ],
+      "bytes": 80,
+      "sha256": "38de1d12c85760dcedf275fa21c469c73b99f7c9bbba4dce0f413c48c2546762"
+    },
+    {
+      "address": "0x33a2234",
+      "end": "0x33a228c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetAngleSmoother"
+      ],
+      "bytes": 88,
+      "sha256": "eb93a2ddc85f1e937371c8d0a0130ab08ae93d85c7aeddf0905ebcdaaeafe8f0"
+    },
+    {
+      "address": "0x33a228c",
+      "end": "0x33a22c0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetDistanceSmoother"
+      ],
+      "bytes": 52,
+      "sha256": "b5159cd1525879d379b49cc4f4338e7d399336ac8660cbe0f3d3c9d85e379851"
+    },
+    {
+      "address": "0x33a22c0",
+      "end": "0x33a2300",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$GetDurationSmoother"
+      ],
+      "bytes": 64,
+      "sha256": "129de68ff044d2aa33599b111945d103f4a8dae7a73b010d9290265b8de11540"
+    },
+    {
+      "address": "0x33a2300",
+      "end": "0x33a2338",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$CalculateAngleSmoothCoefficient"
+      ],
+      "bytes": 56,
+      "sha256": "05cbefea3b807aa4002a5c10d4f26557bc2c1aeae14a3e6bab927b7696873515"
+    },
+    {
+      "address": "0x33a2338",
+      "end": "0x33a25a8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$ArrangeScaleDown"
+      ],
+      "bytes": 624,
+      "sha256": "d0dc60fe8dda50c2b52b556116c1e024711219eca3f99a9770a43714abd63983"
+    },
+    {
+      "address": "0x33a25a8",
+      "end": "0x33a28a0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$ArrangeScaleUp"
+      ],
+      "bytes": 760,
+      "sha256": "1b2639b334bcd61f7f0b847cf3b4440797ebd2b6bff91255ba6c189325efc3b8"
+    },
+    {
+      "address": "0x33a28a0",
+      "end": "0x33a28f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.View.BoomerangPilot.BoomerangPilot$$.cctor"
+      ],
+      "bytes": 84,
+      "sha256": "3829a56cf2c894c2c6e9c1944ab2d6d2480558365747660aa95306dadbe77713"
+    },
+    {
+      "address": "0x33a28f4",
+      "end": "0x33a2954",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.FireworksRocketStrategy$$.ctor"
+      ],
+      "bytes": 96,
+      "sha256": "132767816e674ec8dcb8360068fb4f872c9d9c2656c2401cca946586fa05c5f4"
+    },
+    {
+      "address": "0x33a2954",
+      "end": "0x33a298c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerPropellerComboStrategy$$.ctor"
+      ],
+      "bytes": 56,
+      "sha256": "e5026c51a2d91b9f6e0978ec119c1d059506764c4e8fdfe1ca46f9faeec873a6"
+    },
+    {
+      "address": "0x33a298c",
+      "end": "0x33a2994",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.FireworksRocketStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a2994",
+      "end": "0x33a2a1c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.FireworksRocketStrategy$$GetNewPilot"
+      ],
+      "bytes": 136,
+      "sha256": "72dd02891c2da2cf7730d79c3f93cffd3124728da695cb68d7fbc90bf98f2784"
+    },
+    {
+      "address": "0x33a2a1c",
+      "end": "0x33a2acc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.FireworksRocketStrategy$$NextExploder"
+      ],
+      "bytes": 176,
+      "sha256": "33d56413163a8e747db0d7a82da856737bf4fa4bee5be285187b65cc639eef9c"
+    },
+    {
+      "address": "0x33a2acc",
+      "end": "0x33a2b98",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$.ctor"
+      ],
+      "bytes": 204,
+      "sha256": "ee6cda7295a1bdb56383eeac9116942ce97e05a3104c818ac3b2691a758a098e"
+    },
+    {
+      "address": "0x33a2b98",
+      "end": "0x33a2d54",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 444,
+      "sha256": "d131a013440a1c8096f04aa043a6eb58fcd20144f2b44892c542ba7fe7a2c8e4"
+    },
+    {
+      "address": "0x33a2d54",
+      "end": "0x33a2e20",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 204,
+      "sha256": "7ea6c633efc8647ac369a852d357da54a4ad537597c8d9e810c35fa9c5182cc9"
+    },
+    {
+      "address": "0x33a2e20",
+      "end": "0x33a2f00",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$NextExploder"
+      ],
+      "bytes": 224,
+      "sha256": "ec8755f00b8e02d319e4f9eba8a9b2358a7ac5aabea796096123b3119461b4fb"
+    },
+    {
+      "address": "0x33a2f00",
+      "end": "0x33a2f9c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$OnTargetReached"
+      ],
+      "bytes": 156,
+      "sha256": "21b9e4bd057527d5bb236c9d1c06025cba815a50b1cd62e880a0ba1b610c132c"
+    },
+    {
+      "address": "0x33a2f9c",
+      "end": "0x33a2ff8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$GetNewPilot"
+      ],
+      "bytes": 92,
+      "sha256": "d4ace365b87823ec517f89f50621cdbba5ae47aaf095b336d88822237a938935"
+    },
+    {
+      "address": "0x33a2ff8",
+      "end": "0x33a3000",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$IsTntOrRocketCombo"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a3000",
+      "end": "0x33a3004",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$OnTargetFound"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a3004",
+      "end": "0x33a3008",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$OnTargetCancelled"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a3008",
+      "end": "0x33a300c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$ForceExplode"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a300c",
+      "end": "0x33a3014",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$IsComboExploder"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a3014",
+      "end": "0x33a303c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$.ctor"
+      ],
+      "bytes": 40,
+      "sha256": "5907c414bf4855bce8696b6ecbd110e73a09b049d03c09b0f92e3fe728ee28bb"
+    },
+    {
+      "address": "0x33a303c",
+      "end": "0x33a30e0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$ShouldRedirectForIceCube"
+      ],
+      "bytes": 164,
+      "sha256": "18e6e3a48e7edc11b4e49f81c7f3f12504d4d81709c71ae77cb1116be259de7e"
+    },
+    {
+      "address": "0x33a30e0",
+      "end": "0x33a3170",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$TryRedirectForPowerCubeWinCondition"
+      ],
+      "bytes": 144,
+      "sha256": "573f1eb2d116ccf7ec25ab9abfb14958a1e5026aeddf6e32f03aa90c49c63afd"
+    },
+    {
+      "address": "0x33a3170",
+      "end": "0x33a3200",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$TryRedirectForSoilWinCondition"
+      ],
+      "bytes": 144,
+      "sha256": "c2a6720c9a5ee10e70cef83c4bdc2d0926e987a0147a76e962aaaa93378b3536"
+    },
+    {
+      "address": "0x33a3200",
+      "end": "0x33a3208",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$GetTargetIndex"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a3208",
+      "end": "0x33a320c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$IncrementTargetIndex"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a320c",
+      "end": "0x33a3214",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy$$IsTargetAmountReached"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33a3214",
+      "end": "0x33a3218",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$System.IDisposable.Dispose"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a3218",
+      "end": "0x33a3978",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$MoveNext"
+      ],
+      "bytes": 1888,
+      "sha256": "13c363bcb95d3f4631964e7d6692c77dbabb8acbe4d5e9e9ba3d668b6999d589"
+    },
+    {
+      "address": "0x33a3978",
+      "end": "0x33a3980",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$System.Collections.Generic.IEnumerator<System.Object>.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a3980",
+      "end": "0x33a39c0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$System.Collections.IEnumerator.Reset"
+      ],
+      "bytes": 64,
+      "sha256": "d2423636ff2a7af890e496f32ca69338d79fdf0eae54756aa39444d5cf3f8a58"
+    },
+    {
+      "address": "0x33a39c0",
+      "end": "0x33a39c8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerDefaultStrategy.<ExplodeNeighbors>d__13$$System.Collections.IEnumerator.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a39c8",
+      "end": "0x33a3a00",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerExtraOneStrategy$$.ctor"
+      ],
+      "bytes": 56,
+      "sha256": "cb76d3640d9abd75ec1cff4958d1080594e7ea8b2a99226dde9c35ec8b0097f1"
+    },
+    {
+      "address": "0x33a3a00",
+      "end": "0x33a3ab0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerExtraOneStrategy$$NextExploder"
+      ],
+      "bytes": 176,
+      "sha256": "87d418f7e3da48b02f869894b8cf6917ec2554ee7af4d0472f87572692055a46"
+    },
+    {
+      "address": "0x33a3ab0",
+      "end": "0x33a3ab8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerExtraOneStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a3ab8",
+      "end": "0x33a3af0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerNoExplodeStrategy$$.ctor"
+      ],
+      "bytes": 56,
+      "sha256": "6ac661b426c49fb28ae6b31dfb647acdac3b4bba16431ce6fedacfa0400bf753"
+    },
+    {
+      "address": "0x33a3af0",
+      "end": "0x33a3af8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerNoExplodeStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x33a3af8",
+      "end": "0x33a3ba0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerPropellerComboStrategy$$NextExploder"
+      ],
+      "bytes": 168,
+      "sha256": "0d94c37d3cbd8d1ec8af4ec13e99e46985c67de01838c14b8e794341e94cb29f"
+    },
+    {
+      "address": "0x33a3ba0",
+      "end": "0x33a3c0c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerPropellerComboStrategy$$GetNewPilot"
+      ],
+      "bytes": 108,
+      "sha256": "e5c0f4cb8b42dfd1577f1cce9d713c7b076b9f39370658beda29e705dde695d9"
+    },
+    {
+      "address": "0x33a3c0c",
+      "end": "0x33a3c14",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerPropellerComboStrategy$$IsComboExploder"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33a3c14",
+      "end": "0x33a3cd8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$.ctor"
+      ],
+      "bytes": 196,
+      "sha256": "f09e89dca07b0242fdf33f26dfc248a69756348a132447c33281b2db70472434"
+    },
+    {
+      "address": "0x33a3cd8",
+      "end": "0x33a3d88",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$.ctor"
+      ],
+      "bytes": 176,
+      "sha256": "27e3937bfa69978a3188b078b5472dd3629ca14b108d5c98ffaa771688e97e4e"
+    },
+    {
+      "address": "0x33a3d88",
+      "end": "0x33a3ec4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$OnTargetReached"
+      ],
+      "bytes": 316,
+      "sha256": "546fe5d9ecee8c0f781fad5c987bd53e896bd7add83d605c8e8f361d0d3749c3"
+    },
+    {
+      "address": "0x33a3ec4",
+      "end": "0x33a3f48",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$FinishOperationWithDelay"
+      ],
+      "bytes": 132,
+      "sha256": "cc800d48ce09ff5af280b8edd5d176005aefbd8c0e5e1172f53df9d070d71d10"
+    },
+    {
+      "address": "0x33a3f48",
+      "end": "0x33a3ff4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$ExplodeWithDelay"
+      ],
+      "bytes": 172,
+      "sha256": "6ceef21a721ebc84eecda8df3a0e4aa0bbd81fe5d8c93da2d14465faa6e21576"
+    },
+    {
+      "address": "0x33a3ff4",
+      "end": "0x33a401c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$.ctor"
+      ],
+      "bytes": 40,
+      "sha256": "2f2c459a818352956733e191852094893ac02023f5ec40ab7a539e25ef43c69b"
+    },
+    {
+      "address": "0x33a401c",
+      "end": "0x33a40f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$NextExploder"
+      ],
+      "bytes": 220,
+      "sha256": "c65c705375131345a53907b7c2adaf5c44099efb360a3f7063db74800717783e"
+    },
+    {
+      "address": "0x33a40f8",
+      "end": "0x33a4100",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$IsTntOrRocketCombo"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33a4100",
+      "end": "0x33a4114",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy$$GetGameOperationType"
+      ],
+      "bytes": 20,
+      "sha256": "376fde7a222e4426f0d6ac4680b9bbdbeb54d68989f304e2266d45037a5370c1"
+    },
+    {
+      "address": "0x33a4114",
+      "end": "0x33a4118",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$System.IDisposable.Dispose"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a4118",
+      "end": "0x33a42e8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$MoveNext"
+      ],
+      "bytes": 464,
+      "sha256": "9ce48cc1e67cbca8482ad8a97db4411622d696cd78bf87c13af0043dd970df9e"
+    },
+    {
+      "address": "0x33a42e8",
+      "end": "0x33a42f0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$System.Collections.Generic.IEnumerator<System.Object>.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a42f0",
+      "end": "0x33a4330",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$System.Collections.IEnumerator.Reset"
+      ],
+      "bytes": 64,
+      "sha256": "2c0ead274af38e2f62333a19aaf74c8a0e71021316a10021a0dacb73ae06026e"
+    },
+    {
+      "address": "0x33a4330",
+      "end": "0x33a4338",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerRocketStrategy.<ExplodeWithDelay>d__4$$System.Collections.IEnumerator.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a4338",
+      "end": "0x33a436c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$OnTargetFound"
+      ],
+      "bytes": 52,
+      "sha256": "4b1f72add772c4adb06d310b1b545a3a3ae874ca4947dc91b68051360c0ec6ae"
+    },
+    {
+      "address": "0x33a436c",
+      "end": "0x33a43a0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$OnTargetCancelled"
+      ],
+      "bytes": 52,
+      "sha256": "c69197856a8733d085e163b0d5626bb1d41a7b8625a440049b282f69d91ff6cb"
+    },
+    {
+      "address": "0x33a43a0",
+      "end": "0x33a44f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$OnTargetReached"
+      ],
+      "bytes": 340,
+      "sha256": "14aaf1e93ca55620b5543ea6106c17b302f5f67e0cbe5bebdc09d63e2f3b0f82"
+    },
+    {
+      "address": "0x33a44f4",
+      "end": "0x33a452c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$ForceExplode"
+      ],
+      "bytes": 56,
+      "sha256": "0525f91b29798003c4a9661fad39e35082d54e581a728328f264ed1a4ea9a113"
+    },
+    {
+      "address": "0x33a452c",
+      "end": "0x33a4554",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$.ctor"
+      ],
+      "bytes": 40,
+      "sha256": "178b7679214e30db120038c043e283aab25693a6758d5a657357d56c028dc652"
+    },
+    {
+      "address": "0x33a4554",
+      "end": "0x33a45f4",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$GetNewPilot"
+      ],
+      "bytes": 160,
+      "sha256": "c18a214f47cb78cf34903ea2524fd2c6d5f4ba5c08b00d4ee622aa8b20512352"
+    },
+    {
+      "address": "0x33a45f4",
+      "end": "0x33a4618",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$ExplodeNeighbors"
+      ],
+      "bytes": 36,
+      "sha256": "7f79b95d672ed034fd29c9b66fcf4a383692590d344f938aa1127a7e8b348540"
+    },
+    {
+      "address": "0x33a4618",
+      "end": "0x33a4620",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy$$IsComboExploder"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33a4620",
+      "end": "0x33a4624",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$System.IDisposable.Dispose"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x33a4624",
+      "end": "0x33a4700",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$MoveNext"
+      ],
+      "bytes": 220,
+      "sha256": "f2c4fbe9f932cb7c0cb16bb9a6ca69ad0823a6046133fa1f6e8d9de413ae227a"
+    },
+    {
+      "address": "0x33a4700",
+      "end": "0x33a4708",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$System.Collections.Generic.IEnumerator<System.Object>.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a4708",
+      "end": "0x33a4748",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$System.Collections.IEnumerator.Reset"
+      ],
+      "bytes": 64,
+      "sha256": "36d5da74199b469939304c993030e519eecafc9b1319051a465d3813bd636124"
+    },
+    {
+      "address": "0x33a4748",
+      "end": "0x33a4750",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerSpecialItemStrategy.<FinishOperationWithDelay>d__11$$System.Collections.IEnumerator.get_Current"
+      ],
+      "bytes": 8,
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851"
+    },
+    {
+      "address": "0x33a4750",
+      "end": "0x33a4760",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerTntStrategy$$.ctor"
+      ],
+      "bytes": 16,
+      "sha256": "19723b00a860776fbdc6c733d7279693f3d78474013d4e21cf16debbc08d2f5c"
+    },
+    {
+      "address": "0x33a4760",
+      "end": "0x33a4830",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerTntStrategy$$NextExploder"
+      ],
+      "bytes": 208,
+      "sha256": "588cabd3763d32e57f789226a870e1700804df2815a2f95bddbd3fdc12b3279e"
+    },
+    {
+      "address": "0x33a4830",
+      "end": "0x33a48e8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerTntStrategy$$OnTargetReached"
+      ],
+      "bytes": 184,
+      "sha256": "3e1a5e180aa41a98de8d135064aa9bb5f52ba6cce97b9d1f4979e1e54d98c706"
+    },
+    {
+      "address": "0x33a48e8",
+      "end": "0x33a48f0",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerTntStrategy$$IsTntOrRocketCombo"
+      ],
+      "bytes": 8,
+      "sha256": "5103ba3de080c52a046485f800433848701faa49ab8f60241a80987ca249d7ac"
+    },
+    {
+      "address": "0x33a48f0",
+      "end": "0x33a48f8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.PropellerItem.Strategy.PropellerTntStrategy$$GetGameOperationType"
+      ],
+      "bytes": 8,
+      "sha256": "7cffe687c758bc2cd950a25a5cf0fffb605cc3561d20b4b0a099f830c104365b"
+    },
+    {
+      "address": "0x33a4e18",
+      "end": "0x33a52bc",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.LightballItem.LightballItemModel$$GetExplodeScore"
+      ],
+      "bytes": 1188,
+      "sha256": "2293859a3ea7c38b9694e08efcddec36326bd987bc60352eed77e96dbc43f66d"
+    },
+    {
+      "address": "0x368095c",
+      "end": "0x3680a00",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.StaticItems.BlindsItem.BlindsItemModel$$GetExplodeScore"
+      ],
+      "bytes": 164,
+      "sha256": "2a2f36dd12f829b535efd45bb0316b082a1ab44ba88bfb3bfa672b570a8d4b77"
+    },
+    {
+      "address": "0x3688768",
+      "end": "0x3688854",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SquirrelItem.SquirrelVerticalItem.SquirrelVerticalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 236,
+      "sha256": "1c9408fd57c11c680f8768bec3f9d0da9eef52cc5fc32d72b826801e51b9ea8d"
+    },
+    {
+      "address": "0x3688f4c",
+      "end": "0x3689044",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SquirrelItem.SquirrelHorizontalItem.SquirrelHorizontalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 248,
+      "sha256": "ae93d7e487806e6edbcbd4753834d6b2f9919d518ee91309468e15bf641377d2"
+    },
+    {
+      "address": "0x368ba10",
+      "end": "0x368bdd8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.SpecialItems.SpecialItemModel$$GetExplodeScore"
+      ],
+      "bytes": 968,
+      "sha256": "8c7318b10406966a2270fa868425c8ac970e30c43e23a85a64599f8acf5c06d0"
+    },
+    {
+      "address": "0x3c187a4",
+      "end": "0x3c18944",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.WhackAMoleItem.WhackAMoleItemModel$$GetExplodeScore"
+      ],
+      "bytes": 416,
+      "sha256": "a537ba915bdfe70373a5cea2ec563eed3548336e8579230bf1e0b9b027723888"
+    },
+    {
+      "address": "0x3c1a9a4",
+      "end": "0x3c1aa18",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.VendingMachineItem.VendingMachineFakeItemModel$$GetExplodeScore"
+      ],
+      "bytes": 116,
+      "sha256": "ce0ae2aab0a17939d5a50d1a8e0402c3d46349a9a6617c16f49f93312f82a06a"
+    },
+    {
+      "address": "0x3c1b760",
+      "end": "0x3c1b974",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.VendingMachineItem.VendingMachineItemModel$$GetExplodeScore"
+      ],
+      "bytes": 532,
+      "sha256": "44f8618c00635b473d39ab5a3361ee3c5d3be5e25b15d6b625a94905d871691d"
+    },
+    {
+      "address": "0x3c24c24",
+      "end": "0x3c24dac",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.UfoItem.UfoLauncherItemModel$$GetExplodeScore"
+      ],
+      "bytes": 392,
+      "sha256": "616b12b58e994167c74b3a6e342e55fa698c54c3e280e67d526a4b47c8062f53"
+    },
+    {
+      "address": "0x3de1718",
+      "end": "0x3de17d8",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ToyBoxVerticalItem.ToyBoxVerticalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 192,
+      "sha256": "dd52f4a4fa6dbcb78c0c8ca663d780592361f5b5eb63f464e9881a5f79a312e0"
+    },
+    {
+      "address": "0x3de5f4c",
+      "end": "0x3de6014",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.ToyBoxHorizontalItem.ToyBoxHorizontalItemModel$$GetExplodeScore"
+      ],
+      "bytes": 200,
+      "sha256": "b49a1b1c6be6b43bc95cffe9d91e4e84fa4418507bd164577b9713756a56101a"
+    },
+    {
+      "address": "0x3debf8c",
+      "end": "0x3dec130",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Items.TabletItem.TabletItemModel$$GetExplodeScore"
+      ],
+      "bytes": 420,
+      "sha256": "f5b2168946d5d52bce2d70e3fe009842a0a236c34101b6ee3e980dc904f48e41"
+    }
+  ],
+  "archiveSha256": "82cd20352e3427afa079719ee0dcacb2ba276d0132c025ca11ddaf1e1e589dba"
+}

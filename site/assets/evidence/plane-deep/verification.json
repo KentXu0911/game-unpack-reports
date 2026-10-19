@@ -1,0 +1,308 @@
+{
+  "method": "Execute original ARM64 with explicit incoming-count and ItemType inputs",
+  "cupboardCases": [
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 0,
+      "score": 913951
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 1,
+      "score": 456976
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 2,
+      "score": 456976
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 3,
+      "score": 228488
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 4,
+      "score": 913951
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 5,
+      "score": 913951
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 6,
+      "score": 228488
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 7,
+      "score": 913951
+    },
+    {
+      "layer": 1,
+      "incoming": 0,
+      "strategy": 8,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 0,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 1,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 2,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 3,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 4,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 5,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 6,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 7,
+      "score": 456976
+    },
+    {
+      "layer": 2,
+      "incoming": 0,
+      "strategy": 8,
+      "score": 456976
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 0,
+      "score": 913951
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 1,
+      "score": 456976
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 2,
+      "score": 456976
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 3,
+      "score": 228488
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 4,
+      "score": 913951
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 5,
+      "score": 913951
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 6,
+      "score": 228488
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 7,
+      "score": 913951
+    },
+    {
+      "layer": 3,
+      "incoming": 2,
+      "strategy": 8,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 0,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 1,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 2,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 3,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 4,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 5,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 6,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 7,
+      "score": 456976
+    },
+    {
+      "layer": 10,
+      "incoming": 0,
+      "strategy": 8,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 0,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 1,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 2,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 3,
+      "score": 228488
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 4,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 5,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 6,
+      "score": 228488
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 7,
+      "score": 456976
+    },
+    {
+      "layer": 11,
+      "incoming": 0,
+      "strategy": 8,
+      "score": 456976
+    }
+  ],
+  "baseScoreCases": 115,
+  "freedCellCases": 115,
+  "flightGetters": [
+    {
+      "address": "0x33989a4",
+      "value": 4.0
+    },
+    {
+      "address": "0x33989ac",
+      "value": 0.800000011920929
+    },
+    {
+      "address": "0x33989b8",
+      "value": 1.0
+    },
+    {
+      "address": "0x33989c0",
+      "value": 20.0
+    },
+    {
+      "address": "0x33989c8",
+      "value": 50.0
+    },
+    {
+      "address": "0x33989d4",
+      "value": 1.0
+    },
+    {
+      "address": "0x33999e0",
+      "value": 0.5
+    }
+  ],
+  "limit": "Constructed state only. Does not verify the full selector, all overrides, Unity flight or original client gameplay."
+}

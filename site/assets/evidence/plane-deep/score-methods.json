@@ -1,0 +1,477 @@
+[
+  {
+    "address": "0x3c187a4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.WhackAMoleItem.WhackAMoleItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3c1a9a4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.VendingMachineItem.VendingMachineFakeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3c1b760",
+    "name": "Royal.Scenes.Game.Mechanics.Items.VendingMachineItem.VendingMachineItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3c24c24",
+    "name": "Royal.Scenes.Game.Mechanics.Items.UfoItem.UfoLauncherItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3de1718",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ToyBoxVerticalItem.ToyBoxVerticalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3de5f4c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ToyBoxHorizontalItem.ToyBoxHorizontalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3debf8c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.TabletItem.TabletItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1102d14",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SwordItem.SwordItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1104b28",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.WaterSoilItem.WaterSoilItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x110c860",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.WaterItem.WaterItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x155539c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.PurpleGrassItem.PurpleGrassItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x15591b0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.MushroomSoilItem.MushroomSoilItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x155dfd4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.MetalPlateItem.MetalPlateItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x135e45c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.JellyItem.JellyItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1ba7fe0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.GrassItem.GrassItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x18ea1f8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.ForceFieldItem.ForceFieldItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x187b498",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.ChainItem.ChainItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x187c53c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.CeramicItem.CeramicItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x368095c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.StaticItems.BlindsItem.BlindsItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3688768",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SquirrelItem.SquirrelVerticalItem.SquirrelVerticalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3688f4c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SquirrelItem.SquirrelHorizontalItem.SquirrelHorizontalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x368ba10",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SpecialItems.SpecialItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x33a4e18",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SpecialItems.LightballItem.LightballItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x23a3b84",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SoilItem.SoilItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2166258",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SlotMachineItem.SlotMachineItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x216c6bc",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ShuttleItem.ShuttleItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x240c564",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SeedBoxItem.SeedBoxItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26e8784",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SeaMineItem.SeaMineItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26efd4c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.SapphireItem.SapphireItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26f8888",
+    "name": "Royal.Scenes.Game.Mechanics.Items.RoyalCapsuleVerticalItem.RoyalCapsuleVerticalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1ecd21c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.RoyalCapsuleHorizontalItem.RoyalCapsuleHorizontalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1ed0bd8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.RoyalBotItem.RoyalBotItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1ed5c28",
+    "name": "Royal.Scenes.Game.Mechanics.Items.RoofMachineItem.RoofMachineItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2093f18",
+    "name": "Royal.Scenes.Game.Mechanics.Items.RadarItem.RadarItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x209a158",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PropellerMachineItem.PropellerMachineItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e36bf0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PowerCubeItem.PowerCubeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e39ed8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PouchItem.PouchItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e3d320",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PotionTubeItem.PotionTubeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1c0ba30",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PortalDoorItem.PortalDoorItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1c141a0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PorcelainItem.PorcelainItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2de62e8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PinItem.PinItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2ded8f4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PairItem.PairFakeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2df1148",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PairItem.PairItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x30800b4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.PaintBucketItem.PaintBucketItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3089314",
+    "name": "Royal.Scenes.Game.Mechanics.Items.OtterItem.OtterItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e8c510",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MetalCrusherItem.MetalCrusherItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e92ad8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MatchItem.MatchItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x20cd7f0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MapScrollCollectItem.MapScrollCollectItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x20d1e88",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MailBoxItem.MailBoxItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x20dab6c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MagnetItem.MagnetItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e250f8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MagicLanternItem.MagicLanternItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e29b68",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MagicGemItem.MagicGemItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1e2d68c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.MagicCubeItem.MagicCubeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1c1c448",
+    "name": "Royal.Scenes.Game.Mechanics.Items.LogItem.LogItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1c1ffe8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.LogCollectItem.LogCollectItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x1c23750",
+    "name": "Royal.Scenes.Game.Mechanics.Items.LightBulbItem.LightBulbItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x23da320",
+    "name": "Royal.Scenes.Game.Mechanics.Items.LaserItem.LaserItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x23dd77c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.LanternItem.LanternItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x23e7f28",
+    "name": "Royal.Scenes.Game.Mechanics.Items.IvyItem.IvyItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x211b868",
+    "name": "Royal.Scenes.Game.Mechanics.Items.IglooItem.IglooItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x21229e8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.IceCubeItem.IceCubeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2129040",
+    "name": "Royal.Scenes.Game.Mechanics.Items.IceCrusherItem.IceCrusherItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x241cf58",
+    "name": "Royal.Scenes.Game.Mechanics.Items.HatItem.HatItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26d8b40",
+    "name": "Royal.Scenes.Game.Mechanics.Items.GummyItem.GummyBarHorizontalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26d97b8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.GummyItem.GummyBarVerticalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x26e5aec",
+    "name": "Royal.Scenes.Game.Mechanics.Items.GrassBombItem.GrassBombItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2d6d950",
+    "name": "Royal.Scenes.Game.Mechanics.Items.GiantBirdItem.GiantBirdFakeItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2d71010",
+    "name": "Royal.Scenes.Game.Mechanics.Items.FurnaceItem.FurnaceItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2aa460c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.FireworksItem.FireworksItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2aaa240",
+    "name": "Royal.Scenes.Game.Mechanics.Items.DynamiteBoxItem.DynamiteBoxItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2aae9d4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.DuckShootingItem.DuckShootingItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2dc5a0c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.DrillItem.DrillItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2dcd798",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CupItem.CupItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2dd0558",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CupboardItem.CupboardItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x309b6cc",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CuckooItem.CuckooItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x30a0638",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CrystalItem.CrystalItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x30a5fb8",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CookieJarItem.CookieJarItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3384734",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ConveyorBeltItem.ConveyorBeltItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2ab70d0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.Config.FakeItemModel<object>$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x338496c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.Config.ItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x3391c90",
+    "name": "Royal.Scenes.Game.Mechanics.Items.Config.MultipleCellItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x30ed8e4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.Config.StaticItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x30f3fbc",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ColorMixerItem.ColorMixerItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2d32cf4",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CoilItem.CoilItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2add400",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CoilCollectItem.CoilCollectItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2adf1f0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ClockTowerItem.ClockTowerItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2ae3660",
+    "name": "Royal.Scenes.Game.Mechanics.Items.ChocoMakerItem.ChocoMakerItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x271c084",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CandyCaneItem.CandyCaneItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x272322c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.CaldronItem.CaldronItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2a67954",
+    "name": "Royal.Scenes.Game.Mechanics.Items.BoxingGloveItem.BoxingGloveItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2a6cd84",
+    "name": "Royal.Scenes.Game.Mechanics.Items.BowTieItem.BowTieItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x2385698",
+    "name": "Royal.Scenes.Game.Mechanics.Items.BowlingRackItem.BowlingRackItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x238ca1c",
+    "name": "Royal.Scenes.Game.Mechanics.Items.BoomerangBoxItem.BoomerangBoxItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x21774c0",
+    "name": "Royal.Scenes.Game.Mechanics.Items.BathtubItem.BathtubItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  },
+  {
+    "address": "0x217d6dc",
+    "name": "Royal.Scenes.Game.Mechanics.Items.AncientVaultItem.AncientVaultItemModel$$GetExplodeScore",
+    "semanticStatus": "captured; not automatically semantically recovered"
+  }
+]

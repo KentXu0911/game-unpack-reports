@@ -3291,346 +3291,302 @@
    ],
    "rows": [
     [
-     "Easy 段数",
-     "43"
+     "Easy／Hard 文件段数",
+     "43／43"
     ],
     [
-     "Hard 段数",
-     "43"
-    ],
-    [
-     "矩阵行数（段）",
-     "43"
-    ],
-    [
-     "其中启用 Hard",
+     "Hard 字段有非 -1 值的段数",
      "23"
     ],
     [
-     "关卡覆盖",
+     "覆盖关卡",
      "1–1100"
+    ],
+    [
+     "两文件 Easy 列",
+     "逐行一致"
+    ],
+    [
+     "Easy 文件 Hard 列",
+     "全部为 -1"
     ]
    ],
-   "source": "royal-match-apk-audit-38174/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv",
-   "note": "minTryCount 为 -1 表示该侧不设限；矩阵把两侧合成一行便于对照。"
+   "source": "royal-match-apk-audit-38174/decoded/config/DynamicDifficultyEasy.json · DynamicDifficultyHard.json",
+   "note": "这里只统计表内有无值，不代表运行时启用。-1 的业务含义及配置消费者尚未确认。"
   },
   "diff-table": {
-   "title": "分段与尝试次数阈值",
+   "title": "完整分段阈值（Hard 列取自 Hard 文件）",
    "columns": [
     "段",
     "关卡区间",
     "Easy min／max",
-    "Hard min／max",
-    "启用 Hard"
+    "Hard min／max"
    ],
    "rows": [
     [
      "1",
      "1–5",
      "-1／5",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "2",
      "6–10",
      "-1／5",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "3",
      "11–15",
      "-1／7",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "4",
      "16–20",
      "7／9",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "5",
      "21–25",
      "7／10",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "6",
      "26–30",
      "8／12",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "7",
      "31–35",
      "6／10",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "8",
      "36–40",
      "8／14",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "9",
      "41–45",
      "7／12",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "10",
      "46–50",
      "9／15",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "11",
      "51–55",
      "7／12",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "12",
      "56–60",
      "7／14",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "13",
      "61–65",
      "6／10",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "14",
      "66–70",
      "7／13",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "15",
      "71–75",
      "8／13",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "16",
      "76–80",
      "8／16",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "17",
      "81–85",
      "7／12",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "18",
      "86–90",
      "9／17",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "19",
      "91–95",
      "6／12",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "20",
      "96–100",
      "8／15",
-     "-1／-1",
-     "否"
+     "-1／-1"
     ],
     [
      "21",
      "101–120",
      "34／60",
-     "21／26",
-     "是"
+     "21／26"
     ],
     [
      "22",
      "121–140",
      "36／66",
-     "21／26",
-     "是"
+     "21／26"
     ],
     [
      "23",
      "141–160",
      "42／81",
-     "22／30",
-     "是"
+     "22／30"
     ],
     [
      "24",
      "161–180",
      "49／97",
-     "25／35",
-     "是"
+     "25／35"
     ],
     [
      "25",
      "181–200",
      "63／120",
-     "30／45",
-     "是"
+     "30／45"
     ],
     [
      "26",
      "201–230",
      "107／199",
-     "52／78",
-     "是"
+     "52／78"
     ],
     [
      "27",
      "231–260",
      "113／201",
-     "55／84",
-     "是"
+     "55／84"
     ],
     [
      "28",
      "261–300",
      "151／256",
-     "80／116",
-     "是"
+     "80／116"
     ],
     [
      "29",
      "301–350",
      "205／343",
-     "110／158",
-     "是"
+     "110／158"
     ],
     [
      "30",
      "351–400",
      "204／329",
-     "115／161",
-     "是"
+     "115／161"
     ],
     [
      "31",
      "401–450",
      "209／331",
-     "120／166",
-     "是"
+     "120／166"
     ],
     [
      "32",
      "451–500",
      "220／347",
-     "128／176",
-     "是"
+     "128／176"
     ],
     [
      "33",
      "501–550",
      "208／327",
-     "120／165",
-     "是"
+     "120／165"
     ],
     [
      "34",
      "551–600",
      "212／333",
-     "124／170",
-     "是"
+     "124／170"
     ],
     [
      "35",
      "601–650",
      "223／344",
-     "131／179",
-     "是"
+     "131／179"
     ],
     [
      "36",
      "651–700",
      "220／338",
-     "131／177",
-     "是"
+     "131／177"
     ],
     [
      "37",
      "701–750",
      "210／322",
-     "124／169",
-     "是"
+     "124／169"
     ],
     [
      "38",
      "751–800",
      "210／322",
-     "124／169",
-     "是"
+     "124／169"
     ],
     [
      "39",
      "801–850",
      "220／332",
-     "130／177",
-     "是"
+     "130／177"
     ],
     [
      "40",
      "851–900",
      "213／329",
-     "124／171",
-     "是"
+     "124／171"
     ],
     [
      "41",
      "901–950",
      "225／342",
-     "131／180",
-     "是"
+     "131／180"
     ],
     [
      "42",
      "951–1000",
      "217／327",
-     "128／175",
-     "是"
+     "128／175"
     ],
     [
      "43",
      "1001–1100",
      "450／650",
-     "270／370",
-     "是"
+     "270／370"
     ]
    ],
-   "source": "royal-match-apk-audit-38174/indices/dynamic_difficulty_matrix.csv · dynamic_difficulty.csv",
-   "note": ""
+   "source": "royal-match-apk-audit-38174/decoded/config/DynamicDifficultyEasy.json · DynamicDifficultyHard.json",
+   "note": "L101–120 是 Easy 34／60、Hard 21／26；L121–140 的 Easy 才是 36／66。阈值并非逐段单调递增，也不是补步数量。"
   },
   "settlement-methods": {
-   "title": "胜负与难度相关方法（主板路径）",
+   "title": "难度策略与状态读写的实际行为",
    "columns": [
     "方法",
     "RVA",
@@ -3638,43 +3594,117 @@
    ],
    "rows": [
     [
-     "SemiDynamicDifficulty.OnLevelFail",
-     "0x1C85250",
-     "原字节为 ret，不做失败处理"
+     "OnLevelFail／OnEgoAccepted",
+     "0x1C85250／0x1C85254",
+     "直接 ret"
     ],
     [
-     "SemiDynamicDifficulty.SetLevelNumber",
-     "0x1C85324",
-     "原字节为 ret"
+     "SetLevelNumber／SetTryCount／Reset／SetAdminMode",
+     "0x1C85324／0x1C85458／0x1C854C0／0x1C854C4",
+     "直接 ret"
     ],
     [
-     "SemiDynamicDifficulty.GetSection",
-     "0x1C854B0",
+     "GetSection／GetGroupMove",
+     "0x1C854B0／0x1C854B8",
      "返回 0"
     ],
     [
-     "SemiDynamicDifficulty.GetGroupMove",
-     "0x1C854B8",
-     "返回 0"
-    ],
-    [
-     "SemiDynamicDifficulty.GetUpdatedMoveCount",
+     "GetUpdatedMoveCount",
      "0x1C8532C",
      "主线回传输入；League 分支另加步"
     ],
     [
-     "UserManager.ProcessKeyValueResponse",
+     "OnLevelSuccess／OnEgoShownFirst",
+     "0x1C85328／0x1C85454",
+     "尾跳到 IncrementTryCount"
+    ],
+    [
+     "IncrementTryCount",
+     "0x1C850C4",
+     "排除 League／Story；关号≤100 时读取旧 TryCount，加 1 后写回"
+    ],
+    [
+     "UserInventory.GetTryCount／UpdateTryCount",
+     "0x2A0DC20／0x2A0DC40",
+     "PreLevelInventory (+0x30) 的位54–60；写入前夹到 0–127"
+    ],
+    [
+     "UserInventory.GetSkill",
+     "0x2A0DC7C",
+     "PreLevelInventory 位51–53；NoSkill=0／Beginner=1／Intermediate=2／Pro=3"
+    ],
+    [
+     "ProcessKeyValueResponse",
      "0x1F0A340",
-     "取协议 KeyValue.Value 并交给 UpdateDynamicDifficultyInventory"
+     "在0x1F0B350读取 KeyValue.Value；0x1F0B364更新难度 long"
     ],
     [
      "UpdateDynamicDifficultyInventory",
      "0x2A0E700",
-     "把 long 写到实例 +0xB0，并用 UserKeyValue.SetLong 保存"
+     "写入实例 +0xB0，并用 UserKeyValue.SetLong 保存"
+    ],
+    [
+     "ResetDynamicDifficulty",
+     "0x2A0E940",
+     "依次清关号、段号、把 DeltaRaw 写成10、清 TryCount2；其余位保留"
+    ],
+    [
+     "DifficultyNext／GetDifficultyNext",
+     "0x2A31474／0x2A31478",
+     "随机生成计数+1，然后调用 difficultyRandom.Next；不读取阈值表"
     ]
    ],
-   "source": "research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md · research/rm-reunpack-2026-10-14/BOUNDARIES.md",
-   "note": "这些方法支持“主线连败不会自动加步、客户端具备难度状态读写代码”，但不排除其他入口，也不等于难度已被服务端实际调整。"
+   "source": "site/assets/evidence/difficulty-deep/manifest.json · native.zip · direct-calls.json",
+   "note": "静态分支可确定方法行为；不证明每个入口都在当前玩法执行，直接调用扫描也不覆盖接口／委托。"
+  },
+  "diff-state": {
+   "title": "DynamicDifficultyInventory 的已知位段",
+   "columns": [
+    "字段",
+    "位（从0起、含两端）",
+    "位宽／可解码值",
+    "读取入口"
+   ],
+   "rows": [
+    [
+     "TryCount2",
+     "1–12",
+     "12位；0–4095",
+     "0x2A0E82C"
+    ],
+    [
+     "DeltaMove",
+     "13–17",
+     "5位；raw=0返回0，否则raw−10；可解码−9至21",
+     "0x2A0E84C"
+    ],
+    [
+     "LastUpdatedSection",
+     "18–34",
+     "17位；0–131071",
+     "0x2A0E8A8"
+    ],
+    [
+     "CurrentLevel",
+     "35–49",
+     "15位；0–32767",
+     "0x2A0E8F4"
+    ],
+    [
+     "未解释位",
+     "0、50–63",
+     "没有在这组 getter 中解码",
+     "不赋予业务含义"
+    ],
+    [
+     "构造例",
+     "0x000003280055a00e",
+     "关101／段21／TryCount2=7／DeltaMove=3",
+     "十进制3470339186702；非账号实抓"
+    ]
+   ],
+   "source": "site/assets/evidence/difficulty-deep/manifest.json · native.zip · direct-calls.json · site/assets/evidence/difficulty-deep/verification.json",
+   "note": "范围是位宽可表示范围，不是当前运营策略或允许业务值。原 UpdateLong 不屏蔽越界输入，不能假设 setter 会自动夹限。"
   },
   "pressure-templates": {
    "title": "关卡模板族（按启用字段组合去重）",

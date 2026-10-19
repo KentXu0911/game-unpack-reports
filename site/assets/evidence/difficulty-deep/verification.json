@@ -1,0 +1,31 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "bitfieldChecks": 848,
+  "metadataBindings": {
+    "0x5200d18": "minimal initialized System.Math class at 0x71004000, +0xe0 = 1"
+  },
+  "stubs": [
+    "0x2598d14",
+    "0x2d3a4b0",
+    "0x72000000",
+    "0xfb1300"
+  ],
+  "stubMeaning": {
+    "0xfb1300": "metadata init no-op",
+    "0xfb1404": "class init no-op",
+    "0x2598d14": "signed System.Math.Min",
+    "0x2d3a4b0": "explicit incoming count input",
+    "0x72000000": "explicit ItemType input"
+  },
+  "example": {
+    "unsignedState": "3470339186702",
+    "hex": "0x000003280055a00e",
+    "tryCount": 7,
+    "deltaRaw": 13,
+    "lastUpdatedSection": 21,
+    "currentLevel": 101,
+    "deltaMove": 3,
+    "uninterpretedBits": "0x0"
+  },
+  "boundary": "Bounded native execution only; no live server or Unity scheduler."
+}

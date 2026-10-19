@@ -1,0 +1,26 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "planeMethods": 443,
+  "scoreMethodEntries": 95,
+  "difficultyMethods": 43,
+  "directCallSites": 1363,
+  "configSections": 43,
+  "sources": [
+    {
+      "file": "DynamicDifficultyEasy.json",
+      "source": "royal-match-apk-audit-38174/decoded/text/datapack.unity3d_15925_DynamicDifficultyEasy.bin",
+      "bundle": "assetpack/assets/bin/Data/datapack.unity3d",
+      "pathId": 15925,
+      "sha256": "da4341b841a63ea7071b43ae15912973e9d8264516f6b7befec1ebda89b46697",
+      "bytes": 10126
+    },
+    {
+      "file": "DynamicDifficultyHard.json",
+      "source": "royal-match-apk-audit-38174/decoded/text/datapack.unity3d_13895_DynamicDifficultyHard.bin",
+      "bundle": "assetpack/assets/bin/Data/datapack.unity3d",
+      "pathId": 13895,
+      "sha256": "e5221bc165b206a6460ace416db21366adf9242eacd7875730a0c6d40e9e9479",
+      "bytes": 10157
+    }
+  ]
+}

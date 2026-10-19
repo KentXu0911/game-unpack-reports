@@ -1,0 +1,13 @@
+{
+  "scope": "Exact case-sensitive text in build38174 dump.cs only; absence does not prove no reflective/stripped consumer.",
+  "dumpSha256": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+  "hits": {
+    "DynamicDifficultyEasy": 0,
+    "DynamicDifficultyHard": 0,
+    "difficultyData": 0,
+    "minTryCountEasy": 0,
+    "maxTryCountEasy": 0,
+    "minTryCountHard": 0,
+    "maxTryCountHard": 0
+  }
+}

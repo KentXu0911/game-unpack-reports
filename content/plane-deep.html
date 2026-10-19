@@ -1,0 +1,62 @@
+<section aria-labelledby="plane-deep-facts">
+<h3 id="plane-deep-facts">拆包事实：完整基础表与状态评分</h3>
+<span class="layer layer-fact">事实层</span>
+<p>飞机逻辑分成“给目标打分”“选目标”“登记在途命中”“飞行与重选”“到达后结算”。已捕获443个相关原生方法的线性字节与汇编，包含95个<code>GetExplodeScore</code>入口；捕获到代码不代表全部分支已解读。范围还包含共用的引导道具与评分类，不能把443当作443个飞机专属算法。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="飞机逻辑可提取范围"><table><thead><tr><th>部分</th><th>已经取得</th><th>可以用来做什么</th></tr></thead><tbody>
+<tr><td>基础分值</td><td>115个连续表项，按<code>ItemType−1</code>索引，保留无命名编号</td><td>重建基础查表；不能代替物体覆盖方法或最终格子评分</td></tr>
+<tr><td>物体评分覆盖</td><td>95个方法入口及原字节；已核对箱子、手套、多格物体、碗柜等分支</td><td>逐物体、逐状态补齐算法；尚未提供所有物体最终分值矩阵</td></tr>
+<tr><td>选点与组合</td><td>高分组优先、同分随机、出发格避让、行列／范围评分与当前收尾检查</td><td>按具体棋盘输入复算局部决策；完整棋盘还要提供状态、种子和调用顺序</td></tr>
+<tr><td>命中协调</td><td>在途登记、释放、剩余命中与目标重选入口</td><td>解释多架为什么分流、何时会继续打同一多层目标</td></tr>
+<tr><td>飞行表现</td><td>普通与组合Pilot的方法、字段及已执行核对的常量getter</td><td>继续还原起飞、追踪、缩放和到达流程；整条飞行曲线尚未验收</td></tr>
+</tbody></table></div>
+<p><a href="../assets/evidence/plane-deep/base-scores.csv" download>115项基础分值CSV</a> · <a href="../assets/evidence/plane-deep/score-methods.json">95个评分入口</a> · <a href="../assets/evidence/plane-deep/freed-cells.json">清除后释放格数</a> · <a href="../assets/evidence/plane-deep/metadata-excerpts.json">字段与枚举声明</a> · <a href="../assets/evidence/plane-deep/manifest.json">443个方法及哈希</a> · <a href="../assets/evidence/plane-deep/native.zip" download>下载原字节与汇编</a></p>
+<h4>碗柜：最后一下，会比普通箱子更吸引飞机</h4>
+<p>碗柜继承多格物体评分。普通飞机面对只差一下的碗柜，会计算“清掉后释放多少格”：每格152,325分，再加304,651。碗柜释放4格，因此是<code>4×152325＋304651＝913951</code>，高于普通箱子的456,976，也高于只差一下的拳击手套609,301。</p>
+<p>这里的“只差一下”是<strong>层数减去已登记的在途命中等于1</strong>。例如碗柜还剩3层，已有2架飞机预订命中，下一架评分时也可能进入这个收尾分支。这是按登记结果预测，不保证在途攻击最终都如期命中。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="碗柜状态评分"><table><thead><tr><th>物体／状态</th><th>攻击</th><th>物体自身评分</th></tr></thead><tbody>
+<tr><td>普通箱子，剩1层或3层</td><td>普通飞机</td><td>456,976</td></tr>
+<tr><td>碗柜，还需多次命中</td><td>普通飞机</td><td>456,976</td></tr>
+<tr><td>碗柜，扣掉在途后还需1次</td><td>普通飞机</td><td>913,951</td></tr>
+<tr><td>碗柜，扣掉在途后还需2–10次</td><td>飞机＋TNT</td><td>456,976</td></tr>
+<tr><td>碗柜，扣掉在途后还需1次，或超过10次</td><td>飞机＋TNT</td><td>228,488</td></tr>
+</tbody></table></div>
+<details class="code-fold"><summary>整理代码：多格物体与碗柜怎样评分</summary><pre class="algorithm-code" tabindex="0"><code>// MultipleCellItemModel.GetExplodeScore 0x3391C90
+remaining = layerCount - incomingCount
+if strategy in {PropellerTnt, FurnaceFireball}:
+    return 228488
+if remaining != 1:
+    return BaseScore(itemType)
+if strategy in {Propeller, Firework, LightballPropeller, Boomerang}:
+    return CellsFreedAfterExplode(itemType) * 152325 + 304651
+return 456976
+
+// CupboardItemModel.GetExplodeScore 0x2DD0558
+// 碗柜覆盖上面的范围攻击分支，其他情况交回父类。
+if strategy in {PropellerTnt, FurnaceFireball}:
+    return (2 &lt;= RemainingExplodeCount() &lt;= 10) ? 456976 : 228488
+return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
+<p>已用原始ARM64字节执行45组碗柜“层数／在途／攻击类型”构造输入，并核对全部115个基础查表值与115个释放格数结果。<a href="../assets/evidence/plane-deep/verification.json">执行回执</a>明确记录了输入与验证范围；未把它当作原端整局验收。依据：<code>0x3391C90</code>、<code>0x2DD0558</code>、<code>0x338BAB0</code>、<code>0x338493C</code>、<code>0x33849AC</code>。</p>
+<h4>普通飞行可以提到什么程度</h4>
+<p>普通Pilot里已经取得缩放、起飞速度、追踪加速、速度上限、开始缩小距离和最短飞行时间的独立getter。下面是执行原字节得到的值；速度与距离保留内部单位，不换算成屏幕像素或每秒棋盘格。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="普通飞机Pilot常量"><table><thead><tr><th>字段／方法</th><th>值</th><th>RVA</th></tr></thead><tbody>
+<tr><td>ScaleUpSpeedConst</td><td>4</td><td>0x33989A4</td></tr>
+<tr><td>MinOutSpeedConst／MaxOutSpeedConst</td><td>约0.8／1</td><td>0x33989AC／0x33989B8</td></tr>
+<tr><td>GoSpeedMultiplierConst／MaxGoSpeedConst</td><td>20／50</td><td>0x33989C0／0x33989C8</td></tr>
+<tr><td>MinDistanceToScaleDown</td><td>1</td><td>0x33989D4</td></tr>
+<tr><td>GetMinFlyTime</td><td>0.5</td><td>0x33999E0</td></tr>
+</tbody></table></div>
+<p>这些值来自<code>DefaultPropellerPilot</code>，组合Pilot可以覆盖它们。取得参数不等于已还原完整轨迹：仍需核对帧时钟、状态转移、向量运算、末段改目标门控与到达回调。</p>
+</section>
+<section aria-labelledby="plane-deep-analysis">
+<h3 id="plane-deep-analysis">分析提炼：为什么同样是“残血障碍”，飞机反应不同</h3>
+<span class="layer layer-analysis">分析层</span>
+<p><strong>它按物体规则判断收益，不统一按剩余层数排序。</strong>普通箱子没有最后一击加分；多格物体的收尾可以按释放格数加分；碗柜的范围攻击还要单独比较剩余命中。因此“飞机优先打快清掉的障碍”只能对部分物体和攻击类型成立。依据是上面的三个评分方法，而非对所有障碍的泛化。</p>
+<p><strong>收尾奖励仍是当前一击的局部收益。</strong>释放格数增加评分，说明代码考虑了立即腾出空间的价值；没有因此展开后续补棋与多手搜索。飞机＋TNT给残血碗柜较低分，也只说明这一评分分支的取舍，不能直接推导为整局最省步数。</p>
+<p><strong>“同分随机”也有一个具体例外。</strong>首次抽下标是均匀随机；如果抽到出发格，代码改用相邻下标，并没有从其余格重抽。构造一个同分列表<code>[出发格,A,B]</code>，假设三格都有效且不触发后续重定向，三个原始下标最终对应<code>[A,A,B]</code>，所以A是2/3、B是1/3。这是避让出发格造成的局部概率偏差，并不代表系统给A配置了更高分。依据：<code>FindSingleTargetCellForExploder 0x20F1E24</code>。</p>
+</section>
+<section aria-labelledby="plane-deep-limits">
+<h3 id="plane-deep-limits">未确认与边界：能复刻到哪一步</h3>
+<span class="layer layer-limit">边界层</span>
+<p>已经可以实现基础查表、普通选点、高分组与随机、在途扣减，以及上述多格物体与碗柜评分。要预测任意关卡每一架的落点，还需要全部物体覆盖规则、格子的覆盖层与底层、完整重定向、当前目标数量、随机种子和此前所有随机调用。此次导出保留这些函数供继续分析，没有把未解读的入口标成已恢复算法。</p>
+<p>完整飞行轨迹、复杂组合并发、特殊胜利条件和原端逐帧一致性仍需继续核对；算法中没有证明全局最少步数或最高通关率的求解器。</p>
+</section>

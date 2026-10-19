@@ -207,7 +207,7 @@ def fact_table(tid):
     note = f'<p class="fact-note">{e(t["note"])}</p>' if t['note'] else ''
     # Short tables stay compact; long text cells get the full width.
     longest = max(len(c) for row in t['rows'] for c in row)
-    size = 'fact-compact' if longest <= 48 and len(t['columns']) <= 4 else 'fact-wide'
+    size = 'fact-compact' if longest <= 48 and len(t['columns']) <= 4 and tid != 'diff-state' else 'fact-wide'
     return (f'<figure class="fact-table {size}" id="fact-{e(tid)}"><figcaption>{e(t["title"])}</figcaption>'
             f'<div class="data-scroll" tabindex="0" role="region" aria-label="{e(t["title"])}">'
             f'<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>{note}'
@@ -295,6 +295,7 @@ def extras(topic):
                 '<h3 id="title-smart-rocket">智能火箭：只决定横竖方向</h3>' +
                 (ROOT / 'content/smart-rocket-overview.html').read_text() +
                 (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>' +
+                (ROOT / 'content/plane-deep.html').read_text() +
                 (ROOT / 'content/booster-targeting-end.html').read_text() + '</div>')
     if key == 'experiments':
         return ab_page()

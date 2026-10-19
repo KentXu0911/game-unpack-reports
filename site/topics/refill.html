@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>补棋算法、随机数 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=6df4e43247"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=f9424247d1"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
@@ -36,11 +36,11 @@
 <div class="finding"><b>预定义队列只覆盖少部分关卡。</b>1,736 关带预定义补棋队列，共 42,176 条记录，单关 1–232 格；每关被排队的列数从 1 到 9 不等，12,764 关完全没有队列。<a class="basis" href="#fact-refill-queue">依据：预定义补棋队列</a>没有队列时补棋走候选池随机。</div>
 
 <div class="finding"><b>多 Set 是少数关卡的补充手段。</b>只有 403 关出现 2 个以上候选集合，最常见是 Set1 与 Set2 两个；其中 562 行带目标列、308 行带目标填充。<a class="basis" href="#fact-refill-set-profile">依据：多 Set 关卡的候选规则剖面</a>create_ratio 多数为 1，少数取 2、3、5，还有 8 行写 99999。<a class="basis" href="#fact-refill-set-profile">依据：多 Set 关卡的候选规则剖面</a>
-<br><small>推断：99999 这类极端值应当表示“常驻或必选”而不是字面权重，需消费代码确认。</small></div>
+<br><small>边界：99999的业务含义仍需消费代码确认，不能仅凭极端数值认定为常驻或必选。</small></div>
 
 <div class="finding"><b>补棋的确定顺序是：先看来源，再看队列，最后才随机。</b>规则清单把入口、预置棋、目标列、随机选色、过滤与难度随机分成了 8 条，每条都标了证据等级。<a class="basis" href="#fact-refill-rules">依据：补棋静态规则与未闭合项</a>其中“预置棋优先于随机”“目标列优先于现场选棋”两条同时有静态与运行证据。</div>
 
-<div class="finding"><b>难度随机的作用范围仍受服务端影响。</b>难度相关的随机入口只有静态证据，规则清单明确写着服务端覆盖、账号分组和失败计数怎样映射到权重无法由本地调用链单独证明。<a class="basis" href="#fact-refill-rules">依据：补棋静态规则与未闭合项</a>这与<a href="win-settlement.html">胜负、结算与难度适应</a>的结论一致。</div>
+<div class="finding"><b>DifficultyNext本身只是随机入口。</b>原字节里该入口只增加生成计数，再调用难度随机流的Next；没有读取动态难度阈值或比较失败次数。名字里的Difficulty不代表它正在判断玩家难度。<a class="basis" href="#fact-refill-rules">依据：补棋静态规则与未闭合项</a>这与<a href="win-settlement.html">胜负、结算与难度适应</a>的结论一致。</div>
 </section>
 
 <section aria-labelledby="m-unknown">
