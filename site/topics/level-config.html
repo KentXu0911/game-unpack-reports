@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>初始棋盘、关卡配置 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=6f20247d5f"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=ff558f185b"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
@@ -15,6 +15,19 @@
 <nav class="board-toc" aria-label="本页目录"><a href="#opening-colors"><b>01</b>开局选色与重试变化</a><a href="#m-facts"><b>02</b>关卡配置统计</a><a href="#m-analysis"><b>03</b>配置规律</a><a href="#m-unknown"><b>04</b>验证范围</a></nav>
 
 <section aria-labelledby="opening-colors"><h3 id="opening-colors">开局棋子的颜色是怎么确定的？</h3>
+<figure class="opening-flow" aria-labelledby="opening-flow-title">
+<figcaption id="opening-flow-title">从关卡配置到开局棋盘</figcaption>
+<div class="opening-flow-node opening-flow-source"><strong>读取关卡模板与 LevelSet[]</strong><span>模板规定格子类型；LevelSet 提供随机格的候选颜色。</span></div>
+<div class="opening-flow-arrow" aria-hidden="true">↓</div>
+<div class="opening-flow-branches">
+<div class="opening-flow-lane"><div class="opening-flow-node"><strong>固定颜色格</strong><span>模板已经写明颜色</span></div><div class="opening-flow-arrow" aria-hidden="true">↓</div><div class="opening-flow-node"><strong>保留指定颜色</strong><span>普通随机填色分支不重新抽色</span></div></div>
+<div class="opening-flow-lane"><div class="opening-flow-node"><strong>Match 同色分组</strong><span>Match1／Match2／Match3</span></div><div class="opening-flow-arrow" aria-hidden="true">↓</div><div class="opening-flow-node"><strong>为分组选色</strong><span>同组格子复用本次颜色，组内可以不相邻</span></div></div>
+<div class="opening-flow-lane"><div class="opening-flow-node"><strong>Set 随机格</strong><span>Set1／Set2／Set3 → 对应 LevelSet 的颜色集合</span></div><div class="opening-flow-arrow" aria-hidden="true">↓</div><div class="opening-flow-node opening-flow-check"><strong>检查邻居，筛掉部分颜色</strong><span>避免直接组成三连或同色 2×2 方块</span></div><div class="opening-flow-arrow" aria-hidden="true">↓</div><div class="opening-flow-node"><strong>从剩余颜色中随机选色</strong><span>使用本局 seed 对应的 DifficultyNext 随机数流</span></div></div>
+</div>
+<div class="opening-flow-arrow" aria-hidden="true">↓</div>
+<div class="opening-flow-node opening-flow-output"><strong>得到本次开局的棋子配色</strong><span>重试换 seed 后重新执行选色，模板相同也可能出现不同的颜色组合。</span></div>
+<p class="flow-note">图中按格子类型归纳处理方式，不表示三条分支同时执行。随机格流程展示候选颜色仍可选时的主路径；候选耗尽后的回退、可走匹配保障及特殊替色规则未展开。</p>
+</figure>
 <h4>1. 先按模板，确定每个格子怎样选色</h4>
 <div class="data-scroll"><table><thead><tr><th>格子类型</th><th>实际含义</th></tr></thead><tbody>
 <tr><td>固定颜色</td><td>例如模板直接写“红色”，普通随机填色时就保留红色。存在额外替色规则的关卡需单独检查。</td></tr>
