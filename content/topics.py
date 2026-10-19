@@ -37,7 +37,7 @@ TOPICS = [
           [],
           ["propeller-selection", "propeller", "gates", "special", "native", "board-algorithms"], ["gate-matrix", "propeller-chain", "rocket-demo"]),
     topic("win-settlement", "replication-core", "胜负、结算与难度适应",
-          "可取得两份尝试次数阈值表、状态编码与实际策略；本版已查普通主线未接入两表，L101实测种子变化但初始步数不变。", "available",
+          "可取得DynaDiff状态、两份尝试次数阈值表与实际策略；局部对照未见玩法输出变化，失败重试样本观察到900金币续关从5步增至35步。", "available",
           ["人工／实机：能观察胜负、奖励和重试变化，也能通过控制购买与局前道具，分别测试续关加步、初始步数和重开后的变化。",
            "解包增量：能区分种子、尝试次数、付费续关与初始步数的状态链。所查主线路径未支持连败自动加初始步数，但不能排除其他入口，也不能据此给出真实胜率。"],
           [], ["difficulty-role", "dynadiff-consumers", "boundaries", "native", "rng"]),

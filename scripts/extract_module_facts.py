@@ -724,6 +724,16 @@ def settlement(ws):
           'Unicorn执行同版原字节：原整值setter／getter、位段getter、GetUpdatedMoveCount和IsLeague。仅元数据初始化替代；账号对象为构造输入，非完整实机或服务器响应实验。内存读取探针用整值getter做正对照，确实捕获该字段读取。')
 
 
+    offers_path = ROOT / 'site/assets/evidence/difficulty-retry-offer/l39-offers.csv'
+    offers = read_csv(offers_path)
+    assert len(offers) == 8 and all(r['coin_price'] == '900' for r in offers)
+    table('diff-retry-offer', 'L39受控失败重试：同价续关给步增加',
+          ['样本顺序', '金币价格', '展示总步数', '基础步数', '附加步数', '进入方式'],
+          [[r['sample'], r['coin_price'], r['displayed_offer_moves'], r['base_offer_moves'],
+            r['additional_moves'], r['entry']] for r in offers],
+          'site/assets/evidence/difficulty-retry-offer/l39-offers.csv · provenance.json · README.md',
+          '既有实机记录的汇总：原始步数参照23，临时强制1步制造失败；没有购买续关。样本前已有账号计数，不能据样本顺序认定第几次自然连败触发。价格均为900；此表记录报价，不证明购买到账或所有账号统一规则。')
+
     live_path = ROOT / 'site/assets/evidence/dynadiff-runtime/verification.json'
     live = json.loads(live_path.read_text())
     live_src = 'site/assets/evidence/dynadiff-runtime/verification.json · README.md · native-manifest.json · native.zip'

@@ -1,0 +1,9 @@
+sample,entry,level,updated_moves_input,updated_moves_output,original_moves,forced_moves,level_try_count,selected_seed,ego_count_after,try_count_before,try_count_after,coin_price,base_offer_moves,additional_moves,displayed_offer_moves,source,start_line
+1,Start,39,23,23,23,1,18,579,4,3,4,900,5,0,5,outputs/runtime_L39_difficulty_ego_validation.jsonl,7
+2,Restart,39,23,23,23,1,19,436,5,4,5,900,5,5,10,outputs/runtime_L39_difficulty_ego_validation.jsonl,50
+3,Restart,39,23,23,23,1,20,408,6,5,6,900,5,10,15,outputs/runtime_L39_difficulty_ego_validation.jsonl,105
+4,Restart,39,23,23,23,1,21,993,7,6,7,900,5,15,20,outputs/runtime_L39_difficulty_ego_validation.jsonl,160
+5,Start,39,23,23,23,1,22,209,8,7,8,900,5,20,25,outputs/runtime_L39_difficulty_ego_validation.jsonl,220
+6,Restart,39,23,23,23,1,23,660,9,8,9,900,5,25,30,outputs/runtime_L39_difficulty_ego_validation.jsonl,275
+7,Restart,39,23,23,23,1,24,413,10,9,10,900,5,30,35,outputs/runtime_L39_difficulty_ego_validation.jsonl,330
+8,Restart,39,23,23,23,1,25,697,11,10,11,900,5,30,35,outputs/runtime_L39_difficulty_ego_validation.jsonl,385

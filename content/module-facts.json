@@ -3903,6 +3903,85 @@
    "source": "site/assets/evidence/dynadiff-consumers/verification.json",
    "note": "Unicorn执行同版原字节：原整值setter／getter、位段getter、GetUpdatedMoveCount和IsLeague。仅元数据初始化替代；账号对象为构造输入，非完整实机或服务器响应实验。内存读取探针用整值getter做正对照，确实捕获该字段读取。"
   },
+  "diff-retry-offer": {
+   "title": "L39受控失败重试：同价续关给步增加",
+   "columns": [
+    "样本顺序",
+    "金币价格",
+    "展示总步数",
+    "基础步数",
+    "附加步数",
+    "进入方式"
+   ],
+   "rows": [
+    [
+     "1",
+     "900",
+     "5",
+     "5",
+     "0",
+     "Start"
+    ],
+    [
+     "2",
+     "900",
+     "10",
+     "5",
+     "5",
+     "Restart"
+    ],
+    [
+     "3",
+     "900",
+     "15",
+     "5",
+     "10",
+     "Restart"
+    ],
+    [
+     "4",
+     "900",
+     "20",
+     "5",
+     "15",
+     "Restart"
+    ],
+    [
+     "5",
+     "900",
+     "25",
+     "5",
+     "20",
+     "Start"
+    ],
+    [
+     "6",
+     "900",
+     "30",
+     "5",
+     "25",
+     "Restart"
+    ],
+    [
+     "7",
+     "900",
+     "35",
+     "5",
+     "30",
+     "Restart"
+    ],
+    [
+     "8",
+     "900",
+     "35",
+     "5",
+     "30",
+     "Restart"
+    ]
+   ],
+   "source": "site/assets/evidence/difficulty-retry-offer/l39-offers.csv · provenance.json · README.md",
+   "note": "既有实机记录的汇总：原始步数参照23，临时强制1步制造失败；没有购买续关。样本前已有账号计数，不能据样本顺序认定第几次自然连败触发。价格均为900；此表记录报价，不证明购买到账或所有账号统一规则。"
+  },
   "diff-live-cases": {
    "title": "原端局部对照：只改DynaDiff，其他输入保持一致",
    "columns": [

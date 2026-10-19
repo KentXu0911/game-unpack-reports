@@ -1,0 +1,17 @@
+{
+  "scope": "build 38174 · L39 · 8 instrumented failure/retry samples; no continue purchase",
+  "sources": [
+    {
+      "path": "royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.csv",
+      "sha256": "410b794f02bd9993d8ebb735fd15cdc91dfea9e7877c341d4eda99216352dff8"
+    },
+    {
+      "path": "royal-match-apk-audit-38174/outputs/L39_difficulty_ego_summary.md",
+      "sha256": "c9523a280576c3f97766b988c33aa5b16c7bdade352b3f522f9b1cbabc16cfa1"
+    },
+    {
+      "path": "royal-match-apk-audit-38174/outputs/runtime_L39_difficulty_ego_validation.jsonl",
+      "sha256": "33ce2be13a99e1aca50eae6b5d553a92ea32226c505c4a8e114eee0efa5a01f4"
+    }
+  ]
+}
