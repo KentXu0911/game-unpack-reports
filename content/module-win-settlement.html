@@ -1,8 +1,8 @@
 <div class="board-summary">
 <h3 id="m-summary">目前查到的动态难度线索</h3>
-<p><b>包里有疑似难度状态 <code>DynaDiff</code>，也有 <code>DynamicDifficultyEasy／Hard</code> 两张配置表。</b>我们沿着它们查了状态收发、玩法调用和运行结果：已测普通关卡步数、种子生成与选取、补棋、飞机单格选点，没有因替换DynaDiff而变化；两张表也没有找到接入这些玩法的代码。</p>
+<p><b>包里有疑似难度状态 <code>DynaDiff</code>，也有 <code>DynamicDifficultyEasy／Hard</code> 两张配置表。</b>我们沿着它们查了状态收发、玩法调用和运行结果：已完成的局部函数对照中，普通关卡步数、种子生成与选取、补棋、飞机单格选点均相同；两张表也没有找到接入这些玩法的代码。</p>
 <p><b>失败重试后实际记录到的变化，是续关商品同价加量：</b>同样900金币，展示步数由5步逐步增加到35步。它发生在付费续关报价里；现有证据没有把这项变化连到DynaDiff或两张难度表上。<!--REF:diff-live-cases--><!--REF:diff-role--><!--REF:diff-retry-offer--></p>
-<p class="flow-note">下文按“发现什么 → 代码关系 → 实验结果 → 失败后的实际变化”展开。局部对照有明确范围，尚不能证明所有开局配置和整个游戏都不受影响。</p>
+<p class="flow-note">冷启动补查中，两组开局均为25步、seed相同，且均正常失败并重试。但整局轨迹在道具组合后分歧，同值复测也不完全一致，尚不能宣布彻底排除。<a href="#dynadiff-cold-start">查看冷启动与重试证据</a>。</p>
 </div>
 <nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>发现的两类线索</a><a href="#difficulty-state"><b>02</b>各自是什么、接到哪里</a><a href="#dynadiff-runtime"><b>03</b>做过的检查与实验</a><a href="#failure-offer-observation"><b>04</b>失败重试后的变化</a><a href="#m-analysis"><b>05</b>目前结论</a><a href="#m-unknown"><b>06</b>尚未排除的情况</a></nav>
 
@@ -86,7 +86,7 @@ IncrementTryCount():
 
 <section aria-labelledby="dynadiff-runtime">
 <h3 id="dynadiff-runtime">我们怎样检查它们有没有影响玩法</h3>
-<p class="layer-lead">先追踪文件与字段被谁读取，再用构造状态执行原字节，最后在已初始化的原版客户端做局部对照。两张表做的是资源与代码追踪；DynaDiff另外做了改值实验，两类证据不能混用。</p>
+<p class="layer-lead">先追踪文件与字段被谁读取，再用构造状态执行原字节，在原版客户端做局部函数对照，并补做本地恢复前改值的冷启动与重试。两张表做的是资源与代码追踪；DynaDiff另外做了改值实验，两类证据不能混用。</p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度检查与实验结果"><table><thead><tr><th>检查对象</th><th>怎么检查</th><th>实际结果</th><th>能支持到哪里</th></tr></thead><tbody>
 <tr><td>Easy／Hard配置表</td><td>扫描资源引用、表名与字段、文本读取入口、策略构造及玩法回调</td><td>只确认资源目录登记；没有找到解析门槛并应用到玩法的连接</td><td>已查普通主线路径未见接入；没有做替换两表内容的运行对照</td></tr>
 <tr><td>DynaDiff普通步数分支</td><td>构造不同状态，执行原位段读取与步数函数</td><td>能解出不同步数差，普通关卡输出仍等于传入步数</td><td>该原函数分支不应用DeltaMove；不是完整开局验证</td></tr>
@@ -98,13 +98,30 @@ IncrementTryCount():
 <h4>原端对照：只改变DynaDiff，尽量保持其他输入相同</h4>
 <p>在独立断网副本的第101关，使用原版已初始化的对象与函数，将DynaDiff换成不同构造值，再回到基准值。每次都恢复两条随机流的内部状态；检查seed时也恢复种子列表和管理器字段。<b>没有把最终seed强制设为相同值。</b>既有排列选取、重新生成并洗牌分别验证，完整排列逐项相同。<!--REF:diff-live-cases--><!--REF:diff-live-scope--></p>
 <p>已完成的对照中，普通步数均输出25；seed均选中393；补棋序列和飞机单格选点序列分别逐项一致。针对账号字段的主线程读取监视没有在这些受控调用中命中，测试前后用原getter做正对照均能捕获读取。<!--REF:diff-live-cases--><!--REF:diff-live-scope--></p>
-<p><b>因此可以说“这些入口在所测输入下未受影响”，尚不能说“证明开局配置和所有棋子生成永远不受影响”。</b>改值时棋盘已经初始化；更早的开局缓存未被排除。初始开局前有一次尚未归属的底层读取；局部测试后的完整重试异常退出，整局和重试验证均未通过。飞机也只测单格抽选，没有实际飞行、在途登记或扣层。<!--REF:diff-live-scope--><!--REF:diff-live-cases--></p>
+<p><b>因此可以说“这些入口在所测输入下未受影响”，尚不能说“证明开局配置和所有棋子生成永远不受影响”。</b>改值时棋盘已经初始化；更早的开局缓存未被排除。这组局部函数测试后的重试异常退出，不能计作整局通过。独立冷启动对照与底层读取归属见下节。飞机也只测单格抽选，没有实际飞行、在途登记或扣层。<!--REF:diff-live-scope--><!--REF:diff-live-cases--></p>
 <details class="code-fold"><summary>原端对照的每组输入、输出与监视范围</summary>
 <!--TABLE:diff-live-cases-->
 <!--TABLE:diff-live-scope-->
 <p>这些long为压力测试构造输入，不代表真实服务器策略。实际走棋阶段也记录了原始25步、两次有效交换后23步及真实补棋；那段观察无读取命中，但不能扩展为从启动到整局结束都无读取。</p>
 <p><a href="../assets/evidence/dynadiff-runtime/README.md">步骤、控制方式与未通过项</a> · <a href="../assets/evidence/dynadiff-runtime/verification.json">脱敏对照回执</a> · <a href="../assets/evidence/dynadiff-runtime/native.zip" download>原字节与汇编</a></p>
 </details>
+<h4 id="dynadiff-cold-start">从恢复状态之前开始：正常开局、走完25步、失败与重试</h4>
+<p>在独立断网客户端上，两组都恢复同一份账号存档，隔离另行保存的未结束棋盘，再从首页进入第101关。基准值为<code>81920</code>，对照值为<code>3470335148030</code>，后者解码为关101、段5、尝试计数4095、步数差+21。替换发生在本地<code>GetLong("DynaDiff")</code>返回时，早于账号字段恢复完成和本次棋盘创建；它模拟的是客户端恢复不同状态，<b>不是抓到并重放了服务器响应</b>。</p>
+<p>两组均不修改初始步数、不强制最终seed、不直接调用玩法函数。基准组用实际点击／交换耗尽25步；对照组重放相同操作，逐步比较棋盘。两组都正常进入失败结算，点击Try Again后重新得到25步，并各完成一次有效交换至24步。<b>这证明本次完整失败与重试流程可以运行，也说明+21没有直接加到这两次开局步数上；不代表两组整局结果完全相同。</b></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="冷启动与重试结果"><table><thead><tr><th>检查点</th><th>结果</th><th>解释</th></tr></thead><tbody>
+<tr><td>初始棋盘与步数</td><td>两组记录的格子、物体类型与层数相同，均为25步</td><td>本次提前改值未改变这些开局观测项；并非已比较所有内部缓存</td></tr>
+<tr><td>seed</td><td>两组首次均选371，重试均选741</td><td>未强制seed，正常随机链在这两个输入下选取相同</td></tr>
+<tr><td>前11步</td><td>相同操作后、下一步操作前的棋盘记录一致</td><td>这段实际运行未出现状态相关差异</td></tr>
+<tr><td>第12步：炸弹与飞机交换</td><td>操作前棋盘相同，组合结算后的棋盘出现差异，停止逐步重放</td><td>整局一致性没有通过；需要区分组合随机、运行时序与状态影响</td></tr>
+<tr><td>完成失败与重试</td><td>两组分别耗尽25步并正常重试，重试后均可走棋</td><td>流程完成；差异之后的操作已不相同，不能比较为同一条整局轨迹</td></tr>
+</tbody></table></div>
+<p><b>同值复测也没有做到完全一致。</b>再把DynaDiff设回81920、使用相同seed重放，第一步后已有一个格子不同，稍后再次读取仍有差异。这说明当前重放仍受时序、观察边界或未控制随机源干扰，具体原因未定位。因此不能把两组分歧归因为DynaDiff，也不能把它解释成已排除DynaDiff。</p>
+<p><a href="../assets/evidence/dynadiff-cold-start/verification.json">冷启动对照回执</a> · <a href="../assets/evidence/dynadiff-cold-start/README.md">方法、排除项与剩余缺口</a></p>
+<h4>底层读取的归属：垃圾回收在检查对象指针</h4>
+<p>地址<code>0x102F22C</code>所在函数已追到<code>il2cpp_gc_collect</code>的调用链，函数内还有“Mark stack overflow”标记栈提示。启动时再次捕获到该指令读取DynaDiff，并比较它是否落在对象地址范围；本次读到的81920不在范围内。通俗地说，垃圾回收会扫过一片内存，找出可能仍被引用的对象；<b>这里读到了这个数字，但不是把它解成难度、增加步数或选棋子。</b>这条具体读取可以归属为垃圾回收扫描，不再作为未识别的难度消费者。</p>
+<p><a href="../assets/evidence/dynadiff-cold-start/gc-path.json">原字节调用路径</a> · <a href="../assets/evidence/dynadiff-cold-start/gc-read.json">脱敏运行栈与范围判断</a> · <a href="../assets/evidence/dynadiff-cold-start/native.zip" download>对应原字节与汇编</a></p>
+<p class="flow-note"><b>全线程任意读取监视仍未完成。</b>在账号对象创建时布设多线程硬件监视，捕获上述扫描后测试进程停滞，不能把该轮计作整局通过。完成冷启动与重试的两组使用部分已知getter／setter与玩法函数入口记录，可捕获其他线程调用这些已布点入口，但不能覆盖绕过入口的内联读取、指针别名和全部未知消费者。尚未验证真实服务器写入路径及其更早的缓存。</p>
+
 <details class="code-fold"><summary>资源与消费者扫描、原字节构造验证、L101重试记录</summary>
 <!--TABLE:diff-role-->
 <!--TABLE:diff-consumers-->
@@ -144,10 +161,10 @@ IncrementTryCount():
 <span class="layer layer-limit">边界层</span>
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度未确认事项"><table><thead><tr><th>还缺什么</th><th>当前边界</th></tr></thead><tbody>
 <tr><td>真实服务器DynaDiff输入</td><td>没有确认的非零实抓样本，不知道后台是否、何时、按什么规则更新。</td></tr>
-<tr><td>从输入到完整开局、整局与重试</td><td>现有局部实验改值发生在初始化后；未排除更早缓存、其他线程和间接读取。开局前有未归属读取，完整重试异常退出，尚未通过。</td></tr>
+<tr><td>从输入到完整开局、整局与重试</td><td>本地恢复前改值的两组已完成开局、失败与重试；整局轨迹在道具组合后分歧，尚未证明整局一致。底层读取已归属垃圾回收；真实服务器输入、更早缓存及全线程任意读取仍未覆盖。</td></tr>
 <tr><td>两张表的运行消费者</td><td>未确定加载、计数口径、阈值比较、-1含义、方案选择及后续动作；没有改表对照。表覆盖范围的终点，也不能解释为此后自动交给服务器。</td></tr>
 <tr><td>续关加量的自然触发条件</td><td>受控失败样本能证明展示报价变化，不能给出所有账号的统一连败阈值、实际购买结果或与DynaDiff的因果关系。</td></tr>
 <tr><td>真实胜率与更容易的seed</td><td>还需固定关卡和求解策略，比较足够多seed的通关率与剩余步数；当前不能给任意seed贴Easy／Hard标签。</td></tr>
 </tbody></table></div>
-<p>以上结论限定于本版已检查的普通主线路径与所测输入，不能扩展为所有账号、关卡、组合及版本都没有动态难度。进一步排除需在稳定环境中，从状态写入之前开始追踪，覆盖初始化缓存、完整重试与整局结果。</p>
+<p>以上结论限定于本版已检查的普通主线路径与所测输入，不能扩展为所有账号、关卡、组合及版本都没有动态难度。进一步排除需要稳定的全线程读取监视、真实服务器输入路径，以及控制组合随机与执行时序后的重复整局对照。</p>
 </section>

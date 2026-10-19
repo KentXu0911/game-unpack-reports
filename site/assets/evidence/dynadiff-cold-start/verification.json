@@ -1,0 +1,152 @@
+{
+  "build": 38174,
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "inputMode": "Synthetic long substituted at local GetLong return before local restore stores inventory field; not a captured server response.",
+  "environment": "Independent offline ARM64 emulator, Frida 16.5.9, same restored app_pFiles/shared_prefs; external unfinished-board Saves removed from active path in each arm; same test level 101 intervention.",
+  "monitorScope": "Selected known getter/setter and gameplay function hooks, without caller-thread filtering. No arbitrary memory-read coverage in completed runs.",
+  "states": [
+    81920,
+    3470335148030
+  ],
+  "firstBoardsEqual": true,
+  "allReplayBeforeBoardsEqual": false,
+  "allReplayBeforeMoveCountsEqual": true,
+  "seeds": {
+    "arm-a": [
+      -1580821071,
+      371,
+      741
+    ],
+    "arm-b": [
+      -1580821071,
+      371,
+      741
+    ],
+    "arm-a2": [
+      -1580821071,
+      371
+    ]
+  },
+  "starts": {
+    "arm-a": [
+      {
+        "kind": "start",
+        "phase": "startup",
+        "level": 101,
+        "moves": 25
+      },
+      {
+        "kind": "restart",
+        "phase": "retry",
+        "level": 101,
+        "moves": 25
+      }
+    ],
+    "arm-b": [
+      {
+        "kind": "start",
+        "phase": "startup",
+        "level": 101,
+        "moves": 25
+      },
+      {
+        "kind": "restart",
+        "phase": "first-game",
+        "level": 101,
+        "moves": 25
+      }
+    ],
+    "arm-a2": [
+      {
+        "kind": "start",
+        "phase": "startup",
+        "level": 101,
+        "moves": 25
+      }
+    ]
+  },
+  "failCounts": {
+    "arm-a": 1,
+    "arm-b": 1,
+    "arm-a2": 0
+  },
+  "fillComparison": {
+    "first-game": {
+      "counts": [
+        243,
+        209
+      ],
+      "equal": false,
+      "sha256": [
+        "8651ccd541156ff2d654c34ac88dbd76d47ee6b78ff2f3857281b6cc72ad20c8",
+        "7ed03be60c3b9f11027f9f125f5b9a3d0abba46648a6af7486797d42a8d67728"
+      ]
+    },
+    "retry": {
+      "counts": [
+        6,
+        6
+      ],
+      "equal": true,
+      "sha256": [
+        "c25d3f2e9ea35b3f9b056d4b3e98c754ff70700a0a523298a4e2553076b2fb77",
+        "c25d3f2e9ea35b3f9b056d4b3e98c754ff70700a0a523298a4e2553076b2fb77"
+      ]
+    }
+  },
+  "rawLogHashes": {
+    "arm-a": "bf3283728b3d482c33b6afefdd02d55a097e97e7e07ab2b905e050211e0943e2",
+    "arm-b": "0fff438fdbd273789db4080d2701a468449bf3346f9167b5bb4e3ede40e51580",
+    "arm-a2": "49bc00d5cab232c93945e8c0eeb1cd680fc0538d1961044a9caa18e280084655"
+  },
+  "excluded": [
+    "baseline.jsonl: instrumentation conversion error",
+    "control.jsonl and control-clean.jsonl: resumed board saves not isolated",
+    "watched-baseline.jsonl: all-thread hardware watch run stalled; GC read alone is retained as attribution evidence"
+  ],
+  "replayChecks": 13,
+  "replayedInputsBeforeDivergence": 12,
+  "sameStateControl": {
+    "state": 81920,
+    "replayedInputs": 1,
+    "initialBoardEqual": true,
+    "afterFirstMoveBoardEqual": false,
+    "laterSnapshotStillDifferent": true,
+    "differentCells": [
+      {
+        "baseline": {
+          "point": [
+            1,
+            5
+          ],
+          "type": 1,
+          "fill": 0,
+          "item": {
+            "match": 4,
+            "tiled": 4,
+            "layer": 1
+          }
+        },
+        "repeat": {
+          "point": [
+            1,
+            5
+          ],
+          "type": 1,
+          "fill": 0,
+          "item": {
+            "match": 1,
+            "tiled": 1,
+            "layer": 1
+          }
+        }
+      }
+    ],
+    "interpretation": "Same-state replay is not fully reproducible. Timing, observation boundaries and uncontrolled randomness remain confounders; this does not identify the cause of the A/B divergence."
+  },
+  "endToEndStatus": "Both A and B exhausted 25 moves, failed, retried and made one valid move to 24. A/B full-trajectory equivalence failed. A2 is a bounded same-state repeat only.",
+  "retryResultMoves": {
+    "arm-a": 24,
+    "arm-b": 24
+  }
+}

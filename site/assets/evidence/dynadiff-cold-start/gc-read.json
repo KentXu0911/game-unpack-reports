@@ -1,0 +1,28 @@
+{
+  "kind": "read",
+  "phase": "startup",
+  "pc": "libil2cpp.so+0x102f22c",
+  "instruction": "ldr x25, [x8], #0x80",
+  "stack": [
+    "libil2cpp.so+0x102f104",
+    "libil2cpp.so+0x102bd3c",
+    "libil2cpp.so+0x102bb2c",
+    "libil2cpp.so+0x102d50c",
+    "libil2cpp.so+0x10289fc",
+    "libil2cpp.so+0x102d7fc",
+    "libil2cpp.so+0x102fcf0",
+    "libil2cpp.so+0xf89a7c",
+    "libil2cpp.so+0xfad598",
+    "libunity.so+0x309340",
+    "libunity.so+0x35f534",
+    "libunity.so+0x364ac8",
+    "libunity.so+0x364740",
+    "libunity.so+0x36301c",
+    "libunity.so+0x32158c",
+    "libunity.so+0x32e4a0"
+  ],
+  "value": "81920",
+  "memOffset": 0,
+  "outsideRange": true,
+  "scope": "This startup observation attributed the read; this hardware-monitor run later stalled and did not complete gameplay."
+}

@@ -1,0 +1,61 @@
+{
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "scanFunction": [
+    "0x102eee8",
+    "0x102f5bc"
+  ],
+  "gcExport": "il2cpp_gc_collect 0xfad3b8",
+  "path": [
+    {
+      "from": "0xfad3b8",
+      "site": "0xfad3b8",
+      "instruction": "b #0xf6f5dc",
+      "target": "0xf6f5dc",
+      "function": "0xf6f5dc"
+    },
+    {
+      "from": "0xf6f5dc",
+      "site": "0xf6f5dc",
+      "instruction": "b #0x102cca4",
+      "target": "0x102cca4",
+      "function": "0x102cca4"
+    },
+    {
+      "from": "0x102cca4",
+      "site": "0x102ccb0",
+      "instruction": "bl #0x102cab8",
+      "target": "0x102cab8",
+      "function": "0x102cab8"
+    },
+    {
+      "from": "0x102cab8",
+      "site": "0x102cb70",
+      "instruction": "bl #0x102b098",
+      "target": "0x102b098",
+      "function": "0x102b098"
+    },
+    {
+      "from": "0x102b098",
+      "site": "0x102b140",
+      "instruction": "bl #0x102bacc",
+      "target": "0x102bacc",
+      "function": "0x102bacc"
+    },
+    {
+      "from": "0x102bacc",
+      "site": "0x102bb28",
+      "instruction": "bl #0x102bbd4",
+      "target": "0x102bbd4",
+      "function": "0x102bbd4"
+    },
+    {
+      "from": "0x102bbd4",
+      "site": "0x102bd38",
+      "instruction": "bl #0x102eee8",
+      "target": "0x102eee8",
+      "function": "0x102eee8"
+    }
+  ],
+  "visited": 72,
+  "referencedString": "Mark stack overflow; current size = %lu entries\n"
+}
