@@ -1,0 +1,22 @@
+[
+  {
+    "file": "new-account.md",
+    "source": "outputs/rm-online-2026-10-19/README.md",
+    "sha256": "9a5bdb458bf3f50877674f1c54ebca4c51251d95d9fbc6650ce1f9842a8cfa02"
+  },
+  {
+    "file": "high-levels.md",
+    "source": "outputs/rm-online-high-2026-10-19/README.md",
+    "sha256": "3175adce3cc34ea2865eb52d53800f32fadcd1f2e6bec13e6fb2433c14441d1a"
+  },
+  {
+    "file": "three-failures.md",
+    "source": "outputs/rm-online-streak-2026-10-19/README.md",
+    "sha256": "2898e2feb248680cd14a05a0d908058987cb1c89cc612df407acd2dc14b68b18"
+  },
+  {
+    "file": "offer-recheck.md",
+    "source": "outputs/rm-ego-recheck-2026-10-19/README.md",
+    "sha256": "2ad2474e60359fc5d938d1b5c79eddb46de81ab6ce89a00cf93c95b69220d3bb"
+  }
+]

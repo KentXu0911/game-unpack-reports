@@ -31,7 +31,7 @@
     从本地 "DynaDiff" 读回账号字段
 有该键的待同步记录时:
     把当前整数加入上传字典</code></pre>
-<p>这条链路说明客户端有能力接收并保留这份状态；收到后不会立刻原样再上传。目前也没有抓到实际账号收到非零DynaDiff的服务器样本。<b>“服务器可以写入”与“写入后会改变补棋”之间，仍缺玩法读取和应用它的连接。</b><!--REF:diff-sync--><!--REF:diff-consumers--></p>
+<p>这条链路说明客户端有能力接收并保留这份状态；收到后不会立刻原样再上传。联网测试中出现过本地 DynaDiff 从 0 变成 81920，但解码后的步数差仍为 0；尚未抓到服务器下发非零有效调整量的样本，见<a href="#dynadiff-online">联网实测</a>。<b>“服务器可以写入”与“写入后会改变补棋”之间，仍缺玩法读取和应用它的连接。</b><!--REF:diff-sync--><!--REF:diff-consumers--></p>
 <details class="code-fold"><summary>DynaDiff字段、编码与同步入口证据</summary>
 <!--TABLE:diff-state-->
 <p>构造例：<code>3470339186702</code>解码为关101、段21、TryCount2为7、DeltaMove为3。这是核对编码的测试值，并非实际账号或服务器记录。</p>
@@ -87,7 +87,7 @@ IncrementTryCount():
 <section aria-labelledby="dynadiff-runtime">
 <h3 id="dynadiff-runtime">我们怎样检查它们有没有影响玩法</h3>
 <p class="layer-lead"><b>目前没有找到它们改变普通主线玩法的明确证据，但还不能彻底排除。</b>已完成的局部对照没有变化；整局对照则没能稳定复现，不能算作排除成功。</p>
-<p>两类线索的检查深度不同：Easy／Hard 两张表做了资源和代码追踪；DynaDiff 除了查代码，还做了改值实验。下面分别说明。</p>
+<p>两类线索的检查深度不同：Easy／Hard 两张表做了资源和代码追踪；DynaDiff 还做了断网改值对照和联网观察。下面按代码、局部对照、整局对照、联网实测分别说明。</p>
 
 <h4>1. 查代码：它们有没有真正接到玩法上？</h4>
 <p>对两张表，我们查找谁加载文件、谁读取尝试次数门槛，以及门槛满足后调用什么玩法逻辑。<b>目前只确认资源目录里登记了文件，没有找到“读表 → 比较门槛 → 改变棋盘或步数”的完整调用链。</b>因此只能说已查路径未见使用，不能说配置表不存在，也不能说已经证明它们永远不起作用。尚未做替换表内容的运行实验。<!--REF:diff-role--></p>
@@ -121,6 +121,19 @@ IncrementTryCount():
 <tr><td>失败与重试</td><td>两组均耗尽步数、正常失败并重试；重试均为 25 步且可走棋</td><td>确认流程可完成；分歧之后已不是相同操作轨迹，不能写成整局对照通过</td></tr>
 </tbody></table></div>
 <p><a href="../assets/evidence/dynadiff-cold-start/verification.json">对应实验回执</a></p>
+
+<h4 id="dynadiff-online">4. 联网实测：服务器响应、失败与重试时发生了什么</h4>
+<p><b>联网测试也做过，且捕获了成功的 Ping 和进度响应。</b>它与上面的断网改值对照目的不同：断网实验主动替换 DynaDiff，检查函数是否受影响；联网实验不修改 DynaDiff 或服务器响应，观察服务端交互期间实际发生的变化。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="联网动态难度观察"><table><thead><tr><th>场景</th><th>实际完成</th><th>DynaDiff 与玩法观察</th></tr></thead><tbody>
+<tr><td>新游客，第 1 关</td><td>登录、读取服务器配置与 A/B 分组；断网恢复、恢复联网及联网重启</td><td>DynaDiff 均为 0。后续存档恢复时，所测棋盘、剩余步数与补棋随机状态一致；这是未结束棋盘的恢复对照，不是全新开局对照。</td></tr>
+<tr><td>第 1001 关</td><td>实际耗尽 30 步、失败，再重试</td><td>DynaDiff 保持 0；初始和重试均为 30 步，seed 从 180 换为 377。</td></tr>
+<tr><td>第 5001 关，进度刷新</td><td>抓到服务器进度响应并进入棋盘</td><td>DynaDiff 从 0 变成 81920，但解码后的步数差仍为 0；开局 27 步。</td></tr>
+<tr><td>第 5001 关，连续三次失败</td><td>每局实际耗尽 27 步，均捕获失败事件，随后三次重试均完成进度同步</td><td>DynaDiff 各次检查均为 81920；重试均为 27 步，seed 依次为 93、325、354。没有观察到有效难度状态调整。</td></tr>
+</tbody></table></div>
+<p><b>81920 不是一次有效的加步调整。</b>进度刷新期间，客户端先重置本地键值；原代码把步数差的原始编码写成 10，得到 <code>81920 = 10 &lt;&lt; 13</code>。解码后 DeltaMove、尝试计数、关卡段和关号都为 0。运行中的更新序列与这条重置逻辑相符，但没有抓到服务器 DynaDiff 键携带非零有效调整量的样本。</p>
+<p>这说明联网期间确实有服务器交互和本地状态更新；在这个账号的已测关卡与失败序列中，未观察到 DynaDiff 带来有效调整。<b>不能据此排除其他账号、实验分组、更多失败次数或其他服务器机制。</b>高关卡由新游客账号人工跳关得到，不能代替自然玩到高关卡的老账号；部分请求也出现 HTTP 400，不能称作所有网络服务正常。</p>
+<p>三次连败时续关均显示 900 金币 +5 步；随后正常耗尽下一局，报价变为 +10 步，DynaDiff 仍为 81920。变化来自独立的续关弹窗计数，详见下一节。上述测试均未购买续关。</p>
+<p class="fact-src">2026-10-19 联网记录：<a href="../assets/evidence/dynadiff-online/new-account.md">新账号与恢复</a> · <a href="../assets/evidence/dynadiff-online/high-levels.md">1001／5001 关</a> · <a href="../assets/evidence/dynadiff-online/three-failures.md">三次失败与同步</a> · <a href="../assets/evidence/dynadiff-online/offer-recheck.md">正常耗尽后 +10 步</a> · <a href="../assets/evidence/dynadiff-online/manifest.json">来源与哈希</a></p>
 
 <h4 id="dynadiff-replay">为什么出现差异，却还不能归因于 DynaDiff？</h4>
 <p><b>因为不改变 DynaDiff，重复同一组测试，也出现了棋盘差异。</b>这说明对照环境还有未固定的因素。游戏除了补棋随机流，还有飞机等行为使用的普通随机流；即使固定两条初始 seed，匹配组洗牌和补棋也可能以不同顺序取走随机数。</p>
@@ -186,6 +199,7 @@ chosen = candidates[index]</code></pre>
 
 <section aria-labelledby="failure-offer-observation">
 <h3 id="failure-offer-observation">失败重试后观察到的是：同样金币能买到更多步</h3>
+<p><b>正常耗尽步数也观察到了加量。</b>联网第 5001 关的后续复核中，完整走完 27 步，续关弹窗计数从 4 增至 5，报价由 900 金币 +5 变为 +10；DynaDiff 保持 81920。未购买续关，之后因体力不足未完成重试。<a href="../assets/evidence/dynadiff-online/offer-recheck.md">正常耗尽复核记录</a>。下面 L39 的 +5 至 +35 序列则属于另一组强制缩短步数的受控实验，两组条件不同。</p>
 <p><b>在L39的受控失败重试序列里，价格一直是900金币，弹窗给步依次为5、10、15、20、25、30、35、35。</b>准确说，是续关商品同价加量，单位步数变便宜了；没有观察到这一序列的金币价格下降。<!--REF:diff-retry-offer--></p>
 <!--TABLE:diff-retry-offer-->
 <p>这组记录为了尽快制造失败，先记录原始步数参照，再临时强制为1步；期间没有购买续关。样本前已有账号计数，不能把第一行当成新账号第一次失败，也不能由这张表推导“所有人连败几次开始加量”。<!--REF:diff-retry-offer--></p>
@@ -210,7 +224,7 @@ chosen = candidates[index]</code></pre>
 <h3 id="m-unknown">尚未确认与未排除的情况</h3>
 <span class="layer layer-limit">边界层</span>
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度未确认事项"><table><thead><tr><th>还缺什么</th><th>当前边界</th></tr></thead><tbody>
-<tr><td>真实服务器DynaDiff输入</td><td>没有确认的非零实抓样本，不知道后台是否、何时、按什么规则更新。</td></tr>
+<tr><td>真实服务器DynaDiff输入</td><td>已抓到联网响应和进度刷新；本地 0→81920 解码后仍无有效调整。尚无服务器下发非零有效调整量的样本，后台触发规则仍未知。</td></tr>
 <tr><td>从输入到完整开局、整局与重试</td><td>本地恢复前改值的两组已完成开局、失败与重试；整局轨迹在道具组合后分歧，尚未证明整局一致。底层读取已归属垃圾回收；真实服务器输入、更早缓存及全线程任意读取仍未覆盖。</td></tr>
 <tr><td>两张表的运行消费者</td><td>未确定加载、计数口径、阈值比较、-1含义、方案选择及后续动作；没有改表对照。表覆盖范围的终点，也不能解释为此后自动交给服务器。</td></tr>
 <tr><td>续关加量的自然触发条件</td><td>受控失败样本能证明展示报价变化，不能给出所有账号的统一连败阈值、实际购买结果或与DynaDiff的因果关系。</td></tr>
