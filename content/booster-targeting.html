@@ -66,6 +66,7 @@ for candidates in groups:
 </tbody></table></div>
 <p>档位倍数是26。普通飞机只比较单格，高分组优先，与低分候选的总数量无关；组合攻击累计分数时，才有“25份低一档基础分仍小于1份高一档基础分”的数值关系。专用修正分可以落在档位之间或超过最高基础档。</p>
 <h4>最关键的障碍差异</h4>
+<p><strong>“扣在途”是什么意思：</strong>计算还需多少次命中时，先减去已经登记、正在飞向该障碍的攻击。例如当前还需3次命中，已有2发在途，后续选点按“还缺1次”处理。障碍实际扣层仍发生在命中结算时；不同物体的剩余量实现须分别核对。<small>［P4］</small></p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="普通飞机面对不同障碍状态的评分"><table><thead><tr><th>障碍／状态</th><th>物体自身分数</th><th>为什么这样选</th><th>范围限制</th></tr></thead><tbody>
 <tr><td>普通箱子，剩1层</td><td>456,976</td><td>沿用基础查表，没有最后一击奖励</td><td rowspan="2">需要格子实际路由到箱子，且没有额外格子修正</td></tr>
 <tr><td>普通箱子，剩3层</td><td>456,976</td><td>与1层箱子同组随机</td></tr>
@@ -90,6 +91,34 @@ if strategy in {PropellerTnt, FurnaceFireball}:
     return (2 &lt;= RemainingExplodeCount() &lt;= 10) ? 456976 : 228488
 return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
 <p>上表支持的局部次序为：<strong>可收尾碗柜913,951 ＞ 可收尾手套609,301 ＞ 普通箱子456,976 ＞ 被特定障碍阻挡的正分格4,569</strong>。只有各自条件都满足、且没有其他修正时才可这样比较。依据：<code>BoxingGlove.GetExplodeScore</code>、<code>MultipleCellItemModel.GetExplodeScore</code>、<code>Cupboard.GetExplodeScore</code>。<small>［P3、D2］</small></p>
+<h4 id="score-patterns">从分数表能归纳出什么规律</h4>
+<p><strong>代码事实可以归纳为“基础类别档位＋部分物体的收尾规则＋格子修正”，再配合在途登记协调。</strong>这些步骤有条件分支，不能把它们直接写成所有障碍通用的加法公式。</p>
+<ol>
+<li><strong>基础档位以26倍拉开。</strong><code>1、26、676、17,576、456,976</code>依次为26的0–4次方。普通飞机先访问最高有效分组；组合累计基础分时，25份低一档分值仍小于1份高一档分值，26份才相等。这个数值关系只适用于未叠加专用修正的基础档。<small>［P1–P3］</small></li>
+<li><strong>剩余层数不构成统一排序。</strong>1层和3层普通箱子都为456,976；手套、碗柜则有最后一击加分。因此“残血优先”是特定物体的规则。<small>［P3、D2］</small></li>
+<li><strong>多格物体的指定收尾分支按释放格数线性加分。</strong>原公式可等价改写为下面的形式；每多释放1格，分数增加152,325。只在剩余有效命中为1、攻击策略匹配且子类没有覆盖该逻辑时适用。<small>［D2］</small></li>
+</ol>
+<pre class="algorithm-code" tabindex="0"><code>收尾分 = 释放格数 × 152325 + 304651
+       = 456976 + (释放格数 − 1) × 152325</code></pre>
+<div class="data-scroll" tabindex="0" role="region" aria-label="多格收尾公式的数值规律"><table><thead><tr><th>清除后释放格数</th><th>按公式计算的分数</th><th>相对456,976的增量</th></tr></thead><tbody>
+<tr><td>1格</td><td>456,976</td><td>0</td></tr>
+<tr><td>2格</td><td>609,301</td><td>152,325</td></tr>
+<tr><td>3格</td><td>761,626</td><td>304,650</td></tr>
+<tr><td>4格</td><td>913,951</td><td>456,975</td></tr>
+</tbody></table></div>
+<p>上表是<strong>公式代入值</strong>，不代表每一行都已对应并验证一个具体物体。手套的收尾分恰好等于2格公式值，但手套有独立方法，不能仅凭数值相同认定它继承这条多格公式。<small>［P3、D2］</small></p>
+<ol start="4">
+<li><strong>在途登记会提前改变收尾判断。</strong>当前还需3次命中、已有2发在途时，后续选点可按还缺1次处理；新的一击可能因此获得收尾分。这是对已安排攻击的协调，障碍此时尚未实际清除。<small>［P4、D2］</small></li>
+<li><strong>指定阻挡条件会统一压低正分。</strong>4,569是固定替换值，约为456,976的1%；不能把这项规则推广为“所有物体都乘1%”。<small>［P5］</small></li>
+</ol>
+<p><small>［D — 设计解读］这些规则支持这样的理解：先用类别档位确定局部优先级，再对部分物体奖励能完成清除、释放空间的一击，并用在途登记减少过量预订。它们不保证任务收益、堵路价值或全局通关步数最优。依据：P1–P5、D2。</small></p>
+<h4 id="score-position">分数和障碍坐标有什么关系</h4>
+<p><strong>表中箱子、手套、多格物体的自身评分，没有通用的距离、横坐标或纵坐标加权。</strong>把两个同状态箱子放到不同位置，只要评分对象、覆盖门控和额外修正相同，它们仍然同分。<small>［P3、D2］</small></p>
+<ul>
+<li><strong>所在位置的环境会影响最终分：</strong>覆盖物、特定阻挡和底部收集的清路条件可能不同。不能只凭坐标靠下，就断定有加分。<small>［P1、P5、D1］</small></li>
+<li><strong>同分抽选会受候选顺序影响：</strong>实际结果还依赖随机下标、候选列表和出发格避让。出发格是传入本次选点的起点格；其避让过程见<a href="#selection-examples">下一节例子</a>。这些会影响落点，不构成物体自身的坐标加分。<small>［P2］</small></li>
+<li><strong>范围组合与空间分布直接相关：</strong>飞机＋火箭比较整行／整列，飞机＋TNT比较落点周围；障碍是否集中、范围是否被棋盘边缘裁剪，会改变作用格与累计收益。组合还使用自己的物体评分和修正，详见<a href="#combo-selection">07 组合飞机</a>。<small>［P6、D2］</small></li>
+</ul>
 <h4>“残血优先”和“任务优先”都要逐物体判断</h4>
 <p>普通箱子的基础评分没有读取任务剩余量，也没有用层数把箱子互相排序；普通颜色棋会读取目标剩余量和机关状态。多格物体用清除后释放的格数估算收尾收益。因而不能写成统一的“任务障碍→残血障碍→其他棋子”固定名单，更不能把<code>层数−在途</code>直接当分数：它同时用于判断是否还值得预订，并只在部分物体中触发加分。</p>
 <p><a href="../assets/evidence/plane-deep/base-scores.csv" download>下载115项ItemType基础分</a> · <a href="../assets/evidence/booster-decisions/static-scores.json">18项StaticItemType基础分</a> · <a href="../assets/evidence/plane-deep/score-methods.json">95个物体评分入口</a>。这些是查表值和方法清单，未把所有状态的最终分值表冒充为已完成。</p>
