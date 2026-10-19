@@ -625,6 +625,7 @@ def refill(ws):
 
 
 def settlement(ws):
+    replay_order()
     cfg = ws / AUD / 'decoded/config'
     easy = json.loads((cfg / 'DynamicDifficultyEasy.json').read_text())['difficultyData']
     hard = json.loads((cfg / 'DynamicDifficultyHard.json').read_text())['difficultyData']
@@ -756,6 +757,23 @@ def settlement(ws):
         ['完整重试', '局部对照后点击Try Again时异常退出，原因未定位；重试与整局测试均未通过'],
         ['服务器与覆盖', 'long为本地构造；无真实服务器响应输入。未覆盖其他线程、开局更早的缓存、其他局面、组合与账号'],
     ], live_src, '局部输出相同支持这些入口在所测输入下不受该long影响，不构成整个游戏或后台永不调难的证明。')
+
+
+def replay_order():
+    src = 'site/assets/evidence/dynadiff-replay/verification.json'
+    data = json.loads((ROOT / src).read_text())['sameStateDivergence']
+    labels = {'libil2cpp.so+0x2a31524': '匹配组洗牌',
+              'libil2cpp.so+0x20e9d9c': '补棋入口',
+              'libil2cpp.so+0x38e63ec': '颜色候选抽选'}
+    def describe(call):
+        lo, hi = call['args']
+        return f"{labels[call['caller']]}，取[{lo},{hi})，返回{call['output']}"
+    prefix = data['identicalPrefixCalls']
+    rows = [[f'前{prefix}次已记录调用', '调用方、范围与返回值相同', '调用方、范围与返回值相同']]
+    rows += [[f'第{prefix+i+1}次', describe(a), describe(b)]
+             for i, (a, b) in enumerate(zip(data['baseline'][:2], data['replay'][:2]))]
+    table('diff-replay-order', '同值重放的随机调用顺序', ['调用序号', '基准运行', '同值重放'], rows, src,
+          '相同DynaDiff及两条初始seed；第11步前棋盘和difficultyRandom内部状态相同。并未对齐每步前普通随机状态；更早造成调用先后变化的原因仍未定位。')
 
 
 def pressure(ws):

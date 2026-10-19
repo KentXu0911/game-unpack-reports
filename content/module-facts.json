@@ -6601,6 +6601,33 @@
    ],
    "source": "royal-match-apk-audit-38174/indices/iap_product_catalog.csv",
    "note": "与失败页入口配套的商品；价位提示取自标识尾号。"
+  },
+  "diff-replay-order": {
+   "title": "同值重放的随机调用顺序",
+   "columns": [
+    "调用序号",
+    "基准运行",
+    "同值重放"
+   ],
+   "rows": [
+    [
+     "前128次已记录调用",
+     "调用方、范围与返回值相同",
+     "调用方、范围与返回值相同"
+    ],
+    [
+     "第129次",
+     "匹配组洗牌，取[0,3)，返回1",
+     "补棋入口，取[0,1)，返回0"
+    ],
+    [
+     "第130次",
+     "匹配组洗牌，取[1,3)，返回2",
+     "颜色候选抽选，取[0,4)，返回3"
+    ]
+   ],
+   "source": "site/assets/evidence/dynadiff-replay/verification.json",
+   "note": "相同DynaDiff及两条初始seed；第11步前棋盘和difficultyRandom内部状态相同。并未对齐每步前普通随机状态；更早造成调用先后变化的原因仍未定位。"
   }
  }
 }

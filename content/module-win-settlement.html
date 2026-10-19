@@ -2,7 +2,7 @@
 <h3 id="m-summary">目前查到的动态难度线索</h3>
 <p><b>包里有疑似难度状态 <code>DynaDiff</code>，也有 <code>DynamicDifficultyEasy／Hard</code> 两张配置表。</b>我们沿着它们查了状态收发、玩法调用和运行结果：已完成的局部函数对照中，普通关卡步数、种子生成与选取、补棋、飞机单格选点均相同；两张表也没有找到接入这些玩法的代码。</p>
 <p><b>失败重试后实际记录到的变化，是续关商品同价加量：</b>同样900金币，展示步数由5步逐步增加到35步。它发生在付费续关报价里；现有证据没有把这项变化连到DynaDiff或两张难度表上。<!--REF:diff-live-cases--><!--REF:diff-role--><!--REF:diff-retry-offer--></p>
-<p class="flow-note">冷启动补查中，两组开局均为25步、seed相同，且均正常失败并重试。但整局轨迹在道具组合后分歧，同值复测也不完全一致，尚不能宣布彻底排除。<a href="#dynadiff-cold-start">查看冷启动与重试证据</a>。</p>
+<p class="flow-note">冷启动补查中，两组开局均为25步、seed相同，且均正常失败并重试。但整局轨迹存在分歧，同值复测也不完全一致；现已查到额外随机流和共享随机调用顺序变化，尚不能宣布彻底排除。<a href="#dynadiff-cold-start">冷启动与重试证据</a> · <a href="#dynadiff-replay">同seed为什么仍会分歧</a>。</p>
 </div>
 <nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>发现的两类线索</a><a href="#difficulty-state"><b>02</b>各自是什么、接到哪里</a><a href="#dynadiff-runtime"><b>03</b>做过的检查与实验</a><a href="#failure-offer-observation"><b>04</b>失败重试后的变化</a><a href="#m-analysis"><b>05</b>目前结论</a><a href="#m-unknown"><b>06</b>尚未排除的情况</a></nav>
 
@@ -115,8 +115,33 @@ IncrementTryCount():
 <tr><td>第12步：炸弹与飞机交换</td><td>操作前棋盘相同，组合结算后的棋盘出现差异，停止逐步重放</td><td>整局一致性没有通过；需要区分组合随机、运行时序与状态影响</td></tr>
 <tr><td>完成失败与重试</td><td>两组分别耗尽25步并正常重试，重试后均可走棋</td><td>流程完成；差异之后的操作已不相同，不能比较为同一条整局轨迹</td></tr>
 </tbody></table></div>
-<p><b>同值复测也没有做到完全一致。</b>再把DynaDiff设回81920、使用相同seed重放，第一步后已有一个格子不同，稍后再次读取仍有差异。这说明当前重放仍受时序、观察边界或未控制随机源干扰，具体原因未定位。因此不能把两组分歧归因为DynaDiff，也不能把它解释成已排除DynaDiff。</p>
+<p><b>同值复测也没有做到完全一致。</b>再把DynaDiff设回81920、使用相同seed重放，第一步后已有一个格子不同，稍后再次读取仍有差异。后续已确认另有普通随机流，并观察到匹配组洗牌与补棋调用先后发生变化；触发先后变化的更早原因仍未定位。因此不能把两组分歧归因为DynaDiff，也不能把它解释成已排除DynaDiff。</p>
 <p><a href="../assets/evidence/dynadiff-cold-start/verification.json">冷启动对照回执</a> · <a href="../assets/evidence/dynadiff-cold-start/README.md">方法、排除项与剩余缺口</a></p>
+<h4 id="dynadiff-replay">为什么DynaDiff不变，同一局也可能重放不出来</h4>
+<p><b>补棋seed只管一条随机流，并不控制整局的全部随机行为。</b><code>LevelRandomManager</code>里另有一条普通随机流：开局时通过<code>UnityEngine.Random.Range</code>取一个数，再用它创建<code>System.Random</code>。在相同DynaDiff的三次启动中，补棋seed均选371，普通随机流的初始seed却分别为14705084、13964875、12351459。</p>
+<p>原字节和运行记录都确认：<code>FindSingleTargetCellForExploder</code>从候选列表抽取索引时调用普通随机流<code>Next</code>；提示顺序和部分消除音效也使用它。<b>所以只固定补棋seed，飞机的抽选输入仍未固定。</b>这能解释原对照缺少了哪些控制变量，但不能据此断言每一次棋盘差异都由飞机造成。</p>
+<pre class="algorithm-code" tabindex="0"><code>// 按原字节整理，省略对象检查和元数据初始化。
+ResetSeed():
+    ordinarySeed = applicationRandom.Next(0, 20000000)
+    random = new System.Random(ordinarySeed)
+    ResetDifficultySeed()     // 按既有开局链选择另一条流的seed
+
+Next(min, max):
+    return random.Next(min, max)
+
+GetDifficultyNext(min, max):
+    difficultySeedGenerationCount += 1
+    return difficultyRandom.Next(min, max)
+
+// 飞机选点函数中的候选抽选片段，不是完整评分算法。
+index = levelRandom.Next(0, candidates.Count)
+chosen = candidates[index]</code></pre>
+<p><b>固定两条初始seed仍不够，调用顺序也会改变结果。</b>同值对照里，我们将普通seed控制为12351459，补棋seed由原逻辑选为371。快照改到游戏主线程读取；每步前要求下落停止、未完成操作清零、提示已就绪，并且棋盘连续至少1秒不变。两组第11步操作前的棋盘与补棋随机流内部状态都相同；随后第一次出现的随机调用差异，是下面这个顺序变化。</p>
+<!--TABLE:diff-replay-order-->
+<p>匹配组洗牌的链路是<code>MatchGroup.ShuffleCells → ShuffleCellsBasedOnDifficulty → GetDifficultyNext</code>；补棋也使用<code>GetDifficultyNext</code>。可以把它理解成两件事共用一叠号码牌：谁先取，拿到的牌就不同。<b>这次已观察到相同DynaDiff下的调用顺序分歧；是什么更早的调度或隐藏状态导致先后变化，还没有定位。</b>每步前等待稳定能避免把正在下落的棋盘当成结果，但不会固定一步之内每一帧的执行顺序。普通随机流在每次操作前的内部状态也没有完全对齐，不能称作全部随机状态一致。</p>
+<p><b>改值对照目前只支持前段一致。</b>同样控制普通seed后，将DynaDiff改成尝试计数4095、步数差+21，开局及前10步后的棋盘、步数与补棋随机流状态相同；第11步后的棋盘和随机状态不一致。本轮止于第11步，没有继续计为整局或重试通过。由于同值对照也出现分歧，目前无法把这项差异归因于DynaDiff。</p>
+<p><a href="../assets/evidence/dynadiff-replay/verification.json">随机流与重放比较回执</a> · <a href="../assets/evidence/dynadiff-replay/README.md">实验条件、失败项和范围</a> · <a href="../assets/evidence/dynadiff-replay/native.zip" download>相关原字节与汇编</a>。现有证据没有确认DynaDiff会改变这些调用；同样也没有完成不受调度干扰的整局排除。</p>
+
 <h4>底层读取的归属：垃圾回收在检查对象指针</h4>
 <p>地址<code>0x102F22C</code>所在函数已追到<code>il2cpp_gc_collect</code>的调用链，函数内还有“Mark stack overflow”标记栈提示。启动时再次捕获到该指令读取DynaDiff，并比较它是否落在对象地址范围；本次读到的81920不在范围内。通俗地说，垃圾回收会扫过一片内存，找出可能仍被引用的对象；<b>这里读到了这个数字，但不是把它解成难度、增加步数或选棋子。</b>这条具体读取可以归属为垃圾回收扫描，不再作为未识别的难度消费者。</p>
 <p><a href="../assets/evidence/dynadiff-cold-start/gc-path.json">原字节调用路径</a> · <a href="../assets/evidence/dynadiff-cold-start/gc-read.json">脱敏运行栈与范围判断</a> · <a href="../assets/evidence/dynadiff-cold-start/native.zip" download>对应原字节与汇编</a></p>
@@ -166,5 +191,5 @@ IncrementTryCount():
 <tr><td>续关加量的自然触发条件</td><td>受控失败样本能证明展示报价变化，不能给出所有账号的统一连败阈值、实际购买结果或与DynaDiff的因果关系。</td></tr>
 <tr><td>真实胜率与更容易的seed</td><td>还需固定关卡和求解策略，比较足够多seed的通关率与剩余步数；当前不能给任意seed贴Easy／Hard标签。</td></tr>
 </tbody></table></div>
-<p>以上结论限定于本版已检查的普通主线路径与所测输入，不能扩展为所有账号、关卡、组合及版本都没有动态难度。进一步排除需要稳定的全线程读取监视、真实服务器输入路径，以及控制组合随机与执行时序后的重复整局对照。</p>
+<p>以上结论限定于本版已检查的普通主线路径与所测输入，不能扩展为所有账号、关卡、组合及版本都没有动态难度。进一步排除需要稳定的全线程读取监视、真实服务器输入路径，以及控制每帧调度和全部随机消费者后的整局对照。只固定补棋seed，或只固定两条初始seed，都不足以保证本次客户端逐步重放一致。</p>
 </section>

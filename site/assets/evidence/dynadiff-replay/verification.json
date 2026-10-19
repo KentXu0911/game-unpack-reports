@@ -1,0 +1,376 @@
+{
+  "build": 38174,
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "scope": "Independent offline ARM64 client; synthetic DynaDiff at local restore before board creation; not server response replay.",
+  "snapshotMethod": "Queued on ApplicationContext.ManualUpdate thread; require fall steady, zero special operations, operation array zero, hints ready and same board for >=1s before next input. Terminal states handled separately.",
+  "naturalOrdinarySeedObservations": [
+    {
+      "kind": "ordinary-seed",
+      "seed": 14705084
+    },
+    {
+      "kind": "ordinary-seed",
+      "seed": 13964875
+    },
+    {
+      "kind": "ordinary-seed",
+      "seed": 12351459
+    }
+  ],
+  "runs": {
+    "a2": {
+      "stateInputs": [
+        {
+          "kind": "restore-state",
+          "before": "81920",
+          "after": "81920",
+          "injected": true
+        }
+      ],
+      "ordinarySeeds": [
+        {
+          "kind": "ordinary-seed",
+          "seed": 12351459
+        }
+      ],
+      "difficultySeeds": [
+        {
+          "kind": "seed",
+          "value": -1580821071
+        },
+        {
+          "kind": "seed",
+          "value": 371
+        }
+      ],
+      "actions": 14,
+      "comparisons": [],
+      "results": [],
+      "terminalEvents": [
+        {
+          "kind": "win",
+          "phase": "startup",
+          "level": 101,
+          "moves": 25
+        }
+      ]
+    },
+    "fixed-a": {
+      "stateInputs": [
+        {
+          "kind": "restore-state",
+          "before": "81920",
+          "after": "81920",
+          "injected": true
+        }
+      ],
+      "ordinarySeeds": [
+        {
+          "kind": "ordinary-seed",
+          "original": 12273739,
+          "seed": 12351459,
+          "controlled": true
+        }
+      ],
+      "difficultySeeds": [
+        {
+          "kind": "seed",
+          "value": -1580821071
+        },
+        {
+          "kind": "seed",
+          "value": 371
+        }
+      ],
+      "actions": 11,
+      "comparisons": [
+        {
+          "step": 1,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 2,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 3,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 4,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 5,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 6,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 7,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 8,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 9,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 10,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 11,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 12,
+          "boardEqual": false,
+          "movesEqual": true
+        }
+      ],
+      "results": [
+        {
+          "method": "stablereplay",
+          "actions": 11,
+          "finalMoves": 14,
+          "finalState": 1
+        }
+      ],
+      "terminalEvents": []
+    },
+    "fixed-b": {
+      "stateInputs": [
+        {
+          "kind": "restore-state",
+          "before": "81920",
+          "after": "3470335148030",
+          "injected": true
+        }
+      ],
+      "ordinarySeeds": [
+        {
+          "kind": "ordinary-seed",
+          "original": 17861018,
+          "seed": 12351459,
+          "controlled": true
+        }
+      ],
+      "difficultySeeds": [
+        {
+          "kind": "seed",
+          "value": -1580821071
+        },
+        {
+          "kind": "seed",
+          "value": 371
+        }
+      ],
+      "actions": 11,
+      "comparisons": [
+        {
+          "step": 1,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 2,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 3,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 4,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 5,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 6,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 7,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 8,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 9,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 10,
+          "boardEqual": true,
+          "movesEqual": true
+        },
+        {
+          "step": 11,
+          "boardEqual": true,
+          "movesEqual": true
+        }
+      ],
+      "results": [
+        {
+          "method": "stablereplay",
+          "actions": 11,
+          "finalMoves": 14,
+          "finalState": 1
+        }
+      ],
+      "terminalEvents": []
+    }
+  },
+  "sameStateDivergence": {
+    "firstDifferentDifficultyCallZeroBased": 128,
+    "identicalPrefixCalls": 128,
+    "baseline": [
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          3
+        ],
+        "output": 1,
+        "caller": "libil2cpp.so+0x2a31524"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          1,
+          3
+        ],
+        "output": 2,
+        "caller": "libil2cpp.so+0x2a31524"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          1
+        ],
+        "output": 0,
+        "caller": "libil2cpp.so+0x20e9d9c"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          4
+        ],
+        "output": 0,
+        "caller": "libil2cpp.so+0x38e63ec"
+      }
+    ],
+    "replay": [
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          1
+        ],
+        "output": 0,
+        "caller": "libil2cpp.so+0x20e9d9c"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          4
+        ],
+        "output": 3,
+        "caller": "libil2cpp.so+0x38e63ec"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          0,
+          3
+        ],
+        "output": 0,
+        "caller": "libil2cpp.so+0x2a31524"
+      },
+      {
+        "kind": "rng",
+        "stream": "difficultyNext",
+        "step": 11,
+        "args": [
+          1,
+          3
+        ],
+        "output": 1,
+        "caller": "libil2cpp.so+0x2a31524"
+      }
+    ],
+    "beforeStep11BoardEqual": true,
+    "beforeStep11DifficultyStateEqual": true,
+    "baselineOrdinaryStateVsReplayEqualAtStart": false,
+    "conclusion": "Same DynaDiff and same initial seeds do not make this replay deterministic; match-group shuffle and refill consume the same difficulty stream in different observed order. Ordinary RNG was not held equal at each action."
+  },
+  "changedStateVsFixedBaseline": {
+    "finalBoardEqual": false,
+    "finalDifficultyRngEqual": false,
+    "fillSequenceEqual": false,
+    "difficultyCallSequenceEqual": false
+  },
+  "limitations": [
+    "No arbitrary all-thread memory watch. Known function hooks are not exhaustive readers.",
+    "Only level101 and constructed inputs. No real server packet or Easy/Hard table replacement.",
+    "Ordinary initial seed control may mask any mechanism changing that seed; original input is logged, but raw draws are stochastic and not a causal DynaDiff test.",
+    "No per-action ordinary RNG normalization; hints and audio share it.",
+    "a2 reaches actual win event, but host waiting logic did not recognize terminal state and timed out afterward; this is not a completed automated victory workflow.",
+    "a and a1 are instrumentation diagnostics; a1 stable wait timer bug excluded from replay claims; reattach attempt failed and was not used.",
+    "Board snapshot covers selected visible model fields, not all internal state."
+  ],
+  "rawLogHashes": {
+    "a": "dfaf5e41e64c83557c0cf88f60479e2670bd77d9c25141db771f48446be3a8cc",
+    "a1": "87c19fb8e6b8f6336e96961ffe76d95166c4d5acc021409aa8d68922349c9809",
+    "a2": "c4787115df81df5f5fed073fad7150266d2359f8b380bfba6d09d133c0bc5fba",
+    "fixed-a": "c64210e5eb3c88d980b35da4522e868e15d6589ee20c0ad7e9b7f17c1e10bbc7",
+    "fixed-b": "44326879a2ec9ae32df444ee0a80cfc06e08df86d3b24bdc7163b9b2c28fcd98"
+  }
+}

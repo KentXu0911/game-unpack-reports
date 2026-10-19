@@ -1,0 +1,104 @@
+{
+  "binarySha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "functions": [
+    {
+      "start": "0x2a30d10",
+      "end": "0x2a30dec",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "09268d58fcb86a45bd459b6bf08d4d62f9f9b317a23d8712df30eb26a69d0afe",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ResetSeed"
+      ]
+    },
+    {
+      "start": "0x2a30dec",
+      "end": "0x2a30e64",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "bcda84df8eec7a4370024b348f93c8c06078597bdb6d6cfaecfa03acac5af0a9",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$SetSeed"
+      ]
+    },
+    {
+      "start": "0x2a30fe8",
+      "end": "0x2a31008",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "c497cf2cbd3b5142acffc750bf715ec42f98206a75681fce689e4e438846a274",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$Next"
+      ]
+    },
+    {
+      "start": "0x2a31478",
+      "end": "0x2a314a8",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "3e6bccdda883660cdf381e8bad8108171f819d7666cc9a9ad150cab560063675",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetDifficultyNext"
+      ]
+    },
+    {
+      "start": "0x276e234",
+      "end": "0x276e244",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "eb4c4e08b661b2ded70f8d6ed1c731b3f5c243906a095095ac7593a03650037a",
+      "methods": [
+        "Royal.Infrastructure.Utils.Randoming.RandomManager$$Next"
+      ]
+    },
+    {
+      "start": "0x350d408",
+      "end": "0x350d44c",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "6439a217e06e3fdc8f72d61ae5f456a2d9350724ee12fc96180a739177fa9400",
+      "methods": [
+        "UnityEngine.Random$$Range"
+      ]
+    },
+    {
+      "start": "0x20f1e24",
+      "end": "0x20f22e8",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "d67cf4665184527ddcde9df5e1343c7ecb03e71e4d84cc1d7d3d3e1fbf60c073",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetCellForExploder"
+      ]
+    },
+    {
+      "start": "0x2dc01f4",
+      "end": "0x2dc0284",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "182e29a0741308824277b90aeda36e51479427715312bdc6ad41f1d66845b0b6",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.Sfx.GameSfxAssets$$GetRandomSfxTypeForMatchExplode"
+      ]
+    },
+    {
+      "start": "0x30baa18",
+      "end": "0x30baba8",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "0292240597474456427d266ad5361f30994f575382e847587899f79ad150c01c",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.MatchHint.HintManager$$ShuffleIndexes"
+      ]
+    },
+    {
+      "start": "0x1378710",
+      "end": "0x13787a8",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "d87164deb6feb5066bffbfbc3d807c33ce88d16fe5dbf681066b2a861aeaa2c7",
+      "methods": [
+        "Royal.Scenes.Game.Mechanics.Matches.MatchGroup$$ShuffleCells"
+      ]
+    },
+    {
+      "start": "0x2a314a8",
+      "end": "0x2a315b0",
+      "boundary": "next metadata method, not complete CFG guarantee",
+      "sha256": "337f16bb95ac138e69bfbc261cbc411173de9f7e73fa57412b6f7267015162be",
+      "methods": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleCellsBasedOnDifficulty"
+      ]
+    }
+  ]
+}
