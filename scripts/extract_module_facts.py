@@ -724,6 +724,30 @@ def settlement(ws):
           'Unicorn执行同版原字节：原整值setter／getter、位段getter、GetUpdatedMoveCount和IsLeague。仅元数据初始化替代；账号对象为构造输入，非完整实机或服务器响应实验。内存读取探针用整值getter做正对照，确实捕获该字段读取。')
 
 
+    live_path = ROOT / 'site/assets/evidence/dynadiff-runtime/verification.json'
+    live = json.loads(live_path.read_text())
+    live_src = 'site/assets/evidence/dynadiff-runtime/verification.json · README.md · native-manifest.json · native.zip'
+    cases = live['cases']
+    table('diff-live-cases', '原端局部对照：只改DynaDiff，其他输入保持一致',
+          ['注入long', 'TryCount2／段／关／步数差', '步数输出', '重新生成后／已有排列选中seed', '补棋／单格选点'],
+          [[r['long'], f"{r['decoded']['tryCount2']}／{r['decoded']['section']}／{r['decoded']['level']}／{r['decoded']['deltaMove']:+d}",
+            r['outputMoves'], f"{r['generatedSelectedSeed']}／{r['selectedSeed']}",
+            f"{len(r['fillSequence'])}项／{len(r['planePoints'])}次，与首行逐项相同"] for r in cases], live_src,
+          '真实客户端的初始化对象与原函数，构造long输入；最后一行回到基准。恢复两条System.Random流，分别检查seed生成与选择，没有强制输出seed。补棋是同一fillingCell参数，飞机是同一棋盘的单格选点，不飞行、不命中。')
+    watch = live['watchpoint']
+    natural = live['naturalGameplay']
+    table('diff-live-scope', '原端对照的输入、监视与边界', ['检查', '实际记录'], [
+        ['环境', f"build {live['build']}，ARM64，独立断网模拟器，普通第{live['environment']['level']}关；原设备未修改"],
+        ['实际走棋', f"原始{natural['originalInitialMoves']}步，{natural['successfulSwaps']}次有效交换后剩{natural['remainingMoves']}步；{natural['refillCalls']}次真实补棋；这段观察无读取命中"],
+        ['seed生成', f"每个用例重新生成并洗牌{live['seedPermutation']['length']}项；五次完整排列逐项相同，非只比较最终选中的seed"],
+        ['读取监视正对照', '监视UserInventory+0xB0的8字节；前后调用原getter均捕获0x2A097F4读取；只覆盖一个UnityMain线程'],
+        ['已完成受控调用', f"{len(cases)}个用例；普通步数、seed生成／选取、补棋、单格选点；读取命中{watch['controlledReadHits']}次"],
+        ['未分类读取', '开局前0x102F22C底层指令读到该地址，归属未确认；触发后关闭监视，因此初次开局不算全程无读取'],
+        ['完整重试', '局部对照后点击Try Again时异常退出，原因未定位；重试与整局测试均未通过'],
+        ['服务器与覆盖', 'long为本地构造；无真实服务器响应输入。未覆盖其他线程、开局更早的缓存、其他局面、组合与账号'],
+    ], live_src, '局部输出相同支持这些入口在所测输入下不受该long影响，不构成整个游戏或后台永不调难的证明。')
+
+
 def pressure(ws):
     aud = ws / AUD / 'indices'
     tpl = read_csv(aud / 'level_template_fields.csv')

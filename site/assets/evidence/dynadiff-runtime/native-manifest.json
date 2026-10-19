@@ -1,0 +1,124 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "indexSha256": "c294ef50c27e2daebc821a43affcf69746a306c5096e1893320eac2a152ac135",
+  "boundary": "Linear spans ending at next distinct metadata entry, not complete CFG. Unclassified read uses a separate 128-byte instruction window.",
+  "methods": [
+    {
+      "address": "0x2a097f4",
+      "end": "0x2a097fc",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$get_DynamicDifficultyInventory"
+      ],
+      "sha256": "a28213a16d3021900ec3b7340d6d01776144729f69c6b144002f7adc208d868f",
+      "bytes": 8
+    },
+    {
+      "address": "0x1c8532c",
+      "end": "0x1c85454",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetUpdatedMoveCount"
+      ],
+      "sha256": "8016a79769c15ae6b57803050bdc66d5ec8583bf38d15c378649d8c1f85ced1b",
+      "bytes": 296
+    },
+    {
+      "address": "0x2a30e64",
+      "end": "0x2a30fe8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ResetDifficultySeed"
+      ],
+      "sha256": "c4ec15fea04db2fe3314cef83c99823f99abce83b67cd5ecbcbeed1e2f529bb0",
+      "bytes": 388
+    },
+    {
+      "address": "0x2a3116c",
+      "end": "0x2a313f0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GenerateTrySeeds"
+      ],
+      "sha256": "402ad092a68685a3ca1098fc799afb5f9a8b3aa9e48ec97e43b560be197e6415",
+      "bytes": 644
+    },
+    {
+      "address": "0x20e9ca4",
+      "end": "0x20e9e78",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.ItemCreation.ItemCreator$$GetRandomFillItem"
+      ],
+      "sha256": "e26316aa4e4a722570aeb4f3c66b19a1ae18c183fb1b0ed67edf7e0b5edf1d11",
+      "bytes": 468
+    },
+    {
+      "address": "0x38e6398",
+      "end": "0x38e646c",
+      "names": [
+        "Royal.Scenes.Game.Utils.LevelParser.LevelSet$$GetRandomItem"
+      ],
+      "sha256": "351e3ac59b10eacd3f335ed64154c7ff7d3c1221f2cc2275be84fa87b6ae1f18",
+      "bytes": 212
+    },
+    {
+      "address": "0x20f22e8",
+      "end": "0x20f2360",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetForCellExploder"
+      ],
+      "sha256": "3a08f1f6550ed74d9bf8e56a2d202817c59b8733aff72ff70f1f0b6bf29714f9",
+      "bytes": 120
+    },
+    {
+      "address": "0x20ef844",
+      "end": "0x20efcd0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FillScores"
+      ],
+      "sha256": "323f62a6c22d445ae0d5d2669995b386dfad46e633f27c1095d816faab967688",
+      "bytes": 1164
+    },
+    {
+      "address": "0x20f1e24",
+      "end": "0x20f22e8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.Explode.ExplodeTargetFinder$$FindSingleTargetCellForExploder"
+      ],
+      "sha256": "d67cf4665184527ddcde9df5e1343c7ecb03e71e4d84cc1d7d3d3e1fbf60c073",
+      "bytes": 1220
+    },
+    {
+      "address": "0x2d398ac",
+      "end": "0x2d3993c",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Explode.ExplodeData$$.ctor"
+      ],
+      "sha256": "b445e6fbbd5f67f7f9ac24a64495f8e0c97d6a0730878f5342f310abd55cf23c",
+      "bytes": 144
+    },
+    {
+      "address": "0x2ac8a28",
+      "end": "0x2ac8a30",
+      "names": [
+        "Royal.Scenes.Game.Mechanics.Board.Cell.CellModel$$get_Point"
+      ],
+      "sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+      "bytes": 8
+    },
+    {
+      "address": "0x37dff54",
+      "end": "0x37e003c",
+      "names": [
+        "Royal.Scenes.Start.Context.ApplicationContext$$ManualUpdate"
+      ],
+      "sha256": "b0e78a09e728e2d4509656a830cf4ba72439d932c63e36d97a65a286a5e24d70",
+      "bytes": 232
+    },
+    {
+      "address": "0x102f20c",
+      "end": "0x102f28c",
+      "names": [
+        "unclassified native instruction window"
+      ],
+      "sha256": "1526c0ae949d60fd2a2ebe330fba9ea6bfe6af506af0968e3d5521fb44d8390e",
+      "bytes": 128
+    }
+  ]
+}

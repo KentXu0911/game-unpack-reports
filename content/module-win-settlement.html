@@ -2,12 +2,12 @@
 <h3 id="m-summary">一屏结论</h3>
 <div class="data-scroll" tabindex="0" role="region" aria-label="难度算法提取结论"><table><thead><tr><th>内容</th><th>已经提取到什么</th><th>当前边界</th></tr></thead><tbody>
 <tr><td><a href="#difficulty-role">两张表的作用</a></td><td>按关卡段记录尝试次数上下限；Easy列一致，Hard文件多了Hard侧阈值</td><td>本版已查普通主线路径未接入；不能当成正在工作的自动调难算法</td></tr>
-<tr><td><a href="#dynadiff-effects">DynaDiff传来会改什么</a></td><td>替换账号long、保存并标记已同步；重启恢复。能解码字段，已核对普通步数分支</td><td>构造状态中的DeltaMove改变，普通关卡步数仍回传原值；未找到seed、补棋或飞机的读取连接</td></tr>
+<tr><td><a href="#dynadiff-effects">DynaDiff传来会改什么</a></td><td>替换账号long、保存并标记已同步；重启恢复。已对步数、seed、补棋和单格选点做原端局部对照</td><td>所测输入下输出一致，未抓到局部玩法读取；限已初始化局面，完整重试未通过</td></tr>
 <tr><td><a href="#difficulty-policy">实际策略代码</a></td><td>策略入口固定创建SemiDynamicDifficulty；主线回传原始步数，失败回调为空</td><td>L101实机与静态一致：种子变了，初始步数未变，动态状态未命中</td></tr>
 </tbody></table></div>
 <p class="flow-note">续关报价与给步见<a href="failure-product.html">失败续关</a>；实验条件见<a href="experiments.html">A/B测试</a>。本页的“难度表”“随机种子”“付费续关”分别取证。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#difficulty-role"><b>01</b>两表用途与核查</a><a href="#difficulty-tables"><b>02</b>完整配置</a><a href="#difficulty-state"><b>03</b>难度状态</a><a href="#dynadiff-effects"><b>04</b>传来后改什么</a><a href="#m-analysis"><b>05</b>算法解读</a><a href="#m-unknown"><b>06</b>未确认与边界</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#difficulty-role"><b>01</b>两表用途与核查</a><a href="#difficulty-tables"><b>02</b>完整配置</a><a href="#difficulty-state"><b>03</b>难度状态</a><a href="#dynadiff-effects"><b>04</b>传来后改什么</a><a href="#dynadiff-runtime"><b>05</b>原端对照</a><a href="#m-analysis"><b>06</b>算法解读</a><a href="#m-unknown"><b>07</b>未确认与边界</a></nav>
 <section aria-labelledby="m-facts">
 <h3 id="m-facts">拆包事实：配置有没有接入实际玩法</h3>
 <span class="layer layer-fact">事实层</span>
@@ -57,6 +57,14 @@ GetUpdatedKeyValues(counts):
 <!--TABLE:diff-consumers-->
 <p>读取核查同时检查整值getter、位段getter、内联的账号字段读取和DynaDiff字符串键。数据库构造函数中的键引用只是把它加入可管理的键名数组；已定位的其他字段读写用于同步、解码与重置。没有找到“取出这个值，再交给普通玩法计算”的连接；未知的间接读取仍是扫描边界。<!--REF:diff-consumers--></p>
 <p><a href="../assets/evidence/dynadiff-consumers/README.md">核查范围与复算方式</a> · <a href="../assets/evidence/dynadiff-consumers/trace.json">键、字段与调用点清单</a> · <a href="../assets/evidence/dynadiff-consumers/verification.json">构造状态的原字节执行回执</a> · <a href="../assets/evidence/dynadiff-consumers/native.zip" download>相关原字节与带方法名汇编</a></p>
+<h4 id="dynadiff-runtime">只改这个long，步数、seed、补棋和单格选点有没有变化</h4>
+<p><b>在第101关已初始化的同一局面里，只替换DynaDiff，已完成的几个原函数对照都没有变化，也没有抓到这些调用读取该long。</b>测试在独立断网副本中执行，使用原版函数和真实初始化对象；没有替换玩法算法。构造long只是测试输入，不是服务器实抓。<!--REF:diff-live-cases--><!--REF:diff-live-scope--></p>
+<!--TABLE:diff-live-cases-->
+<p>比较随机结果，不能只保证“关卡相同”。每个用例前都恢复两条随机流的内部状态；seed测试另恢复种子列表和相关字段。已有排列选取、重新生成再洗牌分别调用原入口，完整排列也逐项比较。<b>测试没有强制最终seed</b>，所以不是先把种子钉死，再说种子没变。<!--REF:diff-live-cases--><!--REF:diff-live-scope--></p>
+<p>补棋对照使用真实补棋调用中捕获的对象和入口格参数；飞机对照由原构造函数生成普通飞机的爆炸参数，进入原单格评分与抽选入口。<b>飞机这里没有实际飞行、登记在途或扣除障碍层数</b>，重复抽选也不是一串真实飞机的攻击分配。<!--REF:diff-live-cases--></p>
+<!--TABLE:diff-live-scope-->
+<p><b>还不能宣布“彻底排除”。</b>读取监视有前后正对照，但只覆盖主线程；初始开局前出现过尚未归属的底层读取，且局部测试后的完整重试异常退出。已完成的函数对照可以保留，整局及重试结果不能写成通过。若要继续排除，需要在稳定环境中，从服务器输入写入之前开始监视，并覆盖初始化缓存、其他线程及完整重试。<!--REF:diff-live-scope--></p>
+<p><a href="../assets/evidence/dynadiff-runtime/README.md">测试步骤、控制方式与未通过项</a> · <a href="../assets/evidence/dynadiff-runtime/verification.json">脱敏输入输出回执</a> · <a href="../assets/evidence/dynadiff-runtime/native.zip" download>测试入口的原字节与汇编</a></p>
 <h4 id="difficulty-policy">实际策略与调用入口</h4>
 <!--TABLE:settlement-methods-->
 </section>
@@ -95,7 +103,7 @@ IncrementTryCount():
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度未确认事项"><table><thead><tr><th>还缺什么</th><th>目前能确定的边界</th></tr></thead><tbody>
 <tr><td>两表最初设计用途与历史状态</td><td>字段表达按段尝试次数上下限；没有消费者证明比较口径、-1含义、Easy／Hard方案选择或后续动作。遗留／闲置是综合判断，不能当作开发历史事实。</td></tr>
 <tr><td>阈值如何改变难度</td><td>尚未确认阈值到Skill、DeltaMove、种子选择或补棋权重的完整映射。</td></tr>
-<tr><td>DynaDiff的真实服务器输入与玩法消费者</td><td>收发、保存、恢复与字段解码已定位；普通步数分支不读取它。键与类型字段扫描未发现其他玩法连接，但不穷尽间接调用、别名或外部代码。构造long不是服务器抓包，也没有证明后台如何计算它。</td></tr>
+<tr><td>DynaDiff的真实服务器输入与玩法消费者</td><td>收发、保存、恢复与字段解码已定位；普通步数分支不读取它。键与类型字段扫描未发现其他玩法连接，但不穷尽间接调用、别名或外部代码。原端局部对照中，所测步数、seed、补棋、单格选点输出相同且无读取命中；限初始化后的主线程调用。完整重试异常退出。构造long不是服务器抓包，也没有证明后台如何计算它。</td></tr>
 <tr><td>其他账号、版本与外部配置</td><td>当前普通主线路径有明确的未接入证据；未覆盖账号、间接读取、外部代码与未来版本需独立取证。本表止于1,100关，不等于之后自动由服务器接管。</td></tr>
 <tr><td>真实胜率与动态调控效果</td><td>位宽、默认表、局部函数执行均不提供玩家遥测或因果效果。</td></tr>
 </tbody></table></div>

@@ -1,0 +1,992 @@
+{
+  "schemaVersion": 1,
+  "build": 38174,
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "metadataSha256": "5440692c2b9f99c6fd1ec2375f73bdd6c5e8638c2029ec4170499da77f9c0639",
+  "privateInputsSha256": {
+    "log": "0949d32bdd64ece0969dc3e3ae95139d05408350093c7bf34344a79fbb91e018",
+    "crash": "421abb52c7c30cbdc1b1c370dd04f43c0c8f8205891855e3597d479032ab43da"
+  },
+  "environment": {
+    "device": "independent Android emulator",
+    "arch": "arm64",
+    "network": "IPv4 and IPv6 egress rejected; loopback retained",
+    "frida": "16.5.9",
+    "level": 101,
+    "serverResponseObserved": false,
+    "accountSource": "copied local state; not a live server receipt",
+    "localInitialLong": 81920,
+    "originalDeviceModified": false
+  },
+  "method": "Original functions on initialized live objects, queued on UnityMain; constructed long values and ExplodeData. No gameplay function replacement.",
+  "randomControl": "Before each case restore both System.Random streams: _inext, _inextp and 56 seed-array entries. Seed tests preserve/restore seed-list values, size/version and manager fields; generation sets isGenerated=false before the original ResetDifficultySeed. No final seed is forced.",
+  "cases": [
+    {
+      "long": 81920,
+      "decoded": {
+        "tryCount2": 0,
+        "deltaMove": 0,
+        "section": 0,
+        "level": 0
+      },
+      "outputMoves": 25,
+      "selectedSeed": 393,
+      "generatedSelectedSeed": 393,
+      "permutationSha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+      "fillSequence": [
+        3,
+        2,
+        4,
+        3,
+        3,
+        3,
+        2,
+        3,
+        4,
+        3,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        3,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        3,
+        1,
+        4,
+        4,
+        4
+      ],
+      "planePoints": [
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "long": 3470334951422,
+      "decoded": {
+        "tryCount2": 4095,
+        "deltaMove": -3,
+        "section": 5,
+        "level": 101
+      },
+      "outputMoves": 25,
+      "selectedSeed": 393,
+      "generatedSelectedSeed": 393,
+      "permutationSha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+      "fillSequence": [
+        3,
+        2,
+        4,
+        3,
+        3,
+        3,
+        2,
+        3,
+        4,
+        3,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        3,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        3,
+        1,
+        4,
+        4,
+        4
+      ],
+      "planePoints": [
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "long": 3470335000574,
+      "decoded": {
+        "tryCount2": 4095,
+        "deltaMove": 3,
+        "section": 5,
+        "level": 101
+      },
+      "outputMoves": 25,
+      "selectedSeed": 393,
+      "generatedSelectedSeed": 393,
+      "permutationSha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+      "fillSequence": [
+        3,
+        2,
+        4,
+        3,
+        3,
+        3,
+        2,
+        3,
+        4,
+        3,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        3,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        3,
+        1,
+        4,
+        4,
+        4
+      ],
+      "planePoints": [
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "long": 3470335148030,
+      "decoded": {
+        "tryCount2": 4095,
+        "deltaMove": 21,
+        "section": 5,
+        "level": 101
+      },
+      "outputMoves": 25,
+      "selectedSeed": 393,
+      "generatedSelectedSeed": 393,
+      "permutationSha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+      "fillSequence": [
+        3,
+        2,
+        4,
+        3,
+        3,
+        3,
+        2,
+        3,
+        4,
+        3,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        3,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        3,
+        1,
+        4,
+        4,
+        4
+      ],
+      "planePoints": [
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "long": 81920,
+      "decoded": {
+        "tryCount2": 0,
+        "deltaMove": 0,
+        "section": 0,
+        "level": 0
+      },
+      "outputMoves": 25,
+      "selectedSeed": 393,
+      "generatedSelectedSeed": 393,
+      "permutationSha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+      "fillSequence": [
+        3,
+        2,
+        4,
+        3,
+        3,
+        3,
+        2,
+        3,
+        4,
+        3,
+        4,
+        4,
+        2,
+        4,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        3,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        3,
+        1,
+        4,
+        4,
+        4
+      ],
+      "planePoints": [
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    }
+  ],
+  "seedPermutation": {
+    "length": 1000,
+    "first16": [
+      420,
+      128,
+      491,
+      684,
+      883,
+      267,
+      459,
+      408,
+      828,
+      386,
+      515,
+      843,
+      752,
+      421,
+      432,
+      183
+    ],
+    "sha256": "a55213433d600e56198c012ef8ee872a35c13c345beaad5e2027be92f407beee",
+    "allCasesExactlyEqual": true,
+    "coversIntegers0Through999": true
+  },
+  "watchpoint": {
+    "address": "UserInventory.DynamicDifficultyInventory +0xB0, eight bytes",
+    "mode": "read",
+    "threads": "one UnityMain thread; not all process threads",
+    "behavior": "one-shot: unset on trap; explicitly rearmed at each controlled case",
+    "positiveControl": "original getter before and after controlled checks",
+    "controlledReadHits": 0,
+    "observedHits": [
+      {
+        "kind": "dyna-read",
+        "phase": "positive-control",
+        "pc": "0x2a097f4",
+        "type": "breakpoint"
+      },
+      {
+        "kind": "dyna-read",
+        "phase": "L101-baseline",
+        "pc": "0x102f22c",
+        "type": "breakpoint"
+      },
+      {
+        "kind": "dyna-read",
+        "phase": "positive-control-after",
+        "pc": "0x2a097f4",
+        "type": "breakpoint"
+      }
+    ],
+    "gap": "An unclassified internal read at RVA 0x102F22C disabled the watchpoint before initial Start. Initial-start coverage is therefore incomplete."
+  },
+  "naturalGameplay": {
+    "originalInitialMoves": 25,
+    "successfulSwaps": 2,
+    "remainingMoves": 23,
+    "refillCalls": 9,
+    "weightedSelectionCalls": 9,
+    "phase": "L101-play",
+    "readsObserved": 0,
+    "note": "Nine natural refills were observed before controlled calls. No natural plane flight was tested."
+  },
+  "planeScope": {
+    "entry": "ExplodeTargetFinder.FindSingleTargetForCellExploder 0x20F22E8",
+    "trigger": "Propeller (8)",
+    "constructedOrigin": [
+      4,
+      2
+    ],
+    "samplesPerCase": 32,
+    "limitations": "Repeated selection on the same live L101 board, without registering incoming hits, flying or applying damage. Not an actual multi-plane sequence, obstacle catalogue, combo test or whole-game test."
+  },
+  "excludedAttempts": [
+    "First watchpoint control used NativeFunction default exception stealing; corrected to exceptions=propagate before the accepted control.",
+    "First fill comparison ended with a string-to-Int64 cleanup error; only the subsequent completed five-case run is accepted.",
+    "First plane comparison preceded successful ExplodeData construction; excluded. Accepted run follows constructor trigger=8 confirmation.",
+    "After completed checks, UI Try Again caused an access violation and process exit. No successful retry or full-game equivalence is claimed; cause not established."
+  ],
+  "conclusion": "No output difference or difficulty-long read in the completed controlled entries for these inputs. This does not exclude other branches, precomputed consumers, threads, configurations, accounts or versions.",
+  "wholeGameTestPassed": false,
+  "retryTestPassed": false
+}
