@@ -263,8 +263,13 @@ def extras(topic):
             extra += asset_gallery()
         if key == 'level-config':
             extra += '<nav class="reading-links" aria-label="初始棋盘内容">' + ''.join(
-                f'<a href="{e(k)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>'
+                (f'<a href="#level-examples-title"><b>{e(title)}</b><span>查看本页棋盘 ↓</span></a>'
+                 if k == 'level-examples' else
+                 f'<a href="{e(k)}.html"><b>{e(title)}</b><span>阅读详情 →</span></a>')
                 for k, title in LEVEL_LINKS) + '</nav>'
+            facts = facts.replace('<section aria-labelledby="m-facts">',
+                                  level_page_content('level-examples') +
+                                  '<section aria-labelledby="m-facts">', 1)
         if key == 'level-pressure':
             extra += level_page_content('level-pressure')
         if key == 'passes':
