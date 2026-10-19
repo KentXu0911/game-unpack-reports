@@ -1,17 +1,25 @@
 <div class="board-summary">
 <h3 id="m-summary">一屏结论</h3>
 <div class="data-scroll" tabindex="0" role="region" aria-label="难度算法提取结论"><table><thead><tr><th>内容</th><th>已经提取到什么</th><th>当前边界</th></tr></thead><tbody>
-<tr><td><a href="#m-facts">动态难度表</a></td><td>两份原始JSON、43段完整阈值，覆盖1–1,100关</td><td>表里有Hard值，不等于运行时已启用</td></tr>
+<tr><td><a href="#difficulty-role">两张表的作用</a></td><td>按关卡段记录尝试次数上下限；Easy列一致，Hard文件多了Hard侧阈值</td><td>本版已查普通主线路径未接入；不能当成正在工作的自动调难算法</td></tr>
 <tr><td><a href="#difficulty-state">账号难度状态</a></td><td>64位long的4个字段、解码工具、重置顺序和服务端写入入口</td><td>可读结构，不能由结构猜出账号实际收到的值</td></tr>
-<tr><td><a href="#difficulty-policy">实际策略代码</a></td><td>主线初始步数原样返回；已定位另一套早期TryCount与Skill存储</td><td>尚未连通“阈值→分组→改步数／改补棋”的生效链</td></tr>
+<tr><td><a href="#difficulty-policy">实际策略代码</a></td><td>策略入口固定创建SemiDynamicDifficulty；主线回传原始步数，失败回调为空</td><td>L101实机与静态一致：种子变了，初始步数未变，动态状态未命中</td></tr>
 </tbody></table></div>
 <p class="flow-note">续关报价与给步见<a href="failure-product.html">失败续关</a>；实验条件见<a href="experiments.html">A/B测试</a>。本页的“难度表”“随机种子”“付费续关”分别取证。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>完整配置</a><a href="#difficulty-state"><b>02</b>难度状态</a><a href="#m-analysis"><b>03</b>算法解读</a><a href="#m-unknown"><b>04</b>未确认与边界</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#difficulty-role"><b>01</b>两表用途与核查</a><a href="#difficulty-tables"><b>02</b>完整配置</a><a href="#difficulty-state"><b>03</b>难度状态</a><a href="#m-analysis"><b>04</b>算法解读</a><a href="#m-unknown"><b>05</b>未确认与边界</a></nav>
 <section aria-labelledby="m-facts">
-<h3 id="m-facts">拆包事实：两份原始表与完整阈值</h3>
+<h3 id="m-facts">拆包事实：配置有没有接入实际玩法</h3>
 <span class="layer layer-fact">事实层</span>
 <p class="layer-lead">这不是原工程C#源码：配置来自包内TextAsset，逻辑来自同一build 38174的ARM64机器码与IL2CPP元数据。保留原字段名、原值和原字节哈希，方便复算。</p>
+<h4 id="difficulty-role">两张表究竟能说明什么</h4>
+<p><b>它们记录的是关卡区间与尝试次数上下限。本版已检查的普通主线路径没有使用它们选择种子或调整初始步数。</b>两张表的Easy列完全相同；Easy文件的Hard列全为-1，Hard文件从101–120关这一段起增加Hard侧数值。表里没有颜色权重、飞机目标、种子评分或加步数量。<!--REF:diff-sections--><!--REF:diff-table--><!--REF:diff-runtime--></p>
+<!--TABLE:diff-role-->
+<p>资源目录好比书架目录：能按名字找到这两份文件，但目录本身不会执行规则。扫描全部包内对象，仅找到目录登记，没有场景或组件直接引用；在代码中也未确认表名、字段解析或阈值比较入口。<!--REF:diff-role--></p>
+<!--TABLE:diff-runtime-->
+<p>这组实测说明已测路径没有出现表到种子／初始步数的连接。它没有跨过表里的上下限，且LevelTryCount与表中minTryCount是否同一口径尚未建立，不能把它描述为“超过阈值仍不生效”的实验。</p>
+<p><a href="../assets/evidence/difficulty-role/asset-references.json">资源引用扫描</a> · <a href="../assets/evidence/difficulty-role/consumer-names.json">解析名称检索</a> · <a href="../assets/evidence/difficulty-role/runtime-l101.json">实机摘录与原日志哈希</a> · <a href="../assets/evidence/difficulty-role/native.zip" download>策略、文本读取入口与同步代码</a></p>
+<h4 id="difficulty-tables">两份原始表与完整阈值</h4>
 <p><a href="../assets/evidence/difficulty-deep/DynamicDifficultyEasy.json" download>下载Easy原表</a> · <a href="../assets/evidence/difficulty-deep/DynamicDifficultyHard.json" download>下载Hard原表</a> · <a href="../assets/evidence/difficulty-deep/thresholds.csv" download>下载完整CSV</a> · <a href="../assets/evidence/difficulty-deep/thresholds.json">来源与哈希</a></p>
 <!--TABLE:diff-sections-->
 <!--TABLE:diff-table-->
@@ -27,18 +35,23 @@ deltaMove = (raw == 0) ? 0 : raw - 10
 lastSection = extract(state, 18, 34)
 currentLevel = extract(state, 35, 49)</code></pre></details>
 <p>构造例：<code>3470339186702</code>解码为关101、段21、TryCount2为7、DeltaMove为3。这只是核对位段的例子，并非实际账号记录。<a href="../assets/evidence/difficulty-deep/decode-state.py" download>下载独立解码工具</a>，运行<code>python3 decode-state.py 3470339186702</code>即可复算。<!--REF:diff-state--></p>
+<!--TABLE:diff-sync-->
 <h4 id="difficulty-policy">实际策略与调用入口</h4>
 <!--TABLE:settlement-methods-->
 </section>
 <section aria-labelledby="m-analysis">
-<h3 id="m-analysis">分析提炼：表、状态与真正改变玩法之间还差一条链</h3>
+<h3 id="m-analysis">分析提炼：当前玩法实际执行了什么</h3>
 <span class="layer layer-analysis">分析层</span>
-<div class="finding"><b>Hard表能够完整拿到，但“101关启用Hard”尚未成立。</b>从关101起，Hard侧出现非-1的阈值；这是配置事实。尚未找到这一版将它读入、判档并影响局内的完整消费者。默认资源也可能处于闲置路径；不能把未覆盖关卡直接解释为服务端必定接管。<!--REF:diff-table--></div>
-<div class="finding"><b>这些阈值既不是逐关失败次数，也不是单调难度曲线。</b>表按一段关卡配置min／max，区间长度会变化，上下限也有回落。它具体统计什么、何时比较、-1如何判断，需要实际消费者才能确定。不能据此说某关失败到阈值就必定放水。<!--REF:diff-table--></div>
+<div class="finding"><b>这两份资产更符合未启用或遗留配置的状态。</b>依据是：仅有资源目录登记、没有确认的字段解析器，策略构造固定，设关与失败入口为空，分段与组步数固定返回零，且已测普通主线没有动态状态命中。<small>这是对当前客户端的综合判断；无法仅凭这一版证明它们过去用过、已经永久废弃，或其他账号一定能启用。</small><!--REF:diff-role--><!--REF:settlement-methods--><!--REF:diff-runtime--></div>
+<div class="finding"><b>这些数不能直接解读为“每关失败几次就放水”。</b>表按一段关卡配置min／max，区间长度会变化，上下限也有回落。它具体统计什么、何时比较、-1如何判断，需要实际消费者才能确定；它也不是单调难度曲线。<!--REF:diff-table--></div>
 <div class="finding"><b>代码里有两套TryCount，存储与调用并不相同。</b><code>GetTryCount2</code>读难度long；<code>SemiDynamicDifficulty.GetTryCount</code>则读<code>PreLevelInventory</code>里的另一段。后者由成功结算与首次显示续关的入口转入递增函数，排除League／Story，且只在关号不超过100时更新。仅凭名字不能把它们合并为“这关连败次数”。<!--REF:settlement-methods--><!--REF:diff-state--></div>
 <div class="finding"><b>当前这个主线路径没有读取DeltaMove来加初始步数。</b><code>GetUpdatedMoveCount</code>在非League分支直接返回传入步数；League另有加步。难度状态确实能从响应写入、保存和解码，但从“能存”到“改变主线步数”还不能画等号。<!--REF:settlement-methods--></div>
+<div class="finding"><b>DynaDiff是状态同步链路，不是两表已经启用的证据。</b>服务端响应可以写入这个long；客户端在该键需要同步时，也会把当前long加入上传字典。同步计数只决定是否上报，不负责判定玩家属于Easy还是Hard，这些收发入口也没有解析两表。<!--REF:diff-sync--></div>
 <div class="finding"><b>DifficultyNext是随机入口，不是动态难度判定函数。</b>它把随机生成计数加一，再调用难度随机流的Next。初始颜色、补棋、洗牌等调用方会使用这条流；该函数自身不读Easy／Hard阈值，不检查失败次数，也不评价这个种子更难还是更容易。<!--REF:settlement-methods--></div>
-<details class="code-fold"><summary>整理代码：主线／League步数与早期计数</summary><pre class="algorithm-code" tabindex="0"><code>GetUpdatedMoveCount(moves):
+<details class="code-fold"><summary>整理代码：主线／League步数与早期计数</summary><pre class="algorithm-code" tabindex="0"><code>// LevelEpisodeHelper固定创建该策略；接口调用转交给它。
+strategy = new SemiDynamicDifficulty()
+
+GetUpdatedMoveCount(moves):
     if activeLevel.IsLeague:
         return moves + leagueLevel.extraMoves
     return moves
@@ -53,15 +66,16 @@ IncrementTryCount():
     inventory.UpdateTryCount(inventory.GetTryCount() + 1)
     // UpdateTryCount将输入夹到0–127，再写PreLevelInventory。</code></pre></details>
 <p><a href="../assets/evidence/difficulty-deep/manifest.json">43个方法的哈希清单</a> · <a href="../assets/evidence/difficulty-deep/native.zip" download>下载原字节与汇编</a> · <a href="../assets/evidence/difficulty-deep/direct-calls.json">直接调用扫描</a> · <a href="../assets/evidence/difficulty-deep/consumer-search.json">配置字段名检索范围</a> · <a href="../assets/evidence/difficulty-deep/verification.json">848项原字节位段检查回执</a></p>
+<p>复刻本版已确认的主线行为，应实现当前关卡步数、开局计数与种子轮换、候选池补棋，以及独立的付费续关规则；不应自行补上“失败到某个次数就按Easy／Hard表放水”。两表可保留为研究资产，但目前没有足够依据把它们接入复刻算法。<!--REF:diff-runtime--><!--REF:settlement-methods--></p>
 </section>
 <section aria-labelledby="m-unknown">
 <h3 id="m-unknown">未确认与边界</h3>
 <span class="layer layer-limit">边界层</span>
 <div class="data-scroll" tabindex="0" role="region" aria-label="动态难度未确认事项"><table><thead><tr><th>还缺什么</th><th>目前能确定的边界</th></tr></thead><tbody>
-<tr><td>这两份表是否被当前玩法加载</td><td>同版dump中未见原表名与阈值字段名；精确文本检索与直接调用扫描都不能排除反射、间接调用或已剥离路径。</td></tr>
+<tr><td>两表最初设计用途与历史状态</td><td>字段表达按段尝试次数上下限；没有消费者证明比较口径、-1含义、Easy／Hard方案选择或后续动作。遗留／闲置是综合判断，不能当作开发历史事实。</td></tr>
 <tr><td>阈值如何改变难度</td><td>尚未确认阈值到Skill、DeltaMove、种子选择或补棋权重的完整映射。</td></tr>
-<tr><td>1,100关之后与账号实际配置</td><td>本表没有后续行；可能未使用、走其他路径或外部覆盖，需要消费者或对应响应，不能任选一种解释。</td></tr>
+<tr><td>其他账号、版本与外部配置</td><td>当前普通主线路径有明确的未接入证据；未覆盖账号、间接读取、外部代码与未来版本需独立取证。本表止于1,100关，不等于之后自动由服务器接管。</td></tr>
 <tr><td>真实胜率与动态调控效果</td><td>位宽、默认表、局部函数执行均不提供玩家遥测或因果效果。</td></tr>
 </tbody></table></div>
-<p>可依据现有证据复刻配置读取、位段编码、已知计数与步数分支；完整的动态难度调控器仍缺少已确认的策略消费者。原生快照按相邻元数据入口截取，不保证包含函数所有跳转尾部；接口／委托调用也不在直接扫描覆盖内。</p>
+<p>可复刻原表结构、位段编码、已知计数、主线／League步数分支与状态同步；不能据此声称拿到了生效的动态难度调控器。原生快照按相邻元数据入口截取，不保证包含函数所有跳转尾部；直接扫描不穷尽接口／委托。本页另核对了LevelEpisodeHelper的实际构造与接口转交，避免仅因调用是间接的就忽略现有策略证据。</p>
 </section>

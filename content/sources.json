@@ -23,6 +23,12 @@
     "locator": "research/rm-reunpack-2026-10-14/GAP-VERDICT.md",
     "detail": "14,500关成品已取得；客户端实现可继续恢复与完整可执行复刻分开。缺少当期响应不能解释为客户端完全没有数据，包内无原后台也不能靠有限结果唯一恢复。"
   },
+  "difficulty-role": {
+    "title": "两份难度表的资源引用、策略与实机核查",
+    "basis": "包内完整资源引用／同版机器码／既有受控运行日志",
+    "locator": "site/assets/evidence/difficulty-role/README.md；asset-references.json；runtime-l101.json；native.zip",
+    "detail": "24个bundle、166,986对象仅见两条ResourceManager目录引用；策略构造固定为SemiDynamicDifficulty。DynaDiff收发保存存在，但不等于两表被使用。L101三次开局seed895／429／174；步数函数调用均25→25，两次Start记录原始25步，Restart无独立自然初始步数记录。动态字段钩子0命中；探针强制步数，非跨阈值或全账号实验。"
+  },
   "boundaries": {
     "title": "账号状态、调难、后台与原工具边界",
     "basis": "指定客户端函数与现有样本边界",

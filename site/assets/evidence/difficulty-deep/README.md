@@ -11,3 +11,5 @@
 复算：在报告仓库根运行 scripts/extract_plane_difficulty.py --workspace ..（capstone、pyelftools），再运行 scripts/verify_plane_difficulty.py（另需 Unicorn）。原始证据目录只读。
 
 所有原生快照是到下一个元数据入口的线性范围，不是已确认完整函数边界。表、可存状态与生效策略分开解释：当前未找到两张表到主线改步数或补棋的完整消费链。
+
+完整用途核查见 ../difficulty-role/README.md：资源目录引用、固定策略构造、状态双向同步与L101运行证据共同支持当前已查普通主线未接入两表。

@@ -1,0 +1,1055 @@
+{
+  "nativeSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "methods": [
+    {
+      "address": "0x120e8e4",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MissionPursuit.Scripts.MissionPursuitConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 612,
+      "sha256": "fdf32035070d39e9b9e9b5ad40f22514e66fb29ff3a2f7961b69f54eb731dd83"
+    },
+    {
+      "address": "0x120eb48",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MissionPursuit.Scripts.MissionPursuitConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 612,
+      "sha256": "82d9edf9966074ef5b7bdab6406adeee18ee197e39a4a03d42d1d40cc4130cf3"
+    },
+    {
+      "address": "0x120ee98",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MissionPursuit.Scripts.MissionPursuitConfigHelper$$ResetUserConfig"
+      ],
+      "bytes": 332,
+      "sha256": "93b2c5d9aeb81c04576fc14c87d08bc995bec238d11e0d7c288818342141ce0d"
+    },
+    {
+      "address": "0x13ce5e8",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MissionControl.Scripts.MissionControlConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 612,
+      "sha256": "d8ede0d2d217777ef8d9f11ff2f1e7065c68c7c3edff5b80fc86ec469c39db24"
+    },
+    {
+      "address": "0x13ce84c",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.MissionControl.Scripts.MissionControlConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 612,
+      "sha256": "d6d422e3378a12049f36cd64386409cca317033fcf83f0d36022c7927417b8db"
+    },
+    {
+      "address": "0x16c3f04",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.DukesFortune.Scripts.DukesFortuneConfigHelper$$LoadConfig"
+      ],
+      "bytes": 632,
+      "sha256": "067e0df22df856c084ff27107977d84175ffba178724fbaeeb89016fa3b46437"
+    },
+    {
+      "address": "0x181f184",
+      "names": [
+        "Royal.Scenes.TableGame.Systems.TableGameController$$TryGetLevelConfig"
+      ],
+      "bytes": 1220,
+      "sha256": "7dcb03fcae2bb52fd5334035e05e8289b6c7899f4b4bc85bbf1bc0492c52b69a"
+    },
+    {
+      "address": "0x19dc428",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.RobotRivals.Scripts.RobotRivalsConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 804,
+      "sha256": "7221750807a58bdfbbc39cd9ba5f41125dfc609a23019ad192c3c92924b41f1f"
+    },
+    {
+      "address": "0x1ad0f60",
+      "names": [
+        "UnityEngine.TextCore.Text.UnicodeLineBreakingRules$$GetCharacters"
+      ],
+      "bytes": 232,
+      "sha256": "0e4db563cbf2c97c18518af117fd7ad74322c2f73c684c8b7871d84f80bb5292"
+    },
+    {
+      "address": "0x1b1652c",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.OceanOdyssey.Scripts.OceanOdysseyConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 612,
+      "sha256": "3425b5f36423275cbaa3c3e21457d1e9de691d7e47706aed86c19c9445ba8611"
+    },
+    {
+      "address": "0x1b16790",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.OceanOdyssey.Scripts.OceanOdysseyConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 612,
+      "sha256": "b2c9655b997e8d45ba9508382c3615ea98129965e5a5777c89637a2fe617211f"
+    },
+    {
+      "address": "0x1c6ab1c",
+      "names": [
+        "Royal.Player.Context.Units.HiddenTempleManager$$TryMigrateConfigForDynamicStageSize"
+      ],
+      "bytes": 916,
+      "sha256": "164c97dfbf614516f3899ef73e2ddfce623df7bf297707630c8811e0e78ec391"
+    },
+    {
+      "address": "0x1c850c4",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$IncrementTryCount"
+      ],
+      "bytes": 208,
+      "sha256": "e3f8099455f57e508b327d4d23a98ae2666b822ab1bfd83e17215e642999d0f2"
+    },
+    {
+      "address": "0x1c85194",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$get_NotApplicableForSkill"
+      ],
+      "bytes": 188,
+      "sha256": "1dc369d8f7404af30d87db4d21effa6114a26a74c2571cdfcb2e58d8255d5098"
+    },
+    {
+      "address": "0x1c85250",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnLevelFail"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85254",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnEgoAccepted"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85258",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetSkill"
+      ],
+      "bytes": 204,
+      "sha256": "c0aa00bd5efa6ee9a114dad615c39e1995fc89d644b5e61848333b03a00ed1c8"
+    },
+    {
+      "address": "0x1c85324",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetLevelNumber"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c85328",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnLevelSuccess"
+      ],
+      "bytes": 4,
+      "sha256": "4bdf3fe4991575af6872f7ac8eb11c2da910e03f8a45e01c0dae45fbf7136589"
+    },
+    {
+      "address": "0x1c8532c",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetUpdatedMoveCount"
+      ],
+      "bytes": 296,
+      "sha256": "8016a79769c15ae6b57803050bdc66d5ec8583bf38d15c378649d8c1f85ced1b"
+    },
+    {
+      "address": "0x1c85454",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$OnEgoShownFirst"
+      ],
+      "bytes": 4,
+      "sha256": "fc38981c7d5605697b2263affcb8825813aad5312376c9f9b84c12a000b357cf"
+    },
+    {
+      "address": "0x1c85458",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetTryCount"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c8545c",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetTryCount"
+      ],
+      "bytes": 84,
+      "sha256": "c6d9d4ffd91fce04b979bfa5645b3b5a141960ea9cb38827152f46d0a1c689fc"
+    },
+    {
+      "address": "0x1c854b0",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetSection"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c854b8",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$GetGroupMove"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x1c854c0",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$Reset"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c854c4",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$SetAdminMode"
+      ],
+      "bytes": 4,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    {
+      "address": "0x1c854c8",
+      "names": [
+        "Royal.Player.Context.Units.SemiDynamicDifficulty$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "3e050c60028fa3d58639be1eedccf817a5419f5cc701370a136df04a0db08649"
+    },
+    {
+      "address": "0x1da41f8",
+      "names": [
+        "Royal.Player.Context.Units.SpaceMissionManager$$LoadConfig"
+      ],
+      "bytes": 892,
+      "sha256": "bee2fe553e039f64212828d417d28b3f6a01fcf0fe17330a526eaeeff9c47e79"
+    },
+    {
+      "address": "0x1da497c",
+      "names": [
+        "Royal.Player.Context.Units.SpaceMissionManager$$MigrateConfigForOldCardCollection"
+      ],
+      "bytes": 216,
+      "sha256": "77a9545331cbbc9196ae9aa2c816487ad1c0356fe19351b8fc20ed1aeb3a176f"
+    },
+    {
+      "address": "0x1dbeb98",
+      "names": [
+        "Royal.Player.Context.Units.KingWorkshopManager$$GetGoalCount"
+      ],
+      "bytes": 308,
+      "sha256": "d14934f98135b74ad30c8bc160b8177eff7a935504c248279e8fa62768e74a0e"
+    },
+    {
+      "address": "0x1dc0d84",
+      "names": [
+        "Royal.Player.Context.Units.LadderOfferManager$$UpdateConfig"
+      ],
+      "bytes": 1516,
+      "sha256": "66b769a93f6cee4d96a2df320d74fff47c1d4e44724bf121adb3f3212148980a"
+    },
+    {
+      "address": "0x1dc3ed0",
+      "names": [
+        "Royal.Player.Context.Units.LavaQuestManager$$LoadConfig"
+      ],
+      "bytes": 984,
+      "sha256": "32804d039f1c5ee67e6f0583e67532e3549e142a6c7d89f0c1d717010f527215"
+    },
+    {
+      "address": "0x1f114fc",
+      "names": [
+        "Royal.Player.Context.Units.WeeklyLeaderboardManager$$LoadConfig"
+      ],
+      "bytes": 820,
+      "sha256": "5dd12afe0b2eb8d66ad39491936a0a0bcdb634bf92b56e769c5cc4b5d0b9c13e"
+    },
+    {
+      "address": "0x1f14bd4",
+      "names": [
+        "Royal.Player.Context.Units.WeeklyLeaderboardManager$$MigrateConfigForOldCardCollection"
+      ],
+      "bytes": 216,
+      "sha256": "4d6d6ed2e394f0af664e4186440fec95fdbc699112d4bbb3bbd87471a22b0ad3"
+    },
+    {
+      "address": "0x1f24118",
+      "names": [
+        "Royal.Player.Context.Units.MagicCauldronManager$$LoadUserConfig"
+      ],
+      "bytes": 596,
+      "sha256": "4e7a70ed394fe2a7a00cc6112cd0a32cee077df808b39eb610e247e9871b7760"
+    },
+    {
+      "address": "0x1f2436c",
+      "names": [
+        "Royal.Player.Context.Units.MagicCauldronManager$$LoadServerConfig"
+      ],
+      "bytes": 596,
+      "sha256": "f1b90ac7967cb6dd6812b90b2c89f7b6abfb47cbea2eb6c5788a8ad6845cddaa"
+    },
+    {
+      "address": "0x1fd8b44",
+      "names": [
+        "Spine.Unity.SkeletonDataAsset$$GetSkeletonData"
+      ],
+      "bytes": 1584,
+      "sha256": "1a819febffd92f30eced4589799b6f6ec43fa40539a9f6bca992a56fa812ce5c"
+    },
+    {
+      "address": "0x1fda230",
+      "names": [
+        "Spine.Unity.SpineAtlasAsset$$CreateRuntimeInstance"
+      ],
+      "bytes": 1064,
+      "sha256": "5b2f3af88e80bcea38cb102c7661c799361c91ed4d414af33690031ea2056a67"
+    },
+    {
+      "address": "0x1fda74c",
+      "names": [
+        "Spine.Unity.SpineAtlasAsset$$GetAtlas"
+      ],
+      "bytes": 1240,
+      "sha256": "d88373fbc59d207c6f473e8719474738d6c653be5cfb608e5d6e5365830eaf7b"
+    },
+    {
+      "address": "0x20425a0",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.SkyRace.SkyRaceConfigHelper$$LoadConfig"
+      ],
+      "bytes": 764,
+      "sha256": "a918afe740542527a1cf2e6ee56aea16ca1a14022d827f68d1c69ce448b61722"
+    },
+    {
+      "address": "0x2059a0c",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$.ctor"
+      ],
+      "bytes": 116,
+      "sha256": "61e696c6b0403c3e4496031f55568eb8a534b7d87beac5bf2a962fbcb2665751"
+    },
+    {
+      "address": "0x2059a80",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$SetLevelDifficultyStrategy"
+      ],
+      "bytes": 8,
+      "sha256": "36735bf9ae363a606cafcf3dc7e23f2505999a1410ca8e6113967a8e29344410"
+    },
+    {
+      "address": "0x2059a88",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$SetEpisodeId"
+      ],
+      "bytes": 168,
+      "sha256": "5c60c6ce0137988bcde413c34d18a820a9f8e5fdd611c084d0da648f17f9b280"
+    },
+    {
+      "address": "0x2059b30",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$OnLevelSuccess"
+      ],
+      "bytes": 164,
+      "sha256": "d180107c10ab275d9a9f1fbbbc4c5e359ba13bc5b94ef4540d938bb27e27c651"
+    },
+    {
+      "address": "0x2059bd4",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$OnEgoShownFirst"
+      ],
+      "bytes": 164,
+      "sha256": "9b9527c911498f4b46339d74f596a4982e076c9b70705accf2206cf9fe3fbcaa"
+    },
+    {
+      "address": "0x2059c78",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$GetUpdatedMoveCount"
+      ],
+      "bytes": 172,
+      "sha256": "3abdea9dd0c4693402f012609a86d70f18671ae7352e9cd76cc64602e2f8cb22"
+    },
+    {
+      "address": "0x2059d24",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$OnLevelFail"
+      ],
+      "bytes": 164,
+      "sha256": "7e45cf9d3f5dc582ac87ae7470769e973640af751f40fdf242bc0fb9ab5da48d"
+    },
+    {
+      "address": "0x2059dc8",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$OnEgoAccepted"
+      ],
+      "bytes": 164,
+      "sha256": "c0ac97e505605ab868336527c29e948e48a074c0855e26b83081c66107f76a2b"
+    },
+    {
+      "address": "0x2059e6c",
+      "names": [
+        "Royal.Player.Context.Units.LevelEpisodeHelper$$GetSkill"
+      ],
+      "bytes": 164,
+      "sha256": "1f1c894a5714ad52c6977e75eb6dc0481cc7e85c06c7ce393e1595e087e9de01"
+    },
+    {
+      "address": "0x206f444",
+      "names": [
+        "Royal.Player.Context.Units.TeamTreasureManager$$FillFromLocal"
+      ],
+      "bytes": 744,
+      "sha256": "c3835082f0cecb2d1167ac896f2250ffa269e182372c8ff721eb7fe807835b01"
+    },
+    {
+      "address": "0x22206d8",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.TrainJourney.Scripts.TrainJourneyUIDataHelper$$PrepareDialogData"
+      ],
+      "bytes": 176,
+      "sha256": "64835b6a5932c4bff080de97e80b96847f9f1549c7983a2a5ae61728e20258be"
+    },
+    {
+      "address": "0x233b4f8",
+      "names": [
+        "Royal.Player.Context.Units.EventDependencyManager$$LoadConfig"
+      ],
+      "bytes": 624,
+      "sha256": "898b486d031afed48a77e767c935d60778310f28c19eeedefedc7a845b70f395"
+    },
+    {
+      "address": "0x253ed6c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromList<CellPoint>"
+      ],
+      "bytes": 100,
+      "sha256": "3a24e4b655cf32e3ac701298db4fedfc4c309eb6353d5bb3b5b3711dbb2bfc84"
+    },
+    {
+      "address": "0x253edd0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromList<int>"
+      ],
+      "bytes": 100,
+      "sha256": "0742d1ba3ca21fdb89580d62c28ab8048af02fb14820aff0b02ce07006b6533a"
+    },
+    {
+      "address": "0x253ee34",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromList<Int32Enum>"
+      ],
+      "bytes": 100,
+      "sha256": "3d2bd22a889f8151ddfda350c2ac7b2629a0508b103ad2a71e2accc7ba0825c5"
+    },
+    {
+      "address": "0x253ee98",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromList<object>"
+      ],
+      "bytes": 100,
+      "sha256": "93115fbf086fd12c22c47cd61103fdfb18b063f5bc307d8755795bb1f7029017"
+    },
+    {
+      "address": "0x253eefc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromList<MushroomSoilItemHelper.MushroomSpreadCell>"
+      ],
+      "bytes": 100,
+      "sha256": "093a095aad749a2fcdbeaf6c3762fcc68828906d7ad44b00ecf83e8ade2433d3"
+    },
+    {
+      "address": "0x253ef60",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromListBasedOnDifficulty<byte>"
+      ],
+      "bytes": 100,
+      "sha256": "42177a0ef7a5dcf4f438f987db20119e1c2d31b4a86d4786cd2f82ee0e5b709f"
+    },
+    {
+      "address": "0x253efc4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetRandomItemFromListBasedOnDifficulty<object>"
+      ],
+      "bytes": 100,
+      "sha256": "dd1958310b7e7dea56c2ca78b4d2c5f7270f7f3f24424ab3e7d39f011d9d92ce"
+    },
+    {
+      "address": "0x253f028",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArray<int>"
+      ],
+      "bytes": 156,
+      "sha256": "70270d73450bfd93074c5447ab0f3a49232d12b11d353879790d5ea478ffb30d"
+    },
+    {
+      "address": "0x253f0c4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArray<object>"
+      ],
+      "bytes": 220,
+      "sha256": "02c252ac6f607a356331e4b7283fb7b9c29ef87af02939b66b0736207ab38f8e"
+    },
+    {
+      "address": "0x253f1a0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArray<object>"
+      ],
+      "bytes": 220,
+      "sha256": "3e1da0d94a0b77eab90c3802a8572a48ebd72d339c388e2d6aa79af183e42ba6"
+    },
+    {
+      "address": "0x253f27c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArrayBasedOnDifficulty<Int32Enum>"
+      ],
+      "bytes": 148,
+      "sha256": "d171ecf470965e4900d7082c442d12d5640f37549e6b1e39f1df9bf4dd97bc68"
+    },
+    {
+      "address": "0x253f310",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArrayBasedOnDifficulty<object>"
+      ],
+      "bytes": 216,
+      "sha256": "22c3c8330a025be9c44570b36d6bd6937e75e3ad645519282cb448b6c97b1bb9"
+    },
+    {
+      "address": "0x253f3e8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArrays<object, int>"
+      ],
+      "bytes": 372,
+      "sha256": "94a915aa11a03ce6335df9bc70127909d3dbf8dd31c220584ce9db1d8cde910f"
+    },
+    {
+      "address": "0x253f55c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleArrays<object, object>"
+      ],
+      "bytes": 384,
+      "sha256": "7dce81ebe97f6e316aa78702549f539d3c6c7f7bba94d033acb92101d31737d7"
+    },
+    {
+      "address": "0x253f6dc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleList<int>"
+      ],
+      "bytes": 28,
+      "sha256": "9f9fe98b5b663a42d8bbd12a6ec68bd4879874c090d860c78b9621f6194f56e0"
+    },
+    {
+      "address": "0x253f6f8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleList<object>"
+      ],
+      "bytes": 28,
+      "sha256": "9f9fe98b5b663a42d8bbd12a6ec68bd4879874c090d860c78b9621f6194f56e0"
+    },
+    {
+      "address": "0x253f714",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleListBasedOnDifficulty<object>"
+      ],
+      "bytes": 256,
+      "sha256": "320758f72b8c7a103e8972274dcd5a4c334ff7375aa6cf68e81045befb536533"
+    },
+    {
+      "address": "0x253f814",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleListBasedOnDifficulty<ushort>"
+      ],
+      "bytes": 256,
+      "sha256": "62990db3d2202afb9cf4c03d6d98f39dd5ec98c662d65e158d38d13542d8d86f"
+    },
+    {
+      "address": "0x2685a18",
+      "names": [
+        "Royal.Player.Context.Data.SyncManager$$GetUpdatedKeyValues"
+      ],
+      "bytes": 3000,
+      "sha256": "5e250597cdb6a222f8225729fa31a1bced57c874d9201f098f17ee728bb226c8"
+    },
+    {
+      "address": "0x274a8e8",
+      "names": [
+        "Royal.Scenes.Game.MagicDuke.Charger.ChargerConfigHelper$$ReadConfig"
+      ],
+      "bytes": 436,
+      "sha256": "829b050a8bed9a80449a78619bea5309e42fc5077877054f369ed81cc5b28fd7"
+    },
+    {
+      "address": "0x2766dbc",
+      "names": [
+        "Royal.Infrastructure.Utils.Text.EmojiReplacement$$.ctor"
+      ],
+      "bytes": 492,
+      "sha256": "5ad98dc16746c097f4d099f08ed00bf0eacf9227da8199bfc10c007007eb46e8"
+    },
+    {
+      "address": "0x2947934",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.TrainJourney.Scripts.TrainJourneyConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 784,
+      "sha256": "009ac1b877dd61c2dcd479edf2a7ce2cb19deb2ba7055c087ce1120506702011"
+    },
+    {
+      "address": "0x2a0e5d8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetTryCount2"
+      ],
+      "bytes": 296,
+      "sha256": "acfd74ec9b335a6a5d46f46b5199d957413f3979a356349660ab499ff243b628"
+    },
+    {
+      "address": "0x2a0e700",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$UpdateDynamicDifficultyInventory"
+      ],
+      "bytes": 300,
+      "sha256": "9946cfb5ba2683e025d1945daf44d59205fc0be7a1d69838616bd13c6403cd71"
+    },
+    {
+      "address": "0x2a0e82c",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetTryCount2"
+      ],
+      "bytes": 32,
+      "sha256": "16b4a9da01f22704d129afe1ad136f5603c388b6eaba1873bd3f9c3bf94b8bee"
+    },
+    {
+      "address": "0x2a0e84c",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetDeltaMove"
+      ],
+      "bytes": 44,
+      "sha256": "48e307007d334a268257dd3230c08c5855ef0e8a5491f4c39fb3b562daa0d81b"
+    },
+    {
+      "address": "0x2a0e878",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetDeltaMove"
+      ],
+      "bytes": 48,
+      "sha256": "3642a7c69930c44e900e2f96e5ce55ff7a1f2a9a9ed65ab43478568e5193f3d2"
+    },
+    {
+      "address": "0x2a0e8a8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetLastUpdatedSection"
+      ],
+      "bytes": 32,
+      "sha256": "9eef10701b43d274a41fa4a91174ee5f21d542fd397195d5762e1c3dc604349a"
+    },
+    {
+      "address": "0x2a0e8c8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetLastUpdatedSection"
+      ],
+      "bytes": 44,
+      "sha256": "fb3d866aed9b86ea56365d597ad52441d7f835d898e5657526a00867da2662ab"
+    },
+    {
+      "address": "0x2a0e8f4",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$GetCurrentLevel"
+      ],
+      "bytes": 32,
+      "sha256": "cc585827c1cf1839c184069a5defab9437e08f53750d8eb252a5014fd2282c95"
+    },
+    {
+      "address": "0x2a0e914",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$SetCurrentLevel"
+      ],
+      "bytes": 44,
+      "sha256": "c16d48bd5c8a6ee80a520164f4c7390038864c2ef3f1995c65ce9bc429dd7320"
+    },
+    {
+      "address": "0x2a0e940",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$ResetDynamicDifficulty"
+      ],
+      "bytes": 132,
+      "sha256": "e8f8558a8ad6d6fffb595f07b48b7bd0469835426cff39ed34acf12693e8b3a0"
+    },
+    {
+      "address": "0x2a0f7b8",
+      "names": [
+        "Royal.Player.Context.Data.Persistent.UserInventory$$.ctor"
+      ],
+      "bytes": 8,
+      "sha256": "b33a380edbc930e2285dae5d8fca85a7abe4e1aff5dd1ab4245f6f4acc88b727"
+    },
+    {
+      "address": "0x2a30ab4",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$get_DeviceIdKey"
+      ],
+      "bytes": 36,
+      "sha256": "34ad089909458c934b6a538817c585ab8229891838c46c7338fe84a062b2c6dd"
+    },
+    {
+      "address": "0x2a30ad8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetDeviceIdKey"
+      ],
+      "bytes": 292,
+      "sha256": "84a266f498d7d02342e1f0c711aaa5a3fed1a51d000f88d1c05a165f3634506f"
+    },
+    {
+      "address": "0x2a30bfc",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$get_Id"
+      ],
+      "bytes": 8,
+      "sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    {
+      "address": "0x2a30c04",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$Bind"
+      ],
+      "bytes": 268,
+      "sha256": "b2ac50fe378e35b7d5d8e92579e9d8670b70f445153881a7d7f1981783094584"
+    },
+    {
+      "address": "0x2a30d10",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ResetSeed"
+      ],
+      "bytes": 220,
+      "sha256": "09268d58fcb86a45bd459b6bf08d4d62f9f9b317a23d8712df30eb26a69d0afe"
+    },
+    {
+      "address": "0x2a30dec",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$SetSeed"
+      ],
+      "bytes": 120,
+      "sha256": "bcda84df8eec7a4370024b348f93c8c06078597bdb6d6cfaecfa03acac5af0a9"
+    },
+    {
+      "address": "0x2a30e64",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ResetDifficultySeed"
+      ],
+      "bytes": 388,
+      "sha256": "c4ec15fea04db2fe3314cef83c99823f99abce83b67cd5ecbcbeed1e2f529bb0"
+    },
+    {
+      "address": "0x2a30fe8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$Next"
+      ],
+      "bytes": 32,
+      "sha256": "c497cf2cbd3b5142acffc750bf715ec42f98206a75681fce689e4e438846a274"
+    },
+    {
+      "address": "0x2a31008",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$NextBool"
+      ],
+      "bytes": 52,
+      "sha256": "1d83125dc2868f56318e077b5f4e99a3d4883b8e3a4bc6eb53375db4f3261e18"
+    },
+    {
+      "address": "0x2a3103c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleCells"
+      ],
+      "bytes": 304,
+      "sha256": "e27d0bc0f25ac41c0d2cea8c84911834dc85baac9964dbf63b8c7cdb66dc598b"
+    },
+    {
+      "address": "0x2a3116c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GenerateTrySeeds"
+      ],
+      "bytes": 644,
+      "sha256": "402ad092a68685a3ca1098fc799afb5f9a8b3aa9e48ec97e43b560be197e6415"
+    },
+    {
+      "address": "0x2a313f0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$SetDifficultySeed"
+      ],
+      "bytes": 124,
+      "sha256": "900a8612ebf016b16048be4e36f6b8dbcc49b000bc719254d4673ff69b197e31"
+    },
+    {
+      "address": "0x2a3146c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetDifficultySeed"
+      ],
+      "bytes": 8,
+      "sha256": "a2e28d6b3f73d0b0251bc7d259573fb064536ce8240cdf9c1eb3c614e9c5fd54"
+    },
+    {
+      "address": "0x2a31474",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$DifficultyNext"
+      ],
+      "bytes": 4,
+      "sha256": "788f1512f26f87f558ccda89030f23036527961be061f31e047ad5b93b8aafe2"
+    },
+    {
+      "address": "0x2a31478",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$GetDifficultyNext"
+      ],
+      "bytes": 48,
+      "sha256": "3e6bccdda883660cdf381e8bad8108171f819d7666cc9a9ad150cab560063675"
+    },
+    {
+      "address": "0x2a314a8",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ShuffleCellsBasedOnDifficulty"
+      ],
+      "bytes": 264,
+      "sha256": "337f16bb95ac138e69bfbc261cbc411173de9f7e73fa57412b6f7267015162be"
+    },
+    {
+      "address": "0x2a315b0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$ClearUserCaches"
+      ],
+      "bytes": 16,
+      "sha256": "8cd303c79a99d68ec88cca00551a47fdb55542916cd37549fc918c10c91faa74"
+    },
+    {
+      "address": "0x2a315c0",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$Clear"
+      ],
+      "bytes": 124,
+      "sha256": "54e0506cc45ef8434e7dd26501067283d2c0f3898df10dcd74ffc3a609424c67"
+    },
+    {
+      "address": "0x2a3163c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$RestoreFromSaveData"
+      ],
+      "bytes": 224,
+      "sha256": "4bb3fb0a0656e84d7f74df9e85b8d507d56ffd91b538eba29299bc9c628aa0a8"
+    },
+    {
+      "address": "0x2a3171c",
+      "names": [
+        "Royal.Scenes.Game.Levels.Units.LevelRandomManager$$.ctor"
+      ],
+      "bytes": 140,
+      "sha256": "b6124ca0fed54c3e7e7265d52d40ca5bb88e59c3f4870339b3388cc74039bbbc"
+    },
+    {
+      "address": "0x2c4d2a4",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.WeeklyPass.Scripts.WeeklyPassConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 596,
+      "sha256": "e8dd58c56b675accb7cf067af5cc2d73aae8830c5423bb2c2409e3dd84e27806"
+    },
+    {
+      "address": "0x2c4d4f8",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.WeeklyPass.Scripts.WeeklyPassConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 596,
+      "sha256": "e86b4c0a00212e6436298f271049640f6a7f02a2011798a3436b895a1ee2547c"
+    },
+    {
+      "address": "0x2e5e27c",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.DatabaseService$$GetSyncRequiredKeyValueCounts"
+      ],
+      "bytes": 308,
+      "sha256": "f5c91b6c2aa3976c94adfe085110b996afd2af2eebf8cb523cebe28a672a1086"
+    },
+    {
+      "address": "0x2e61af0",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.DragonNestAvailableJackpotScenariosTable$$DuplicateDataFromAllJackpotScenariosTable"
+      ],
+      "bytes": 260,
+      "sha256": "b9f1ecb0ae4300a842d13a3496c8a8795e58eb1cc7964929fc0c3a38291ed769"
+    },
+    {
+      "address": "0x2e62050",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.DragonNestAvailableJackpotScenariosTable$$RefillScenarioListOnTable"
+      ],
+      "bytes": 392,
+      "sha256": "ae5ecdbf49ac524d90cbf4047b7a77b5297b86d346086d9c7cea3f6ba5328076"
+    },
+    {
+      "address": "0x2e624dc",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.DragonNestAvailableScenariosTable$$DuplicateDataFromAllScenariosTable"
+      ],
+      "bytes": 364,
+      "sha256": "434fe1881ae228f1bf24cf00076cd1089744eb01fc5ac998908283bc842921dd"
+    },
+    {
+      "address": "0x2e62c58",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.DragonNestAvailableScenariosTable$$RefillScenarioListOnTable"
+      ],
+      "bytes": 492,
+      "sha256": "1ea994cc24d6690d6c9e1a4b69d46d08226e236453bf836ac0a6f617389ba8b0"
+    },
+    {
+      "address": "0x2e64b8c",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.KeyValueTable$$GetSyncRequiredKeyValueCounts"
+      ],
+      "bytes": 64,
+      "sha256": "223630c00a222d7cc3e419866f79c1519c26f9a59dbc2cd7dcbf692b7fa36dd6"
+    },
+    {
+      "address": "0x2e702c0",
+      "names": [
+        "Royal.Infrastructure.Services.Storage.Tables.UserKeyValue$$GetSyncRequiredKeyValueCounts"
+      ],
+      "bytes": 60,
+      "sha256": "38ffa03a668756e9165a2103ade38da1a13c9a173892e4655f888a8f2e4ea646"
+    },
+    {
+      "address": "0x3195188",
+      "names": [
+        "Royal.Player.Context.Units.PinataPartyManager$$MigrateConfigForOldCardCollection"
+      ],
+      "bytes": 316,
+      "sha256": "82d0905546f583c5fde686794981cd605a902dc153068b192d3b18db40bd63f2"
+    },
+    {
+      "address": "0x31952c4",
+      "names": [
+        "Royal.Player.Context.Units.PinataPartyManager$$FillFromLocal"
+      ],
+      "bytes": 392,
+      "sha256": "e48702e65f44d94ceb634ced9d7b506b035cabe7cc82d2c006de6b74d75271e2"
+    },
+    {
+      "address": "0x32e4598",
+      "names": [
+        "Royal.Player.Context.Units.ReactivationLevelsManager$$Bind"
+      ],
+      "bytes": 180,
+      "sha256": "f8894e39b2931806b0b8e65c973bc4ab4fa89dcd3007f86994d530d18eda6ee6"
+    },
+    {
+      "address": "0x32eec94",
+      "names": [
+        "Royal.Player.Context.Units.RoyalPassManager$$FillFromLocal"
+      ],
+      "bytes": 1776,
+      "sha256": "74f0489f55598976e316efe76cd8ff0d56244b836989dd517942db1df2b57556"
+    },
+    {
+      "address": "0x34d8f74",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.DragonNest.Scripts.DragonNestConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 612,
+      "sha256": "4baff9bf8c803dc041b9f33c6d803eab4770362ae21317168fc769da4f3f0197"
+    },
+    {
+      "address": "0x34d91d8",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.DragonNest.Scripts.DragonNestConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 612,
+      "sha256": "ec498fbc7d03d29a86b8c40f749aeca961e2803824757b330a4f5184cd516714"
+    },
+    {
+      "address": "0x3755324",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.PuzzleBreak.Scripts.PuzzleBreakConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 612,
+      "sha256": "cd667ff91f9e28b95273302b6c81196f787b6afab0d8602f99eaf157156775b3"
+    },
+    {
+      "address": "0x3755588",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.PuzzleBreak.Scripts.PuzzleBreakConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 612,
+      "sha256": "7c50e673f83d1fa5b81be4761c4dbfdec8f476cda04a01cb293638a012fe5852"
+    },
+    {
+      "address": "0x39ed18c",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.InviteFriends.Scripts.InviteFriendsConfigHelper$$LoadDefaultConfig"
+      ],
+      "bytes": 284,
+      "sha256": "5901ad243bcfdc9c93614d19eb39d172dcbb26cab5aa056502129d5ad561b4ef"
+    },
+    {
+      "address": "0x39fef50",
+      "names": [
+        "TMPro.TMP_Settings$$GetCharacters"
+      ],
+      "bytes": 288,
+      "sha256": "2a150e1bf49c926500cfbb0da1d8328b3af4185bde3db6a749173147de839d87"
+    },
+    {
+      "address": "0x3c56da4",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.PropellerRush.Scripts.PropellerRushConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 832,
+      "sha256": "bd5c0c2f0a90ee0965c09517a9b908fde34f842ef33fa278a440b8d65f1dac63"
+    },
+    {
+      "address": "0x3d04090",
+      "names": [
+        "UnityEngine.TextAsset$$ToString"
+      ],
+      "bytes": 4,
+      "sha256": "36123fa7ec81fbd3a944dcc563d2802defd79a200a043e94c58a95d4fc79fd5c"
+    },
+    {
+      "address": "0x3d1fa60",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.DailyLightningRush.Scripts.DailyLightningRushConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 812,
+      "sha256": "265067f2fb6e62b982f37983c2bf09a1fdfb49046bcff9e44439cbecefb6c099"
+    },
+    {
+      "address": "0x3db0f1c",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.RoyalWorldCup.Scripts.RoyalWorldCupConfigHelper$$LoadDefaultUserConfig"
+      ],
+      "bytes": 284,
+      "sha256": "2f102aee8dd2f2f783042c8e20d4d2265ce33833349a16bad82d0486caf6becb"
+    },
+    {
+      "address": "0x3e30e64",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.BalloonRise.BalloonRiseConfigHelper$$LoadUserConfig"
+      ],
+      "bytes": 596,
+      "sha256": "91801bf4e873ba1ea773ce9d20096f1fc6774772bd55ea6414c5ea011998b839"
+    },
+    {
+      "address": "0x3e310b8",
+      "names": [
+        "Royal.Scenes.Home.Ui.Dialogs.BalloonRise.BalloonRiseConfigHelper$$LoadServerConfig"
+      ],
+      "bytes": 596,
+      "sha256": "d3813b0581b72031102f42fab7845f224c8f23c9d4e472c0a02164bc7eb7fe39"
+    }
+  ],
+  "archiveSha256": "0091c8f95cff74dea4c8e64408a141f88160d5a37a49032852aea396793939dc",
+  "boundary": "Capture count is not semantic recovery count."
+}

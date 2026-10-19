@@ -634,7 +634,7 @@ def settlement(ws):
     src = f'{AUD}/decoded/config/DynamicDifficultyEasy.json · DynamicDifficultyHard.json'
     present = [r for r in hard if r['minTryCountHard'] != -1 or r['maxTryCountHard'] != -1]
     NUMBERS.update(diff_sections=len(hard), diff_hard_on=len(present), diff_rows=len(easy)+len(hard))
-    table('diff-sections', '动态难度默认表', ['指标', '数值'], [
+    table('diff-sections', '包内尝试次数阈值表（未证实启用）', ['指标', '数值'], [
         ['Easy／Hard 文件段数', f"{len(easy)}／{len(hard)}"],
         ['Hard 字段有非 -1 值的段数', str(len(present))],
         ['覆盖关卡', f"{hard[0]['levelStart']}–{hard[-1]['levelEnd']}"],
@@ -669,6 +669,33 @@ def settlement(ws):
         ['构造例', '0x000003280055a00e', '关101／段21／TryCount2=7／DeltaMove=3', '十进制3470339186702；非账号实抓'],
     ], native + ' · site/assets/evidence/difficulty-deep/verification.json',
           '范围是位宽可表示范围，不是当前运营策略或允许业务值。原 UpdateLong 不屏蔽越界输入，不能假设 setter 会自动夹限。')
+    role = ROOT / 'site/assets/evidence/difficulty-role'
+    checks = json.loads((role / 'role-checks.json').read_text())
+    runtime = json.loads((role / 'runtime-l101.json').read_text())
+    src = 'site/assets/evidence/difficulty-role/'
+    table('diff-role', '资源、解析与策略入口核查', ['核查位置', '实际结果'], [
+        ['资源范围', f"{checks['assetBundles']}个包／{fmt(checks['objects'])}个对象；含无扩展名bundle"],
+        ['指向两表的序列化引用', f"{checks['confirmedAssetPointers']}条，均为ResourceManager资源目录登记；场景／组件直接引用0条"],
+        ['候选引用解析失败', checks['pointerParseFailures']],
+        ['目录名', 'dynamicdifficultyeasy／dynamicdifficultyhard'],
+        ['表名与阈值字段检索', f"dump.cs、字符串表、原元数据、原ELF：目标字段命中{checks['thresholdTokenHits']}次"],
+        ['文本读取入口', f"{checks['textReadSites']}个TextAsset.get_text直接调用点；已保存调用者及原字节，未确认两表读取者"],
+        ['策略创建', 'LevelEpisodeHelper构造函数固定new SemiDynamicDifficulty；分组枚举仅None=0'],
+        ['接口分派', 'GetUpdatedMoveCount分派到接口槽2；设关、胜负等回调同样转交所持策略，无额外阈值比较'],
+    ], src + 'asset-references.json · consumer-names.json · metadata-excerpts.json · role-checks.json · native.zip',
+        '资源目录登记表示可按名取得，不代表运行时已加载。文本／直接调用负结果不排除构造名称、间接读取或外部代码。')
+    table('diff-runtime', '普通主线L101受控实机记录', ['入口', '开局计数', 'seed', '原始步数'],
+          [[r['entry'], r['levelTryCount'], r['seed'],
+            r['originalMoves'] if r['originalMoves'] is not None else '未另记'] for r in runtime['runs']],
+          src + 'runtime-l101.json（原日志路径、SHA-256与逐行摘录）',
+          '开局计数为LevelTryCount。两份日志中的GetUpdatedMoveCount调用均25→25；两次Start记录原始25步，再强制为1。Restart沿用强制1步状态，没有独立的自然初始步数记录。动态状态、TryCount2、DeltaMove及DynaDiff钩子均0命中，无安装错误；共3次开局、1次正式Fail，不是自然胜率或跨阈值实测。')
+    table('diff-sync', 'DynaDiff状态同步：存在的链路', ['入口', '原字节所做的事'], [
+        ['ProcessKeyValueResponse 0x1F0A340', '响应中的long写入UserInventory+0xB0，并保存到DynaDiff键'],
+        ['SyncManager.GetUpdatedKeyValues 0x2685A18', '检查同步计数结构+0x4；≥1时把账号+0xB0当前值加入待上传字典'],
+        ['键地址核对', '0x51BD900重定位槽指向0x544F0B8，对应字符串DynaDiff'],
+        ['与两表的关系', '这些入口负责状态收发、保存，不解析difficultyData或Easy／Hard阈值'],
+    ], src + 'role-checks.json · metadata-excerpts.json · native.zip；difficulty-deep/native.zip',
+          '同步计数不是玩家尝试次数。存在状态同步能力不等于服务器实际下发了调难策略。')
 
 
 def pressure(ws):

@@ -1,0 +1,77 @@
+{
+  "dumpSha256": "9c1391c773f7b78b2695638d299a73e1e4e7a5249d11966ffbe6b114913ae34f",
+  "metadataSha256": "5440692c2b9f99c6fd1ec2375f73bdd6c5e8638c2029ec4170499da77f9c0639",
+  "nativeSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "tokens": {
+    "DynamicDifficultyEasy": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "DynamicDifficultyHard": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "difficultyData": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "minTryCountEasy": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "maxTryCountEasy": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "minTryCountHard": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    },
+    "maxTryCountHard": {
+      "dumpCaseInsensitive": 0,
+      "literalSubstring": [],
+      "metadataUtf8": 0,
+      "metadataUtf16LE": 0,
+      "nativeUtf8": 0,
+      "nativeUtf16LE": 0
+    }
+  },
+  "dynamicLiterals": [
+    {
+      "value": "DynaDiff",
+      "address": "0x544F0B8"
+    },
+    {
+      "value": "UpdateDynamicDifficultyInventory: {0}",
+      "address": "0x5465E20"
+    }
+  ],
+  "strategyDeclarations": [
+    "public class SemiDynamicDifficulty : ILevelDifficultyStrategy // TypeDefIndex: 10446"
+  ],
+  "scope": "Negative string results do not exclude constructed names or indirect code."
+}

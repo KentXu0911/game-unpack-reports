@@ -1,0 +1,33 @@
+{
+  "assetBundles": 24,
+  "objects": 166986,
+  "confirmedAssetPointers": 2,
+  "pointerParseFailures": 0,
+  "emptyMethodAddresses": [
+    "0x1c85250",
+    "0x1c85254",
+    "0x1c85324",
+    "0x1c85458",
+    "0x1c854c0",
+    "0x1c854c4"
+  ],
+  "constantZeroAddresses": [
+    "0x1c854b0",
+    "0x1c854b8"
+  ],
+  "strategyConstructorCall": {
+    "site": "0x2059a60",
+    "target": "0x1c854c8"
+  },
+  "syncDynaDiff": {
+    "method": "0x2685a18",
+    "countOffset": "0x4",
+    "inventoryOffset": "0xb0",
+    "keyRelocation": "0x51bd900",
+    "literalAddress": "0x544f0b8",
+    "literal": "DynaDiff"
+  },
+  "thresholdTokenHits": 0,
+  "textReadSites": 59,
+  "textReadBoundary": "Direct calls inventoried and captured; no complete whole-program indirect/name-construction exclusion claimed."
+}

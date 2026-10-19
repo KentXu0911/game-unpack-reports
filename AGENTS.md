@@ -34,3 +34,4 @@
 - 分析层长方法名要能断行：`.module-page .finding/.layer-lead/.flow-note` 已设 `overflow-wrap:anywhere`；`.finding` 内是不带 `p` 的直接文本，不能只依赖 `.topic-body p` 的断行规则。
 
 - 飞机与动态难度深入提取：`scripts/extract_plane_difficulty.py --workspace ..` 只读原 ELF、元数据与 TextAsset，输出 `site/assets/evidence/plane-deep/` 和 `difficulty-deep/`；`scripts/verify_plane_difficulty.py` 用 Unicorn 执行原字节，明确记录注入的类型、在途计数和元数据。飞机增补正文为 `content/plane-deep.html`，动态难度正文为 `content/module-win-settlement.html`。443个快照与95个评分入口只表示捕获范围，不等于全部语义已恢复；Hard字段有值不等于运行时启用，不能给 -1 臆定业务含义。
+- 两张难度表用途核查由 `scripts/audit_difficulty_role.py --workspace ..` 生成 `site/assets/evidence/difficulty-role/`：完整24个bundle含无扩展名包，资源目录登记与玩法加载分开；LevelEpisodeHelper固定策略构造、DynaDiff双向同步与普通L101日志须一起解释。当前已查主线未接入两表，未启用／遗留是推断，不能写成永久废弃。L101三次开局中两次Start记录原始25步后强制为1；Restart无独立自然初始步数记录，不能写成三次自然25步或跨阈值实测。`module-facts.json`的diff-role／diff-runtime／diff-sync由该快照重算。

@@ -1,0 +1,320 @@
+{
+  "samples": [
+    {
+      "source": "royal-match-apk-audit-38174/outputs/runtime_L101_dynamic_validation_retry.jsonl",
+      "sha256": "6c3f994cd95c09eb977c3837b4c0f65f776829a76da07cd6c805e96e12cb205e",
+      "lines": 96,
+      "dynamicMethodEvents": 0,
+      "excerpts": [
+        {
+          "line": 2,
+          "kind": "enter",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "args": [
+            25
+          ]
+        },
+        {
+          "line": 3,
+          "kind": "leave",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "ret": 25
+        },
+        {
+          "line": 4,
+          "kind": "enter",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "args": [
+            25
+          ]
+        },
+        {
+          "line": 5,
+          "kind": "leave",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "ret": 25
+        },
+        {
+          "line": 7,
+          "kind": "enter",
+          "method": "UserActiveLevelData.Start",
+          "levelNumber": 101,
+          "moves": 25,
+          "state": 1,
+          "originalMoves": 25,
+          "forcedMoves": 1
+        },
+        {
+          "line": 9,
+          "kind": "leave",
+          "method": "UserActiveLevelData.Start",
+          "levelNumber": 101,
+          "moves": 1,
+          "state": 2
+        },
+        {
+          "line": 10,
+          "kind": "enter",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "args": [
+            1,
+            0
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "leave",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "ret": 18
+        },
+        {
+          "line": 13,
+          "kind": "enter",
+          "method": "LevelRandomManager.SetDifficultySeed",
+          "args": [
+            -1580804783
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "leave",
+          "method": "LevelRandomManager.SetDifficultySeed"
+        },
+        {
+          "line": 15,
+          "kind": "enter",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "args": [
+            0
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "leave",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "ret": 18
+        },
+        {
+          "line": 17,
+          "kind": "enter",
+          "method": "LevelRandomManager.SetDifficultySeed",
+          "args": [
+            895
+          ]
+        },
+        {
+          "line": 18,
+          "kind": "leave",
+          "method": "LevelRandomManager.SetDifficultySeed"
+        },
+        {
+          "line": 47,
+          "kind": "enter",
+          "method": "UserActiveLevelData.Restart",
+          "levelNumber": 101,
+          "moves": 1,
+          "state": 4
+        },
+        {
+          "line": 49,
+          "kind": "leave",
+          "method": "UserActiveLevelData.Restart",
+          "levelNumber": 101,
+          "moves": 1,
+          "state": 2
+        },
+        {
+          "line": 50,
+          "kind": "enter",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "args": [
+            1,
+            0
+          ]
+        },
+        {
+          "line": 51,
+          "kind": "leave",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "ret": 19
+        },
+        {
+          "line": 53,
+          "kind": "enter",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "args": [
+            0
+          ]
+        },
+        {
+          "line": 54,
+          "kind": "leave",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "ret": 19
+        },
+        {
+          "line": 55,
+          "kind": "enter",
+          "method": "LevelRandomManager.SetDifficultySeed",
+          "args": [
+            429
+          ]
+        },
+        {
+          "line": 56,
+          "kind": "leave",
+          "method": "LevelRandomManager.SetDifficultySeed"
+        }
+      ]
+    },
+    {
+      "source": "royal-match-apk-audit-38174/outputs/runtime_L101_dynamic_validation_final.jsonl",
+      "sha256": "1ad3845d80209287d0af064dc60b657eedfb7d46abb5b3809f2c12be5478f9b6",
+      "lines": 60,
+      "dynamicMethodEvents": 0,
+      "excerpts": [
+        {
+          "line": 3,
+          "kind": "enter",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "args": [
+            25
+          ]
+        },
+        {
+          "line": 4,
+          "kind": "leave",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "ret": 25
+        },
+        {
+          "line": 6,
+          "kind": "enter",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "args": [
+            25
+          ]
+        },
+        {
+          "line": 7,
+          "kind": "leave",
+          "method": "SemiDynamicDifficulty.GetUpdatedMoveCount",
+          "ret": 25
+        },
+        {
+          "line": 9,
+          "kind": "enter",
+          "method": "UserActiveLevelData.Start",
+          "levelNumber": 101,
+          "moves": 25,
+          "state": 1,
+          "originalMoves": 25,
+          "forcedMoves": 1
+        },
+        {
+          "line": 11,
+          "kind": "leave",
+          "method": "UserActiveLevelData.Start",
+          "levelNumber": 101,
+          "moves": 1,
+          "state": 2
+        },
+        {
+          "line": 12,
+          "kind": "enter",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "args": [
+            1,
+            0
+          ]
+        },
+        {
+          "line": 13,
+          "kind": "leave",
+          "method": "UserKeyValue.IncrementInt",
+          "key": "LevelTryCount",
+          "ret": 20
+        },
+        {
+          "line": 15,
+          "kind": "enter",
+          "method": "LevelRandomManager.SetDifficultySeed",
+          "args": [
+            -1580804783
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "leave",
+          "method": "LevelRandomManager.SetDifficultySeed"
+        },
+        {
+          "line": 17,
+          "kind": "enter",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "args": [
+            0
+          ]
+        },
+        {
+          "line": 18,
+          "kind": "leave",
+          "method": "UserKeyValue.GetInt",
+          "key": "LevelTryCount",
+          "ret": 20
+        },
+        {
+          "line": 19,
+          "kind": "enter",
+          "method": "LevelRandomManager.SetDifficultySeed",
+          "args": [
+            174
+          ]
+        },
+        {
+          "line": 20,
+          "kind": "leave",
+          "method": "LevelRandomManager.SetDifficultySeed"
+        }
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "level": 101,
+      "entry": "Start",
+      "levelTryCount": 18,
+      "seed": 895,
+      "originalMoves": 25
+    },
+    {
+      "level": 101,
+      "entry": "Restart",
+      "levelTryCount": 19,
+      "seed": 429,
+      "originalMoves": null
+    },
+    {
+      "level": 101,
+      "entry": "Start",
+      "levelTryCount": 20,
+      "seed": 174,
+      "originalMoves": 25
+    }
+  ],
+  "probe": {
+    "source": "royal-match-apk-audit-38174/tools/frida/rm_difficulty_ego_validation_hook.js",
+    "sha256": "7a710c344d1a2e657f39bdb17f09f9e57b62ea622618b98b2ef1cab9c7407059"
+  },
+  "scope": "Prior instrumented ordinary L101 observation, not a new live test. Probe records original moves before forcing 1; three starts, one formal fail, not a threshold-crossing test; other accounts/builds not excluded."
+}
