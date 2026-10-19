@@ -1,148 +1,249 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>道具寻优：目标选择与通关收益 · Royal Match</title>
-<link rel="stylesheet" href="../assets/site.css?v=f9424247d1"><script defer src="../assets/topic-reader.js"></script>
+<link rel="stylesheet" href="../assets/site.css?v=2271412df2"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-obstacle-rules">← 返回内容总览</a></p>
-<h1>道具寻优：目标选择与通关收益</h1><p>可取得普通飞机的评分分档、组内随机、在途扣减与目标重选算法，组合飞机的行列／范围比较与直接收完目标检查，以及智能火箭的横竖选择。全部物体的最终评分表仍待补齐。</p></div></header>
+<h1>道具寻优：目标选择与通关收益</h1><p>按决策流程还原普通飞机的障碍评分与选择、组合飞机的行列／范围比较、彩球的有效颜色计数与组合选色，并保留智能火箭方向演示。全部障碍状态的最终评分表仍待补齐。</p></div></header>
 <main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="obstacle-rules" class="topic-detail" aria-labelledby="title-obstacle-rules"><h2 id="title-obstacle-rules">道具寻优：目标选择与通关收益</h2><div class="topic-body"><div class="board-machine"><div class="board-summary">
-<h3 id="booster-summary">一屏结论</h3>
-<div class="data-scroll" tabindex="0" role="region" aria-label="道具寻优结论速览"><table><thead><tr><th>问题</th><th>答案</th><th>关键数值</th></tr></thead><tbody>
-<tr><td><a href="#selection-process">普通飞机打哪</a></td><td>每格按当前状态评分，从最高分组里随机抽一个</td><td>同分组内随机</td></tr>
-<tr><td><a href="#actual-priorities">分数怎么定</a></td><td>五个档位，每档是上一档的26倍；一个高档目标压过25个低一档目标</td><td>1／26／676／17,576／456,976</td></tr>
-<tr><td><a href="#actual-priorities">残血箱子优先吗</a></td><td>不优先：1层和3层箱子同分；拳击手套、多格物体等有各自收尾加分</td><td>箱子456,976；手套609,301</td></tr>
-<tr><td><a href="#actual-priorities">被挡住的目标</a></td><td>被原木、拳击手套、钻头挡住时，正分统一压到一个低值</td><td>4,569</td></tr>
-<tr><td><a href="#booster-coordination">多架飞机会打重吗</a></td><td>选中即登记在途攻击；剩余命中＝层数－在途数，≤0就跳过</td><td>—</td></tr>
-<tr><td><a href="#target-refresh">飞行中改目标吗</a></td><td>目标仍有效就不改；失效或被强制重选才换，强制重选每架只一次</td><td>—</td></tr>
-<tr><td><a href="#combo-selection">飞机＋火箭／TNT</a></td><td>比整列、整行或范围总分；有能直接收完目标的列／行／范围时先选它</td><td>—</td></tr>
-<tr><td><a href="#smart-rocket">智能火箭方向</a></td><td>只用于开局火箭道具、Cloche和SlotMachine放出的火箭：行列总分高的一边胜，同分随机</td><td>—</td></tr>
-<tr><td><a href="#optimality">是不是最优</a></td><td>是“当前这一击”的贪心评分，不搜索后续多手</td><td>完整物体评分表未还原</td></tr>
+<h3 id="booster-summary">先看三个结论</h3>
+<p><strong>普通飞机选一个格；飞机＋火箭／TNT选一条线或一个范围；彩球先选一种颜色。</strong>这三种决策比较的对象不同，不能都理解成“找障碍最多的地方”。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="三种道具的决策区别"><table><thead><tr><th>决策</th><th>实际比较</th><th>核心规则</th></tr></thead><tbody>
+<tr><td><a href="#selection-process">普通飞机打哪个障碍</a></td><td>当前有效候选格的分数</td><td>先看最高分组，再在组内抽选；剩余命中不足的跳过</td></tr>
+<tr><td><a href="#combo-selection">组合飞机落在哪里</a></td><td>整行、整列或落点周围的作用范围</td><td>有当前一击可完成目标的候选时优先；否则按组合专用评分比较</td></tr>
+<tr><td><a href="#lightball-color">彩球选择什么颜色</a></td><td>可参与处理的颜色棋数量，或玩家指定颜色</td><td>交换颜色棋时用该颜色；自动选色和道具组合时选有效数量最多的颜色</td></tr>
 </tbody></table></div>
-<p class="flow-note">伪代码按build 38174的ARM64机器码与元数据整理，省略异常处理与无关调用，默认收起；例子是按代码构造的局面。</p>
+<p class="flow-note">研究对象：Royal Match build 38174。下文“代码事实”来自原始ARM64字节与元数据；数值局面均为<strong>构造例子</strong>，不是原端实机录像。证据编号链接到<a href="#selection-evidence">页尾方法表</a>。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>普通飞机选点</a><a href="#actual-priorities"><b>02</b>评分档位</a><a href="#selection-examples"><b>03</b>三个局面</a><a href="#booster-coordination"><b>04</b>多架协同</a><a href="#target-refresh"><b>05</b>飞行中改目标</a><a href="#combo-selection"><b>06</b>组合飞机</a><a href="#smart-rocket"><b>07</b>智能火箭</a><a href="#optimality"><b>08</b>是否最优</a><a href="#hit-result"><b>09</b>命中结算</a><a href="#plane-deep-facts"><b>10</b>状态评分与完整提取</a><a href="#selection-evidence"><b>11</b>原字节证据</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>飞机选障碍流程</a><a href="#cell-score-routing"><b>02</b>一格到底给谁评分</a><a href="#actual-priorities"><b>03</b>障碍分数与收尾</a><a href="#selection-examples"><b>04</b>完整选点例子</a><a href="#booster-coordination"><b>05</b>多架分配与重选</a><a href="#hit-result"><b>06</b>到达后的消除</a><a href="#combo-selection"><b>07</b>组合飞机</a><a href="#lightball-color"><b>08</b>彩球选色与组合</a><a href="#optimality"><b>09</b>分析与边界</a><a href="#smart-rocket"><b>附A</b>智能火箭演示</a><a href="#plane-deep-facts"><b>附B</b>完整提取与飞行</a><a href="#selection-evidence"><b>附C</b>原字节证据</a></nav>
 <span id="propeller-targeting" class="legacy-anchor"></span><span id="title-propeller-targeting" class="legacy-anchor"></span>
+<p class="layer-lead"><strong>拆包事实</strong>：先解释实际决策顺序，再解释分值。分数是选择优先级，不是伤害值。</p>
 
 <section aria-labelledby="selection-process">
-<h3 id="selection-process">普通飞机怎样选中一个目标</h3>
-<p>先按规则给每格评分，再从当前最高的可用分组里随机挑一个。高分组先于低分组；同一组内没有“最近”“层数最少”之类的二次排序；出发格避让会局部改变最终抽样概率。<small>［P1、P2］</small></p>
+<h3 id="selection-process">普通飞机：先选高分障碍，同分才随机</h3>
+<p>飞机先枚举棋盘上的格子，为每格取得本次攻击下的评分，然后把同分格子放进同一个列表。它按分数从高到低访问列表，<strong>不会从所有格子按分数比例抽奖</strong>。456,976分的箱子与676分的低分格同时有效时，低分格不会因为数量多就分走概率。<small>［P1、P2］</small></p>
 <ol>
-<li><strong>过滤格子。</strong>非普通格，以及被挡飞机的覆盖物盖住的格子，不进入候选。</li>
-<li><strong>评分。</strong>按上层覆盖物、格内物体、底层物体的顺序交给对应评分规则；物体种类、当前状态、攻击类型都会改变结果，底部收集关还会给清路的格子加分。</li>
-<li><strong>按分数分组。</strong>分数取负后存入有序字典，从小到大遍历，等于从高分组开始。</li>
-<li><strong>组内随机抽一格。</strong>用关卡随机数取下标；抽到飞机自己的出发格且组内不止一格时，改取相邻下标。</li>
-<li><strong>检查还缺几下。</strong>剩余命中≤0：移出本组继续抽；＝1：选它，同时移出本组；＞1：选它并留在组里。本组抽空才看下一组。</li>
-<li><strong>重定向并登记。</strong>目标可把攻击转交给另一个有效目标；选定后登记一发在途攻击，供后面的飞机扣减。</li>
+<li><strong>确定攻击类型。</strong>普通飞机、彩球制造的飞机、飞机＋火箭、飞机＋TNT有不同的策略参数。障碍的评分方法能根据参数返回不同值。</li>
+<li><strong>筛格子。</strong><code>FillScores</code>先检查普通有效格，以及是否存在阻挡飞机的覆盖物；随后还有成组物体等专用纳入条件。被过滤的格子不会参加后面的随机。</li>
+<li><strong>得到格子分数。</strong>先决定这一格该由哪个层的物体评分，再调用该物体的规则；原木／手套／钻头阻挡和底部收集关的清路价值还可能修正结果。详见下一节。</li>
+<li><strong>建立优先组。</strong>用“负评分”作有序字典的键，因此遍历顺序等于实际分数从高到低。只要高分组里还能选到有效目标，就不进入下一组。</li>
+<li><strong>组内抽选并验剩余命中。</strong>随机取下标；抽到出发格且组内至少两格时，改取相邻下标。然后检查当前目标是否还需要攻击：不足1次就剔除继续；等于1次，选中并从列表移除；大于1次，选中但保留它。</li>
+<li><strong>重定向与登记。</strong><code>TryRedirect</code>允许具体物体把候选点转交给其他点；选定后通过<code>AddIncomingExploder</code>登记这次在途攻击，供后续飞机判断。</li>
 </ol>
-<div class="flow" aria-label="普通飞机选点流程"><span>过滤格子</span><b>→</b><span>按当前状态评分</span><b>→</b><span>高分组优先</span><b>→</b><span>组内随机、检查剩余命中</span><b>→</b><span>重定向与登记攻击</span></div>
-<details class="code-fold"><summary>伪代码：普通飞机首次单格选点<span>11行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="普通飞机高分组内选择伪代码"><code>groups = 按评分从高到低排列的候选列表
-for list in groups:
-    while list.Count &gt; 0:
-        index = levelRandom.Next(0, list.Count)
-        if list[index]是出发格 and list.Count &gt;= 2:
+<div class="flow" aria-label="普通飞机选择障碍的决策顺序"><span>格子可参加？</span><b>→</b><span>本次该打哪个层？</span><b>→</b><span>物体状态评分</span><b>→</b><span>最高分组抽选</span><b>→</b><span>还缺命中？</span><b>→</b><span>重定向并预订</span></div>
+<details class="code-fold"><summary>整理伪代码：首次单格选点</summary><pre class="algorithm-code" tabindex="0"><code>groups = FillScores(strategy)  // 按实际分数从高到低访问
+for candidates in groups:
+    while candidates.Count &gt; 0:
+        index = levelRandom.Next(0, candidates.Count)
+        if candidates[index] == origin and candidates.Count &gt;= 2:
             index = (index == 0) ? 1 : index - 1
-        cell = list[index]
-        hits = cell.RemainingExplodeCount()
-        if hits &lt;= 1: list.RemoveAt(index)
-        if hits &lt; 1: continue
-        return cell.TryRedirect(本次攻击, 其他选项)
-// 外层取得目标后，调用AddIncomingExploder登记在途攻击</code></pre></details>
-<p>已有目标的重选另有保留原目标的分支；飞机与火箭、TNT组合时走<a href="#combo-selection">组合入口</a>。</p>
+        cell = candidates[index]
+        remaining = cell.RemainingExplodeCount(explodeData)
+        if remaining &lt;= 1: candidates.RemoveAt(index)
+        if remaining &lt; 1: continue
+        return cell.TryRedirect(explodeData, candidates)
+// 外层对取得的目标登记在途命中；已有目标的重选还有保留分支。</code></pre></details>
+<p><strong>距离、屏幕位置、剩余层数都不是通用的组内排序键。</strong>剩余层数可能影响某个物体自己的评分，但不能据此推导“所有残血障碍优先”。</p>
+</section>
+
+<section aria-labelledby="cell-score-routing">
+<h3 id="cell-score-routing">一格有多层：先确定评分对象，不把各层基础分直接相加</h3>
+<p>同一坐标可能同时有覆盖物、格内棋子／障碍、底层物体。<code>ExplodeTargetMediator.CalculateScore</code>按门控选择返回哪一个物体的分数。以下是<strong>普通飞机策略</strong>的主路径；“覆盖物”和“底层物体”使用<code>StaticItemModel</code>规则，与格内<code>ItemModel</code>是不同类型。<small>［D1］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="普通飞机的格子评分对象选择"><table><thead><tr><th>检查顺序</th><th>条件</th><th>取哪个分数</th></tr></thead><tbody>
+<tr><td>① 从最上方覆盖物往下找</td><td>覆盖物仍有剩余命中，或它仍阻挡其他层</td><td>立即返回这个覆盖物的评分，不再把本体和底层分数加上</td></tr>
+<tr><td>② 格内障碍本体</td><td>没有覆盖物接管，且格内物体的<code>IsObstacle()</code>为真</td><td>返回这个障碍本体的评分</td></tr>
+<tr><td>③ 可受击的底层物体</td><td>格内没有障碍本体优先接管；按底层列表查找<code>CanBeDamagedByPropeller</code>为真的物体</td><td>返回第一个满足条件的底层物体评分</td></tr>
+<tr><td>④ 其他格内物体</td><td>前面没有取得评分对象，格内还有普通棋／道具等</td><td>返回其自身评分；无对象则返回0</td></tr>
+</tbody></table></div>
+<p>因此，“某格下面还有一个任务目标”不会自动让这格获得两份基础分。物体自身的评分方法可以另外考虑覆盖机关、成组关系或额外效果；这属于<strong>该方法的专用计算</strong>。例如普通颜色棋的评分会询问冰块、鸟、穿梭器等辅助对象，不能把它简化为始终676分。</p>
+<h4>格子分数还有两类外部修正</h4>
+<ul>
+<li><strong>被原木／拳击手套／钻头阻挡：</strong><code>GetScore</code>取得的分数若大于等于1，就统一返回4,569；0和负分保留。它是替换值，并非乘以1%。被飞机完全阻挡而提前过滤的格子，也不同于这种“保留但降分”的格子。<small>［P5］</small></li>
+<li><strong>底部收集关：</strong>满足攻击策略、物体与覆盖条件时，计算这次清除能释放的格子，再加入底部收集的专用评分。不是所有“看起来堵路”的格子都有通用加分，也没有在这里模拟后续多手掉落。<small>［P1］</small></li>
+</ul>
+<p>评分有帧数和策略缓存字段，但<strong>普通单格策略会进入重算分支</strong>，不能概括为“同一帧只算一次”。这样后续选点才有机会读到更新后的在途命中和物体状态。范围策略还有额外的缓存失效条件。<small>［P5：0x2ACF290–0x2ACF2E4］</small></p>
+<p>已执行原始评分路由代码的9组构造输入，包括覆盖物遮住高分本体、已预订完的覆盖物、障碍本体与底层并存、普通棋与底层并存等。对象的门控和分值是注入输入，用于验证选择哪个层，<a href="../assets/evidence/booster-decisions/verification.json">不代表已验证全部障碍的评分语义</a>。</p>
 </section>
 
 <section aria-labelledby="actual-priorities">
-<h3 id="actual-priorities">评分档位：每档是上一档的26倍</h3>
-<p>客户端声明的层级倍数是26，五个基础档正好是26的0到4次方。所以只要两个目标差一档，低档目标凑满25个也追不上高档的1个。这些分数只用于选点排序，与玩家积分、金币和任务进度无关。<small>［P3、P5］</small></p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="选点评分档位"><table><thead><tr><th scope="col">档位</th><th scope="col">分数</th><th scope="col">与上一档的关系</th></tr></thead><tbody>
-<tr><td>VeryLow</td><td>1</td><td>—</td></tr>
-<tr><td>Low</td><td>26</td><td>×26</td></tr>
-<tr><td>Medium</td><td>676</td><td>×26</td></tr>
-<tr><td>High</td><td>17,576</td><td>×26</td></tr>
-<tr><td>VeryHigh</td><td>456,976</td><td>×26</td></tr>
+<h3 id="actual-priorities">障碍怎样打分：基础优先级＋物体自己的状态规则</h3>
+<p>基础查表按<code>ItemType−1</code>索引，共提取115项。多数格内障碍的<strong>基础值</strong>为456,976；这不代表它们所有状态最终同分，因为物体可以覆盖<code>GetExplodeScore</code>。覆盖物、底层物体另有18项<code>StaticItemType</code>查表，编号不能与<code>ItemType</code>混用。<small>［P3、D2］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="选点基础档位"><table><thead><tr><th>声明档位</th><th>数值</th><th>怎样理解</th></tr></thead><tbody>
+<tr><td>VeryLow／Low</td><td>1／26</td><td>较低优先级</td></tr><tr><td>Medium／High</td><td>676／17,576</td><td>中间优先级</td></tr><tr><td>VeryHigh</td><td>456,976</td><td>多数格内障碍的基础档</td></tr>
 </tbody></table></div>
-<p>物体也可以返回档位之外的修正分。已核对的几个：</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="箱子、拳击手套与阻挡修正的评分"><table><thead><tr><th scope="col">目标状态</th><th scope="col">评分</th><th scope="col">效果</th></tr></thead><tbody>
-<tr><td>普通箱子，剩1层或剩3层</td><td>456,976</td><td>同分，层数不参与评分</td></tr>
-<tr><td>拳击手套，还需1次命中</td><td>609,301</td><td>高于普通箱子，先进更高分组</td></tr>
-<tr><td>拳击手套，还需多次命中</td><td>456,976</td><td>与普通箱子同分</td></tr>
-<tr><td>正分目标被原木、拳击手套或钻头挡住</td><td>4,569</td><td>落到Medium与High之间，约为VeryHigh的1%</td></tr>
-<tr><td>普通颜色棋</td><td>按对应任务剩余量与窗帘、钻头等机关条件计算</td><td>收集任务未完成时，飞机可能去打普通棋</td></tr>
+<p>档位倍数是26。普通飞机只比较单格，高分组优先，与低分候选的总数量无关；组合攻击累计分数时，才有“25份低一档基础分仍小于1份高一档基础分”的数值关系。专用修正分可以落在档位之间或超过最高基础档。</p>
+<h4>最关键的障碍差异</h4>
+<div class="data-scroll" tabindex="0" role="region" aria-label="普通飞机面对不同障碍状态的评分"><table><thead><tr><th>障碍／状态</th><th>物体自身分数</th><th>为什么这样选</th><th>范围限制</th></tr></thead><tbody>
+<tr><td>普通箱子，剩1层</td><td>456,976</td><td>沿用基础查表，没有最后一击奖励</td><td rowspan="2">需要格子实际路由到箱子，且没有额外格子修正</td></tr>
+<tr><td>普通箱子，剩3层</td><td>456,976</td><td>与1层箱子同组随机</td></tr>
+<tr><td>拳击手套，扣在途后还需多次命中</td><td>456,976</td><td>普通最高基础档</td><td rowspan="2">由<code>RemainingExplodeCount()==1</code>分支判断；看的是剩余有效命中</td></tr>
+<tr><td>拳击手套，扣在途后还需1次命中</td><td>609,301</td><td>高于普通箱子，先进入更高分组</td></tr>
+<tr><td>碗柜，扣在途后还需多次命中</td><td>456,976</td><td>走多格物体的基础分支</td><td rowspan="2">普通飞机；碗柜自身释放格数为4</td></tr>
+<tr><td>碗柜，扣在途后还需1次命中</td><td>913,951</td><td>4×152,325＋304,651，按清掉后释放格数加分</td></tr>
+<tr><td>其他继承多格评分的物体，扣在途后还需1次命中</td><td>释放格数×152,325＋304,651</td><td>奖励当前这一击腾出的空间</td><td>普通飞机等指定策略；子类覆盖方法可以改变结果</td></tr>
+<tr><td>被原木／手套／钻头阻挡的正分格</td><td>4,569</td><td>通常让位于未阻挡的高分障碍</td><td>这是格子评分出口修正，不是该物体基础值</td></tr>
+<tr><td>普通颜色棋</td><td>随任务与机关状态变化</td><td>对应颜色仍有收集目标、或能推动机关时可提高优先级</td><td>676只是Match类型的查表基础值，不能直接当最终分</td></tr>
 </tbody></table></div>
-<p>评分按帧缓存：同一帧、同一攻击策略下重复查询同一格只算一次，阻挡修正在缓存值之上返回。上表是物体自身的评分分支；格子的最终分数还会叠加覆盖层、底层目标和底部收集加分，不一定等于物体基础分。</p>
+<details class="code-fold"><summary>整理伪代码：多格物体与碗柜的评分分支</summary><pre class="algorithm-code" tabindex="0"><code>// MultipleCellItemModel.GetExplodeScore 0x3391C90
+remaining = layerCount - incomingCount
+if strategy in {PropellerTnt, FurnaceFireball}: return 228488
+if remaining != 1: return BaseScore(itemType)
+if strategy in {Propeller, Firework, LightballPropeller, Boomerang}:
+    return CellsFreedAfterExplode(itemType) * 152325 + 304651
+return 456976
+
+// CupboardItemModel.GetExplodeScore 0x2DD0558
+if strategy in {PropellerTnt, FurnaceFireball}:
+    return (2 &lt;= RemainingExplodeCount() &lt;= 10) ? 456976 : 228488
+return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
+<p>上表支持的局部次序为：<strong>可收尾碗柜913,951 ＞ 可收尾手套609,301 ＞ 普通箱子456,976 ＞ 被特定障碍阻挡的正分格4,569</strong>。只有各自条件都满足、且没有其他修正时才可这样比较。依据：<code>BoxingGlove.GetExplodeScore</code>、<code>MultipleCellItemModel.GetExplodeScore</code>、<code>Cupboard.GetExplodeScore</code>。<small>［P3、D2］</small></p>
+<h4>“残血优先”和“任务优先”都要逐物体判断</h4>
+<p>普通箱子的基础评分没有读取任务剩余量，也没有用层数把箱子互相排序；普通颜色棋会读取目标剩余量和机关状态。多格物体用清除后释放的格数估算收尾收益。因而不能写成统一的“任务障碍→残血障碍→其他棋子”固定名单，更不能把<code>层数−在途</code>直接当分数：它同时用于判断是否还值得预订，并只在部分物体中触发加分。</p>
+<p><a href="../assets/evidence/plane-deep/base-scores.csv" download>下载115项ItemType基础分</a> · <a href="../assets/evidence/booster-decisions/static-scores.json">18项StaticItemType基础分</a> · <a href="../assets/evidence/plane-deep/score-methods.json">95个物体评分入口</a>。这些是查表值和方法清单，未把所有状态的最终分值表冒充为已完成。</p>
 </section>
 
 <section aria-labelledby="selection-examples">
-<h3 id="selection-examples">三个局面，分别会怎么选</h3>
-<p>按已确认代码构造的简化例子；只比较列出的有效候选，不加其他层和额外评分。</p>
-<h4>例1：左边箱子剩1层，右边箱子剩3层</h4>
-<p>两者都是456,976分，同在最高组时随机挑一个。左边一下就能打掉，并不会让它胜出——这就是玩家觉得飞机“打错了”的典型情况。</p>
-<h4>例2：一个普通箱子，对比只差一下的拳击手套</h4>
-<p>拳击手套609,301分，高于箱子的456,976，先被考虑。这是拳击手套的收尾加分。碗柜等多格物体还有按释放格数计算的另一种加分，见下方状态评分。</p>
-<h4>例3：一个箱子堵着通道，另一个在开阔区域</h4>
-<p>两格分数和候选条件相同时，仍然组内随机。评分不模拟“清掉通道后会掉下多少棋、再造出什么道具”。</p>
-<p>【设计解读】玩家看重的是打开通道带来的后续机会，而这一击的评分不区分这两个局面。</p>
+<h3 id="selection-examples">把评分、筛选与随机连起来看</h3>
+<p><strong>构造例子。</strong>假设候选格均有效，无额外底部收集修正；“被阻挡”一行只应用4,569出口修正。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="六个候选障碍的完整选点示例"><table><thead><tr><th>候选</th><th>状态</th><th>最终用于比较的分数</th><th>本轮处置</th></tr></thead><tbody>
+<tr><td>A 普通箱子</td><td>剩1层，无在途</td><td>456,976</td><td>留在箱子所在组</td></tr>
+<tr><td>B 普通箱子</td><td>剩3层，无在途</td><td>456,976</td><td>与A同组，无额外“厚箱子”或“薄箱子”排序</td></tr>
+<tr><td>C 拳击手套</td><td>扣在途后还需1次命中</td><td>609,301</td><td>分组高于A、B</td></tr>
+<tr><td>D 碗柜</td><td>扣在途后还需1次命中</td><td>913,951</td><td>最高组，先选D</td></tr>
+<tr><td>E 高基础分目标格</td><td>被特定原木阻挡，但未被候选过滤</td><td>4,569</td><td>后置</td></tr>
+<tr><td>F 普通箱子</td><td>剩1层，已有1发在途</td><td>物体查表仍为456,976</td><td>若抽到它，剩余命中为0，剔除继续抽</td></tr>
+</tbody></table></div>
+<p><strong>第一架：</strong>D独占最高有效分组，选D，并登记在途命中。<strong>下一架：</strong>在这些状态条件保持、D已无剩余命中的前提下跳过D，转而选C。<strong>再下一架：</strong>C也已预订完后，进入A／B／F组；F会被剔除，最终在A、B之间抽选。不会因为A只剩一层就固定选A。</p>
+<p>这个例子也说明两件事：<strong>高分不等于一定能继续接收攻击</strong>，还要过剩余命中检查；<strong>同分不等于每次落点完全一致</strong>，还要知道随机数和候选列表顺序。</p>
+<h4>同分时的出发格避让</h4>
+<p>构造同分列表<code>[出发格,A,B]</code>，假设三格都有效且没有后续重定向。随机下标0、1、2最终分别对应A、A、B：出发格下标0被改成1。因此A为2/3，B为1/3。这是避让规则造成的局部偏差，不是A获得了更高评分。没有出发格避让等附加条件时，初始下标是组内均匀抽样。<small>［P2］</small></p>
+<h4>如果一个箱子堵路，另一个在开阔处</h4>
+<p>只要两格的最终评分和候选条件相同，仍然同组抽选。底部收集关可以有专用清路加分；除此之外，没有证据支持“只要堵路就自动加分”，也没有在这个选点入口里展开后续几手造道具与补棋的搜索。</p>
 </section>
 
 <section aria-labelledby="booster-coordination">
-<h3 id="booster-coordination">多架飞机协同：先扣掉已在路上的攻击</h3>
-<p>普通箱子的剩余命中＝当前层数－已登记的在途攻击数。每架飞机选中目标就登记一发，后面的飞机读到的是扣减后的值。这是按顺序逐架扣减，不是把所有飞机放在一起做全盘分配。<small>［P4］</small></p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="多架飞机先后选择同一箱子的例子"><table><thead><tr><th>普通箱子当前状态</th><th>后续读到的剩余命中</th><th>处理</th></tr></thead><tbody>
-<tr><td>1层，已有1发在途</td><td>1−1＝0</td><td>跳过，不再预订</td></tr>
-<tr><td>3层，已有1发在途</td><td>3−1＝2</td><td>仍可选，并留在候选组</td></tr>
-<tr><td>3层，已有2发在途</td><td>3−2＝1</td><td>可选，选后移出候选组</td></tr>
+<h3 id="booster-coordination">多架飞机：逐架预订，按剩余命中分流</h3>
+<p>普通箱子沿用<code>ItemModel.RemainingExplodeCount</code>：<strong>剩余命中＝当前层数−已登记在途攻击数</strong>。每架选中就登记；下一架使用更新后的剩余量。这里追踪的是计划中的攻击，不是已扣掉的生命值。<small>［P4］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="多架飞机的箱子预订规则"><table><thead><tr><th>箱子状态</th><th>后续读到的剩余命中</th><th>后续飞机怎样处理</th></tr></thead><tbody>
+<tr><td>1层，1发在途</td><td>0</td><td>跳过，避免再订一发</td></tr><tr><td>3层，1发在途</td><td>2</td><td>仍可选；连续打同一厚箱子有效</td></tr><tr><td>3层，2发在途</td><td>1</td><td>还能订最后一发；选后移出候选列表</td></tr>
 </tbody></table></div>
-<p>所以两架飞机飞向同一个3层箱子是有效的连续攻击，不是浪费。多格物体、覆盖层和范围组合的计数与登记各有实现。这里的in-flight登记管攻击，棋盘的Current／Next／Target登记管移动，两者无关。</p>
-<details class="code-fold"><summary>伪代码：普通箱子的在途攻击扣减<span>9行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="普通箱子的在途攻击扣减伪代码"><code>// ItemModel.RemainingExplodeCount，普通箱子沿用
-remaining = layerCount - incoming.GetIncomingCount()
-return remaining
-
-// 后续单格候选检查
-if remaining &lt; 1:
-    跳过这个候选
-else:
-    可以进入重定向与选定流程</code></pre></details>
+<p>多格物体、覆盖物、范围攻击各有登记与剩余量实现，不能把普通箱子公式强套到所有障碍。整个过程也不是把全部飞机放在一起求最佳分配：它依赖选点次序与在途登记。这里的在途登记与棋子下落的Current／Next／Target占格是不同系统。</p>
+<h4 id="target-refresh">飞出去后：有效目标通常保持，失效才重新找</h4>
+<p><code>IsTargetValid</code>检查当前目标对本次攻击是否仍有效。仍有效且未被标记失效时就保留，不会每帧追着全盘最新最高分转弯。目标被其他爆炸清掉、被标记失效且仍允许找新目标时，才重新选点并更新登记；找不到另走自爆或取消等分支。<small>［P7］</small></p>
+<p><code>ForceTargetChangeOnce</code>每架只生效一次：Default策略可触发；OnlyIfZero策略要求原目标评分已为0。后续还受“已停止寻找新目标”等飞行阶段状态限制。具体哪些障碍发送重选通知，需要结合其调用方核对。</p>
 </section>
 
-<section aria-labelledby="target-refresh">
-<h3 id="target-refresh">飞行中改不改目标：有效就不改</h3>
-<p><code>IsTargetValid</code>按本次攻击类型询问当前目标是否仍有效。仍有效且没有被标记失效，就保留原目标，不会因为旁边出现更高分的目标而转弯。<small>［P7］</small></p>
-<ul>
-<li><strong>目标被别的爆炸清掉：</strong>目标变为无效，若还允许继续找，就撤销旧的在途登记并重新选点；找不到时走自爆或取消移动等分支。</li>
-<li><strong>强制重选：</strong><code>ForceTargetChangeOnce</code>每架飞机只生效一次。Default策略直接触发；OnlyIfZero策略要求原目标评分已降到0。</li>
-</ul>
-<details class="code-fold"><summary>伪代码：飞行中目标有效性与重选<span>8行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="飞行中目标有效性与重选伪代码"><code>if forceCellAsTarget: return true
-
-if TargetItem.IsValidTarget(本次攻击类型) and not invalidateTarget:
-    LastValidCell = TargetItem.GetCell()
-    return true
-
-invalidateTarget = false
-if stoppedLookingForNewTargets:
-    return true  // 此状态保留当前处理，不再调用FindNewTarget
-return FindNewTarget()</code></pre></details>
-<details class="code-fold"><summary>伪代码：只允许一次的强制重选<span>8行</span></summary><pre class="algorithm-code" tabindex="0" aria-label="只允许一次强制重选的条件伪代码"><code>ForceTargetChangeOnce():
-    if redirectedOnce: return
-    if strategy == OnlyIfZero and not TargetHasZeroScore():
-        return
-    redirectedOnce = true
-    stoppedLookingForNewTargets = false
-    invalidateTarget = true
-    forceCellAsTarget = false</code></pre></details>
-<p>哪些障碍会发出强制重选通知、各飞行阶段何时停止找目标，还要继续追调用方。</p>
+<section aria-labelledby="hit-result">
+<h3 id="hit-result">分数决定打哪里；受击规则决定消掉什么</h3>
+<p>选中456,976分的箱子，不会造成456,976点伤害。普通飞机到达目标格后，把这次攻击的数据交给目标格的受击流程，再由覆盖物、本体与底层的门控处理。是否扣层、是否收集、是否继续传递攻击，各物体自己决定。<small>［D3、原门控矩阵］</small></p>
+<ol>
+<li><strong>到达：</strong>普通策略的<code>OnTargetReached</code>调用<code>cell.ExplodeCurrentItem</code>，传入本次<code>ExplodeData</code>。</li>
+<li><strong>判断能否受击：</strong>攻击来源、颜色、覆盖层阻挡、物体当前状态及去重规则，都可能影响结算。能被选中与能否伤害是不同判断。</li>
+<li><strong>按物体结算：</strong>普通箱子命中扣一层；还没到0则保留并播放受伤，到0才清除。彩箱等还检查来源与颜色，机关类不一定能直接扣层。</li>
+<li><strong>释放或更新计划：</strong>攻击结束或取消时更新在途登记；后续飞机据新状态选择。不能把“已预订最后一击”等同于“障碍已经消失”。</li>
+</ol>
+<p>所以飞机在选点时奖励碗柜的最后一击，是估算它成功结算后能释放的空间；它不会因为这个奖励给碗柜增加伤害。完整的“可选中／可伤害／阻挡／重定向”条件，见页尾保留的障碍门控矩阵。</p>
 </section>
 
 <section aria-labelledby="combo-selection">
-<h3 id="combo-selection">飞机＋火箭／TNT：先找能直接收完目标的，再比整线或范围</h3>
-<p>组合飞机落地后还会清整行、整列或一片范围，所以按攻击覆盖的总价值选落点，不用单格分数。客户端按触发类型进入不同的选点入口。<small>［P1、P6］</small></p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="不同道具的选点范围"><table><thead><tr><th scope="col">攻击形式</th><th scope="col">比较什么</th><th scope="col">玩家看到的</th></tr></thead><tbody>
-<tr><td>普通飞机</td><td>单格评分分组，高分组内随机</td><td>同分目标随机，不保证先打只差一下的箱子</td></tr>
-<tr><td>飞机＋竖火箭</td><td>先找能直接完成目标的列；没有再比列总分和专用修正</td><td>落点本身价值低，但它所在的列更值</td></tr>
-<tr><td>飞机＋横火箭</td><td>同上，按行</td><td>看整行收益，不只看落点</td></tr>
-<tr><td>飞机＋TNT</td><td>以候选格为中心的范围评分、专用修正和完成目标检查</td><td>可能落在两组障碍之间，覆盖更多有效目标</td></tr>
+<h3 id="combo-selection">组合飞机：改变评估对象，也改变障碍分数</h3>
+<p>必须分开看两类组合：<strong>飞机＋火箭／TNT改变一次飞行携带的攻击范围；飞机＋飞机及彩球制造飞机则产生多次单格寻点。</strong>范围变大，不等于先选普通飞机最高分格，再无条件把范围搬过去。<small>［P1、P6、D3］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="飞机组合的目标选择方式"><table><thead><tr><th>组合</th><th>选择单位</th><th>怎样决定目标</th></tr></thead><tbody>
+<tr><td>飞机＋横火箭</td><td>一整行及该行落点</td><td>先查当前一击可完成目标的行；没有再比较行分与专用修正，随后确定行内落点</td></tr>
+<tr><td>飞机＋竖火箭</td><td>一整列及该列落点</td><td>对应列分支；不是把每个落点当独立普通飞机来比较</td></tr>
+<tr><td>飞机＋TNT</td><td>以候选落点为中心的范围</td><td>逐中心评估作用范围、障碍特例、额外收集与当前收尾；普通TNT组合策略半径为2，名义覆盖5×5，边缘和有效格会裁剪</td></tr>
+<tr><td>飞机＋飞机</td><td>产生的每次单格攻击</td><td>沿用普通飞机的选点系统，附带组合的扩散标记；靠逐次登记协调，不是整行或范围总分</td></tr>
+<tr><td>彩球＋飞机</td><td>先颜色，后每架飞机的单格目标</td><td>先找有效数量最多的颜色棋；符合转换条件的棋子变飞机后，各自用LightballPropeller策略寻点</td></tr>
 </tbody></table></div>
-<p>“能直接完成目标”由胜利计算对象判断：按这次攻击估算目标减量，与剩余目标比较，并处理前置条件和特殊胜利目标。竖向组合逐列调用它，把能完成的列另存；这个列表非空就从中选，空了才回到普通评分。横向和范围组合有对应路径。它只看这一击，不模拟剩余步数。</p>
-<p>行列与范围的评分还专门处理果冻扩散、成组或多格障碍、机关和额外收集，不等于范围内障碍数相加。普通单架飞机没有这道“能否收完”的检查。</p>
+<h4>7.1 飞机＋火箭：先看能否收完，再看整条线值多少</h4>
+<ol>
+<li><strong>按组合类型取得格子分。</strong>传入横火箭或竖火箭策略，调用格子和障碍自己的评分；还要通过<code>ShouldAddToTotalScore</code>等专用条件。</li>
+<li><strong>累加行／列收益并做修正。</strong>不只是数格子：有成组物体、果冻扩散、底部收集、宝藏揭示、原木激活，以及其他机关和额外收集的专门处理。代码内部有负号存储，不能把内部负值直接解释为玩家损失。</li>
+<li><strong>检查这一击是否能满足胜利目标。</strong><code>WinCalculationData</code>根据本次命中估算目标减量并检查剩余条件；能完成的行／列单独进入<code>winningColumnsOrRows</code>。</li>
+<li><strong>先从收尾列表选。</strong>该列表非空时优先使用它；否则返回普通评分比较。同分或多个候选的取舍还有随机／排除逻辑，不能声称永远选第一行或最近列。</li>
+<li><strong>再落到具体格子。</strong>已选行／列仍要确定可用落点；竖向路径还包括锁链底部收集、果冻扩散的优先格处理。落点本身不必是整盘单格最高分。</li>
+</ol>
+<p><strong>构造例子：</strong>候选行A只有1个有效普通箱子，行B有3个；假设其他格贡献为0、没有专用修正且都不能立即完成目标，B的基础合计为1,370,928，A为456,976，组合倾向B。若另一条行被收尾判断确认能完成全部剩余目标，它会进入更优先的收尾分支，即使普通合计较低。多层障碍“被命中一次”不等于“已清除”，胜利估算也不能只数覆盖了几个障碍。</p>
+<h4>7.2 飞机＋TNT：比较落点周围，而不只比较落点</h4>
+<p><code>ExplodeRadius(PropellerTnt)</code>返回2。范围评分对每个中心计算周围作用格，加入专用物体与额外效果，再做当前胜利检查。候选筛选、零分中心、有效负分回退都有独立路径；因此下面只是结构说明，不是可替代全部物体逻辑的最终公式：<small>［P6、D2］</small></p>
+<pre class="algorithm-code" tabindex="0"><code>范围价值(中心) = 作用格评分的有效累计
+                + 成组／机关／额外收集／扩散／清路等专用修正
+收尾判断(中心) = 本次范围命中能否满足剩余胜利条件
+先处理可收尾候选；否则比较范围价值与对应回退条件</code></pre>
+<p><strong>同一个碗柜，组合评分会改变：</strong>普通飞机收尾时为913,951；飞机＋TNT下，扣在途后还需2–10次命中时，碗柜自身返回456,976；只差1次或超过10次时返回228,488。它已经进入另一个评分分支，不能把普通飞机的913,951搬进每个范围格里重复相加。<small>［D2；<a href="../assets/evidence/plane-deep/verification.json">45组既有原字节执行回执</a>］</small></p>
+<p>同一多格障碍横跨多个作用格、机关额外生成收集物、范围内含彩球等情况，也各有专用校正。<code>GetRandomItemFromAreaScores</code>在带比较器时会先洗牌再排序；未带比较器时随机取列表项。不能把所有范围候选的最终选择统一描述为“最高分并列就等概率”。完整特殊分支仍有未恢复项。</p>
+<h4>7.3 多架单格飞机：数量增加，仍逐次找障碍</h4>
+<p>飞机＋飞机的<code>NextExploder</code>先调用普通策略，再设置组合的果冻扩散标记。彩球制造的飞机由普通策略生成另一种攻击来源，进入<code>LightballPropeller</code>分类；多格物体的收尾加分明确包含这个分类。两者都需要区分“生成了哪些飞机”和“每架去打哪个障碍”，逐架选点与预订不构成全盘最优分配。</p>
+<p>没有飞机参与的火箭＋火箭、火箭＋TNT、TNT＋TNT，不能套用这里的飞机飞行选点算法；它们的作用区域由各自组合逻辑形成。彩球组合的<strong>选色</strong>在下一节单独说明。</p>
+</section>
+<section aria-labelledby="lightball-color">
+<h3 id="lightball-color">彩球选色：玩家指定，或统计有效棋子数量</h3>
+<p><strong>这条选色路径没有调用飞机的障碍评分，也没有逐颜色模拟“能打掉多少障碍”。</strong><code>DefaultLightballStrategy</code>先看是否已传入一种颜色；没有时才调用<code>FindMostCommonItem</code>。彩球＋飞机／火箭／TNT的共同父类也调用这个数量选择器。<small>［C1、C2］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="彩球不同触发方式如何选色"><table><thead><tr><th>触发方式</th><th>颜色从哪里来</th><th>会重新按障碍收益选色吗</th></tr></thead><tbody>
+<tr><td>彩球与普通颜色棋交换</td><td>从交换对象取得<code>MatchType</code>；非None时直接使用</td><td>此路径不做自动选色；玩家已经指定颜色</td></tr>
+<tr><td>点击普通彩球</td><td>没有指定颜色，统计当前可用颜色棋，选有效数量最多者</td><td>数量比较没有调用障碍评分</td></tr>
+<tr><td>彩球被其他效果触发，未携带颜色</td><td>同样进入自动数量选色；部分触发先延迟再执行</td><td>按执行选择时的可用状态统计，不一定等于点击前截图数量</td></tr>
+<tr><td>彩球＋飞机／火箭／TNT</td><td>共同父类<code>LightballSpecialStrategy.Start</code>调用自动数量选色</td><td>不会为每种颜色计算飞机落点、火箭覆盖、TNT障碍总收益后再择优</td></tr>
+<tr><td>彩球＋彩球</td><td>独立的<code>BallBall</code>组合入口</td><td>不应套用“选一种最多颜色”的说明</td></tr>
+</tbody></table></div>
+<h4>8.1 “最多”统计的是什么棋子</h4>
+<p><code>FindMostCommonItem</code>按列与当前棋盘Y范围枚举格子，先检查是否可以参与彩球处理，再对每种<code>MatchType</code>计数。它不是裸统计屏幕上所有同色图案。<small>［C2、C3］</small></p>
+<ol>
+<li><strong>格子可处理：</strong>不能有“除锁链以外的触摸阻挡覆盖物”；必须有当前物体；格子不能处于<code>IsReserved</code>状态。锁链在这项覆盖物判断中被特别排除，不能说“所有覆盖物都会排除”。</li>
+<li><strong>物体是颜色棋：</strong>当前物体必须属于<code>MatchItemModel</code>，并且棋子自身也未被<code>IsReserved</code>预订。障碍、火箭、飞机、TNT和彩球不作为颜色棋计数。</li>
+<li><strong>累计每色有效数量：</strong>满足条件的每颗棋子给对应颜色加1；不乘任务权重，也不按邻近箱子、剩余层数或可生成的组合收益加权。</li>
+<li><strong>排除运行中的颜色：</strong>遍历计数表时，如果颜色已在<code>SpecialItemCreator.RunningLightballTypes</code>中，就不作为本次自动选择结果。</li>
+<li><strong>取最大值：</strong>只有<code>count &gt; bestCount</code>才替换当前最佳颜色。所有颜色都不可用时，该选择器返回<code>MatchType.None</code>，后续如何结束由触发策略继续处理。</li>
+</ol>
+<details class="code-fold"><summary>整理伪代码：原数量选择器的主要决策</summary><pre class="algorithm-code" tabindex="0"><code>counts = Dictionary&lt;MatchType, int&gt;()
+for cell in 当前棋盘范围:
+    if not IsReadyForLightball(cell): continue
+    item = cell.CurrentItem
+    if item is not MatchItemModel: continue
+    if item.IsReserved(): continue
+    counts[item.MatchType] += 1
+
+best = None
+bestCount = 0
+for color in counts.Keys:
+    if RunningLightballTypes.Contains(color): continue
+    if counts[color] &gt; bestCount:
+        bestCount = counts[color]
+        best = color
+return best</code></pre></details>
+<h4>8.2 同数时不重新抽一种颜色；随机打乱的是目标列表</h4>
+<p>颜色选择器里的最大值比较是<strong>严格大于</strong>。红、蓝都为8时，先枚举到哪种颜色，后遇到的同数颜色就不会替换它。该方法中没有同数选色的随机调用。不能据此承诺“红色永远优先”或“最左颜色永远优先”：还要知道计数字典在本次运行中的键枚举顺序。<small>［C2：0x23985C0–0x23985C8］</small></p>
+<p>选色之后，<code>FindItemsByType</code>建立所选颜色的可用目标列表，随后调用<code>ShuffleList</code>打乱列表，再发送射线。这个随机步骤改变处理顺序，<strong>不是把已选好的颜色再随机一次</strong>。普通和彩球组合的加入列表过程还会预订棋子。<small>［C1、C4］</small></p>
+<h4>8.3 一个数字例子：为什么没选看起来最多的红色</h4>
+<div class="data-scroll" tabindex="0" role="region" aria-label="彩球有效颜色数量示例"><table><thead><tr><th>颜色</th><th>画面可见数量</th><th>被格子／棋子门控排除</th><th>有效数量</th><th>是否已有彩球占用该色</th></tr></thead><tbody>
+<tr><td>红</td><td>12</td><td>5</td><td>7</td><td>否</td></tr><tr><td>蓝</td><td>9</td><td>0</td><td>9</td><td>否</td></tr><tr><td>绿</td><td>10</td><td>0</td><td>10</td><td>是</td></tr>
+</tbody></table></div>
+<p><strong>构造结果：选蓝色。</strong>红色画面上最多，但有效数只有7；绿色有效10颗，却已在运行颜色集合中被排除；剩下蓝色9颗最多。若玩家直接用彩球交换红棋，传入的红色会走指定颜色路径，上述自动比较就不适用。</p>
+<p>已用原始<code>FindMostCommonItem</code>方法执行8组构造输入，覆盖数量多数、格子过滤、棋子预订、运行颜色排除、两种同数枚举次序及无可用颜色。格子可用性和C#容器行为由明确注入的协作者提供；<a href="../assets/evidence/booster-decisions/verification.json">执行回执</a>用于核对该方法分支，不是原端整局验证。</p>
+<h4>8.4 彩球组合：先选颜色，再执行该组合；两次决策不要混在一起</h4>
+<div class="flow" aria-label="彩球飞机组合的两次选择"><span>统计有效颜色棋</span><b>→</b><span>选有效数最多的颜色</span><b>→</b><span>射线处理／转换</span><b>→</b><span>生成的飞机各自评分选障碍</span></div>
+<ul>
+<li><strong>彩球＋飞机：</strong>数量选择器决定“哪些颜色棋可能被转换”；生成的飞机再按<code>LightballPropeller</code>规则、障碍状态和在途计数决定飞往哪里。它没有先比较“红色9架最终能清多少障碍，蓝色8架又能清多少”再选择颜色。<small>［C2、C5、D3］</small></li>
+<li><strong>彩球＋火箭：</strong>同样先选数量最多的有效颜色；在当前列表收集路径中，替换火箭的朝向从参与组合的火箭朝向开始，随后横竖交替登记。这里的朝向分配没有逐位置调用页内的“智能火箭行列收益比较”。<small>［C5：0x239B5B8、0x239B714］</small></li>
+<li><strong>彩球＋TNT：</strong>也走同一个选色父类，再由TNT专用策略处理转换与爆炸。不能因为某色棋子旁的障碍更密，就推断选色会偏向它。<small>［C5：0x239E718→0x239A530］</small></li>
+</ul>
+<p><strong>有效颜色数量也不保证等于最终生成道具数。</strong>例如彩球＋飞机的射线到达锁链下棋子时，有先处理锁链并重置棋子的独立分支，没有直接走常规的移除颜色棋、生成飞机路径；后续状态变化也会影响最终处理。数量选择与实际转换结果要分别取证。<small>［C5：0x239ACFC–0x239AD24］</small></p>
+<p>本节描述普通彩球的上述入口与共享选色方法。超级彩球的追加射线、再次选色和并发时序尚未完整恢复，不把本节扩写成超级彩球的全部规则。</p>
+</section>
+<section aria-labelledby="optimality">
+<h3 id="optimality">分析提炼：这些规则在优化什么</h3>
+<p><strong>飞机优化当前攻击的局部优先级。</strong>物体类别、收尾释放空间、底部收集专用收益、在途攻击都会影响这一击；组合还检查能否就此完成胜利目标。没有在已核对入口中展开后续多手补棋、造道具和通关率搜索。不能称为全局最省步数求解器。依据：P1–P7、D1–D3。</p>
+<p><strong>普通飞机的不确定性主要发生在同分组内。</strong>箱子1层与3层同分时，玩家觉得应该优先的最后一层没有独占最高分；手套、碗柜有专用收尾分支则表现不同。高分目标无剩余有效命中时还会被跳过。依据：P2–P4、D2。</p>
+<p><strong>彩球自动选色优化的是可参与处理的颜色棋数量。</strong>它没有逐颜色比较障碍收益；这解释了为什么某色虽然更靠近障碍，也可能没有被选中。彩球＋飞机先选色，再由飞机选障碍，是串联的两次决策。依据：C1–C5。<small>［设计解读］数量优先可提高一次触发的处理规模，但不保证最终障碍清除量最大。</small></p>
+<p><strong>分数与伤害分开，才能解释“选中了但没清掉”。</strong>厚箱子只扣一层是受击规则；被别的飞机预订完而跳过是选点协调；覆盖物接管是层级路由；飞行中失效才改点是目标稳定性。它们发生在不同步骤，不能用一个“飞机不智能”概括。依据：P2、P4、P7、D1、D3。</p>
+<h4>未确认与边界</h4>
+<ul>
+<li>全部障碍、覆盖物与底层目标在所有状态下的最终评分矩阵尚未恢复；115项基础表和95个入口不等于完整状态模型。</li>
+<li>组合的所有特殊胜利条件、成组重定向、零分／负分回退及并发完整语义仍需继续核对；范围结构说明不能代替完整原版模拟器。</li>
+<li>彩球同数分支已确认保留先枚举项，仍不能只凭画面确定该次字典枚举顺序；超级彩球追加选色与完整时序不在本节已验证范围。</li>
+<li>要预测某次真实落点，仍要提供当时各层状态、任务、在途登记、随机种子及此前随机调用。此次原字节构造执行不等于原端整局或逐帧一致性验收。</li>
+</ul>
 </section>
 <section id="smart-rocket" aria-labelledby="title-smart-rocket"><h3 id="title-smart-rocket">智能火箭：只决定横竖方向</h3><p>智能火箭只决定<strong>横向还是竖向</strong>，不挪生成位置。全库直接调用它的只有三处：开局火箭道具放到棋盘上时（<code>BoosterManager.CreateSpecialItem</code>）、Cloche放出火箭时、SlotMachine抛出火箭时。三消四连生成的火箭不走这里，方向由形状决定：竖排四连出横火箭，横排四连出竖火箭，见<a href="fall-rules.html#pattern-search">棋盘状态机</a>。<small>［S1］</small></p>
 <p>规则：分别累加生成格所在整行、整列每格对这次攻击的评分，哪边总分高就朝哪边打；两边相等时用关卡随机数在0和1之间取一个，1选竖向，0选横向。评分沿用上面的档位与修正，所以棋子多的一边不一定分高；一个VeryHigh目标就能压过一整列低档目标。</p>
@@ -155,8 +256,8 @@ return levelRandom.Next(0, 2) == 1 ? 20 : 30</code></pre></details>
 <p>横向从该行x=0的格子沿右邻居累加，策略参数2；纵向从该列棋盘起始行（<code>BoardStartY</code>）沿上邻居累加，策略参数1。两种策略分别取分，同一格对横、竖贡献的分数可以不同。</p>
 <p><strong>例子：</strong>横向各格贡献“0、4、0、3、0”，总分7；纵向“2、0、0、1、2”，总分5，返回横向火箭30。纵向改成8返回20；两边都是7进入随机。数字是示意值。</p>
 <div class="rocket-demo"><h4>方向规则演示</h4><p class="demo-label">输入为示意总分。</p><div class="rocket-inputs"><label for="rocket-horizontal">横向总分 <input id="rocket-horizontal" type="number" value="12" step="1"></label><label for="rocket-vertical">纵向总分 <input id="rocket-vertical" type="number" value="8" step="1"></label></div><output id="rocket-result" for="rocket-horizontal rocket-vertical" aria-live="polite">横分12大于竖分8：选择横向火箭（30）。</output></div></section><section aria-labelledby="plane-deep-facts">
-<h3 id="plane-deep-facts">拆包事实：完整基础表与状态评分</h3>
-<span class="layer layer-fact">事实层</span>
+<h3 id="plane-deep-facts">附录：完整提取范围与飞行参数</h3>
+<details class="matrix-fold"><summary>展开提取清单与Pilot参数（与障碍选点分开）</summary>
 <p>飞机逻辑分成“给目标打分”“选目标”“登记在途命中”“飞行与重选”“到达后结算”。已捕获443个相关原生方法的线性字节与汇编，包含95个<code>GetExplodeScore</code>入口；捕获到代码不代表全部分支已解读。范围还包含共用的引导道具与评分类，不能把443当作443个飞机专属算法。</p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="飞机逻辑可提取范围"><table><thead><tr><th>部分</th><th>已经取得</th><th>可以用来做什么</th></tr></thead><tbody>
 <tr><td>基础分值</td><td>115个连续表项，按<code>ItemType−1</code>索引，保留无命名编号</td><td>重建基础查表；不能代替物体覆盖方法或最终格子评分</td></tr>
@@ -166,32 +267,6 @@ return levelRandom.Next(0, 2) == 1 ? 20 : 30</code></pre></details>
 <tr><td>飞行表现</td><td>普通与组合Pilot的方法、字段及已执行核对的常量getter</td><td>继续还原起飞、追踪、缩放和到达流程；整条飞行曲线尚未验收</td></tr>
 </tbody></table></div>
 <p><a href="../assets/evidence/plane-deep/base-scores.csv" download>115项基础分值CSV</a> · <a href="../assets/evidence/plane-deep/score-methods.json">95个评分入口</a> · <a href="../assets/evidence/plane-deep/freed-cells.json">清除后释放格数</a> · <a href="../assets/evidence/plane-deep/metadata-excerpts.json">字段与枚举声明</a> · <a href="../assets/evidence/plane-deep/manifest.json">443个方法及哈希</a> · <a href="../assets/evidence/plane-deep/native.zip" download>下载原字节与汇编</a></p>
-<h4>碗柜：最后一下，会比普通箱子更吸引飞机</h4>
-<p>碗柜继承多格物体评分。普通飞机面对只差一下的碗柜，会计算“清掉后释放多少格”：每格152,325分，再加304,651。碗柜释放4格，因此是<code>4×152325＋304651＝913951</code>，高于普通箱子的456,976，也高于只差一下的拳击手套609,301。</p>
-<p>这里的“只差一下”是<strong>层数减去已登记的在途命中等于1</strong>。例如碗柜还剩3层，已有2架飞机预订命中，下一架评分时也可能进入这个收尾分支。这是按登记结果预测，不保证在途攻击最终都如期命中。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="碗柜状态评分"><table><thead><tr><th>物体／状态</th><th>攻击</th><th>物体自身评分</th></tr></thead><tbody>
-<tr><td>普通箱子，剩1层或3层</td><td>普通飞机</td><td>456,976</td></tr>
-<tr><td>碗柜，还需多次命中</td><td>普通飞机</td><td>456,976</td></tr>
-<tr><td>碗柜，扣掉在途后还需1次</td><td>普通飞机</td><td>913,951</td></tr>
-<tr><td>碗柜，扣掉在途后还需2–10次</td><td>飞机＋TNT</td><td>456,976</td></tr>
-<tr><td>碗柜，扣掉在途后还需1次，或超过10次</td><td>飞机＋TNT</td><td>228,488</td></tr>
-</tbody></table></div>
-<details class="code-fold"><summary>整理代码：多格物体与碗柜怎样评分</summary><pre class="algorithm-code" tabindex="0"><code>// MultipleCellItemModel.GetExplodeScore 0x3391C90
-remaining = layerCount - incomingCount
-if strategy in {PropellerTnt, FurnaceFireball}:
-    return 228488
-if remaining != 1:
-    return BaseScore(itemType)
-if strategy in {Propeller, Firework, LightballPropeller, Boomerang}:
-    return CellsFreedAfterExplode(itemType) * 152325 + 304651
-return 456976
-
-// CupboardItemModel.GetExplodeScore 0x2DD0558
-// 碗柜覆盖上面的范围攻击分支，其他情况交回父类。
-if strategy in {PropellerTnt, FurnaceFireball}:
-    return (2 &lt;= RemainingExplodeCount() &lt;= 10) ? 456976 : 228488
-return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
-<p>已用原始ARM64字节执行45组碗柜“层数／在途／攻击类型”构造输入，并核对全部115个基础查表值与115个释放格数结果。<a href="../assets/evidence/plane-deep/verification.json">执行回执</a>明确记录了输入与验证范围；未把它当作原端整局验收。依据：<code>0x3391C90</code>、<code>0x2DD0558</code>、<code>0x338BAB0</code>、<code>0x338493C</code>、<code>0x33849AC</code>。</p>
 <h4>普通飞行可以提到什么程度</h4>
 <p>普通Pilot里已经取得缩放、起飞速度、追踪加速、速度上限、开始缩小距离和最短飞行时间的独立getter。下面是执行原字节得到的值；速度与距离保留内部单位，不换算成屏幕像素或每秒棋盘格。</p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="普通飞机Pilot常量"><table><thead><tr><th>字段／方法</th><th>值</th><th>RVA</th></tr></thead><tbody>
@@ -202,53 +277,31 @@ return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
 <tr><td>GetMinFlyTime</td><td>0.5</td><td>0x33999E0</td></tr>
 </tbody></table></div>
 <p>这些值来自<code>DefaultPropellerPilot</code>，组合Pilot可以覆盖它们。取得参数不等于已还原完整轨迹：仍需核对帧时钟、状态转移、向量运算、末段改目标门控与到达回调。</p>
-</section>
-<section aria-labelledby="plane-deep-analysis">
-<h3 id="plane-deep-analysis">分析提炼：为什么同样是“残血障碍”，飞机反应不同</h3>
-<span class="layer layer-analysis">分析层</span>
-<p><strong>它按物体规则判断收益，不统一按剩余层数排序。</strong>普通箱子没有最后一击加分；多格物体的收尾可以按释放格数加分；碗柜的范围攻击还要单独比较剩余命中。因此“飞机优先打快清掉的障碍”只能对部分物体和攻击类型成立。依据是上面的三个评分方法，而非对所有障碍的泛化。</p>
-<p><strong>收尾奖励仍是当前一击的局部收益。</strong>释放格数增加评分，说明代码考虑了立即腾出空间的价值；没有因此展开后续补棋与多手搜索。飞机＋TNT给残血碗柜较低分，也只说明这一评分分支的取舍，不能直接推导为整局最省步数。</p>
-<p><strong>“同分随机”也有一个具体例外。</strong>首次抽下标是均匀随机；如果抽到出发格，代码改用相邻下标，并没有从其余格重抽。构造一个同分列表<code>[出发格,A,B]</code>，假设三格都有效且不触发后续重定向，三个原始下标最终对应<code>[A,A,B]</code>，所以A是2/3、B是1/3。这是避让出发格造成的局部概率偏差，并不代表系统给A配置了更高分。依据：<code>FindSingleTargetCellForExploder 0x20F1E24</code>。</p>
-</section>
-<section aria-labelledby="plane-deep-limits">
-<h3 id="plane-deep-limits">未确认与边界：能复刻到哪一步</h3>
-<span class="layer layer-limit">边界层</span>
-<p>已经可以实现基础查表、普通选点、高分组与随机、在途扣减，以及上述多格物体与碗柜评分。要预测任意关卡每一架的落点，还需要全部物体覆盖规则、格子的覆盖层与底层、完整重定向、当前目标数量、随机种子和此前所有随机调用。此次导出保留这些函数供继续分析，没有把未解读的入口标成已恢复算法。</p>
-<p>完整飞行轨迹、复杂组合并发、特殊胜利条件和原端逐帧一致性仍需继续核对；算法中没有证明全局最少步数或最高通关率的求解器。</p>
-</section>
-<section aria-labelledby="optimality">
-<h3 id="optimality">是不是最优：只看当前这一击</h3>
-<p>选点是对<strong>当前这一击</strong>的贪心评分：按攻击类型和状态打分，对少数收尾情况加分，用在途计数避免打重，组合飞机先找能直接收完目标的落点。选点入口里没有展开后续多手、补棋和通关率的搜索。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="玩家期望与代码处理"><table><thead><tr><th>玩家期望</th><th>代码怎样处理</th><th>结果</th></tr></thead><tbody>
-<tr><td>“这一下正好帮我收尾”</td><td>拳击手套与多格物体有收尾加分；组合飞机先查能否收完目标</td><td>✅ 这些分支会抓住收尾机会</td></tr>
-<tr><td>“别打已经够了的目标”</td><td>在途登记扣减剩余命中，≤0跳过</td><td>✅ 普通箱子不会被多订；多层目标仍会被连续打</td></tr>
-<tr><td>“先打马上能清掉的箱子”</td><td>1层和3层普通箱子同分</td><td>❌ 同分随机，可能打另一个</td></tr>
-<tr><td>“局面变了，快换目标”</td><td>目标仍有效就保留；强制重选每架只一次</td><td>❌ 不追新的最高分；但飞行意图稳定、好辨认</td></tr>
-<tr><td>“帮我打开通道，方便后面几手”</td><td>不模拟后续掉落与连锁</td><td>❌ 当前分高不代表后面省步数</td></tr>
-</tbody></table></div>
-<p>【设计解读】26倍分档加同分随机，让道具稳定地命中“重要类别”的目标，同时保留一点不可预测；代价是玩家心中最该打的那一格，未必独占最高分。比人工选点省多少步，需要同一批棋盘的对照数据，包里没有。飞行表现由Pilot驱动，目标变化可影响追踪；它与选点评分是不同代码层。</p>
-</section>
-
-<section aria-labelledby="hit-result">
-<h3 id="hit-result">选中之后：按目标自己的受击规则结算</h3>
-<p>评分决定先考虑哪里，受击规则决定到达后发生什么。普通箱子命中扣一层，未到0播受伤，到0清除；彩箱还要检查攻击来源和颜色。“道具能否选中”“能否伤害”“是否阻挡”“是否转向”是四个独立条件，要分别看。</p>
-<p>页尾保留30类目标×19类条件的门控矩阵：157项是动态逻辑，33项委派给其他实现；矩阵中的“未声明”指该类分支里没有声明这个方法。</p>
-</section>
-
+</details></section>
+<span id="plane-deep-analysis" class="legacy-anchor"></span><span id="plane-deep-limits" class="legacy-anchor"></span>
+<p>多格障碍与碗柜的具体评分已合入<a href="#actual-priorities">03 障碍怎样打分</a>及<a href="#combo-selection">07 组合飞机</a>；解释与未确认项见<a href="#optimality">09 分析与边界</a>。</p>
 <details class="evidence" id="selection-evidence"><summary>选点算法的代码证据与数值来源</summary>
-<p>研究样本为build 38174，ARM64 ELF SHA-256为<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。全部为静态证据，未做原端逐帧或整局回放对照；函数快照按相邻元数据入口截取字节范围。</p>
+<p>研究样本为build 38174，ARM64 ELF SHA-256为<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。方法字节与元数据为静态证据；部分方法另有构造输入执行核对，已逐项注明。未做原端逐帧或整局回放对照；函数快照按相邻元数据入口截取字节范围。</p>
 <div class="data-scroll"><table><thead><tr><th>证据</th><th>可复查的位置</th><th>支持的结论</th></tr></thead><tbody>
 <tr><td>P1</td><td><code>FindForExploder 0x20EF310</code><br><code>FillScores 0x20EF844</code></td><td>按攻击类型分派；过滤格子、读取评分；以负评分为键分组。构造函数创建默认有序字典。</td></tr>
 <tr><td>P2</td><td><code>FindSingleTargetCellForExploder 0x20F1E24</code><br><code>FindSingleTarget 0x20EFE34</code></td><td>逐评分组遍历、Next(0,Count)取下标、避开出发格、剩余命中检查、TryRedirect、已有目标的保留与登记。</td></tr>
 <tr><td>P3</td><td><code>ItemModel.GetExplodeScore 0x338496C</code><br><code>ItemExtensions.ExplodeScore 0x3384988</code><br><code>Box.get_ItemType 0x2A65B1C</code><br><code>BoxingGlove.GetExplodeScore 0x2A67954</code></td><td>Box继承基础评分，ItemType为6；小端int32表0x3F092EC第6项为456976；拳击手套剩余命中等于1取0x94C15，否则0x6F910。档位常量与PropellerLayerMultiplier＝26见元数据摘录。</td></tr>
 <tr><td>P4</td><td><code>ItemModel.RemainingExplodeCount 0x338C910</code><br><code>ExplodeTargetMediator.RemainingExplodeCount 0x2ACF600</code><br><code>AddIncomingExploder 0x2ACF800</code></td><td>普通物体层数减GetIncomingCount；格子汇总有独立路径；选点后登记攻击。</td></tr>
-<tr><td>P5</td><td><code>CalculateScoreForMatchItem 0x1E916F4</code><br><code>MatchItem.GetExplodeScore 0x1E92AD8</code><br><code>ExplodeTargetMediator.GetScore 0x2ACF1E4</code></td><td>颜色棋读取任务剩余量与机关状态；帧／策略缓存；被原木、拳击手套、钻头阻挡且分数≥1时返回0x11D9（0x2ACF31C）。</td></tr>
+<tr><td>P5</td><td><code>CalculateScoreForMatchItem 0x1E916F4</code><br><code>MatchItem.GetExplodeScore 0x1E92AD8</code><br><code>ExplodeTargetMediator.GetScore 0x2ACF1E4</code></td><td>颜色棋读取任务剩余量与机关状态；有帧／策略缓存字段，但普通单格策略进入重算分支；被原木、拳击手套、钻头阻挡且分数≥1时返回0x11D9（0x2ACF31C）。</td></tr>
 <tr><td>P6</td><td><code>FindHighestColumnScore 0x20F38D0</code><br><code>FindHighestRowScore 0x20F4C70</code><br><code>FindHighestScoreForAreaExploder 0x20EFF70</code><br><code>WinCalculationData.IsWinningByHitCells 0x26A8168</code></td><td>行列／范围的专用评分修正与当前胜利检查；列路径0x20F4838–0x20F4880先判断winningColumnsOrRows再回退评分。</td></tr>
 <tr><td>P7</td><td><code>IsTargetValid 0x26A1BDC</code><br><code>FindNewTarget 0x26A1E14</code><br><code>ForceTargetChangeOnce 0x26A4854</code></td><td>目标有效／失效、停止寻找、强制格子目标与一次重定向条件；0xF4／0xF5／0xF6／0x108字段由元数据配对。</td></tr>
 <tr><td>S1</td><td><code>SelectSmartRocket 0x20EDA34</code><br><code>CalculateHorizontalRocketScore 0x20EDAF4</code><br><code>CalculateVerticalRocketScore 0x20EDB94</code></td><td>横纵总分比较、同分Next(0,2)；横向从(0,row)沿方向3、纵向从(column,BoardStartY)沿方向1累加，策略参数2／1。直接调用方见调用扫描。</td></tr>
+<tr><td>D1</td><td><a href="../assets/evidence/booster-decisions/02acf360.s"><code>CalculateScore 0x2ACF360</code></a><br><a href="../assets/evidence/booster-decisions/metadata-excerpts.json">ItemModel／StaticItemModel虚方法声明</a></td><td>覆盖物→障碍本体→可受击底层→其他本体的普通飞机路由；9组构造状态执行核对，不是各层基础分求和。</td></tr>
+<tr><td>D2</td><td><a href="../assets/evidence/booster-decisions/03391c90.s"><code>MultipleCell.GetExplodeScore 0x3391C90</code></a><br><a href="../assets/evidence/booster-decisions/02dd0558.s"><code>Cupboard.GetExplodeScore 0x2DD0558</code></a><br><a href="../assets/evidence/booster-decisions/0338a898.s"><code>ExplodeRadius 0x338A898</code></a></td><td>多格收尾公式、碗柜TNT组合分支、半径2；ItemType基础表与StaticItemType基础表互相独立。</td></tr>
+<tr><td>D3</td><td><a href="../assets/evidence/booster-decisions/033a2f00.s"><code>Default.OnTargetReached 0x33A2F00</code></a><br><a href="../assets/evidence/booster-decisions/033a3af8.s"><code>PropellerPropeller.NextExploder 0x33A3AF8</code></a><br><a href="../assets/evidence/booster-decisions/033a2e20.s"><code>Default.NextExploder 0x33A2E20</code></a></td><td>到达调用ExplodeCurrentItem；飞机双拼沿用普通攻击并修改扩散标记；彩球来源分支。</td></tr>
+<tr><td>C1</td><td><a href="../assets/evidence/booster-decisions/023979a4.s"><code>DefaultLightball.Start 0x23979A4</code></a><br><a href="../assets/evidence/booster-decisions/02397ee0.s"><code>SelectMatchTypeAndStart 0x2397EE0</code></a></td><td>交换对象的颜色为输入；非None直接使用，None才自动选色；随后收集所选颜色目标并ShuffleList。</td></tr>
+<tr><td>C2</td><td><a href="../assets/evidence/booster-decisions/023982ac.s"><code>FindMostCommonItem 0x23982AC</code></a></td><td>按有效颜色棋计数，排除RunningLightballTypes，只在计数严格更大时更新最佳颜色；无候选返回None。8组构造输入核对。</td></tr>
+<tr><td>C3</td><td><a href="../assets/evidence/booster-decisions/0239d290.s"><code>IsReadyForLightball 0x239D290</code></a><br><a href="../assets/evidence/booster-decisions/metadata-excerpts.json">SpecialItemCreator字段声明</a></td><td>除锁链外的触摸阻挡物、无当前物体、格子预订过滤；RunningLightballTypes为独立集合。</td></tr>
+<tr><td>C4</td><td><a href="../assets/evidence/booster-decisions/02398694.s"><code>FindItemsByType 0x2398694</code></a><br><a href="../assets/evidence/booster-decisions/02398c48.s"><code>Default.AddMatchItemToList 0x2398C48</code></a><br><a href="../assets/evidence/booster-decisions/0239b7a4.s"><code>Special.AddMatchItemToList 0x239B7A4</code></a></td><td>同色棋再筛选、加入目标列表与Reserve；目标处理顺序随机与颜色选择分开。</td></tr>
+<tr><td>C5</td><td><a href="../assets/evidence/booster-decisions/0239a530.s"><code>LightballSpecial.Start 0x239A530</code></a><br><a href="../assets/evidence/booster-decisions/0239ac54.s"><code>LightballPropeller.SingleRayReached 0x239AC54</code></a><br><a href="../assets/evidence/booster-decisions/0239b714.s"><code>LightballRocket.AddMatchItemToList 0x239B714</code></a></td><td>三类彩球组合共用数量选色；锁链下棋子的独立处理；火箭朝向继承输入后横竖交替，而非每格智能选向。</td></tr>
 </tbody></table></div>
 <p><a href="../assets/evidence/propeller-selection/manifest.json">选点原字节快照与分值表</a>，<a href="../assets/evidence/propeller-selection/metadata-excerpts.json">元数据摘录</a>，<a href="../assets/evidence/board-algorithms/manifest.json">智能火箭快照</a>，<a href="../assets/evidence/board-algorithms/call-sites.json">直接调用扫描</a>。</p>
-<p>尚未还原：全部物体与状态的最终评分、特殊目标与组合的完整重定向、零分与负分在全部关型中的回退表现。</p>
+<p>新增<a href="../assets/evidence/booster-decisions/manifest.json">53个方法的原字节快照清单</a>、<a href="../assets/evidence/booster-decisions/verification.json">8组选色＋9组评分路由执行回执</a>。快照捕获范围不等于全部语义已经恢复。复算脚本为仓库内scripts/extract_booster_decisions.py与scripts/verify_booster_decisions.py，依赖capstone、pyelftools和Unicorn；只读原始解包资料，输出仅写本站证据目录。</p>
 </details>
 </div><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>飞机与组合道具的目标评分原字节证据</h6><p>build 38174 ARM64原字节、元数据继承与默认评分表交叉核对。原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FillScores 0x20EF844；单格选择0x20F1E24；箱子类型6与默认分456976；拳击手套0x2A67954最后命中取609301；在途扣减0x338C910；行列／范围检查0x20F38D0、0x20F4C70、0x20EFF70。已确认高分组优先及组内随机，不保证整关最少步数或最高胜率；完整物体状态、特殊重定向与实机对照仍待验证。</p><p>取证位置：<code>本站 assets/evidence/propeller-selection/manifest.json；48份方法汇编与metadata-excerpts.json</code></p></div><div class="evidence-entry"><h6>飞机目标与命中链</h6><p>静态入口、调用链与目标模型接口。FindTarget 0x26A313C；IsTargetValid 0x26A1BDC；FindNewTarget 0x26A1E14；TryExplode 0x26A3704；TryExplodeItem 0x26A3750。普通选择已确认评分分组、高分优先、组内随机与在途攻击检查；已有目标有保留与受条件限制的重选。完整分值表、特殊重定向、全部重选通知及飞行曲线仍未闭合。</p><p>取证位置：<code>royal-match-apk-audit-38174/outputs/royal_match_obstacle_booster_cascade_rules_2026-09-16.md；indices/gate_resolution_full.csv</code></p></div><div class="evidence-entry"><h6>障碍门控与继承定义者索引</h6><p>静态指令形态与继承回溯。30目标×19门控=570格；157动态、33虚委派。CanBeDamaged、IsValidTarget、DoesBlock、Redirect等分别解释；未声明不是玩法不支持。形态归类不等于完整行为证明。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/gate_resolution_full.csv</code></p></div><div class="evidence-entry"><h6>特殊块生成、方向与组合</h6><p>ARM64／ARMv7静态规则。SelectSmartRocket 0x20EDA34；横评分0x20EDAF4、纵评分0x20EDB94；生成选格0x1378554；创建协程0x20EE048；组合分派0x26AD2C4。静态已确认方向比较与局部创建阶段，完整帧边界待实机。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv</code></p></div><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>棋盘状态机的原字节快照与调用扫描</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读常量、全库直接调用扫描交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4／0x2A3A810；匹配0x137AAA0／0x137AE2C；生成格0x13784F0／0x1378554；创建延迟0x20EDDE8；自动消除0x20EE59C／0x1E92FD8；直斜落0x2A2BA0C／0x2A2C350／0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；命中去重0x338CC74；蘑菇0x15571E0；智能方向0x20EDA34。伪代码为标明省略范围的整理；静态证据，未做原端逐帧或整局回放对照。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/：manifest.json与63份方法快照、call-sites.json、literals.json、metadata-excerpts.json</code></p></div></details></div></section><details class="matrix-fold"><summary>补充证据：30类目标×19类条件门控矩阵（原报告章节）</summary><span id="gate-matrix" class="legacy-anchor"></span><style>@scope (.original-report) {
 
@@ -1997,6 +2050,6 @@ owner=StaticItemModel @ 0x30EDF7C
 shape=constant_false
 mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr></tbody></table></div>
 </div></details>
-<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能构造局面测试飞机偏好、是否打重、火箭方向，以及组合能否直接完成目标；仅看结果，较难分清评分档位、同分随机与在途扣减。</p><p>解包增量：取得26倍评分档位、阻挡修正、组内随机、在途命中扣减、强制重选条件、组合范围评分与收尾检查、智能火箭方向及其调用入口，可据此实现道具决策并构造边界用例。全部物体评分与部分特殊重定向仍需核对。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能构造局面测试飞机偏好、是否打重、火箭方向，以及组合能否直接完成目标；仅看结果，较难分清评分档位、同分随机与在途扣减。</p><p>解包增量：取得26倍评分档位、阻挡修正、组内随机、在途命中扣减、强制重选条件、组合范围评分与收尾检查、彩球有效计数与同数规则、智能火箭方向及其调用入口，可据此实现道具决策并构造边界用例。全部物体评分与部分特殊重定向仍需核对。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-obstacle-rules">← 返回内容总览</a></footer></main>
 </body></html>

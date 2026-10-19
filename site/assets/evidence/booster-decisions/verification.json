@@ -1,0 +1,397 @@
+{
+  "sampleSha256": "8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd",
+  "colourCases": [
+    {
+      "name": "majority",
+      "colours": [
+        1,
+        3,
+        3,
+        2,
+        3
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [],
+      "runningColours": [],
+      "counts": {
+        "1": 1,
+        "3": 3,
+        "2": 1
+      },
+      "selected": 3
+    },
+    {
+      "name": "blocked cells excluded",
+      "colours": [
+        1,
+        3,
+        3
+      ],
+      "blockedCellIndexes": [
+        1,
+        2
+      ],
+      "reservedItemIndexes": [],
+      "runningColours": [],
+      "counts": {
+        "1": 1
+      },
+      "selected": 1
+    },
+    {
+      "name": "reserved items excluded",
+      "colours": [
+        1,
+        3,
+        3
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [
+        1,
+        2
+      ],
+      "runningColours": [],
+      "counts": {
+        "1": 1
+      },
+      "selected": 1
+    },
+    {
+      "name": "running majority excluded",
+      "colours": [
+        1,
+        3,
+        3
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [],
+      "runningColours": [
+        3
+      ],
+      "counts": {
+        "1": 1,
+        "3": 2
+      },
+      "selected": 1
+    },
+    {
+      "name": "tie keeps first enumerated colour",
+      "colours": [
+        3,
+        1
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [],
+      "runningColours": [],
+      "counts": {
+        "3": 1,
+        "1": 1
+      },
+      "selected": 3
+    },
+    {
+      "name": "reversed tie order",
+      "colours": [
+        1,
+        3
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [],
+      "runningColours": [],
+      "counts": {
+        "1": 1,
+        "3": 1
+      },
+      "selected": 1
+    },
+    {
+      "name": "no eligible items",
+      "colours": [
+        1,
+        3
+      ],
+      "blockedCellIndexes": [
+        0,
+        1
+      ],
+      "reservedItemIndexes": [],
+      "runningColours": [],
+      "counts": {},
+      "selected": 0
+    },
+    {
+      "name": "all colours running",
+      "colours": [
+        1,
+        3
+      ],
+      "blockedCellIndexes": [],
+      "reservedItemIndexes": [],
+      "runningColours": [
+        1,
+        3
+      ],
+      "counts": {
+        "1": 1,
+        "3": 1
+      },
+      "selected": 0
+    }
+  ],
+  "cellRouteCases": [
+    {
+      "name": "cover wins over body and floor",
+      "aboveScores": [
+        {
+          "score": 101,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "body": {
+        "score": 201,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": true,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 101
+    },
+    {
+      "name": "exhausted cover bypassed",
+      "aboveScores": [
+        {
+          "score": 102,
+          "remaining": 0,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "body": {
+        "score": 201,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": true,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 201
+    },
+    {
+      "name": "blocking exhausted cover still routes",
+      "aboveScores": [
+        {
+          "score": 103,
+          "remaining": 0,
+          "blocks": true,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "body": {
+        "score": 201,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": true,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 103
+    },
+    {
+      "name": "obstacle body wins over floor",
+      "aboveScores": [],
+      "body": {
+        "score": 201,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": true,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 201
+    },
+    {
+      "name": "floor wins over match",
+      "aboveScores": [],
+      "body": {
+        "score": 202,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": false,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 301
+    },
+    {
+      "name": "undamageable floor skipped",
+      "aboveScores": [],
+      "body": {
+        "score": 202,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": false,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 302,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": false
+        }
+      ],
+      "score": 202
+    },
+    {
+      "name": "first damageable floor wins",
+      "aboveScores": [],
+      "body": {
+        "score": 202,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": false,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        },
+        {
+          "score": 101,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 301
+    },
+    {
+      "name": "top cover is last in list",
+      "aboveScores": [
+        {
+          "score": 101,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        },
+        {
+          "score": 103,
+          "remaining": 0,
+          "blocks": true,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "body": {
+        "score": 201,
+        "remaining": 1,
+        "blocks": false,
+        "obstacle": true,
+        "damageable": true
+      },
+      "belowScores": [
+        {
+          "score": 301,
+          "remaining": 1,
+          "blocks": false,
+          "obstacle": false,
+          "damageable": true
+        }
+      ],
+      "score": 103
+    },
+    {
+      "name": "empty cell",
+      "aboveScores": [],
+      "body": null,
+      "belowScores": [],
+      "score": 0
+    }
+  ],
+  "strategy": 0,
+  "collaborators": "Injected grid, Dictionary/HashSet iteration and storage, item readiness/reservation, virtual obstacle predicates/scores; metadata and write-barrier no-op.",
+  "tieLimit": "Tests specify Dictionary enumeration order; they do not establish an unconditional spatial or colour preference.",
+  "limit": "Original decision-method bytes with constructed state and modeled collaborators; not original client gameplay, Unity scheduling, all obstacle overrides or complete combo simulation.",
+  "interceptedAddresses": [
+    "0x1e92efc",
+    "0x239d290",
+    "0x23b49ec",
+    "0x2745e60",
+    "0x2754510",
+    "0x2756fe0",
+    "0x2757004",
+    "0x2757048",
+    "0x29ce3ec",
+    "0x2a4af4c",
+    "0x2a61560",
+    "0x2a61564",
+    "0x2ac8074",
+    "0x36ef6d8",
+    "0x36efd80",
+    "0x36f0098",
+    "0x36f0130",
+    "0x36f0148",
+    "0x36f1bd4",
+    "0x710f0388",
+    "0x710f0418",
+    "0x710f0458",
+    "0x710f0468",
+    "0x710f04e8",
+    "0x710f0758",
+    "0xfb1300",
+    "0xfb1418"
+  ]
+}

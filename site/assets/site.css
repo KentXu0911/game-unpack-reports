@@ -59,6 +59,7 @@ h1{font-size:29px;line-height:1.35;margin:0 0 12px;letter-spacing:.6px}header p{
 /* Board state machine page: summary, numbered sections and folded pseudocode. */
 .board-machine{counter-reset:board}
 .board-machine p{line-height:1.85;max-width:780px}
+.board-machine code{overflow-wrap:anywhere}
 .board-machine small{color:#7a8798;font-size:11px}
 .board-summary h3{font-size:20px;margin:0 0 12px;color:var(--navy)}
 .board-summary .data-scroll td:first-child{white-space:nowrap;font-weight:600}

@@ -1,34 +1,14 @@
 <section aria-labelledby="optimality">
-<h3 id="optimality">是不是最优：只看当前这一击</h3>
-<p>选点是对<strong>当前这一击</strong>的贪心评分：按攻击类型和状态打分，对少数收尾情况加分，用在途计数避免打重，组合飞机先找能直接收完目标的落点。选点入口里没有展开后续多手、补棋和通关率的搜索。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="玩家期望与代码处理"><table><thead><tr><th>玩家期望</th><th>代码怎样处理</th><th>结果</th></tr></thead><tbody>
-<tr><td>“这一下正好帮我收尾”</td><td>拳击手套与多格物体有收尾加分；组合飞机先查能否收完目标</td><td>✅ 这些分支会抓住收尾机会</td></tr>
-<tr><td>“别打已经够了的目标”</td><td>在途登记扣减剩余命中，≤0跳过</td><td>✅ 普通箱子不会被多订；多层目标仍会被连续打</td></tr>
-<tr><td>“先打马上能清掉的箱子”</td><td>1层和3层普通箱子同分</td><td>❌ 同分随机，可能打另一个</td></tr>
-<tr><td>“局面变了，快换目标”</td><td>目标仍有效就保留；强制重选每架只一次</td><td>❌ 不追新的最高分；但飞行意图稳定、好辨认</td></tr>
-<tr><td>“帮我打开通道，方便后面几手”</td><td>不模拟后续掉落与连锁</td><td>❌ 当前分高不代表后面省步数</td></tr>
-</tbody></table></div>
-<p>【设计解读】26倍分档加同分随机，让道具稳定地命中“重要类别”的目标，同时保留一点不可预测；代价是玩家心中最该打的那一格，未必独占最高分。比人工选点省多少步，需要同一批棋盘的对照数据，包里没有。飞行表现由Pilot驱动，目标变化可影响追踪；它与选点评分是不同代码层。</p>
+<h3 id="optimality">分析提炼：这些规则在优化什么</h3>
+<p><strong>飞机优化当前攻击的局部优先级。</strong>物体类别、收尾释放空间、底部收集专用收益、在途攻击都会影响这一击；组合还检查能否就此完成胜利目标。没有在已核对入口中展开后续多手补棋、造道具和通关率搜索。不能称为全局最省步数求解器。依据：P1–P7、D1–D3。</p>
+<p><strong>普通飞机的不确定性主要发生在同分组内。</strong>箱子1层与3层同分时，玩家觉得应该优先的最后一层没有独占最高分；手套、碗柜有专用收尾分支则表现不同。高分目标无剩余有效命中时还会被跳过。依据：P2–P4、D2。</p>
+<p><strong>彩球自动选色优化的是可参与处理的颜色棋数量。</strong>它没有逐颜色比较障碍收益；这解释了为什么某色虽然更靠近障碍，也可能没有被选中。彩球＋飞机先选色，再由飞机选障碍，是串联的两次决策。依据：C1–C5。<small>［设计解读］数量优先可提高一次触发的处理规模，但不保证最终障碍清除量最大。</small></p>
+<p><strong>分数与伤害分开，才能解释“选中了但没清掉”。</strong>厚箱子只扣一层是受击规则；被别的飞机预订完而跳过是选点协调；覆盖物接管是层级路由；飞行中失效才改点是目标稳定性。它们发生在不同步骤，不能用一个“飞机不智能”概括。依据：P2、P4、P7、D1、D3。</p>
+<h4>未确认与边界</h4>
+<ul>
+<li>全部障碍、覆盖物与底层目标在所有状态下的最终评分矩阵尚未恢复；115项基础表和95个入口不等于完整状态模型。</li>
+<li>组合的所有特殊胜利条件、成组重定向、零分／负分回退及并发完整语义仍需继续核对；范围结构说明不能代替完整原版模拟器。</li>
+<li>彩球同数分支已确认保留先枚举项，仍不能只凭画面确定该次字典枚举顺序；超级彩球追加选色与完整时序不在本节已验证范围。</li>
+<li>要预测某次真实落点，仍要提供当时各层状态、任务、在途登记、随机种子及此前随机调用。此次原字节构造执行不等于原端整局或逐帧一致性验收。</li>
+</ul>
 </section>
-
-<section aria-labelledby="hit-result">
-<h3 id="hit-result">选中之后：按目标自己的受击规则结算</h3>
-<p>评分决定先考虑哪里，受击规则决定到达后发生什么。普通箱子命中扣一层，未到0播受伤，到0清除；彩箱还要检查攻击来源和颜色。“道具能否选中”“能否伤害”“是否阻挡”“是否转向”是四个独立条件，要分别看。</p>
-<p>页尾保留30类目标×19类条件的门控矩阵：157项是动态逻辑，33项委派给其他实现；矩阵中的“未声明”指该类分支里没有声明这个方法。</p>
-</section>
-
-<details class="evidence" id="selection-evidence"><summary>选点算法的代码证据与数值来源</summary>
-<p>研究样本为build 38174，ARM64 ELF SHA-256为<code>8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd</code>。全部为静态证据，未做原端逐帧或整局回放对照；函数快照按相邻元数据入口截取字节范围。</p>
-<div class="data-scroll"><table><thead><tr><th>证据</th><th>可复查的位置</th><th>支持的结论</th></tr></thead><tbody>
-<tr><td>P1</td><td><code>FindForExploder 0x20EF310</code><br><code>FillScores 0x20EF844</code></td><td>按攻击类型分派；过滤格子、读取评分；以负评分为键分组。构造函数创建默认有序字典。</td></tr>
-<tr><td>P2</td><td><code>FindSingleTargetCellForExploder 0x20F1E24</code><br><code>FindSingleTarget 0x20EFE34</code></td><td>逐评分组遍历、Next(0,Count)取下标、避开出发格、剩余命中检查、TryRedirect、已有目标的保留与登记。</td></tr>
-<tr><td>P3</td><td><code>ItemModel.GetExplodeScore 0x338496C</code><br><code>ItemExtensions.ExplodeScore 0x3384988</code><br><code>Box.get_ItemType 0x2A65B1C</code><br><code>BoxingGlove.GetExplodeScore 0x2A67954</code></td><td>Box继承基础评分，ItemType为6；小端int32表0x3F092EC第6项为456976；拳击手套剩余命中等于1取0x94C15，否则0x6F910。档位常量与PropellerLayerMultiplier＝26见元数据摘录。</td></tr>
-<tr><td>P4</td><td><code>ItemModel.RemainingExplodeCount 0x338C910</code><br><code>ExplodeTargetMediator.RemainingExplodeCount 0x2ACF600</code><br><code>AddIncomingExploder 0x2ACF800</code></td><td>普通物体层数减GetIncomingCount；格子汇总有独立路径；选点后登记攻击。</td></tr>
-<tr><td>P5</td><td><code>CalculateScoreForMatchItem 0x1E916F4</code><br><code>MatchItem.GetExplodeScore 0x1E92AD8</code><br><code>ExplodeTargetMediator.GetScore 0x2ACF1E4</code></td><td>颜色棋读取任务剩余量与机关状态；帧／策略缓存；被原木、拳击手套、钻头阻挡且分数≥1时返回0x11D9（0x2ACF31C）。</td></tr>
-<tr><td>P6</td><td><code>FindHighestColumnScore 0x20F38D0</code><br><code>FindHighestRowScore 0x20F4C70</code><br><code>FindHighestScoreForAreaExploder 0x20EFF70</code><br><code>WinCalculationData.IsWinningByHitCells 0x26A8168</code></td><td>行列／范围的专用评分修正与当前胜利检查；列路径0x20F4838–0x20F4880先判断winningColumnsOrRows再回退评分。</td></tr>
-<tr><td>P7</td><td><code>IsTargetValid 0x26A1BDC</code><br><code>FindNewTarget 0x26A1E14</code><br><code>ForceTargetChangeOnce 0x26A4854</code></td><td>目标有效／失效、停止寻找、强制格子目标与一次重定向条件；0xF4／0xF5／0xF6／0x108字段由元数据配对。</td></tr>
-<tr><td>S1</td><td><code>SelectSmartRocket 0x20EDA34</code><br><code>CalculateHorizontalRocketScore 0x20EDAF4</code><br><code>CalculateVerticalRocketScore 0x20EDB94</code></td><td>横纵总分比较、同分Next(0,2)；横向从(0,row)沿方向3、纵向从(column,BoardStartY)沿方向1累加，策略参数2／1。直接调用方见调用扫描。</td></tr>
-</tbody></table></div>
-<p><a href="../assets/evidence/propeller-selection/manifest.json">选点原字节快照与分值表</a>，<a href="../assets/evidence/propeller-selection/metadata-excerpts.json">元数据摘录</a>，<a href="../assets/evidence/board-algorithms/manifest.json">智能火箭快照</a>，<a href="../assets/evidence/board-algorithms/call-sites.json">直接调用扫描</a>。</p>
-<p>尚未还原：全部物体与状态的最终评分、特殊目标与组合的完整重定向、零分与负分在全部关型中的回退表现。</p>
-</details>

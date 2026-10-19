@@ -291,12 +291,14 @@ def extras(topic):
                 (ROOT / 'content/board-state-events.html').read_text() + '</div>')
     if key == 'obstacle-rules':
         return ('<div class="board-machine">' + (ROOT / 'content/booster-targeting.html').read_text() +
+                (ROOT / 'content/lightball-color.html').read_text() +
+                (ROOT / 'content/booster-targeting-end.html').read_text() +
                 '<section id="smart-rocket" aria-labelledby="title-smart-rocket">'
                 '<h3 id="title-smart-rocket">智能火箭：只决定横竖方向</h3>' +
                 (ROOT / 'content/smart-rocket-overview.html').read_text() +
                 (ROOT / 'content/smart-rocket-code.html').read_text() + rocket_demo() + '</section>' +
                 (ROOT / 'content/plane-deep.html').read_text() +
-                (ROOT / 'content/booster-targeting-end.html').read_text() + '</div>')
+                (ROOT / 'content/booster-decision-evidence.html').read_text() + '</div>')
     if key == 'experiments':
         return ab_page()
     if key in ('shop-rules', 'user-tiers'):

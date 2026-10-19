@@ -1,0 +1,54 @@
+<section aria-labelledby="lightball-color">
+<h3 id="lightball-color">彩球选色：玩家指定，或统计有效棋子数量</h3>
+<p><strong>这条选色路径没有调用飞机的障碍评分，也没有逐颜色模拟“能打掉多少障碍”。</strong><code>DefaultLightballStrategy</code>先看是否已传入一种颜色；没有时才调用<code>FindMostCommonItem</code>。彩球＋飞机／火箭／TNT的共同父类也调用这个数量选择器。<small>［C1、C2］</small></p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="彩球不同触发方式如何选色"><table><thead><tr><th>触发方式</th><th>颜色从哪里来</th><th>会重新按障碍收益选色吗</th></tr></thead><tbody>
+<tr><td>彩球与普通颜色棋交换</td><td>从交换对象取得<code>MatchType</code>；非None时直接使用</td><td>此路径不做自动选色；玩家已经指定颜色</td></tr>
+<tr><td>点击普通彩球</td><td>没有指定颜色，统计当前可用颜色棋，选有效数量最多者</td><td>数量比较没有调用障碍评分</td></tr>
+<tr><td>彩球被其他效果触发，未携带颜色</td><td>同样进入自动数量选色；部分触发先延迟再执行</td><td>按执行选择时的可用状态统计，不一定等于点击前截图数量</td></tr>
+<tr><td>彩球＋飞机／火箭／TNT</td><td>共同父类<code>LightballSpecialStrategy.Start</code>调用自动数量选色</td><td>不会为每种颜色计算飞机落点、火箭覆盖、TNT障碍总收益后再择优</td></tr>
+<tr><td>彩球＋彩球</td><td>独立的<code>BallBall</code>组合入口</td><td>不应套用“选一种最多颜色”的说明</td></tr>
+</tbody></table></div>
+<h4>8.1 “最多”统计的是什么棋子</h4>
+<p><code>FindMostCommonItem</code>按列与当前棋盘Y范围枚举格子，先检查是否可以参与彩球处理，再对每种<code>MatchType</code>计数。它不是裸统计屏幕上所有同色图案。<small>［C2、C3］</small></p>
+<ol>
+<li><strong>格子可处理：</strong>不能有“除锁链以外的触摸阻挡覆盖物”；必须有当前物体；格子不能处于<code>IsReserved</code>状态。锁链在这项覆盖物判断中被特别排除，不能说“所有覆盖物都会排除”。</li>
+<li><strong>物体是颜色棋：</strong>当前物体必须属于<code>MatchItemModel</code>，并且棋子自身也未被<code>IsReserved</code>预订。障碍、火箭、飞机、TNT和彩球不作为颜色棋计数。</li>
+<li><strong>累计每色有效数量：</strong>满足条件的每颗棋子给对应颜色加1；不乘任务权重，也不按邻近箱子、剩余层数或可生成的组合收益加权。</li>
+<li><strong>排除运行中的颜色：</strong>遍历计数表时，如果颜色已在<code>SpecialItemCreator.RunningLightballTypes</code>中，就不作为本次自动选择结果。</li>
+<li><strong>取最大值：</strong>只有<code>count &gt; bestCount</code>才替换当前最佳颜色。所有颜色都不可用时，该选择器返回<code>MatchType.None</code>，后续如何结束由触发策略继续处理。</li>
+</ol>
+<details class="code-fold"><summary>整理伪代码：原数量选择器的主要决策</summary><pre class="algorithm-code" tabindex="0"><code>counts = Dictionary&lt;MatchType, int&gt;()
+for cell in 当前棋盘范围:
+    if not IsReadyForLightball(cell): continue
+    item = cell.CurrentItem
+    if item is not MatchItemModel: continue
+    if item.IsReserved(): continue
+    counts[item.MatchType] += 1
+
+best = None
+bestCount = 0
+for color in counts.Keys:
+    if RunningLightballTypes.Contains(color): continue
+    if counts[color] &gt; bestCount:
+        bestCount = counts[color]
+        best = color
+return best</code></pre></details>
+<h4>8.2 同数时不重新抽一种颜色；随机打乱的是目标列表</h4>
+<p>颜色选择器里的最大值比较是<strong>严格大于</strong>。红、蓝都为8时，先枚举到哪种颜色，后遇到的同数颜色就不会替换它。该方法中没有同数选色的随机调用。不能据此承诺“红色永远优先”或“最左颜色永远优先”：还要知道计数字典在本次运行中的键枚举顺序。<small>［C2：0x23985C0–0x23985C8］</small></p>
+<p>选色之后，<code>FindItemsByType</code>建立所选颜色的可用目标列表，随后调用<code>ShuffleList</code>打乱列表，再发送射线。这个随机步骤改变处理顺序，<strong>不是把已选好的颜色再随机一次</strong>。普通和彩球组合的加入列表过程还会预订棋子。<small>［C1、C4］</small></p>
+<h4>8.3 一个数字例子：为什么没选看起来最多的红色</h4>
+<div class="data-scroll" tabindex="0" role="region" aria-label="彩球有效颜色数量示例"><table><thead><tr><th>颜色</th><th>画面可见数量</th><th>被格子／棋子门控排除</th><th>有效数量</th><th>是否已有彩球占用该色</th></tr></thead><tbody>
+<tr><td>红</td><td>12</td><td>5</td><td>7</td><td>否</td></tr><tr><td>蓝</td><td>9</td><td>0</td><td>9</td><td>否</td></tr><tr><td>绿</td><td>10</td><td>0</td><td>10</td><td>是</td></tr>
+</tbody></table></div>
+<p><strong>构造结果：选蓝色。</strong>红色画面上最多，但有效数只有7；绿色有效10颗，却已在运行颜色集合中被排除；剩下蓝色9颗最多。若玩家直接用彩球交换红棋，传入的红色会走指定颜色路径，上述自动比较就不适用。</p>
+<p>已用原始<code>FindMostCommonItem</code>方法执行8组构造输入，覆盖数量多数、格子过滤、棋子预订、运行颜色排除、两种同数枚举次序及无可用颜色。格子可用性和C#容器行为由明确注入的协作者提供；<a href="../assets/evidence/booster-decisions/verification.json">执行回执</a>用于核对该方法分支，不是原端整局验证。</p>
+<h4>8.4 彩球组合：先选颜色，再执行该组合；两次决策不要混在一起</h4>
+<div class="flow" aria-label="彩球飞机组合的两次选择"><span>统计有效颜色棋</span><b>→</b><span>选有效数最多的颜色</span><b>→</b><span>射线处理／转换</span><b>→</b><span>生成的飞机各自评分选障碍</span></div>
+<ul>
+<li><strong>彩球＋飞机：</strong>数量选择器决定“哪些颜色棋可能被转换”；生成的飞机再按<code>LightballPropeller</code>规则、障碍状态和在途计数决定飞往哪里。它没有先比较“红色9架最终能清多少障碍，蓝色8架又能清多少”再选择颜色。<small>［C2、C5、D3］</small></li>
+<li><strong>彩球＋火箭：</strong>同样先选数量最多的有效颜色；在当前列表收集路径中，替换火箭的朝向从参与组合的火箭朝向开始，随后横竖交替登记。这里的朝向分配没有逐位置调用页内的“智能火箭行列收益比较”。<small>［C5：0x239B5B8、0x239B714］</small></li>
+<li><strong>彩球＋TNT：</strong>也走同一个选色父类，再由TNT专用策略处理转换与爆炸。不能因为某色棋子旁的障碍更密，就推断选色会偏向它。<small>［C5：0x239E718→0x239A530］</small></li>
+</ul>
+<p><strong>有效颜色数量也不保证等于最终生成道具数。</strong>例如彩球＋飞机的射线到达锁链下棋子时，有先处理锁链并重置棋子的独立分支，没有直接走常规的移除颜色棋、生成飞机路径；后续状态变化也会影响最终处理。数量选择与实际转换结果要分别取证。<small>［C5：0x239ACFC–0x239AD24］</small></p>
+<p>本节描述普通彩球的上述入口与共享选色方法。超级彩球的追加射线、再次选色和并发时序尚未完整恢复，不把本节扩写成超级彩球的全部规则。</p>
+</section>

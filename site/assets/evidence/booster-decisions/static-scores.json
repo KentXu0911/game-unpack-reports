@@ -1,0 +1,97 @@
+{
+  "address": "0x3f097ec",
+  "sha256": "7a210f8c0e6e67fa2320752a9543d653a664df0080666e8f8c15619d901dd93b",
+  "index": "StaticItemType - 1; separate enum from ItemType; base scores only",
+  "rows": [
+    {
+      "staticItemType": 1,
+      "name": "PurpleGrass",
+      "baseScore": 365580
+    },
+    {
+      "staticItemType": 2,
+      "name": "Grass",
+      "baseScore": 365580
+    },
+    {
+      "staticItemType": 3,
+      "name": "Jelly",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 4,
+      "name": "Honey",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 5,
+      "name": "Curtain",
+      "baseScore": 0
+    },
+    {
+      "staticItemType": 6,
+      "name": "Chain",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 7,
+      "name": "Roof",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 8,
+      "name": "TreasureMap",
+      "baseScore": 0
+    },
+    {
+      "staticItemType": 9,
+      "name": "Ceramic",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 10,
+      "name": "MushroomSoil",
+      "baseScore": 411278
+    },
+    {
+      "staticItemType": 11,
+      "name": "Blinds",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 12,
+      "name": "Water",
+      "baseScore": 0
+    },
+    {
+      "staticItemType": 13,
+      "name": "WaterSoil",
+      "baseScore": 411278
+    },
+    {
+      "staticItemType": 14,
+      "name": "DarkHoney",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 15,
+      "name": "ForceField",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 16,
+      "name": "Cryptex",
+      "baseScore": 0
+    },
+    {
+      "staticItemType": 17,
+      "name": "IceBorder",
+      "baseScore": 456976
+    },
+    {
+      "staticItemType": 18,
+      "name": "MetalPlate",
+      "baseScore": 456976
+    }
+  ]
+}
