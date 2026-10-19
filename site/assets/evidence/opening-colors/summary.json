@@ -1,0 +1,53 @@
+{
+  "build": 38174,
+  "level": 13479,
+  "template": {
+    "Set1": 20,
+    "Match1": 3,
+    "Match2": 3
+  },
+  "snapshots": [
+    {
+      "seed": 271,
+      "blue": 7,
+      "green": 6,
+      "red": 3,
+      "yellow": 10,
+      "moves": 25
+    },
+    {
+      "seed": 438,
+      "blue": 7,
+      "green": 3,
+      "red": 9,
+      "yellow": 7,
+      "moves": 25
+    }
+  ],
+  "changed_color_positions": 23,
+  "other_cells_equal": true,
+  "validation": [
+    {
+      "seed": 438,
+      "matched_cells": 26,
+      "total_cells": 26,
+      "rng_array_equal": true,
+      "rng_indices_equal": true
+    },
+    {
+      "seed": 518,
+      "matched_cells": 26,
+      "total_cells": 26,
+      "rng_array_equal": true,
+      "rng_indices_equal": true
+    },
+    {
+      "seed": 608,
+      "matched_cells": 26,
+      "total_cells": 26,
+      "rng_array_equal": true,
+      "rng_indices_equal": true
+    }
+  ],
+  "scope": "Three restart openings validated; start-entry discrepancy unresolved; locally advanced test account, lives refilled."
+}
