@@ -36,6 +36,21 @@ for candidates in groups:
         if remaining &lt; 1: continue
         return cell.TryRedirect(explodeData, candidates)
 // 外层对取得的目标登记在途命中；已有目标的重选还有保留分支。</code></pre></details>
+<h4 id="plane-random-stream">同分目标之间，用哪条随机流抽选？</h4>
+<p><strong>飞机先按评分确定候选组，再用普通随机流抽取组内下标。</strong>这里调用的是 <code>LevelRandomManager.Next</code>，读取 <code>random</code>；开局随机选色与普通补棋调用的 <code>GetDifficultyNext</code> 则读取另一个对象 <code>difficultyRandom</code>。因此，本局补棋 seed 相同，不保证飞机抽中同一个目标。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="三种种子的作用"><table><thead><tr><th>seed</th><th>怎样使用</th><th>与飞机的关系</th></tr></thead><tbody>
+<tr><td>打乱重试列表的基础 seed</td><td>把 0～999 打乱，生成重试 seed 列表</td><td>不是本节飞机组内抽选使用的普通随机流 seed</td></tr>
+<tr><td>列表里选出的本局 seed</td><td>初始化 difficultyRandom，供开局选色、补棋、部分匹配组洗牌使用</td><td>可通过棋盘变化影响飞机候选，但不直接提供这里的随机下标</td></tr>
+<tr><td>普通随机流的 seed</td><td>ResetSeed 经应用随机入口取值，再初始化 random</td><td>Next 从这条流取数，决定候选组内的抽选下标</td></tr>
+</tbody></table></div>
+<div class="flow" aria-label="飞机随机抽选链"><span>普通 seed 初始化 random</span><b>→</b><span>Next(0, 候选数量)</span><b>→</b><span>取同分组内下标</span><b>→</b><span>出发格避让、剩余命中检查与重定向</span></div>
+<p><strong>示意：</strong>最高分组只有 A、B、C 三个候选时，抽到下标 1 就先检查 B。随机数决定的是同分组内先抽谁，不会让低分目标越过有效的高分组；最终落点还要经过避让、剩余命中检查和重定向。</p>
+<p>提示顺序、部分消除音效也会消耗普通随机流。因此，要复现飞机落点，除了棋盘、评分和候选列表，还要对齐<strong>抽选时的随机流状态与调用顺序</strong>。只固定初始 seed 仍可能不够；这也不意味着每次提示或音效都会改变最终目标。</p>
+<details class="code-fold"><summary>普通随机流的原代码与运行证据</summary>
+<p>build 38174：<code>FindSingleTargetCellForExploder</code> 在 0x20F1FD0 调用 <code>LevelRandomManager.Next</code>（0x2A30FE8）；后者读取 <code>random</code>（字段偏移 +0x30），<code>GetDifficultyNext</code> 读取 <code>difficultyRandom</code>（+0x38）。<code>ResetSeed</code> 经 <code>RandomManager.Next(0, 20000000)</code> 转到 <code>UnityEngine.Random.Range</code> 取得普通 seed。</p>
+<p>同一 DynaDiff 的三次启动中，补棋 seed 都为 371，普通 seed 分别为 14705084、13964875、12351459。这是原端记录，不是构造例子。本节确认的是飞机单目标候选抽选入口，不能推广为所有道具、所有随机操作都使用普通流。</p>
+<p><a href="../assets/evidence/dynadiff-replay/README.md">方法与调用记录</a> · <a href="../assets/evidence/dynadiff-replay/verification.json">运行对照回执</a> · <a href="../assets/evidence/dynadiff-replay/native.zip" download>原字节与汇编</a></p>
+</details>
 <p><strong>距离、屏幕位置、剩余层数都不是通用的组内排序键。</strong>剩余层数可能影响某个物体自己的评分，但不能据此推导“所有残血障碍优先”。</p>
 </section>
 

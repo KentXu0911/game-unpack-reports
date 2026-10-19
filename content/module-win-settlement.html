@@ -136,6 +136,7 @@ IncrementTryCount():
 <p class="fact-src">2026-10-19 联网记录：<a href="../assets/evidence/dynadiff-online/new-account.md">新账号与恢复</a> · <a href="../assets/evidence/dynadiff-online/high-levels.md">1001／5001 关</a> · <a href="../assets/evidence/dynadiff-online/three-failures.md">三次失败与同步</a> · <a href="../assets/evidence/dynadiff-online/offer-recheck.md">正常耗尽后 +10 步</a> · <a href="../assets/evidence/dynadiff-online/manifest.json">来源与哈希</a></p>
 
 <h4 id="dynadiff-replay">为什么出现差异，却还不能归因于 DynaDiff？</h4>
+<p>飞机使用的普通随机流与打乱重试 seed 列表的基础 seed 是两回事；各自的用途与飞机抽选过程见<a href="obstacle-rules.html#plane-random-stream">道具寻优：飞机的随机流</a>。</p>
 <p><b>因为不改变 DynaDiff，重复同一组测试，也出现了棋盘差异。</b>这说明对照环境还有未固定的因素。游戏除了补棋随机流，还有飞机等行为使用的普通随机流；即使固定两条初始 seed，匹配组洗牌和补棋也可能以不同顺序取走随机数。</p>
 <p>例如，两件事共用一叠号码牌：补棋先拿一张、洗牌再拿一张，与反过来的结果可能不同。实际记录已观察到这种调用顺序变化，但导致先后变化的更早原因尚未定位。</p>
 <p>因此，目前既不能把整局差异说成“DynaDiff 改变了难度”，也不能把前段一致说成“已经彻底排除”。进一步对照必须先让<b>相同 DynaDiff 的重复实验稳定复现</b>，再判断改值带来的差异。</p>
