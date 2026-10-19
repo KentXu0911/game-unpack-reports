@@ -6,40 +6,40 @@
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-level-config">← 返回内容总览</a></p>
 <h1>初始棋盘、关卡配置</h1><p>已取得14,500关成品数据，含真实棋盘例子、颜色与道具代码、障碍登场节奏和配置难度曲线。随机格还需结合种子与生成顺序。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="level-config" class="topic-detail" aria-labelledby="title-level-config"><h2 id="title-level-config">初始棋盘、关卡配置</h2><div class="topic-body"><div class="board-machine module-page"><div class="board-summary">
-<h3 id="m-summary">一屏结论</h3>
-<div class="data-scroll" tabindex="0" role="region" aria-label="关卡配置结论速览"><table><thead><tr><th>层</th><th>内容</th><th>关键数值</th></tr></thead><tbody>
-<tr><td><a href="#m-facts">拆包事实</a></td><td>14,500 关的步数、尺寸、目标、障碍、补棋队列与格子层字段逐关可读</td><td>14,500关 · 1,528,444格</td></tr>
-<tr><td><a href="#m-analysis">分析提炼</a></td><td>七成关卡是 9×11；高棋盘就是多棋盘关；绝大多数关只有一套补棋配置；目标记录要按棋盘号拆开读</td><td>多棋盘 693关</td></tr>
-<tr><td><a href="#m-unknown">未确认</a></td><td>所有关卡与入口的逐格复现、部分目标 ID 的语义、线上新关卡</td><td>—</td></tr>
-</tbody></table></div>
-<p class="flow-note">下方“阅读详情”进入六个子页：真实棋盘例子、代码字典、障碍登场、首现节奏、压力曲线和尾号规律。</p>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="level-config" class="topic-detail" aria-labelledby="title-level-config"><h2 id="title-level-config">初始棋盘、关卡配置</h2><div class="topic-body"><nav class="reading-links" aria-label="初始棋盘内容"><a href="level-examples.html"><b>真实棋盘例子</b><span>阅读详情 →</span></a><a href="tile-codes.html"><b>颜色与道具代码</b><span>阅读详情 →</span></a><a href="obstacle-progression.html"><b>障碍登场节奏与分类</b><span>阅读详情 →</span></a><a href="obstacle-first-seen.html"><b>每种障碍首现表</b><span>阅读详情 →</span></a><a href="level-pressure.html"><b>配置难度曲线</b><span>阅读详情 →</span></a><a href="level-rhythm.html"><b>尾号与首现压力</b><span>阅读详情 →</span></a></nav><div class="board-machine module-page"><div class="board-summary">
+<h3 id="m-summary">初始棋盘由关卡模板和开局选色共同决定</h3>
+<p>关卡文件规定棋盘的形状、障碍位置、目标和初始步数。普通棋子的颜色则要分开看：有些格子写死颜色，有些格子只规定可选颜色，进入关卡后才确定最终配色。因此，同一关可以保留相同的布局，每次开局却有不同的消除机会。</p>
+<p>上方“真实棋盘例子”保留四个关卡的配置图，可以逐格对照棋子、障碍和草地层；随机格显示候选池标记，不把它画成固定颜色。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#m-facts"><b>01</b>拆包事实</a><a href="#m-analysis"><b>02</b>分析提炼</a><a href="#m-unknown"><b>03</b>未确认与边界</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#opening-colors"><b>01</b>开局选色与重试变化</a><a href="#m-facts"><b>02</b>关卡配置统计</a><a href="#m-analysis"><b>03</b>配置规律</a><a href="#m-unknown"><b>04</b>验证范围</a></nav>
 
-<section aria-labelledby="opening-colors"><h3 id="opening-colors">重试时，开局棋子为什么会变？</h3>
-<p><b>关卡文件保存的是棋盘模板；随机格的实际颜色在开局时生成。</b>因此，同一关重试时，棋盘形状和障碍布局可以相同，普通棋子的颜色、数量和可走的消除却不同。并不是把整盘红色统一换成蓝色。</p>
-<div class="data-scroll"><table><thead><tr><th>模板里的写法</th><th>开局如何处理</th></tr></thead><tbody>
-<tr><td>直接指定颜色</td><td>普通随机填色分支保留指定值；另有替色规则的关卡还需结合对应规则。</td></tr>
-<tr><td>Set1／Set2／Set3 随机候选池</td><td>按该格对应的候选颜色逐格选色，并检查邻居，排除部分会直接形成三连或同色方块的颜色。</td></tr>
-<tr><td>Match1／Match2／Match3 同色分组</td><td>给分组选择颜色，同一组的格子复用本次选色。同组格子不一定相邻。</td></tr>
+<section aria-labelledby="opening-colors"><h3 id="opening-colors">开局棋子的颜色是怎么确定的？</h3>
+<h4>1. 先按模板，确定每个格子怎样选色</h4>
+<div class="data-scroll"><table><thead><tr><th>格子类型</th><th>实际含义</th></tr></thead><tbody>
+<tr><td>固定颜色</td><td>例如模板直接写“红色”，普通随机填色时就保留红色。存在额外替色规则的关卡需单独检查。</td></tr>
+<tr><td>候选池：Set1／Set2／Set3</td><td>例如规定“从红、黄、蓝、绿中选”，开局时再给这个格子选一种颜色。选色还会检查邻居，排除部分会直接形成三连或同色方块的颜色。</td></tr>
+<tr><td>同色组：Match1／Match2／Match3</td><td>同组格子共用本次选出的颜色。例如三个 Match1 格子这次都为红色，下次可能都为蓝色；这些格子不一定相邻。</td></tr>
 </tbody></table></div>
-<p>开局选色和普通补棋都可调用 <code>LevelRandomManager.DifficultyNext</code>，共用由本局 seed 初始化的随机数流。开局先消耗一部分随机数，后续补棋继续取用；两者筛选候选颜色的规则不同。重试换 seed 后，颜色搭配也可能变化，但不保证每次每格都不同。</p>
-<h4>第 13479 关：模板没变，23 个位置换了颜色</h4>
-<p>这关的 26 个普通棋子位置包含 20 个 <code>Set1=14</code> 随机格、3 个 <code>Match1=211</code> 和3个 <code>Match2=212</code> 分组格。候选颜色是红、黄、蓝、绿，没有把这26格直接写成固定颜色。</p>
-<div class="data-scroll"><table><thead><tr><th>未走步的开局记录</th><th>蓝</th><th>绿</th><th>红</th><th>黄</th><th>初始步数</th></tr></thead><tbody>
+<h4>2. 本局 seed 决定随机数，选色规则决定如何使用</h4>
+<p>seed 可以理解为本局随机数序列的起点。确定 seed、调用顺序和棋盘状态后，选色结果也就确定了。开局选色与普通补棋共用 <code>LevelRandomManager.DifficultyNext</code> 提供的随机数流：开局先取用，之后补棋接着取用，但两者筛选候选颜色的规则不同。</p>
+<p>重试换了 seed，随机格和同色组就可能选出不同的颜色。<b>变化既可能是某组一起换色，也可能是各个随机格重新搭配。</b>所以，不能把所有重试变化都理解成“整盘统一换了颜色”。</p>
+<h4>3. 第 13479 关：布局相同，颜色搭配发生变化</h4>
+<p>这关有 26 个普通棋子位置：20 个候选池随机格（<code>Set1=14</code>），以及两组各 3 格的同色组（<code>Match1=211</code>、<code>Match2=212</code>）。候选颜色为红、黄、蓝、绿。下面是两次尚未走步时的实际记录：</p>
+<div class="data-scroll"><table><thead><tr><th>开局</th><th>蓝</th><th>绿</th><th>红</th><th>黄</th><th>初始步数</th></tr></thead><tbody>
 <tr><td>seed 271</td><td>7</td><td>6</td><td>3</td><td>10</td><td>25</td></tr>
 <tr><td>重试 seed 438</td><td>7</td><td>3</td><td>9</td><td>7</td><td>25</td></tr>
 </tbody></table></div>
-<p>两次开局26个普通棋子位置中有23个颜色不同，其他格子的快照记录相同。因此，固定的是模板和部分同色关系，并非每颗棋子的实际颜色。</p>
-<p><b>复现范围：</b>第13479关的三个重试seed（438、518、608），本地算法与原版26格颜色全部一致，生成后的随机数数组和索引也一致。主页进入的另一条路径尚未完全对齐，不能把这三个对照推广为所有关卡和所有入口均已复刻。</p>
-<p>配色改变会影响合成道具的机会，但这项证据本身不证明连续失败会让下一局更容易。动态难度与完整局产出另见<a href="win-settlement.html">胜负、结算与难度适应</a>。</p>
-<p class="fact-src">证据：build 38174 原关卡配置、LevelMatchItemRandomizer／SelectMatchTileColor 原生代码及2026-10-19开局快照。<a href="../assets/evidence/opening-colors/summary.json">下载开局对照与复现校验</a>。账号曾人工跳关并补心，非自然游玩到高关卡的样本。</p></section>
+<p><b>26 个普通棋子位置中，23 个位置的颜色不同；其他格子的快照记录相同。</b>红棋从 3 个变成 9 个，黄棋从 10 个变成 7 个，说明改变的不只是颜色名称，还有各颜色的数量与组合。</p>
+<p>这些变化会改变开局可走的消除和合成道具的机会，但仅凭配色变化，不能判断失败后是否会得到更容易的棋盘。连续失败与道具产出的测试见<a href="win-settlement.html">动态难度分析</a>。</p>
+<details class="evidence"><summary>代码对照、实测来源与验证范围</summary>
+<p>依据 build 38174 关卡配置、<code>LevelMatchItemRandomizer</code>／<code>SelectMatchTileColor</code> 原生代码及 2026-10-19 开局记录。第 13479 关三个重试 seed（438、518、608）的本地复现均与原版 26 格颜色一致，生成后的随机数数组和索引也一致。</p>
+<p>从主页进入关卡的另一条路径尚未完全对齐，不能推广为所有关卡、所有入口均已复刻。测试账号曾人工跳关并补心。<a href="../assets/evidence/opening-colors/summary.json">下载开局对照与复现校验</a>。</p>
+</details></section>
 
 <section aria-labelledby="m-facts">
 <h3 id="m-facts">拆包事实：14,500 关的逐关字段</h3>
 <span class="layer layer-fact">事实层</span>
-<p class="layer-lead">关卡文件给出成品布局、初始步数、目标类型及数量、棋子与障碍参数，14,500 份与修复集逐字节一致。下表从逐关统计表与补棋汇总表直接计数。</p>
+<p class="layer-lead">关卡文件给出布局模板、初始步数、目标类型及数量、棋子与障碍参数，14,500 份与修复集逐字节一致。下表从逐关统计表与补棋汇总表直接计数。</p>
 <figure class="fact-table fact-wide" id="fact-level-summary"><figcaption>关卡配置：直接计数</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="关卡配置：直接计数"><table><thead><tr><th>指标</th><th>数值</th><th>说明</th></tr></thead><tbody><tr><td>关卡记录</td><td>14,500</td><td>level_id 1–14500</td></tr><tr><td>格子表项合计</td><td>1,528,444</td><td>逐关 cell_count 求和</td></tr><tr><td>步数 move</td><td>15–40</td><td>中位数 24，均值 24.17</td></tr><tr><td>目标 ID 清单</td><td>83 个</td><td>goal_id_usage_summary.csv 每行一个目标 ID</td></tr><tr><td>goal_count &gt; 1 的关卡</td><td>14,232</td><td>该计数不等于难度</td></tr><tr><td>带障碍格的关卡</td><td>7,680</td><td>obstacle_cell_count &gt; 0</td></tr><tr><td>有预定义补棋队列的关卡</td><td>1,736</td><td>预定义记录合计 42,176 条</td></tr><tr><td>FTiledCell 声明字段</td><td>17 个</td><td>FillType、IsPredefined、Grass、Honey、Curtain、Chain、Roof、Jelly、Treasuremap、Ceramic、MushroomSoil、Blinds、WaterSoil、ForceField、Cryptex、IceBorder、MetalPlates</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv</code></p></figure>
 <div class="fact-grid"><figure class="fact-table fact-compact" id="fact-level-board-sizes"><figcaption>棋盘尺寸分布（前 8）</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="棋盘尺寸分布（前 8）"><table><thead><tr><th>宽×高</th><th>关卡数</th><th>占比</th></tr></thead><tbody><tr><td>9×11</td><td>10,372</td><td>71.5%</td></tr><tr><td>9×10</td><td>1,664</td><td>11.5%</td></tr><tr><td>8×11</td><td>957</td><td>6.6%</td></tr><tr><td>9×9</td><td>419</td><td>2.9%</td></tr><tr><td>9×31</td><td>278</td><td>1.9%</td></tr><tr><td>8×10</td><td>254</td><td>1.8%</td></tr><tr><td>9×37</td><td>126</td><td>0.9%</td></tr><tr><td>9×30</td><td>113</td><td>0.8%</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv</code></p></figure><figure class="fact-table fact-compact" id="fact-level-tall-boards"><figcaption>高棋盘（height ≥ 20）与多棋盘</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="高棋盘（height ≥ 20）与多棋盘"><table><thead><tr><th>指标</th><th>关卡数</th></tr></thead><tbody><tr><td>height ≥ 20</td><td>693</td></tr><tr><td>其中棋盘块数 &gt; 1</td><td>693</td></tr><tr><td>棋盘块数 &gt; 1 的关卡</td><td>693</td></tr><tr><td>其中 height ≥ 20</td><td>693</td></tr></tbody></table></div><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv</code></p></figure></div>
 <figure class="fact-table fact-wide" id="fact-level-goal-records"><figcaption>goals 字段：记录数与“有数量的目标 ID 数”</figcaption><div class="data-scroll" tabindex="0" role="region" aria-label="goals 字段：记录数与“有数量的目标 ID 数”"><table><thead><tr><th>口径</th><th>取值分布（个数：关卡数）</th></tr></thead><tbody><tr><td>goal_count（记录条数，含 0 数量）</td><td>1：268、2：387、3：2,608、4：10,549、6：66、8：322、9：6、10：211、12：55、14：11、15：9、18：4、21：2、24：1、30：1</td></tr><tr><td>数量 &gt; 0 的不同目标 ID</td><td>0：161、1：113、2：476、3：4,499、4：9,010、5：199、6：34、7：7、9：1</td></tr><tr><td>棋盘块数（goals 第 4 段最大值 + 1）</td><td>1：13,807、2：656、3：37</td></tr></tbody></table></div><p class="fact-note">goals 每条格式为 目标ID:数量:标志位:棋盘号（标志位只取 0／1，含义未确认）；多棋盘关每块棋盘各登记一条，数量可为 0。“数量 &gt; 0 的不同目标 ID”更接近界面上的目标个数，但目标为 0 的关和运行时生成的目标仍需对照。</p><p class="fact-src">取数：<code>royal-match-apk-audit-38174/indices/level_difficulty_stats.csv · level_refill_summary.csv · goal_id_usage_summary.csv</code></p></figure>
@@ -71,10 +71,10 @@
 <tr><td>161 关没有数量 &gt; 0 的目标</td><td>这 161 关都只登记一条 Coin（21）、数量为 0，关卡号从 20 到 200 每 20 关一次，之后是 230、260、300，300–900 每 50 关一次，900 以后每 100 关一次，一直到 14,500。<a class="basis" href="#fact-level-zero-goal">依据：没有数量 &gt; 0 目标的关卡</a>胜负条件不在 goals 里；它们是不是国王剧情一类的特殊关，未核对。</td><td>这些关的胜负判定代码与实机</td></tr>
 <tr><td>goals 第 3 段</td><td>取值只有 0 和 1；6,181 关至少有一条为 1，粉色、南瓜、信件、饼干、草地等多种目标都出现过。<a class="basis" href="#fact-level-goal-flag">依据：goals 第 3 段（标志位）</a>含义未确认。</td><td>目标读取代码</td></tr>
 <tr><td>线上新关卡与热更新</td><td>范围是 build 38174 的样本；账号特定覆盖与新版本需要对应文件。</td><td>新版本包体或下载资源</td></tr>
-<tr><td>解析、移植与回放是三件事</td><td>字段能解析、规则已移植、通过原版回放，分别记录进度；本页只代表第一件。</td><td>原版回放对照</td></tr>
+<tr><td>解析、移植与回放是三件事</td><td>关卡字段已解析；第 13479 关三个重试开局已做逐格对照。其他关卡和完整回放仍需分别验证。</td><td>原版回放对照</td></tr>
 </tbody></table></div>
 </section>
-</div><nav class="reading-links" aria-label="初始棋盘内容"><a href="level-examples.html"><b>真实棋盘例子</b><span>阅读详情 →</span></a><a href="tile-codes.html"><b>颜色与道具代码</b><span>阅读详情 →</span></a><a href="obstacle-progression.html"><b>障碍登场节奏与分类</b><span>阅读详情 →</span></a><a href="obstacle-first-seen.html"><b>每种障碍首现表</b><span>阅读详情 →</span></a><a href="level-pressure.html"><b>配置难度曲线</b><span>阅读详情 →</span></a><a href="level-rhythm.html"><b>尾号与首现压力</b><span>阅读详情 →</span></a></nav><details class="references" id="data-levelsets"><summary>展开：14,500关LevelSet数量分布</summary><div class="reference-item"><h6>每关都有 LevelSet 吗</h6><div class="data-scroll" tabindex="0" role="region" aria-label="每关都有 LevelSet 吗"><table><thead><tr><th>每关 LevelSet 数</th><th>关卡数</th><th>怎么理解</th></tr></thead><tbody>
+</div><details class="references" id="data-levelsets"><summary>展开：14,500关LevelSet数量分布</summary><div class="reference-item"><h6>每关都有 LevelSet 吗</h6><div class="data-scroll" tabindex="0" role="region" aria-label="每关都有 LevelSet 吗"><table><thead><tr><th>每关 LevelSet 数</th><th>关卡数</th><th>怎么理解</th></tr></thead><tbody>
 <tr><td>1 个</td><td>13,884</td><td>绝大多数关只有一套普通候选规则。</td></tr>
 <tr><td>2 个</td><td>515</td><td rowspan="4">多个 Set 可以用权重、目标列、生成条件等区分用途。</td></tr>
 <tr><td>3 个</td><td>88</td></tr><tr><td>4 个</td><td>11</td></tr><tr><td>5 个</td><td>2</td></tr>

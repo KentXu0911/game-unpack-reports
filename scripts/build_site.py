@@ -274,7 +274,7 @@ def extras(topic):
             if key == 'shop-rules':
                 extra += '<span id="data-commercial-moments" class="legacy-anchor"></span>'
             extra += legacy.read_text()
-        return facts + extra
+        return extra + facts if key == 'level-config' else facts + extra
 
     if key == 'passes':
         return '<span id="original-s3" class="legacy-anchor"></span><span id="original-ar" class="legacy-anchor"></span>'
