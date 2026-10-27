@@ -296,6 +296,7 @@ def extras(topic):
                 (ROOT / 'content/board-state-events.html').read_text() + '</div>')
     if key == 'obstacle-rules':
         return ('<div class="board-machine">' + (ROOT / 'content/booster-targeting.html').read_text() +
+                (ROOT / 'content/handfeel-parameters.html').read_text() +
                 (ROOT / 'content/lightball-color.html').read_text() +
                 (ROOT / 'content/booster-targeting-end.html').read_text() +
                 '<section id="smart-rocket" aria-labelledby="title-smart-rocket">'

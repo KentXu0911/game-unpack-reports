@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "sample": {
+    "game": "Royal Match",
+    "build": 38174,
+    "package": "com.dreamgames.royalmatch",
+    "auditDate": "2026-10-27"
+  },
+  "runtime": {
+    "activeCascadeWindows": {
+      "count": 16,
+      "minMs": 1452,
+      "maxMs": 2516,
+      "medianMs": 1606,
+      "sourceSegments": ["A", "C", "O", "S"],
+      "note": "有效连锁窗口；不含一个645ms无结算步骤"
+    },
+    "refillObserved": {
+      "total": 66,
+      "topBoardQueue": 61,
+      "levelSetRandom": 5,
+      "topBoardQueueShare": 0.924242,
+      "levelSetRandomShare": 0.075758,
+      "difficultyNextCallsInFallbackWindows": 12
+    }
+  },
+  "staticParameters": {
+    "propellerExtraComboDelaySeconds": 0.02,
+    "ballBallRadialDelayFormula": "(6 - min(1.5, c*k^2)) / 160",
+    "ballBallRadialDelayConstantC": "unresolved",
+    "refillSourcePriority": ["top-board-queue", "predefined-column-queue", "target-column", "random-fill-item", "random-color"],
+    "patternToTiledId": {"propeller": 10, "verticalRocket": 20, "horizontalRocket": 30, "tOrL": 40, "lightball": 50}
+  },
+  "boundaries": [
+    "交换最小滑动距离与速度阈值未恢复",
+    "普通棋子真实移动曲线未恢复",
+    "服务端难度分流与实时热更不由此客户端摘要证明"
+  ],
+  "provenance": [
+    "royal-match-apk-audit-38174/outputs/runtime_hook_summary_A.md",
+    "royal-match-apk-audit-38174/outputs/runtime_hook_summary_C.md",
+    "royal-match-apk-audit-38174/outputs/runtime_hook_summary_O.md",
+    "royal-match-apk-audit-38174/outputs/runtime_hook_summary_S.md",
+    "royal-match-apk-audit-38174/indices/special_creation_rule_evidence.csv",
+    "royal-match-apk-audit-38174/indices/refill_static_rule_matrix.csv"
+  ]
+}
