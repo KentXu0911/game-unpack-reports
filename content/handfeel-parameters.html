@@ -1,5 +1,5 @@
-<section id="handfeel-parameters" aria-labelledby="title-handfeel-parameters">
-<h3 id="title-handfeel-parameters">10. 手感参数：输入锁、结算节奏与补棋导演</h3>
+<section id="handfeel-parameters-content" aria-labelledby="title-handfeel-parameters-content">
+<h3 id="title-handfeel-parameters-content">手感参数：输入锁、结算节奏与补棋导演</h3>
 <p class="layer-lead"><strong>拆包事实</strong>：手感不是一个单独的速度值，而是输入锁定、匹配结算、特殊块协程、补棋来源和反馈事件共同形成的时序。以下数字绑定 Royal Match build 38174；运行时窗口来自同版本模拟器 hook 摘要。</p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="手感参数摘要"><table><thead><tr><th>参数面</th><th>当前证据</th><th>怎样影响玩家感受</th><th>状态</th></tr></thead><tbody>
 <tr><td>有效连锁窗口</td><td>16 个有效窗口：1,452–2,516ms；中位数 1,606ms</td><td>一次匹配不会瞬间跳完；连锁越多，锁定和反馈窗口通常越长</td><td><span class="evidence-tag observed">E2 运行时</span></td></tr>
@@ -46,5 +46,5 @@
 <tr><td><code>combo.propellerExtraDelaySeconds</code></td><td>写入 0.02；只代表额外协程等待，不代表完整组合动画。</td></tr>
 </tbody></table></div>
 <p class="layer-lead"><strong>未确认与边界</strong>：交换判定阈值、真实棋子移动曲线、完整的 <code>c</code> 静态值、服务端难度如何改变候选权重，以及更多组合的跨帧等待仍需专门的实机捕获。客户端证据不能单独证明线上账号分组、实时热更或真实胜率。</p>
-<p><a href="../assets/evidence/handfeel-parameters/summary.json">查看手感参数证据摘要 JSON</a> · <a href="../assets/evidence/handfeel-parameters/README.md">查看取证范围与边界</a> · <a href="#selection-evidence">返回本页道具决策证据表</a></p>
+<p><a href="../assets/evidence/handfeel-parameters/summary.json">查看手感参数证据摘要 JSON</a> · <a href="../assets/evidence/handfeel-parameters/README.md">查看取证范围与边界</a></p>
 </section>

@@ -294,9 +294,10 @@ def extras(topic):
     if key == 'fall-rules':
         return ('<div class="board-machine">' + (ROOT / 'content/board-algorithms.html').read_text() +
                 (ROOT / 'content/board-state-events.html').read_text() + '</div>')
+    if key == 'handfeel-parameters':
+        return '<div class="board-machine">' + (ROOT / 'content/handfeel-parameters.html').read_text() + '</div>'
     if key == 'obstacle-rules':
         return ('<div class="board-machine">' + (ROOT / 'content/booster-targeting.html').read_text() +
-                (ROOT / 'content/handfeel-parameters.html').read_text() +
                 (ROOT / 'content/lightball-color.html').read_text() +
                 (ROOT / 'content/booster-targeting-end.html').read_text() +
                 '<section id="smart-rocket" aria-labelledby="title-smart-rocket">'

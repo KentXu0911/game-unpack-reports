@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>手感参数与状态机 · Royal Match</title>
+<link rel="stylesheet" href="../assets/site.css?v=ff558f185b"><script defer src="../assets/topic-reader.js"></script>
+<script defer src="../assets/level-progression.js"></script>
+<script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
+<header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
+<p><a class="header-back" href="../index.html#row-handfeel-parameters">← 返回内容总览</a></p>
+<h1>手感参数与状态机</h1><p>把输入锁、匹配结算、特殊块协程、连锁窗口和补棋导演放在同一条玩家可感知的状态链里；已恢复部分常量与运行时窗口，交换阈值和完整动画曲线仍待实机标定。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="handfeel-parameters" class="topic-detail" aria-labelledby="title-handfeel-parameters"><h2 id="title-handfeel-parameters">手感参数与状态机</h2><div class="topic-body"><div class="board-machine"><section id="handfeel-parameters-content" aria-labelledby="title-handfeel-parameters-content">
+<h3 id="title-handfeel-parameters-content">手感参数：输入锁、结算节奏与补棋导演</h3>
+<p class="layer-lead"><strong>拆包事实</strong>：手感不是一个单独的速度值，而是输入锁定、匹配结算、特殊块协程、补棋来源和反馈事件共同形成的时序。以下数字绑定 Royal Match build 38174；运行时窗口来自同版本模拟器 hook 摘要。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="手感参数摘要"><table><thead><tr><th>参数面</th><th>当前证据</th><th>怎样影响玩家感受</th><th>状态</th></tr></thead><tbody>
+<tr><td>有效连锁窗口</td><td>16 个有效窗口：1,452–2,516ms；中位数 1,606ms</td><td>一次匹配不会瞬间跳完；连锁越多，锁定和反馈窗口通常越长</td><td><span class="evidence-tag observed">E2 运行时</span></td></tr>
+<tr><td>补棋来源优先级</td><td>顶部排队物 → 预置列队 → TargetColumn → RandomFillItem → RandomColor</td><td>大多数补棋有导演感，随机只在队列或前置候选耗尽后接管</td><td><span class="evidence-tag static">E1 静态</span></td></tr>
+<tr><td>补棋样本分布</td><td>66 次补棋中，顶部队列 61 次（92.4%），LevelSet 随机 5 次（7.6%）</td><td>连续几步的颜色变化不会每次都像全新随机；队列耗尽时才出现局部变化</td><td><span class="evidence-tag observed">E2 运行时</span></td></tr>
+<tr><td>Propeller 组合额外等待</td><td><code>ExtraComboDelay = 0.02s</code>，适用于 PropellerRocket / TntPropeller 协程</td><td>目标到达和后续爆炸之间有一个短的衔接间隔</td><td><span class="evidence-tag static">E1 静态</span></td></tr>
+<tr><td>BallBall 径向等待</td><td><code>(6 − min(1.5, c×k²)) / 160</code> 秒；<code>c</code> 尚未从静态存储闭合</td><td>不同扩散环次拥有细粒度等待；完整视觉时间还受帧率与时间缩放影响</td><td><span class="evidence-tag partial">E1 + H2</span></td></tr>
+</tbody></table></div>
+<p class="flow-note">这张表记录“当前可以复刻的参数面”，不是把每个内部字段都写成已知毫秒值。页面末尾的证据摘要保留了原始样本范围与未确认项。</p>
+
+<h4 id="handfeel-state-chain">一手操作的状态链</h4>
+<div class="flow" aria-label="一手操作的状态链"><span>选中／滑动</span><b>→</b><span>相邻格与方向判定</span><b>→</b><span>有效交换，Moves − 1</span><b>→</b><span>DisableTouch / 冻结</span><b>→</b><span>匹配、特殊块、障碍</span><b>→</b><span>下落与补棋</span><b>→</b><span>稳定后重新开放</span></div>
+<p>原生路径能看到 <code>GameTouchListener.DisableTouch</code> 与后续 <code>EnableTouch</code>，特殊块创建协程末尾调用 <code>MatchGroup.UnFreezeCells</code>。这说明“动画期间不能继续操作”属于状态机，而不是只把按钮变灰。实机校准还确认有效交换会扣一步，并在稳定后替换顶部棋子。</p>
+<p class="small">交换最小滑动距离、采样频率、无效交换回弹和普通棋子真实移动时长，当前仍没有同口径的原端毫秒证据。</p>
+
+<h4 id="handfeel-cascade-order">匹配与连锁的业务顺序</h4>
+<ol>
+<li><code>CanAutoExplode</code> 判断当前组能否自动爆炸。</li>
+<li><code>InitJellySpreadData</code>、<code>CreateCollectData</code>、<code>CreateSpecialItemData</code> 先准备扩散、收集和特殊块保留格。</li>
+<li>遍历棋子与静态物体的 <code>TryExplode</code> / <code>ExplodeTopMostAboveItem</code>。</li>
+<li><code>CreateSpecialItemForMatchGroup</code> 启动特殊块出现协程；创建格保留，其余候选进入清除数据。</li>
+<li><code>DestroyTouchingItems</code> 继续处理触碰目标，随后播放匹配爆炸与震动。</li>
+<li>清除与下落完成后进入补棋，再开始下一轮匹配搜索。</li>
+</ol>
+<p>这条顺序解释了为什么一个三消动作会有“确认—爆炸—扩散—补棋—再检查”的连续感，也解释了为什么把所有效果压成一个固定延时会丢掉原作的节奏层次。</p>
+
+<h4 id="handfeel-refill-director">补棋为什么既稳定又会变化</h4>
+<p>补棋入口先取上方已经排队的棋，再按列读取 <code>FTiledPredefined</code> 的 <code>ItemModelQueue</code>；只有这些路径没有返回结果时，才依次尝试目标列、普通随机集合和颜色回退。运行时摘要里的 61/66 队列命中与静态入口顺序相互吻合。</p>
+<div class="data-scroll" tabindex="0" role="region" aria-label="四段运行时补棋统计"><table><thead><tr><th>运行段</th><th>总补棋</th><th>顶部队列</th><th>LevelSet 随机</th><th>难度随机调用</th></tr></thead><tbody>
+<tr><td>A</td><td>15</td><td>15</td><td>0</td><td>0</td></tr>
+<tr><td>C</td><td>20</td><td>17</td><td>3</td><td>8</td></tr>
+<tr><td>O</td><td>20</td><td>18</td><td>2</td><td>4</td></tr>
+<tr><td>S</td><td>11</td><td>11</td><td>0</td><td>0</td></tr>
+<tr><td><strong>合计</strong></td><td><strong>66</strong></td><td><strong>61</strong></td><td><strong>5</strong></td><td><strong>12</strong></td></tr>
+</tbody></table></div>
+<p><strong>设计解读：</strong>队列让大多数补棋保持连续性；队列枯竭后，目标列、低匹配邻居过滤、普通随机和 <code>GetDifficultyNext</code> 才开始改变结果。这个“固定序列优先、随机回退兜底”的结构，是手感稳定性的主要来源之一。</p>
+
+<h4 id="handfeel-replication">给复刻工程的参数边界</h4>
+<div class="data-scroll" tabindex="0" role="region" aria-label="手感复刻建议"><table><thead><tr><th>配置键建议</th><th>当前处理方式</th></tr></thead><tbody>
+<tr><td><code>input.swipeThreshold</code></td><td>保留为待校准项；用同一棋盘逐步改变滑动距离与速度，记录提交、回弹、无响应。</td></tr>
+<tr><td><code>state.touchLock</code></td><td>随业务事件解除，不用一个总延时代替；至少区分交换、结算、补棋、稳定四个阶段。</td></tr>
+<tr><td><code>cascade.activeWindowTargetMs</code></td><td>先用 1,452–2,516ms 作为整体连锁窗口校准范围，再拆单个移动、爆炸和补棋时长。</td></tr>
+<tr><td><code>refill.sourcePriority</code></td><td>固定为 queue → predefined → target column → random fill → random color，并保留来源日志。</td></tr>
+<tr><td><code>combo.propellerExtraDelaySeconds</code></td><td>写入 0.02；只代表额外协程等待，不代表完整组合动画。</td></tr>
+</tbody></table></div>
+<p class="layer-lead"><strong>未确认与边界</strong>：交换判定阈值、真实棋子移动曲线、完整的 <code>c</code> 静态值、服务端难度如何改变候选权重，以及更多组合的跨帧等待仍需专门的实机捕获。客户端证据不能单独证明线上账号分组、实时热更或真实胜率。</p>
+<p><a href="../assets/evidence/handfeel-parameters/summary.json">查看手感参数证据摘要 JSON</a> · <a href="../assets/evidence/handfeel-parameters/README.md">查看取证范围与边界</a></p>
+</section>
+</div><details class="evidence"><summary>证据依据与验证范围</summary><div class="evidence-entry"><h6>原生机制与状态审查</h6><p>ARM64机器码与元数据／静态代码证据。绑定build 38174原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。FallManager 0x2A2B278；FindCrossItem 0x2A2C058；GetRandomTargetColumnItem 0x20E99C0；Explode 0x338CC74；GetScore 0x2ACF1E4。局部规则有代码依据；未认证全游戏回放。</p><p>取证位置：<code>research/rm-reunpack-2026-10-14/native-gap/FINDINGS.md</code></p></div><div class="evidence-entry"><h6>随机调用、候选与Seed生命周期</h6><p>静态调用点／受控运行记录。DifficultyNext将范围交给System.Random并推进生成计数。L1451普通回退有两层选择，L39受控路径验证候选映射；不能将特定分支推广为所有场景固定两次调用。</p><p>取证位置：<code>royal-match-apk-audit-38174/indices/difficulty_next_direct_xrefs_arm64.csv；decoded/il2cpp_native/arm64_special_creation_cascade.s</code></p></div><div class="evidence-entry"><h6>棋盘状态机的原字节快照与调用扫描</h6><p>build 38174 ARM64原指令、元数据枚举与虚槽、只读常量、全库直接调用扫描交叉核对。绑定原ELF SHA-256：8efe71a2e832792f0488079ce4de073a4ea634b90591f8e9e5b1efed7bcf2fdd。交换0x2A376A4／0x2A3A810；匹配0x137AAA0／0x137AE2C；生成格0x13784F0／0x1378554；创建延迟0x20EDDE8；自动消除0x20EE59C／0x1E92FD8；直斜落0x2A2BA0C／0x2A2C350／0x2A2C7F8；冻结0x2AC9B9C；切板0x2755B48；命中去重0x338CC74；蘑菇0x15571E0；智能方向0x20EDA34。伪代码为标明省略范围的整理；静态证据，未做原端逐帧或整局回放对照。</p><p>取证位置：<code>本站assets/evidence/board-algorithms/：manifest.json与63份方法快照、call-sites.json、literals.json、metadata-excerpts.json</code></p></div></details></div></section>
+<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能测量交换是否提交、连锁持续多久、补棋何时进入和玩家何时重新获得输入；要分离每一段锁定原因，需要逐帧记录和受控局面。</p><p>解包增量：补充DisableTouch／UnFreezeCells、匹配业务顺序、补棋来源优先级、0.02秒组合等待、径向等待公式和16个有效连锁窗口的统计；交换阈值、完整移动曲线和服务端难度分流仍需外部证据。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="obstacle-rules.html">道具寻优：目标选择与通关收益</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<footer><a href="../index.html#row-handfeel-parameters">← 返回内容总览</a></footer></main>
+</body></html>

@@ -16,7 +16,7 @@
 </tbody></table></div>
 <p class="flow-note">研究对象：Royal Match build 38174。下文“代码事实”来自原始ARM64字节与元数据；数值局面均为<strong>构造例子</strong>，不是原端实机录像。证据编号链接到<a href="#selection-evidence">页尾方法表</a>。</p>
 </div>
-<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>飞机选障碍流程</a><a href="#cell-score-routing"><b>02</b>一格到底给谁评分</a><a href="#actual-priorities"><b>03</b>障碍分数与收尾</a><a href="#selection-examples"><b>04</b>完整选点例子</a><a href="#booster-coordination"><b>05</b>多架分配与重选</a><a href="#hit-result"><b>06</b>到达后的消除</a><a href="#combo-selection"><b>07</b>组合飞机</a><a href="#lightball-color"><b>08</b>彩球选色与组合</a><a href="#optimality"><b>09</b>分析与边界</a><a href="#handfeel-parameters"><b>10</b>手感参数</a><a href="#smart-rocket"><b>附A</b>智能火箭演示</a><a href="#plane-deep-facts"><b>附B</b>完整提取与飞行</a><a href="#selection-evidence"><b>附C</b>原字节证据</a></nav>
+<nav class="board-toc" aria-label="本页目录"><a href="#selection-process"><b>01</b>飞机选障碍流程</a><a href="#cell-score-routing"><b>02</b>一格到底给谁评分</a><a href="#actual-priorities"><b>03</b>障碍分数与收尾</a><a href="#selection-examples"><b>04</b>完整选点例子</a><a href="#booster-coordination"><b>05</b>多架分配与重选</a><a href="#hit-result"><b>06</b>到达后的消除</a><a href="#combo-selection"><b>07</b>组合飞机</a><a href="#lightball-color"><b>08</b>彩球选色与组合</a><a href="#optimality"><b>09</b>分析与边界</a><a href="#smart-rocket"><b>附A</b>智能火箭演示</a><a href="#plane-deep-facts"><b>附B</b>完整提取与飞行</a><a href="#selection-evidence"><b>附C</b>原字节证据</a></nav>
 <span id="propeller-targeting" class="legacy-anchor"></span><span id="title-propeller-targeting" class="legacy-anchor"></span>
 <p class="layer-lead"><strong>拆包事实</strong>：先解释实际决策顺序，再解释分值。分数是选择优先级，不是伤害值。</p>
 
@@ -220,56 +220,6 @@ return MultipleCellItemModel.GetExplodeScore(strategy)</code></pre></details>
 <h4>7.3 多架单格飞机：数量增加，仍逐次找障碍</h4>
 <p>飞机＋飞机的<code>NextExploder</code>先调用普通策略，再设置组合的果冻扩散标记。彩球制造的飞机由普通策略生成另一种攻击来源，进入<code>LightballPropeller</code>分类；多格物体的收尾加分明确包含这个分类。两者都需要区分“生成了哪些飞机”和“每架去打哪个障碍”，逐架选点与预订不构成全盘最优分配。</p>
 <p>没有飞机参与的火箭＋火箭、火箭＋TNT、TNT＋TNT，不能套用这里的飞机飞行选点算法；它们的作用区域由各自组合逻辑形成。彩球组合的<strong>选色</strong>在下一节单独说明。</p>
-</section>
-<section id="handfeel-parameters" aria-labelledby="title-handfeel-parameters">
-<h3 id="title-handfeel-parameters">10. 手感参数：输入锁、结算节奏与补棋导演</h3>
-<p class="layer-lead"><strong>拆包事实</strong>：手感不是一个单独的速度值，而是输入锁定、匹配结算、特殊块协程、补棋来源和反馈事件共同形成的时序。以下数字绑定 Royal Match build 38174；运行时窗口来自同版本模拟器 hook 摘要。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="手感参数摘要"><table><thead><tr><th>参数面</th><th>当前证据</th><th>怎样影响玩家感受</th><th>状态</th></tr></thead><tbody>
-<tr><td>有效连锁窗口</td><td>16 个有效窗口：1,452–2,516ms；中位数 1,606ms</td><td>一次匹配不会瞬间跳完；连锁越多，锁定和反馈窗口通常越长</td><td><span class="evidence-tag observed">E2 运行时</span></td></tr>
-<tr><td>补棋来源优先级</td><td>顶部排队物 → 预置列队 → TargetColumn → RandomFillItem → RandomColor</td><td>大多数补棋有导演感，随机只在队列或前置候选耗尽后接管</td><td><span class="evidence-tag static">E1 静态</span></td></tr>
-<tr><td>补棋样本分布</td><td>66 次补棋中，顶部队列 61 次（92.4%），LevelSet 随机 5 次（7.6%）</td><td>连续几步的颜色变化不会每次都像全新随机；队列耗尽时才出现局部变化</td><td><span class="evidence-tag observed">E2 运行时</span></td></tr>
-<tr><td>Propeller 组合额外等待</td><td><code>ExtraComboDelay = 0.02s</code>，适用于 PropellerRocket / TntPropeller 协程</td><td>目标到达和后续爆炸之间有一个短的衔接间隔</td><td><span class="evidence-tag static">E1 静态</span></td></tr>
-<tr><td>BallBall 径向等待</td><td><code>(6 − min(1.5, c×k²)) / 160</code> 秒；<code>c</code> 尚未从静态存储闭合</td><td>不同扩散环次拥有细粒度等待；完整视觉时间还受帧率与时间缩放影响</td><td><span class="evidence-tag partial">E1 + H2</span></td></tr>
-</tbody></table></div>
-<p class="flow-note">这张表记录“当前可以复刻的参数面”，不是把每个内部字段都写成已知毫秒值。页面末尾的证据摘要保留了原始样本范围与未确认项。</p>
-
-<h4 id="handfeel-state-chain">一手操作的状态链</h4>
-<div class="flow" aria-label="一手操作的状态链"><span>选中／滑动</span><b>→</b><span>相邻格与方向判定</span><b>→</b><span>有效交换，Moves − 1</span><b>→</b><span>DisableTouch / 冻结</span><b>→</b><span>匹配、特殊块、障碍</span><b>→</b><span>下落与补棋</span><b>→</b><span>稳定后重新开放</span></div>
-<p>原生路径能看到 <code>GameTouchListener.DisableTouch</code> 与后续 <code>EnableTouch</code>，特殊块创建协程末尾调用 <code>MatchGroup.UnFreezeCells</code>。这说明“动画期间不能继续操作”属于状态机，而不是只把按钮变灰。实机校准还确认有效交换会扣一步，并在稳定后替换顶部棋子。</p>
-<p class="small">交换最小滑动距离、采样频率、无效交换回弹和普通棋子真实移动时长，当前仍没有同口径的原端毫秒证据。</p>
-
-<h4 id="handfeel-cascade-order">匹配与连锁的业务顺序</h4>
-<ol>
-<li><code>CanAutoExplode</code> 判断当前组能否自动爆炸。</li>
-<li><code>InitJellySpreadData</code>、<code>CreateCollectData</code>、<code>CreateSpecialItemData</code> 先准备扩散、收集和特殊块保留格。</li>
-<li>遍历棋子与静态物体的 <code>TryExplode</code> / <code>ExplodeTopMostAboveItem</code>。</li>
-<li><code>CreateSpecialItemForMatchGroup</code> 启动特殊块出现协程；创建格保留，其余候选进入清除数据。</li>
-<li><code>DestroyTouchingItems</code> 继续处理触碰目标，随后播放匹配爆炸与震动。</li>
-<li>清除与下落完成后进入补棋，再开始下一轮匹配搜索。</li>
-</ol>
-<p>这条顺序解释了为什么一个三消动作会有“确认—爆炸—扩散—补棋—再检查”的连续感，也解释了为什么把所有效果压成一个固定延时会丢掉原作的节奏层次。</p>
-
-<h4 id="handfeel-refill-director">补棋为什么既稳定又会变化</h4>
-<p>补棋入口先取上方已经排队的棋，再按列读取 <code>FTiledPredefined</code> 的 <code>ItemModelQueue</code>；只有这些路径没有返回结果时，才依次尝试目标列、普通随机集合和颜色回退。运行时摘要里的 61/66 队列命中与静态入口顺序相互吻合。</p>
-<div class="data-scroll" tabindex="0" role="region" aria-label="四段运行时补棋统计"><table><thead><tr><th>运行段</th><th>总补棋</th><th>顶部队列</th><th>LevelSet 随机</th><th>难度随机调用</th></tr></thead><tbody>
-<tr><td>A</td><td>15</td><td>15</td><td>0</td><td>0</td></tr>
-<tr><td>C</td><td>20</td><td>17</td><td>3</td><td>8</td></tr>
-<tr><td>O</td><td>20</td><td>18</td><td>2</td><td>4</td></tr>
-<tr><td>S</td><td>11</td><td>11</td><td>0</td><td>0</td></tr>
-<tr><td><strong>合计</strong></td><td><strong>66</strong></td><td><strong>61</strong></td><td><strong>5</strong></td><td><strong>12</strong></td></tr>
-</tbody></table></div>
-<p><strong>设计解读：</strong>队列让大多数补棋保持连续性；队列枯竭后，目标列、低匹配邻居过滤、普通随机和 <code>GetDifficultyNext</code> 才开始改变结果。这个“固定序列优先、随机回退兜底”的结构，是手感稳定性的主要来源之一。</p>
-
-<h4 id="handfeel-replication">给复刻工程的参数边界</h4>
-<div class="data-scroll" tabindex="0" role="region" aria-label="手感复刻建议"><table><thead><tr><th>配置键建议</th><th>当前处理方式</th></tr></thead><tbody>
-<tr><td><code>input.swipeThreshold</code></td><td>保留为待校准项；用同一棋盘逐步改变滑动距离与速度，记录提交、回弹、无响应。</td></tr>
-<tr><td><code>state.touchLock</code></td><td>随业务事件解除，不用一个总延时代替；至少区分交换、结算、补棋、稳定四个阶段。</td></tr>
-<tr><td><code>cascade.activeWindowTargetMs</code></td><td>先用 1,452–2,516ms 作为整体连锁窗口校准范围，再拆单个移动、爆炸和补棋时长。</td></tr>
-<tr><td><code>refill.sourcePriority</code></td><td>固定为 queue → predefined → target column → random fill → random color，并保留来源日志。</td></tr>
-<tr><td><code>combo.propellerExtraDelaySeconds</code></td><td>写入 0.02；只代表额外协程等待，不代表完整组合动画。</td></tr>
-</tbody></table></div>
-<p class="layer-lead"><strong>未确认与边界</strong>：交换判定阈值、真实棋子移动曲线、完整的 <code>c</code> 静态值、服务端难度如何改变候选权重，以及更多组合的跨帧等待仍需专门的实机捕获。客户端证据不能单独证明线上账号分组、实时热更或真实胜率。</p>
-<p><a href="../assets/evidence/handfeel-parameters/summary.json">查看手感参数证据摘要 JSON</a> · <a href="../assets/evidence/handfeel-parameters/README.md">查看取证范围与边界</a> · <a href="#selection-evidence">返回本页道具决策证据表</a></p>
 </section>
 <section aria-labelledby="lightball-color">
 <h3 id="lightball-color">彩球选色：玩家指定，或统计有效棋子数量</h3>
@@ -2144,6 +2094,6 @@ owner=StaticItemModel @ 0x30EDF7C
 shape=constant_false
 mov w0, wzr; ret"><span class="s">常假</span><span class="o">StaticItemModel</span></td></tr></tbody></table></div>
 </div></details>
-<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能构造局面测试飞机偏好、是否打重、火箭方向，以及组合能否直接完成目标；仅看结果，较难分清评分档位、同分随机与在途扣减。</p><p>解包增量：取得26倍评分档位、阻挡修正、组内随机、在途命中扣减、强制重选条件、组合范围评分与收尾检查、彩球有效计数与同数规则、智能火箭方向及其调用入口，可据此实现道具决策并构造边界用例。全部物体评分与部分特殊重定向仍需核对。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
+<section class="method-comparison"><h2>人工／实机能做到什么，解包增加什么</h2><p>人工／实机：能构造局面测试飞机偏好、是否打重、火箭方向，以及组合能否直接完成目标；仅看结果，较难分清评分档位、同分随机与在途扣减。</p><p>解包增量：取得26倍评分档位、阻挡修正、组内随机、在途命中扣减、强制重选条件、组合范围评分与收尾检查、彩球有效计数与同数规则、智能火箭方向及其调用入口，可据此实现道具决策并构造边界用例。全部物体评分与部分特殊重定向仍需核对。</p></section><nav class="related-topics" aria-label="相关内容"><h2>相关内容</h2><a href="level-config.html">初始棋盘、关卡配置</a><a href="refill.html">补棋算法、随机数</a><a href="fall-rules.html">棋盘状态机</a><a href="handfeel-parameters.html">手感参数与状态机</a><a href="win-settlement.html">胜负、结算与难度适应</a><a href="level-pressure.html">关卡压力、尾号与教学节奏</a><a href="production-tools.html">原关卡生产工具</a></nav>
 <footer><a href="../index.html#row-obstacle-rules">← 返回内容总览</a></footer></main>
 </body></html>
