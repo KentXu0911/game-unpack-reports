@@ -1,3 +1,0 @@
-local Meta = {}
-
-return Meta
