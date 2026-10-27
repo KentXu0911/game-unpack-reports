@@ -29,6 +29,8 @@
 
 <div class="finding"><b>弹窗与图标条件几乎都在活动子类里重写。</b>224 个条件函数里 214 个是活动子类 override，只有 10 个走基类默认实现。<!--REF:activity-popup-->索引里保留了类名、方法名、RVA、调用与字符串常量，可按需展开。</div>
 
+<div class="finding"><b>客户端能恢复“收到活动数据后如何展示”，不能恢复“服务器为什么触达这个账号”。</b>客户端入口包括 <code>GetIcon</code>、<code>TryAddStartDialog</code>、<code>TryAddInfoDialog</code>、<code>TryAddClaimDialog</code>、<code>TryAddDeeplinkDialog</code> 和 <code>TryAddReminderDialog</code>，并会检查资源就绪、活动资格、已读状态、自动弹窗状态与弹窗占位；当期活动、账号触达、推送时间和服务端分群仍需外部响应。<!--REF:activity-popup--></div>
+
 <div class="finding"><b>解锁常量不是开期时间。</b>清单里的解锁关卡是客户端常量；图标首次出现、已解锁、后台开期、资源就绪、真正可玩是不同事件，不能合并成一个时间点。<!--REF:activity-list-->当期排期见<a href="schedule-boundaries.html">当期活动、排期、排行</a>。</div>
 </section>
 
