@@ -9,6 +9,7 @@ import sys
 from level_progression import level_progression
 from report_sections import Tree, preserved_chapters
 import re
+import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS_VERSION = sha256((ROOT / 'site/assets/site.css').read_bytes()).hexdigest()[:10]
@@ -638,7 +639,7 @@ def render_site():
 <p><span class="availability framework">需当期外部输入</span> 缺实际账号／平台响应</p>
 <p><span class="availability unavailable">样本内无原件</span> 原工具、后台或制作工程</p></div></div>
 <nav class="overview-nav" aria-label="内容分类"><a href="#replication-core">三消玩法</a><a href="#replication-meta">外围 Meta</a>
-<a href="#replication-money">商业化</a><a href="topics/obstacle-rules.html">重点：道具寻优</a></nav>
+<a href="#replication-money">商业化</a><a href="topics/obstacle-rules.html">重点：道具寻优</a><a href="anipop/index.html">开心消消乐：活动与玩家分层</a></nav>
 <details class="research-method" id="research-method"><summary>阅读口径：代码能解释原因，实机与测评验证实际发生了什么</summary>
 <p>包内配置证明样本包含的内容；原生代码证明指定分支的计算与状态转移；受控实机记录证明该测试条件下的结果。
 本页将设计解读和教学示意明确标出，未验证的分支保持未验证。实机视频和测评继续用于核对画面、节奏、输入感受与自然玩家体验。</p>
@@ -690,7 +691,18 @@ def write_legacy_routes():
         script.replace('ROUTES', json.dumps(routes, ensure_ascii=True)))
 
 
+def copy_anipop_report():
+    """Copy the evidence-bound 开心消消乐 report bundle into the Pages artifact."""
+    source = ROOT / 'content/anipop'
+    target = ROOT / 'site/anipop'
+    assert (source / 'index.html').is_file(), source
+    if target.exists():
+        shutil.rmtree(target)
+    shutil.copytree(source, target)
+
+
 def main():
+    copy_anipop_report()
     evidence_root = ROOT / 'site/assets/evidence/ab-tests'
     ab_manifest = json.loads((evidence_root / 'manifest.json').read_text())
     ab_catalog = json.loads((evidence_root / 'catalog.json').read_text())
