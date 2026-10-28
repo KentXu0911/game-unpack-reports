@@ -1,12 +1,12 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>手感参数与状态机 · Royal Match</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>局内手感与节奏参数 · Royal Match</title>
 <link rel="stylesheet" href="../assets/site.css?v=ff558f185b"><script defer src="../assets/topic-reader.js"></script>
 <script defer src="../assets/level-progression.js"></script>
 <script defer src="../assets/report-deep-links.js"></script></head><body class="detail-page">
 <header><div class="detail-header"><p class="eyebrow">ROYAL MATCH / RESEARCH NOTES</p>
 <p><a class="header-back" href="../index.html#row-handfeel-parameters">← 返回内容总览</a></p>
-<h1>手感参数与状态机</h1><p>把输入锁、匹配结算、特殊块协程、连锁窗口和补棋导演放在同一条玩家可感知的状态链里；已恢复部分常量与运行时窗口，交换阈值和完整动画曲线仍待实机标定。</p></div></header>
-<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="handfeel-parameters" class="topic-detail" aria-labelledby="title-handfeel-parameters"><h2 id="title-handfeel-parameters">手感参数与状态机</h2><div class="topic-body"><div class="board-machine"><section id="handfeel-parameters-content" aria-labelledby="title-handfeel-parameters-content">
+<h1>局内手感与节奏参数</h1><p>把输入锁、匹配结算、特殊块协程、连锁窗口和补棋导演放在同一条玩家可感知的状态链里；已恢复部分常量与运行时窗口，交换阈值和完整动画曲线仍待实机标定。</p></div></header>
+<main class="article-wrap"><div class="article-meta"><span class="availability available">具体内容可恢复</span><span>研究样本：build 38174</span></div><section id="handfeel-parameters" class="topic-detail" aria-labelledby="title-handfeel-parameters"><h2 id="title-handfeel-parameters">局内手感与节奏参数</h2><div class="topic-body"><div class="board-machine"><section id="handfeel-parameters-content" aria-labelledby="title-handfeel-parameters-content">
 <h3 id="title-handfeel-parameters-content">手感参数：输入锁、结算节奏与补棋导演</h3>
 <p class="layer-lead"><strong>拆包事实</strong>：手感不是一个单独的速度值，而是输入锁定、匹配结算、特殊块协程、补棋来源和反馈事件共同形成的时序。以下数字绑定 Royal Match build 38174；运行时窗口来自同版本模拟器 hook 摘要。</p>
 <div class="data-scroll" tabindex="0" role="region" aria-label="手感参数摘要"><table><thead><tr><th>参数面</th><th>当前证据</th><th>怎样影响玩家感受</th><th>状态</th></tr></thead><tbody>
